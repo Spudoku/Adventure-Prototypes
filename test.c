@@ -33,57 +33,54 @@ int i;
 //     ScreenMemory,
 
 // }
-
+void fix_displayList();
 unsigned char ScreenMemory[760];
 
 char DisplayList[] = {
-        DL_BLK8,
+    // 24 blank lines
     DL_BLK8,
     DL_BLK8,
+    DL_BLK8,
+    // TODO: tell ANTIC to load Graphics 2 at Screen Address, total 24 times
+    DL_LMS(DL_GRAPHICS2),
+    0x00,0x00,
+    DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,
+    DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,
+    DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,
+    DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,
+    DL_JVB,
+    // Reference of DisplayList
+    0x00,0x00
     };
 
 void install_display_list();
 int main() {
-    unsigned int test = 206;
-    POKE(DISPLAY_LIST,&DisplayList[0]);
+   fix_displayList();
     // install_display_list();
-    printf("hello world");
- 
+    
+    // printf("hello world");
+    ScreenMemory[0] = 33;
     while (true) {
         sleep(1);
     }
 }
 
-// based on superbug code
-void install_display_list() {
-    unsigned char* dl = (unsigned char*)DISPLAY_LIST;
-    unsigned int screen_address = (unsigned int)SCREEN_ADDR;
+void fix_displayList() {
+    // location of screen memory
+    unsigned int scr_addr = (unsigned int)ScreenMemory;
+    unsigned int dl_addr = (unsigned int)DisplayList;
 
-    int i, j = 0;
+    // inject screenmemory address into lms instruction
+    DisplayList[4] = scr_addr & 0xFF;
+    DisplayList[5] = (scr_addr >> 8) & 0xFF;
 
-    // 3 blank lines
-    dl[j++] = DL_BLK8;
-    dl[j++] = DL_BLK8;
-    dl[j++] = DL_BLK8;
-
-    for (i = 1; i < SCREEN_HEIGHT; i++) {
-        dl[j++] = 0x04; // antic mode 4
-    }
-    // Jump to self (JVB)
-    dl[j++] = DL_JVB;
-    dl[j++] = ((unsigned int)dl) & 0xFF;
-    dl[j++] = ((unsigned int)dl) >> 8;
-
-    // Set DL pointer
-    POKE(560, (unsigned int)dl & 0xFF);
-    POKE(561, (unsigned int)dl >> 8);
-
-
+    // inject dlistAddr into the indices 28 and 29
+   DisplayList[28] = dl_addr & 0xFF;
+   DisplayList[29] = (dl_addr >> 8) & 0xFF;
+   POKEW(DISPLAY_LIST,dl_addr);
+    // return dl_addr;
 }
 
-void edventure_display_list() {
-    
-}
 
 // to compile with debug info
 // cl65 --debug-info -Wl --dbgfile,test.dbg -t atari -O -g -Ln game.lbl -o test.xex test.c
