@@ -14,9 +14,12 @@
 
 // these addresses were from Superbug
 #define SCREEN_ADDR   ((unsigned char*)0xB400)
-#define DISPLAY_LIST  0x6000
+
 
 #define BLANK_8 0x70  // 8 blank lines
+
+// Memory locations
+#define DISPLAY_LIST 0x230    // location that the display list must be pushed to
 
 //#define BLANK_LINE 0x70
 int i;
@@ -33,28 +36,19 @@ int i;
 
 unsigned char ScreenMemory[760];
 
-void DisplayList = {
-        // first start with 24 blank lines
-        BLANK_8,
-        BLANK_8,
-        BLANK_8,
-        // tell ANTIC what mode we're using  (in this case antic 3)
-        DL_LMS(DL_GRAPHICS2),
-        // 
-        
-        ScreenMemory,
-        DL_GRAPHICS2, DL_GRAPHICS2, DL_GRAPHICS2, DL_GRAPHICS2, DL_GRAPHICS2, DL_GRAPHICS2,
-        DL_GRAPHICS2, DL_GRAPHICS2, DL_GRAPHICS2, DL_GRAPHICS2, DL_GRAPHICS2, DL_GRAPHICS2,
-        DL_GRAPHICS2, DL_GRAPHICS2, DL_GRAPHICS2, DL_GRAPHICS2, DL_GRAPHICS2, DL_GRAPHICS2,
-        DL_GRAPHICS2, DL_GRAPHICS2, DL_GRAPHICS2, DL_GRAPHICS2, DL_GRAPHICS2, DL_GRAPHICS2,
-        DL_JVB + &DisplayList
+char DisplayList[] = {
+        DL_BLK8,
+    DL_BLK8,
+    DL_BLK8,
     };
 
 void install_display_list();
 int main() {
-    POKE(560,(unsigned int)&DisplayList);
+    unsigned int test = 206;
+    POKE(DISPLAY_LIST,&DisplayList[0]);
     // install_display_list();
     printf("hello world");
+ 
     while (true) {
         sleep(1);
     }
