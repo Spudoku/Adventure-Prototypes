@@ -30,7 +30,7 @@ void init_charset();
 
 // memory allocations
 unsigned char ScreenMemory[760];
-unsigned char CharMap[1024];     // allocate 1024 bytes for character set
+// unsigned char CharMap[1024];     // allocate 1024 bytes for character set
 
 
 
@@ -89,8 +89,22 @@ void fix_displayList() {
 void init_charset() {
     // address of CharMap
     // unsigned int charmap_addr = (unsigned int )CharMap;
-      unsigned int charmap_addr = (unsigned int )0x3C;
-    POKE(CHARSET_PTR,charmap_addr);
+      unsigned int charmap_addr = (unsigned int )00;
+
+    
+    POKEW(CHARSET_PTR,charmap_addr);
+
+    // test character
+
+    // test character
+    POKE(charmap_addr + 0,0b10000000);
+    POKE(charmap_addr + 1,0b01000000);
+    POKE(charmap_addr + 2,0b00100000);
+    POKE(charmap_addr + 3,0b00010000);
+    POKE(charmap_addr + 4,0b00001000);
+    POKE(charmap_addr + 5,0b00000100);
+    POKE(charmap_addr + 6,0b00000010);
+    POKE(charmap_addr + 7,0b00000001);
 }
 
 
