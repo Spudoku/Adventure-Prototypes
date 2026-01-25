@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <joystick.h>
 #include <unistd.h>
+#include "charmap.h"
 // #include <tgi.h>
 
 // #define SCREEN_HEIGHT 24
@@ -16,7 +17,8 @@
 #define DISPLAY_LIST 0x230    // location that the display list must be pushed to
 #define CHARSET_PTR 0x2F4     // character base
 
-#define CHARSET_ADDR 0x3C
+
+// #define CHARSET_ADDR 0x3C
 // according to Ed, 0x3C00 is chosen since its 4 pages from the screen memory buffer he allocated (0x4000). S
 // According to Mapping the Atari, cannot set 756 to any odd number or else we will have screen garbage.
 // additionally, need to start on a page boundary (any value in the form $XX00), such as $C000
@@ -30,7 +32,8 @@ void init_charset();
 
 // memory allocations
 unsigned char ScreenMemory[760];
-// unsigned char CharMap[1024];     // allocate 1024 bytes for character set
+
+
 
 
 
@@ -40,14 +43,14 @@ char DisplayList[] = {
     DL_BLK8,
     DL_BLK8,
     // TODO: tell ANTIC to load Graphics 2 at Screen Address, total 24 times
-    DL_LMS(DL_GRAPHICS2),
-    // was DL_GRAPHICS2, now DL_GRAPHICS0
+    DL_LMS(DL_GRAPHICS13),
+    // was DL_GRAPHICS13, now DL_GRAPHICS0
     // these 2 bytes will store the location of the screen memory
     0x00,0x00,
-    DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,
-    DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,
-    DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,
-    DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,
+    DL_GRAPHICS13,DL_GRAPHICS13,DL_GRAPHICS13,DL_GRAPHICS13,DL_GRAPHICS13,DL_GRAPHICS13,
+    DL_GRAPHICS13,DL_GRAPHICS13,DL_GRAPHICS13,DL_GRAPHICS13,DL_GRAPHICS13,DL_GRAPHICS13,
+    DL_GRAPHICS13,DL_GRAPHICS13,DL_GRAPHICS13,DL_GRAPHICS13,DL_GRAPHICS13,DL_GRAPHICS13,
+    DL_GRAPHICS13,DL_GRAPHICS13,DL_GRAPHICS13,DL_GRAPHICS13,DL_GRAPHICS13,
     DL_JVB,
     // These two bytes store the location of the dispalyList itself
     0x00,0x00
@@ -55,14 +58,14 @@ char DisplayList[] = {
 
     // variable declarations
 int i;
-int charStart = 100;
+int charStart = 480;
 
 int main() {
    fix_displayList();
     init_charset();
 
     for (i = 0; i < charStart; i++) {
-        ScreenMemory[i] = 4;
+        ScreenMemory[i] = 1;
     }
    
     while (true) {
@@ -86,72 +89,42 @@ void fix_displayList() {
     // return dl_addr;
 }
 
-int index;
-unsigned int test ;
-
+int character = 0;
 void init_charset() {
     // address of CharMap
     // unsigned int charmap_addr = (unsigned int )CharMap;
-      unsigned int charmap_addr = (unsigned int )CHARSET_ADDR;  // this value specifies with page the address is located. multiply by 256 to locate actual characters.
-      test = charmap_addr * 0x100; // page number * page size
+    //   unsigned int charmap_addr = (unsigned int )CHARSET_ADDR;  // this value specifies with page the address is located. multiply by 256 to locate actual characters.
+    
+    //   test = charmap_addr * 0x100; // page number * page size
+    unsigned char* charset_ptr = charset;
+    unsigned int charset_page_num = (unsigned int)charset_ptr;
+
+    POKE(CHARSET_PTR,(charset_page_num >> 8));   // poke high byte to CHBASE register
 
     // set page number in CHARSET_PTR
-    POKE(CHARSET_PTR,charmap_addr);
+    character = 0;
+    charset[character * 8 + 0] = 0b00000000;
+    charset[character * 8 + 1] = 0b00000000;
+    charset[character * 8 + 2] = 0b00000000;
+    charset[character * 8 + 3] = 0b00000000;
+    charset[character * 8 + 4] = 0b00000000;
+    charset[character * 8 + 5] = 0b00000000;
+    charset[character * 8 + 6] = 0b00000000;
+    charset[character * 8 + 7] = 0b00000000;
 
-    // character 0
-    index = 0;
-    POKE(test  + (index * 8) + 0,0b00000000);
-    POKE(test + (index * 8) +  1,0b00000000);
-    POKE(test + (index * 8) +  2,0b00000000);
-    POKE(test + (index * 8) +  3,0b00000000);
-    POKE(test + (index * 8) +  4,0b00000000);
-    POKE(test + (index * 8) +  5,0b00000000);
-    POKE(test + (index * 8) +  6,0b00000000);
-    POKE(test + (index * 8) +  7,0b00000000);
+    character = 1;
+    // solid box
+    charset[character * 8 + 0] = 0b01011101;
+    charset[character * 8 + 1] = 0b10101010;
+    charset[character * 8 + 2] = 0b11111111;
+    charset[character * 8 + 3] = 0b11111111;
+    charset[character * 8 + 4] = 0b11111111;
+    charset[character * 8 + 5] = 0b11111111;
+    charset[character * 8 + 6] = 0b11111111;
+    charset[character * 8 + 7] = 0b11111111;
+    
 
-    index = 1;
-    test = charmap_addr * 0x100;
-    // character 1
-    POKE(test  + (index * 8) + 0,0b10000001);
-    POKE(test + (index * 8) +1,0b01000010);
-    POKE(test + (index * 8) +2,0b00100100);
-    POKE(test + (index * 8) +3,0b00010000);
-    POKE(test + (index * 8) +4,0b00101000);
-    POKE(test + (index * 8) +5,0b01000100);
-    POKE(test + (index * 8) +6,0b10000010);
-    POKE(test + (index * 8) +7,0b00000001);
-
-    // character 2
-    index = 2;
-    POKE(test  + (index * 8) + 0,0b00011000);
-    POKE(test + (index * 8) +  1,0b00100100);
-    POKE(test + (index * 8) +  2,0b01000010);
-    POKE(test + (index * 8) +  3,0b10000001);
-    POKE(test + (index * 8) +  4,0b10000001);
-    POKE(test + (index * 8) +  5,0b01000010);
-    POKE(test + (index * 8) +  6,0b00100100);
-    POKE(test + (index * 8) +  7,0b00011000);
-
-
-    index = 3;
-    POKE(test  + (index * 8) + 0,0b00011000);
-    POKE(test + (index * 8) +  1,0b00100100);
-    POKE(test + (index * 8) +  2,0b01000010);
-    POKE(test + (index * 8) +  3,0b10000001);
-    POKE(test + (index * 8) +  4,0b10000001);
-    POKE(test + (index * 8) +  5,0b01000010);
-    POKE(test + (index * 8) +  6,0b00100100);
-    POKE(test + (index * 8) +  7,0b00011000);
-
-    index = 4;
-    POKE(test  + (index * 8) + 0,0b11111111);
-    POKE(test + (index * 8) +  1,0b11111111);
-    POKE(test + (index * 8) +  2,0b11100111);
-    POKE(test + (index * 8) +  3,0b11000011);
-    POKE(test + (index * 8) +  4,0b11000011);
-    POKE(test + (index * 8) +  5,0b11100111);
-    POKE(test + (index * 8) +  6,0b11111111);
-    POKE(test + (index * 8) +  7,0b11111111);
+    
 }
 
 
