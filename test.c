@@ -16,7 +16,7 @@
 #define DISPLAY_LIST 0x230    // location that the display list must be pushed to
 #define CHARSET_PTR 0x2F4     // character base
 
-#define CHARSET_ADDR 0x3C00
+#define CHARSET_ADDR 0x3C
 // according to Ed, 0x3C00 is chosen since its 4 pages from the screen memory buffer he allocated (0x4000). S
 // According to Mapping the Atari, cannot set 756 to any odd number or else we will have screen garbage.
 // additionally, need to start on a page boundary (any value in the form $XX00), such as $C000
@@ -55,14 +55,14 @@ char DisplayList[] = {
 
     // variable declarations
 int i;
-int charStart = 0;
+int charStart = 100;
 
 int main() {
    fix_displayList();
     init_charset();
 
-    for (i = charStart; i < charStart + 5; i++) {
- ScreenMemory[i - charStart] = 0;
+    for (i = 0; i < charStart; i++) {
+        ScreenMemory[i] = i % 3;
     }
    
     while (true) {
@@ -86,25 +86,62 @@ void fix_displayList() {
     // return dl_addr;
 }
 
+int index;
+unsigned int test ;
+
 void init_charset() {
     // address of CharMap
     // unsigned int charmap_addr = (unsigned int )CharMap;
-      unsigned int charmap_addr = (unsigned int )00;
+      unsigned int charmap_addr = (unsigned int )CHARSET_ADDR;  // this value specifies with page the address is located. multiply by 256 to locate actual characters.
+      test = charmap_addr * 0x100; // page number * page size
 
-    
-    POKEW(CHARSET_PTR,charmap_addr);
+    // set page number in CHARSET_PTR
+    POKE(CHARSET_PTR,charmap_addr);
 
-    // test character
+    // character 0
+    index = 0;
+    POKE(test  + (index * 8) + 0,0b00000000);
+    POKE(test + (index * 8) +  1,0b00000000);
+    POKE(test + (index * 8) +  2,0b00000000);
+    POKE(test + (index * 8) +  3,0b00000000);
+    POKE(test + (index * 8) +  4,0b00000000);
+    POKE(test + (index * 8) +  5,0b00000000);
+    POKE(test + (index * 8) +  6,0b00000000);
+    POKE(test + (index * 8) +  7,0b00000000);
 
-    // test character
-    POKE(charmap_addr + 0,0b10000000);
-    POKE(charmap_addr + 1,0b01000000);
-    POKE(charmap_addr + 2,0b00100000);
-    POKE(charmap_addr + 3,0b00010000);
-    POKE(charmap_addr + 4,0b00001000);
-    POKE(charmap_addr + 5,0b00000100);
-    POKE(charmap_addr + 6,0b00000010);
-    POKE(charmap_addr + 7,0b00000001);
+    index = 1;
+    test = charmap_addr * 0x100;
+    // character 1
+    POKE(test  + (index * 8) + 0,0b10000001);
+    POKE(test + (index * 8) +1,0b01000010);
+    POKE(test + (index * 8) +2,0b00100100);
+    POKE(test + (index * 8) +3,0b00010000);
+    POKE(test + (index * 8) +4,0b00101000);
+    POKE(test + (index * 8) +5,0b01000100);
+    POKE(test + (index * 8) +6,0b10000010);
+    POKE(test + (index * 8) +7,0b00000001);
+
+    // character 2
+    index = 2;
+    POKE(test  + (index * 8) + 0,0b00011000);
+    POKE(test + (index * 8) +  1,0b00100100);
+    POKE(test + (index * 8) +  2,0b01000010);
+    POKE(test + (index * 8) +  3,0b10000001);
+    POKE(test + (index * 8) +  4,0b10000001);
+    POKE(test + (index * 8) +  5,0b01000010);
+    POKE(test + (index * 8) +  6,0b00100100);
+    POKE(test + (index * 8) +  7,0b00011000);
+
+
+    index = 3;
+    POKE(test  + (index * 8) + 0,0b00011000);
+    POKE(test + (index * 8) +  1,0b00100100);
+    POKE(test + (index * 8) +  2,0b01000010);
+    POKE(test + (index * 8) +  3,0b10000001);
+    POKE(test + (index * 8) +  4,0b10000001);
+    POKE(test + (index * 8) +  5,0b01000010);
+    POKE(test + (index * 8) +  6,0b00100100);
+    POKE(test + (index * 8) +  7,0b00011000);
 }
 
 
