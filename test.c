@@ -62,7 +62,7 @@ int main() {
     init_charset();
 
     for (i = 0; i < charStart; i++) {
-        ScreenMemory[i] = i % 3;
+        ScreenMemory[i] = 4;
     }
    
     while (true) {
@@ -142,8 +142,18 @@ void init_charset() {
     POKE(test + (index * 8) +  5,0b01000010);
     POKE(test + (index * 8) +  6,0b00100100);
     POKE(test + (index * 8) +  7,0b00011000);
+
+    index = 4;
+    POKE(test  + (index * 8) + 0,0b11111111);
+    POKE(test + (index * 8) +  1,0b11111111);
+    POKE(test + (index * 8) +  2,0b11100111);
+    POKE(test + (index * 8) +  3,0b11000011);
+    POKE(test + (index * 8) +  4,0b11000011);
+    POKE(test + (index * 8) +  5,0b11100111);
+    POKE(test + (index * 8) +  6,0b11111111);
+    POKE(test + (index * 8) +  7,0b11111111);
 }
 
 
 // to compile with debug info
-// cl65 --debug-info -Wl --dbgfile,test.dbg -t atari -O -g -Ln game.lbl -o test.xex test.c
+// cl65 --debug-info -Wl --dbgfile,test.dbg -C atari_modifed.cfg -t atari -O -g -Ln game.lbl -o test.xex test.c
