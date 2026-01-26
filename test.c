@@ -8,6 +8,10 @@
 #include <joystick.h>
 #include <unistd.h>
 #include "charmap.h"
+#include "color_pallete.h"
+#include "joystick_locations.h"
+
+#include <time.h>
 // #include <tgi.h>
 
 // #define SCREEN_HEIGHT 24
@@ -16,6 +20,9 @@
 // Memory locations
 #define DISPLAY_LIST 0x230    // location that the display list must be pushed to
 #define CHARSET_PTR 0x2F4     // character base
+
+
+
 
 
 // #define CHARSET_ADDR 0x3C
@@ -29,6 +36,11 @@
 // function declarations
 void fix_displayList();
 void init_charset();
+void edit_colors();
+
+void frame_delay();
+
+void joystick_test();
 
 // memory allocations
 unsigned char ScreenMemory[760];
@@ -63,13 +75,30 @@ int charStart = 480;
 int main() {
    fix_displayList();
     init_charset();
+    edit_colors();
 
     for (i = 0; i < charStart; i++) {
         ScreenMemory[i] = 1;
     }
    
     while (true) {
-        sleep(1);
+        joystick_test();
+        frame_delay();
+        // usleep(16667); // about 16.667 milliseconds
+    }
+}
+
+void joystick_test() {
+    unsigned int joystick_input = (unsigned int)PEEK(JOYSTICK_REG_INPUT_0);
+    
+    if (joystick_input == JOYSTICK_MOVE_NOT) {
+        ScreenMemory[0] = 0;
+    } else if (joystick_input == JOYSTICK_MOVE_DOWN) {
+        ScreenMemory[0] = 1;
+    } else if (joystick_input == JOYSTICK_MOVE_UP) {
+ScreenMemory[0] = 2;
+    }else if (joystick_input == JOYSTICK_MOVE_RIGHT) {
+ScreenMemory[0] = 3;
     }
 }
 
@@ -86,6 +115,8 @@ void fix_displayList() {
    DisplayList[28] = dl_addr & 0xFF;   // this injects the 8 most significant bits
    DisplayList[29] = (dl_addr >> 8) & 0xFF; // this injects the 8 least signifcant bits
    POKEW(DISPLAY_LIST,dl_addr);
+
+   
     // return dl_addr;
 }
 
@@ -114,8 +145,30 @@ void init_charset() {
 
     character = 1;
     // solid box
-    charset[character * 8 + 0] = 0b01011101;
+    charset[character * 8 + 0] = 0b01010101;
+    charset[character * 8 + 1] = 0b01010101;
+    charset[character * 8 + 2] = 0b01010101;
+    charset[character * 8 + 3] = 0b01010101;
+    charset[character * 8 + 4] = 0b01010101;
+    charset[character * 8 + 5] = 0b01010101;
+    charset[character * 8 + 6] = 0b01010101;
+    charset[character * 8 + 7] = 0b01010101;
+
+    character = 2;
+    // solid box
+    charset[character * 8 + 0] = 0b10101010;
     charset[character * 8 + 1] = 0b10101010;
+    charset[character * 8 + 2] = 0b10101010;
+    charset[character * 8 + 3] = 0b10101010;
+    charset[character * 8 + 4] = 0b10101010;
+    charset[character * 8 + 5] = 0b10101010;
+    charset[character * 8 + 6] = 0b10101010;
+    charset[character * 8 + 7] = 0b10101010;
+
+    character = 3;
+    // solid box
+    charset[character * 8 + 0] = 0b11111111;
+    charset[character * 8 + 1] = 0b11111111;
     charset[character * 8 + 2] = 0b11111111;
     charset[character * 8 + 3] = 0b11111111;
     charset[character * 8 + 4] = 0b11111111;
@@ -127,6 +180,16 @@ void init_charset() {
     
 }
 
+void edit_colors() {
+    POKE(COLOR_REG_1,0xF3);
+}
+
+
+void frame_delay() {
+    clock_t frame_delay_length = 17;
+    clock_t end = clock() + frame_delay_length * (CLOCKS_PER_SEC / 1000);
+    while(clock() < end);
+}
 
 // to compile with debug info
 // cl65 --debug-info -Wl --dbgfile,test.dbg -C atari_modifed.cfg -t atari -O -g -Ln game.lbl -o test.xex test.c
