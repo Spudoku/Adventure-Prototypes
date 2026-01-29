@@ -10,6 +10,7 @@
 #include "charmap.h"
 #include "color_pallete.h"
 #include "joystick_locations.h"
+#include "player_missile.h"
 
 #include <time.h>
 // #include <tgi.h>
@@ -21,7 +22,7 @@
 #define DISPLAY_LIST 0x230    // location that the display list must be pushed to
 #define CHARSET_PTR 0x2F4     // character base
 
-
+// Player-missile graphics starts at 0xD000
 
 
 
@@ -41,6 +42,8 @@ void edit_colors();
 void frame_delay();
 
 void joystick_test();
+
+void test_player1();
 
 // memory allocations
 unsigned char ScreenMemory[760];
@@ -96,13 +99,13 @@ void joystick_test() {
     } else if (joystick_input == JOYSTICK_MOVE_DOWN) {
         ScreenMemory[0] = 1;
     } else if (joystick_input == JOYSTICK_MOVE_UP) {
-ScreenMemory[0] = 2;
+        ScreenMemory[0] = 2;
     }else if (joystick_input == JOYSTICK_MOVE_RIGHT) {
-ScreenMemory[0] = 3;
+        ScreenMemory[0] = 3;
     }
 }
 
-void fix_displayList() {
+void fix_displayList() {    
     // location of screen memory
     unsigned int scr_addr = (unsigned int)ScreenMemory; // address of screen memory array
     unsigned int dl_addr = (unsigned int)DisplayList; // address of display list
@@ -111,13 +114,11 @@ void fix_displayList() {
     DisplayList[4] = scr_addr & 0xFF;
     DisplayList[5] = (scr_addr >> 8) & 0xFF;
 
-    // inject dlistAddr into the indices 28 and 29
-   DisplayList[28] = dl_addr & 0xFF;   // this injects the 8 most significant bits
-   DisplayList[29] = (dl_addr >> 8) & 0xFF; // this injects the 8 least signifcant bits
-   POKEW(DISPLAY_LIST,dl_addr);
 
-   
-    // return dl_addr;
+    // inject dlistAddr into the indices 28 and 29
+    DisplayList[28] = dl_addr & 0xFF;   // this injects the 8 most significant bits
+    DisplayList[29] = (dl_addr >> 8) & 0xFF; // this injects the 8 least signifcant bits
+    POKEW(DISPLAY_LIST,dl_addr);
 }
 
 int character = 0;
@@ -189,6 +190,13 @@ void frame_delay() {
     clock_t frame_delay_length = 17;
     clock_t end = clock() + frame_delay_length * (CLOCKS_PER_SEC / 1000);
     while(clock() < end);
+}
+
+void test_player1() {
+    // poke player 1 location
+    // POKE(PMBASE,);
+    unsigned int p1_addr = (unsigned int) player0;
+    POKE(0xD00D,p1_addr);
 }
 
 // to compile with debug info
