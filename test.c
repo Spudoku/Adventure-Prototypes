@@ -227,11 +227,11 @@ void setup_pmg() {
     unsigned int PMBASE = 0xD407;
     unsigned int GRPRIOR = 0x26F;
     unsigned int SDMCTL = 0x22F;
-    unsigned int HPOSP0 = 0xD000  //; Horizontal position of player 0
-unsigned int HPOSP1 = 0xD001  //; Horizontal position of player 1
-unsigned int HPOSP2 = 0xD002  //; Horizontal position of player 2
-unsigned int HPOSP3 = 0xD003  //; Horizontal position of player 3
-    
+    unsigned int HPOSP0 = 0xD000;  //; Horizontal position of player 0
+unsigned int HPOSP1 = 0xD001;  //; Horizontal position of player 1
+unsigned int HPOSP2 = 0xD002;  //; Horizontal position of player 2
+unsigned int HPOSP3 = 0xD003;  //; Horizontal position of player 3
+    unsigned int PCOLR0 = 0x2C0;
     // TODO: do any setup for player missile graphics here
     // what Ed's code appears to do is:
     // store pmg label into PMBASE ($D407)
@@ -240,11 +240,13 @@ unsigned int HPOSP3 = 0xD003  //; Horizontal position of player 3
     // move 0x1 into GRPRIOR ($26F), which gives player priorty?
     // set all player location registers to 120
     unsigned int playerData = 0x38;
+    POKE(pcolr0,0x1E);
     POKE(PMBASE,playerData);
     POKE(SDMCTL,46); // I think the does: enable fetching DMA instructions, enable player/missile DMA, standard playfield
     POKE(GRACTL,3);
     POKE(GRPRIOR,1);
     ScreenMemory[3] = 1;
+    // set player 0 horizontal position to 120
     POKE(HPOSP0,120);
 }
 
