@@ -45,6 +45,10 @@ void joystick_test();
 
 void test_player1();
 
+void setup_pmg();
+
+void memZero(unsigned int start, unsigned int offset);
+
 // memory allocations
 unsigned char ScreenMemory[760];
 
@@ -79,14 +83,17 @@ int main() {
    fix_displayList();
     init_charset();
     edit_colors();
-
-    for (i = 0; i < charStart; i++) {
-        ScreenMemory[i] = 1;
-    }
+    setup_pmg();
+    
+    test_player1();
+    // for (i = 0; i < charStart; i++) {
+    //     ScreenMemory[i] = 1;
+    // }
    
     while (true) {
         joystick_test();
         frame_delay();
+        
         // usleep(16667); // about 16.667 milliseconds
     }
 }
@@ -193,10 +200,52 @@ void frame_delay() {
 }
 
 void test_player1() {
-    // poke player 1 location
-    // POKE(PMBASE,);
-    unsigned int p1_addr = (unsigned int) player0;
-    POKE(0xD00D,p1_addr);
+    int x;
+    // zero out everything in player/missile graphics
+    memZero(0x3800,0x0400);
+
+    // write bits to player 0 memory
+    for (x = 0x200; x < 0x280; x++) {
+        POKE(0x3800 + x, 0xFF);
+    }
+    // move player 0 to horizontal positon 120
+
+    ScreenMemory[50] = 1;
+}
+
+
+// clear out offset number of bytes from start
+void memZero(unsigned int start, unsigned int offset) {
+    int x = 0;
+    for (x = 0; x < offset; x++) {
+        POKE(start + i,0);
+    }
+}
+
+void setup_pmg() {
+    unsigned int GRACTL = 0xD01D;
+    unsigned int PMBASE = 0xD407;
+    unsigned int GRPRIOR = 0x26F;
+    unsigned int SDMCTL = 0x22F;
+    unsigned int HPOSP0 = 0xD000  //; Horizontal position of player 0
+unsigned int HPOSP1 = 0xD001  //; Horizontal position of player 1
+unsigned int HPOSP2 = 0xD002  //; Horizontal position of player 2
+unsigned int HPOSP3 = 0xD003  //; Horizontal position of player 3
+    
+    // TODO: do any setup for player missile graphics here
+    // what Ed's code appears to do is:
+    // store pmg label into PMBASE ($D407)
+    // move 46 into SDMCTL ($22F), which sets to double-line resolution
+    // move 0x3 into GRACTL ( $D01D ), which enables PMG
+    // move 0x1 into GRPRIOR ($26F), which gives player priorty?
+    // set all player location registers to 120
+    unsigned int playerData = 0x38;
+    POKE(PMBASE,playerData);
+    POKE(SDMCTL,46); // I think the does: enable fetching DMA instructions, enable player/missile DMA, standard playfield
+    POKE(GRACTL,3);
+    POKE(GRPRIOR,1);
+    ScreenMemory[3] = 1;
+    POKE(HPOSP0,120);
 }
 
 // to compile with debug info
