@@ -81,6 +81,7 @@ int i;
 int charStart = 480;
 
 int main() {
+    int position = 0;
    fix_displayList();
     init_charset();
     edit_colors();
@@ -95,6 +96,10 @@ int main() {
         joystick_test();
         frame_delay();
         
+        GTIA_WRITE.hposp0 = position++;
+        if (position > 208) {
+            position = 48;
+        }
         // usleep(16667); // about 16.667 milliseconds
     }
 }
@@ -224,6 +229,9 @@ void memZero(unsigned int start, unsigned int offset) {
 }
 
 void setup_pmg() {
+    unsigned int PMBASE = 0xD407;
+    unsigned int SDMCTL = 0x22F;
+    unsigned int PCOLR0 = 0x2C0;
     // TODO: do any setup for player missile graphics here
     // what Ed's code appears to do is:
     // store pmg label into PMBASE ($D407)
@@ -231,16 +239,21 @@ void setup_pmg() {
     // move 0x3 into GRACTL ( $D01D ), which enables PMG
     // move 0x1 into GRPRIOR ($26F), which gives player priorty?
     // set all player location registers to 120
-    unsigned int PMBASE = 0xD407;
-    unsigned int pmg_mem_addr = 0x38;
-    POKE(PMBASE,pmg_mem_addr);
-
-    POKE(0x22F,46);
-    GTIA_WRITE.colpm0 = 0x1E;// set color of player 0;
-    GTIA_WRITE.hposp0 = 120; // set horizontal position of player 0
-    GTIA_WRITE.gractl = 3;
-    GTIA_WRITE.prior = 0x1;
+    unsigned int playerData = 0x38;
+    // POKE(PCOLR0,0x1E);
+    POKE(PMBASE,playerData);
+    POKE(SDMCTL,46); // I think the does: enable fetching DMA instructions, enable player/missile DMA, standard playfield
     
+    
+    GTIA_WRITE.prior = 1; // set player priorty
+    GTIA_WRITE.gractl = 3; // enable PMG
+    
+    // set horizontal position of p0 to 120
+    GTIA_WRITE.hposp0 = 150;
+    
+    // set color of player 0
+    POKE(PCOLR0,0x1E);
+    // GTIA_WRITE.colpm0 = (unsigned char)0x1E;
 }
 
 // to compile with debug info
