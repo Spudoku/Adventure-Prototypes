@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <joystick.h>
 #include <unistd.h>
+#include <_gtia.h>
 #include "charmap.h"
 #include "color_pallete.h"
 #include "joystick_locations.h"
@@ -228,9 +229,9 @@ void setup_pmg() {
     unsigned int GRPRIOR = 0x26F;
     unsigned int SDMCTL = 0x22F;
     unsigned int HPOSP0 = 0xD000;  //; Horizontal position of player 0
-unsigned int HPOSP1 = 0xD001;  //; Horizontal position of player 1
-unsigned int HPOSP2 = 0xD002;  //; Horizontal position of player 2
-unsigned int HPOSP3 = 0xD003;  //; Horizontal position of player 3
+    unsigned int HPOSP1 = 0xD001;  //; Horizontal position of player 1
+    unsigned int HPOSP2 = 0xD002;  //; Horizontal position of player 2
+    unsigned int HPOSP3 = 0xD003;  //; Horizontal position of player 3
     unsigned int PCOLR0 = 0x2C0;
     // TODO: do any setup for player missile graphics here
     // what Ed's code appears to do is:
@@ -239,15 +240,22 @@ unsigned int HPOSP3 = 0xD003;  //; Horizontal position of player 3
     // move 0x3 into GRACTL ( $D01D ), which enables PMG
     // move 0x1 into GRPRIOR ($26F), which gives player priorty?
     // set all player location registers to 120
-    unsigned int playerData = 0x38;
-    POKE(pcolr0,0x1E);
-    POKE(PMBASE,playerData);
+    // unsigned int playerData = 0x38;
+    // unsigned int pmg_data_addr = ((unsigned int)unused >> 8); // unused is the first part of the PMG graphics memory segment
+    // POKE(PCOLR0,0x1E);
+    //pmg_data_addr
+    POKE(PMBASE,0x38);
     POKE(SDMCTL,46); // I think the does: enable fetching DMA instructions, enable player/missile DMA, standard playfield
     POKE(GRACTL,3);
     POKE(GRPRIOR,1);
-    ScreenMemory[3] = 1;
     // set player 0 horizontal position to 120
-    POKE(HPOSP0,120);
+    // POKE(HPOSP0,120);
+    // set 
+
+    GTIA_WRITE.hposp0 = 120;  // set horiztonal position of player 0 to 120
+    // GTIA_WRITE.gractl = 3; // enable player missile graphics (PMG)
+
+    // GTIA_WRITE.colpm0 = 0x1E;
 }
 
 // to compile with debug info
