@@ -13,6 +13,8 @@
 #include "joystick_locations.h"
 #include "player_missile.h"
 
+
+
 #include <time.h>
 // #include <tgi.h>
 
@@ -81,8 +83,8 @@ int i;
 int charStart = 480;
 
 int main() {
-    int position = 0;
-   fix_displayList();
+    unsigned int position = 0;
+    fix_displayList();
     init_charset();
     edit_colors();
     setup_pmg();
@@ -91,15 +93,13 @@ int main() {
     // for (i = 0; i < charStart; i++) {
     //     ScreenMemory[i] = 1;
     // }
-   
+    set_player_horiz_position(0,48,true);
     while (true) {
         joystick_test();
         frame_delay();
+        frame_delay(); // cheap/stupid way to slow down the program even more
+        move_player_horiz_position(0,1,true);
         
-        GTIA_WRITE.hposp0 = position++;
-        if (position > 208) {
-            position = 48;
-        }
         // usleep(16667); // about 16.667 milliseconds
     }
 }
@@ -211,12 +211,13 @@ void test_player1() {
     memZero(0x3800,0x0400);
 
     // write bits to player 0 memory
-    for (x = 0x200; x < 0x280; x++) {
-        POKE(0x3800 + x, 0xFF);
+    // for (x = 0x200; x < 0x280; x++) {
+    //     POKE(0x3800 + x, 0xFF);
+    // }
+    for (x = 0; x < 128; x++) {
+        POKE(0x3A00 + x, 0xFF);
     }
-    // move player 0 to horizontal positon 120
-
-    ScreenMemory[50] = 1;
+    
 }
 
 
