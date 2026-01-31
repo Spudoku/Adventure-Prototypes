@@ -224,15 +224,6 @@ void memZero(unsigned int start, unsigned int offset) {
 }
 
 void setup_pmg() {
-    unsigned int GRACTL = 0xD01D;
-    unsigned int PMBASE = 0xD407;
-    unsigned int GRPRIOR = 0x26F;
-    unsigned int SDMCTL = 0x22F;
-    unsigned int HPOSP0 = 0xD000;  //; Horizontal position of player 0
-    unsigned int HPOSP1 = 0xD001;  //; Horizontal position of player 1
-    unsigned int HPOSP2 = 0xD002;  //; Horizontal position of player 2
-    unsigned int HPOSP3 = 0xD003;  //; Horizontal position of player 3
-    unsigned int PCOLR0 = 0x2C0;
     // TODO: do any setup for player missile graphics here
     // what Ed's code appears to do is:
     // store pmg label into PMBASE ($D407)
@@ -240,22 +231,16 @@ void setup_pmg() {
     // move 0x3 into GRACTL ( $D01D ), which enables PMG
     // move 0x1 into GRPRIOR ($26F), which gives player priorty?
     // set all player location registers to 120
-    // unsigned int playerData = 0x38;
-    // unsigned int pmg_data_addr = ((unsigned int)unused >> 8); // unused is the first part of the PMG graphics memory segment
-    // POKE(PCOLR0,0x1E);
-    //pmg_data_addr
-    POKE(PMBASE,0x38);
-    POKE(SDMCTL,46); // I think the does: enable fetching DMA instructions, enable player/missile DMA, standard playfield
-    POKE(GRACTL,3);
-    POKE(GRPRIOR,1);
-    // set player 0 horizontal position to 120
-    // POKE(HPOSP0,120);
-    // set 
+    unsigned int PMBASE = 0xD407;
+    unsigned int pmg_mem_addr = 0x38;
+    POKE(PMBASE,pmg_mem_addr);
 
-    GTIA_WRITE.hposp0 = 120;  // set horiztonal position of player 0 to 120
-    // GTIA_WRITE.gractl = 3; // enable player missile graphics (PMG)
-
-    // GTIA_WRITE.colpm0 = 0x1E;
+    POKE(0x22F,46);
+    GTIA_WRITE.colpm0 = 0x1E;// set color of player 0;
+    GTIA_WRITE.hposp0 = 120; // set horizontal position of player 0
+    GTIA_WRITE.gractl = 3;
+    GTIA_WRITE.prior = 0x1;
+    
 }
 
 // to compile with debug info
