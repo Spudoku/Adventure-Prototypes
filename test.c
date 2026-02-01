@@ -48,15 +48,12 @@ void joystick_test();
 
 void test_player1();
 
-void setup_pmg();
+
 
 
 
 // memory allocations
 unsigned char ScreenMemory[760];
-
-
-
 
 
 char DisplayList[] = {
@@ -97,15 +94,9 @@ int main() {
     
     while (true) {
         joystick_test();
-        // for (frames = 0; frames < 1; frames++) {
-            
-        // }
+
         frame_delay();
 
-        
-        
-        
-        // usleep(16667); // about 16.667 milliseconds
     }
 }
 
@@ -113,21 +104,22 @@ void joystick_test() {
     unsigned int joystick_input = (unsigned int)PEEK(JOYSTICK_REG_INPUT_0);
     // move player 0 aroud
     if (joystick_input == JOYSTICK_MOVE_NOT) {
-        // ScreenMemory[0] = 0;
+        
     } else if (joystick_input == JOYSTICK_MOVE_DOWN) {
-        // ScreenMemory[0] = 1;
-move_player_vert_position(0,1,true);
+        
+        move_player_vert_position(0,1,true);
     } else if (joystick_input == JOYSTICK_MOVE_UP) {
-        // ScreenMemory[0] = 2;
+        
         move_player_vert_position(0,-1,true);
     }else if (joystick_input == JOYSTICK_MOVE_RIGHT) {
-        // ScreenMemory[0] = 3;
+        
         move_player_horiz_position(0,1,true);
     } else if (JOYSTICK_MOVE_LEFT) {
         move_player_horiz_position(0,-1,true);
     }
 }
 
+// writes crucial bytes to the display list
 void fix_displayList() {    
     // location of screen memory
     unsigned int scr_addr = (unsigned int)ScreenMemory; // address of screen memory array
@@ -144,6 +136,9 @@ void fix_displayList() {
     POKEW(DISPLAY_LIST,dl_addr);
 }
 
+// initializes a character set
+// in the future we will write code that does this somewhere else
+// or does writes to it at compile time
 int character = 0;
 void init_charset() {
     // address of CharMap
@@ -216,11 +211,6 @@ void frame_delay() {
 }
 
 void test_player1() {
-
-    // zero out everything in player/missile graphics
-    memZero(0x3800,0x0400);
-
-    
     // I will write a helper function in player_missile.h
     player0graphics[60] = 0xFF;
     player0graphics[61] = 0xFF;
@@ -236,33 +226,7 @@ void test_player1() {
 // clear out offset number of bytes from start
 
 
-void setup_pmg() {
-    unsigned int PMBASE = 0xD407;
-    unsigned int SDMCTL = 0x22F;
-    unsigned int PCOLR0 = 0x2C0;
-    // TODO: do any setup for player missile graphics here
-    // what Ed's code appears to do is:
-    // store pmg label into PMBASE ($D407)
-    // move 46 into SDMCTL ($22F), which sets to double-line resolution
-    // move 0x3 into GRACTL ( $D01D ), which enables PMG
-    // move 0x1 into GRPRIOR ($26F), which gives player priorty?
-    // set all player location registers to 120
-    unsigned int playerData = 0x38;
-    // POKE(PCOLR0,0x1E);
-    POKE(PMBASE,playerData);
-    POKE(SDMCTL,46); // I think the does: enable fetching DMA instructions, enable player/missile DMA, standard playfield
-    
-    
-    GTIA_WRITE.prior = 1; // set player priorty
-    GTIA_WRITE.gractl = 3; // enable PMG
-    
-    // set horizontal position of p0 to 120
-    GTIA_WRITE.hposp0 = 150;
-    
-    // set color of player 0
-    POKE(PCOLR0,0x1E);
-    // GTIA_WRITE.colpm0 = (unsigned char)0x1E;
-}
+
 
 // to compile with debug info
 // cl65 --debug-info -Wl --dbgfile,test.dbg -C atari_modifed.cfg -t atari -O -g -Ln game.lbl -o test.xex test.c
