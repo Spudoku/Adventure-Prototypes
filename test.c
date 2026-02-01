@@ -83,7 +83,7 @@ int i;
 int charStart = 480;
 
 int main() {
-    unsigned int position = 0;
+    int frames = 0;
     fix_displayList();
     init_charset();
     edit_colors();
@@ -94,11 +94,16 @@ int main() {
     //     ScreenMemory[i] = 1;
     // }
     set_player_horiz_position(0,48,true);
+    
     while (true) {
         joystick_test();
+        // for (frames = 0; frames < 1; frames++) {
+            
+        // }
         frame_delay();
-        frame_delay(); // cheap/stupid way to slow down the program even more
-        move_player_horiz_position(0,1,true);
+
+        
+        
         
         // usleep(16667); // about 16.667 milliseconds
     }
@@ -106,15 +111,19 @@ int main() {
 
 void joystick_test() {
     unsigned int joystick_input = (unsigned int)PEEK(JOYSTICK_REG_INPUT_0);
-    
+    // move player 0 aroud
     if (joystick_input == JOYSTICK_MOVE_NOT) {
-        ScreenMemory[0] = 0;
+        // ScreenMemory[0] = 0;
     } else if (joystick_input == JOYSTICK_MOVE_DOWN) {
-        ScreenMemory[0] = 1;
+        // ScreenMemory[0] = 1;
+
     } else if (joystick_input == JOYSTICK_MOVE_UP) {
-        ScreenMemory[0] = 2;
+        // ScreenMemory[0] = 2;
     }else if (joystick_input == JOYSTICK_MOVE_RIGHT) {
-        ScreenMemory[0] = 3;
+        // ScreenMemory[0] = 3;
+        move_player_horiz_position(0,1,true);
+    } else if (JOYSTICK_MOVE_LEFT) {
+move_player_horiz_position(0,-1,true);
     }
 }
 

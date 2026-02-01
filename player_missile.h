@@ -2,6 +2,8 @@
 #define PLAYER_MISSILE_H
 #pragma bss-name (push, "PMGAREA")
 // assuming double-line resolution
+unsigned int player_horiz_positions[4];
+unsigned int player_vert_positions[4];
 unsigned char unused[384];
 unsigned char missilessprites[128];
 unsigned char player0sprite[128];
@@ -24,6 +26,7 @@ unsigned char player3sprite[128];
 #define SCREEN_TOP_BOUND 16// assuming double line resolution
 #define SCREEN_BOTTOM_BOUND 112 
 
+
 void set_player_horiz_position(unsigned int player, unsigned int pos, bool boundsCorrect);
 void move_player_horiz_position(unsigned int player,int delta, bool boundsCorrect);
 unsigned int get_player_horiz_position(unsigned int player);
@@ -37,6 +40,9 @@ unsigned int get_player_vert_position(unsigned int player);
 // player must be between 0 and 3 inclusive
 // if boundsCorrect is true, clamp the final position between
 // SCREEN_LEFT_BOUND and SCREEN_RIGHT_BOUND, inclusive
+
+
+
 void set_player_horiz_position(unsigned int player, unsigned int pos, bool boundsCorrect) {
     unsigned int correctedPos = pos;
 
@@ -48,19 +54,24 @@ void set_player_horiz_position(unsigned int player, unsigned int pos, bool bound
     switch (player) {
         case 0:
             GTIA_WRITE.hposp0 = correctedPos;
+            player_horiz_positions[0] = correctedPos;
             break;
         case 1:
             GTIA_WRITE.hposp1 = correctedPos;
+            player_horiz_positions[0] = correctedPos;
             break;
         case 2:
             GTIA_WRITE.hposp2 = correctedPos;
+            player_horiz_positions[2] = correctedPos;
             break;
         case 3:
             GTIA_WRITE.hposp3 = correctedPos;
+            player_horiz_positions[3] = correctedPos;
             break;
         default:
             // invalid bounds case: write to player 0
             GTIA_WRITE.hposp0 = correctedPos;
+            player_horiz_positions[0] = correctedPos;
             break;
     }
 
@@ -75,7 +86,11 @@ void move_player_horiz_position(unsigned int player,int delta, bool boundsCorrec
 }
 
 unsigned int get_player_horiz_position(unsigned int player) {
-    return (unsigned int)PEEK(0xD000 + (player % 4));
+    return player_horiz_positions[player % 4];
+}
+
+unsigned int get_player_vert_position(unsigned int player) {
+    return player_vert_positions[player % 4];
 }
 
 
