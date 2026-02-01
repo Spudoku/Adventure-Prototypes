@@ -4,7 +4,7 @@
 // assuming double-line resolution
 unsigned int player_horiz_positions[4];
 unsigned int player_vert_positions[4];
-unsigned char unused[384];
+unsigned char unused[368];
 unsigned char missilessprites[128];
 unsigned char player0sprite[128];
 unsigned char player1sprite[128];
@@ -20,7 +20,7 @@ unsigned char player3sprite[128];
 #define PLAYER_2_POS_HORIZ 0xD002
 #define PLAYER_3_POS_HORIZ 0xD003
 
-#define SCREEN_LEFT_BOUND 4
+#define SCREEN_LEFT_BOUND 48
 #define SCREEN_RIGHT_BOUND 208
 
 #define SCREEN_TOP_BOUND 16// assuming double line resolution
