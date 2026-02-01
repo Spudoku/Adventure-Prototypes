@@ -50,7 +50,7 @@ void test_player1();
 
 void setup_pmg();
 
-void memZero(unsigned int start, unsigned int offset);
+
 
 // memory allocations
 unsigned char ScreenMemory[760];
@@ -116,14 +116,15 @@ void joystick_test() {
         // ScreenMemory[0] = 0;
     } else if (joystick_input == JOYSTICK_MOVE_DOWN) {
         // ScreenMemory[0] = 1;
-
+move_player_vert_position(0,1,true);
     } else if (joystick_input == JOYSTICK_MOVE_UP) {
         // ScreenMemory[0] = 2;
+        move_player_vert_position(0,-1,true);
     }else if (joystick_input == JOYSTICK_MOVE_RIGHT) {
         // ScreenMemory[0] = 3;
         move_player_horiz_position(0,1,true);
     } else if (JOYSTICK_MOVE_LEFT) {
-move_player_horiz_position(0,-1,true);
+        move_player_horiz_position(0,-1,true);
     }
 }
 
@@ -215,28 +216,25 @@ void frame_delay() {
 }
 
 void test_player1() {
-    int x;
+
     // zero out everything in player/missile graphics
     memZero(0x3800,0x0400);
 
-    // write bits to player 0 memory
-    // for (x = 0x200; x < 0x280; x++) {
-    //     POKE(0x3800 + x, 0xFF);
-    // }
-    for (x = 0; x < 128; x++) {
-        POKE(0x3A00 + x, 0xFF);
-    }
     
+    // I will write a helper function in player_missile.h
+    player0graphics[60] = 0xFF;
+    player0graphics[61] = 0xFF;
+    player0graphics[62] = 0xFF;
+    player0graphics[63] = 0xFF;
+    player0graphics[64] = 0xFF;
+    player0graphics[65] = 0xFF;
+    player0graphics[66] = 0xFF;
+    player0graphics[67] = 0xFF;
 }
 
 
 // clear out offset number of bytes from start
-void memZero(unsigned int start, unsigned int offset) {
-    int x = 0;
-    for (x = 0; x < offset; x++) {
-        POKE(start + i,0);
-    }
-}
+
 
 void setup_pmg() {
     unsigned int PMBASE = 0xD407;

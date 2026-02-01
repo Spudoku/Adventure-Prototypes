@@ -4,12 +4,17 @@
 // assuming double-line resolution
 unsigned int player_horiz_positions[4];
 unsigned int player_vert_positions[4];
-unsigned char unused[368];
-unsigned char missilessprites[128];
-unsigned char player0sprite[128];
-unsigned char player1sprite[128];
-unsigned char player2sprite[128];
-unsigned char player3sprite[128];
+
+unsigned int player_sprite_0[8];
+unsigned int player_sprite_1[8];
+unsigned int player_sprite_2[8];
+unsigned int player_sprite_3[8];
+unsigned char unused[304];
+unsigned char missiles_graphics[128];
+unsigned char player0graphics[128]; // note: for an 8x8 sprite, use bytes 60 to 68. actually, just assume that vertical position '0' is byte 64 (center of this memory)
+unsigned char player1graphics[128];
+unsigned char player2graphics[128];
+unsigned char player3graphics[128];
 #pragma bss-name (pop)
 
 #include "util.h"
@@ -35,6 +40,10 @@ void set_player_vert_position(unsigned int player, unsigned int pos, bool bounds
 void move_player_vert_position(unsigned int player,int delta, bool boundsCorrect);
 unsigned int get_player_vert_position(unsigned int player);
 
+// copies the data in the appropriate player_sprite array to its correct
+// location based on position 
+void write_sprite(unsigned int player, unsigned int position, bool boundsCorrect);
+
 
 // sets the horizontal position (pos) of a player
 // player must be between 0 and 3 inclusive
@@ -42,7 +51,8 @@ unsigned int get_player_vert_position(unsigned int player);
 // SCREEN_LEFT_BOUND and SCREEN_RIGHT_BOUND, inclusive
 
 
-
+// Sets the horizontal register of the corresponding 'player' to position 'pos'.
+// if boundsCorrect is true, keep the player in bounds
 void set_player_horiz_position(unsigned int player, unsigned int pos, bool boundsCorrect) {
     unsigned int correctedPos = pos;
 
@@ -87,6 +97,28 @@ void move_player_horiz_position(unsigned int player,int delta, bool boundsCorrec
 
 unsigned int get_player_horiz_position(unsigned int player) {
     return player_horiz_positions[player % 4];
+}
+/**
+    VERTICAL MOVEMENT FUNCTIONS
+**/
+
+// TODO: write_sprite
+// player: range from 0 to 3 inclusive
+// position: range from 0 to 128
+// the main purpose of this function is to make sure that the sprite is
+// remembered if parts of it are outside of memory. However, this may not be
+// necessary because I just remembered that the top and bottom 16 pixels are off screen.
+// if boundsCorrect is true, then 'sprite remembering' becomes redundant.
+void write_sprite(unsigned int player, unsigned int position, bool boundsCorrect) {
+    // first, determine if the sprite would be rendered out of bounds
+    //  determine the center of the sprite, subtract by 4
+    // 
+}
+void set_player_vert_position(unsigned int player, unsigned int pos, bool boundsCorrect) {
+    // the idea: copy the bytes from range(position - 4, position + 4) and set to pos.   
+}
+void move_player_vert_position(unsigned int player,int delta, bool boundsCorrect) {
+
 }
 
 unsigned int get_player_vert_position(unsigned int player) {
