@@ -9,13 +9,13 @@
 unsigned char player_horiz_positions[4];
 unsigned char player_vert_positions[4];
 
-unsigned char player_sprite_0[8];
-unsigned char player_sprite_1[8];
-unsigned char player_sprite_2[8];
-unsigned char player_sprite_3[8];
-unsigned char unused[336];          // it appears we can use this area safely
+unsigned char player_sprite_0[16];
+unsigned char player_sprite_1[16];
+unsigned char player_sprite_2[16];
+unsigned char player_sprite_3[16];
+unsigned char unused[304];          // it appears we can use this area safely
 unsigned char missiles_graphics[128];
-unsigned char player0graphics[128]; // note: for an 8x8 sprite, use bytes 60 to 68. actually, just assume that vertical position '0' is byte 64 (center of this memory)
+unsigned char player0graphics[128]; // note: for an 8x8 sprite in the middle of the screen, use bytes 56 to 72. actually, just assume that vertical position '0' is byte 64 (center of this memory)
 unsigned char player1graphics[128];
 unsigned char player2graphics[128];
 unsigned char player3graphics[128];
@@ -154,13 +154,43 @@ unsigned char get_player_horiz_position(unsigned char player) {
 // remembered if parts of it are outside of memory. However, this may not be
 // necessary because I just remembered that the top and bottom 16 pixels are off screen.
 // if boundsCorrect is true, then 'sprite remembering' becomes redundant.
+
+// moves current player sprite from its current position in player_vert_position[] to a new position
 void write_sprite(unsigned char player, unsigned char position, bool boundsCorrect) {
     // first, determine if the sprite would be rendered out of bounds
-    //  determine the center of the sprite, subtract by 4
-    // 
+    // determine the center of the sprite, subtract by 4
+    unsigned char* cur_sprite;
+    unsigned char* cur_graphics;
+
+    switch(player) {
+        case 0:
+            cur_sprite = player_sprite_0;
+            cur_graphics = player0graphics;
+            break;
+        case 1:
+        cur_sprite = player_sprite_1;
+            cur_graphics = player1graphics;
+            break;
+        case 2:
+        cur_sprite = player_sprite_2;
+            cur_graphics = player2graphics;
+            break;
+        case 3:
+            
+            cur_sprite = player_sprite_3;
+            cur_graphics = player3graphics;
+            break;
+        default:
+        cur_sprite = player_sprite_0;
+            cur_graphics = player0graphics;
+            break;
+    }
+
+    
 }
 void set_player_vert_position(unsigned char player, unsigned char pos, bool boundsCorrect) {
     // the idea: copy the bytes from range(position - 4, position + 4) and set to pos.   
+
 }
 void move_player_vert_position(unsigned char player,char delta, bool boundsCorrect) {
 
