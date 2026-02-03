@@ -8,6 +8,9 @@
 unsigned int clamp_int(unsigned int value,unsigned int min,unsigned int max);
 void memZero(unsigned int start, unsigned int offset);
 
+unsigned int max(unsigned int a, unsigned int b);
+unsigned int min(unsigned int a, unsigned int b);
+
 // clamps an int between min and max
 unsigned int clamp_int(unsigned int value,unsigned int min,unsigned int max) {
     if (value < min) {
@@ -34,5 +37,19 @@ void memZero(unsigned int start, unsigned int offset) {
     for (x = 0; x < offset; x++) {
         POKE(start + x,0);
     }
+}
+
+unsigned int max(unsigned int a, unsigned int b) {
+    if (a >= b) {
+        return a;
+    }
+    return b;
+}
+
+unsigned int min(unsigned int a,unsigned int b) {
+    if (a <= b) {
+        return a;
+    }
+    return b;
 }
 #endif

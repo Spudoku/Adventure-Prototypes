@@ -81,6 +81,7 @@ int charStart = 480;
 
 int main() {
     int frames = 0;
+    int i = 0;
     fix_displayList();
     init_charset();
     edit_colors();
@@ -91,6 +92,11 @@ int main() {
     //     ScreenMemory[i] = 1;
     // }
     set_player_horiz_position(0,48,true);
+    set_player_vert_position(0,64,true);
+
+    for (i = 0; i < 0; i++) {
+        move_player_vert_position(0,1,true);
+    }
     
     while (true) {
         joystick_test();
@@ -110,7 +116,7 @@ void joystick_test() {
         move_player_vert_position(0,1,true);
     } else if (joystick_input == JOYSTICK_MOVE_UP) {
         
-        move_player_vert_position(0,-1,true);
+       move_player_vert_position(0,-1,true);
     }else if (joystick_input == JOYSTICK_MOVE_RIGHT) {
         
         move_player_horiz_position(0,1,true);
@@ -212,14 +218,15 @@ void frame_delay() {
 
 void test_player1() {
     // I will write a helper function in player_missile.h
-    player0graphics[60] = 0xFF;
-    player0graphics[61] = 0xFF;
-    player0graphics[62] = 0xFF;
-    player0graphics[63] = 0xFF;
-    player0graphics[64] = 0xFF;
-    player0graphics[65] = 0xFF;
-    player0graphics[66] = 0xFF;
-    player0graphics[67] = 0xFF;
+    player_sprites[0][0] = 0xFF;
+    player_sprites[0][1] = 0xFF;
+    player_sprites[0][2] = 0xFF;
+    player_sprites[0][3] = 0xFF;
+    player_sprites[0][4] = 0xFF;
+    player_sprites[0][5] = 0xFF;
+    player_sprites[0][6] = 0xFF;
+    player_sprites[0][7] = 0xFF;
+    set_player_vert_position(0,64,true);
 }
 
 

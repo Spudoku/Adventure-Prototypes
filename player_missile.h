@@ -9,16 +9,12 @@
 unsigned char player_horiz_positions[4];
 unsigned char player_vert_positions[4];
 
-unsigned char player_sprite_0[16];
-unsigned char player_sprite_1[16];
-unsigned char player_sprite_2[16];
-unsigned char player_sprite_3[16];
+// sprite arrays
+unsigned char player_sprites[4][16];
 unsigned char unused[304];          // it appears we can use this area safely
 unsigned char missiles_graphics[128];
-unsigned char player0graphics[128]; // note: for an 8x8 sprite in the middle of the screen, use bytes 56 to 72. actually, just assume that vertical position '0' is byte 64 (center of this memory)
-unsigned char player1graphics[128];
-unsigned char player2graphics[128];
-unsigned char player3graphics[128];
+unsigned char player_graphics[4][128];
+
 #pragma bss-name (pop)
 
 #include "util.h"
@@ -159,41 +155,52 @@ unsigned char get_player_horiz_position(unsigned char player) {
 void write_sprite(unsigned char player, unsigned char position, bool boundsCorrect) {
     // first, determine if the sprite would be rendered out of bounds
     // determine the center of the sprite, subtract by 4
-    unsigned char* cur_sprite;
-    unsigned char* cur_graphics;
 
-    switch(player) {
-        case 0:
-            cur_sprite = player_sprite_0;
-            cur_graphics = player0graphics;
-            break;
-        case 1:
-        cur_sprite = player_sprite_1;
-            cur_graphics = player1graphics;
-            break;
-        case 2:
-        cur_sprite = player_sprite_2;
-            cur_graphics = player2graphics;
-            break;
-        case 3:
-            
-            cur_sprite = player_sprite_3;
-            cur_graphics = player3graphics;
-            break;
-        default:
-        cur_sprite = player_sprite_0;
-            cur_graphics = player0graphics;
-            break;
-    }
+
+    // zero out current sprite
+    unsigned int lowerBound = max(0,(unsigned int)player_vert_positions[player] - 8);
+    unsigned int upperBound = min(128, (unsigned int)player_vert_positions[player] + 8);
 
     
+    int i;
+    int intendedPos;
+
+    for (i = lowerBound; i < upperBound; i++) {
+        player_graphics[player][i] = 0;
+    }
+
+    // write sprite to current position;
+
+    lowerBound = max(0,(unsigned int)position - 8);
+    upperBound = min(128,(unsigned int)position + 8);
+
+    for (i = 0; i < 16; i++) {
+        intendedPos = position - 8 + i;
+        if (intendedPos < 0 || intendedPos > 128) {
+            continue;
+        }
+        player_graphics[player][intendedPos] = player_sprites[player][i];
+    }
+
+
 }
 void set_player_vert_position(unsigned char player, unsigned char pos, bool boundsCorrect) {
+    unsigned char correctedPos = pos;
+    if (boundsCorrect) {
+        correctedPos = clamp_char(correctedPos,SCREEN_BOTTOM_BOUND,SCREEN_TOP_BOUND);
+    }
+
     // the idea: copy the bytes from range(position - 4, position + 4) and set to pos.   
+    write_sprite(player,correctedPos,boundsCorrect);
+    player_vert_positions[player] = correctedPos;
 
 }
 void move_player_vert_position(unsigned char player,char delta, bool boundsCorrect) {
+    unsigned char curPosition = get_player_vert_position(player);
+    unsigned char finalPosition = (unsigned char)((char)curPosition + delta);
 
+
+    set_player_vert_position(player,finalPosition,boundsCorrect);
 }
 
 unsigned char get_player_vert_position(unsigned char player) {
