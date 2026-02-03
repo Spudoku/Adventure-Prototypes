@@ -53,7 +53,7 @@ void test_player1();
 
 
 // memory allocations
-unsigned char ScreenMemory[760];
+unsigned char ScreenMemory[520];
 
 
 char DisplayList[] = {
@@ -92,17 +92,23 @@ int main() {
     //     ScreenMemory[i] = 1;
     // }
     set_player_horiz_position(0,48,true);
-    set_player_vert_position(0,64,true);
+    // set_player_vert_position(0,0,true);
 
-    for (i = 0; i < 0; i++) {
-        move_player_vert_position(0,1,true);
-    }
+    // for (i = 0; i < 10; i++) {
+    //     move_player_vert_position(0,1,true);
+    // }
+
+    ScreenMemory[0] = 1;
+    ScreenMemory[519] = 1;
     
+    set_player_vert_position(0,50,false);
     while (true) {
         joystick_test();
-
+        // set_player_vert_position(0,get_player_vert_position(0),true);
+        // write_sprite(0,i,true);
+        // i = i++ % SCREEN_BOTTOM_BOUND;
+        // player_vert_positions[0] = player_vert_positions[0]++ % SCREEN_BOTTOM_BOUND;
         frame_delay();
-
     }
 }
 
@@ -116,7 +122,7 @@ void joystick_test() {
         move_player_vert_position(0,1,true);
     } else if (joystick_input == JOYSTICK_MOVE_UP) {
         
-       move_player_vert_position(0,-1,true);
+        move_player_vert_position(0,-1,true);
     }else if (joystick_input == JOYSTICK_MOVE_RIGHT) {
         
         move_player_horiz_position(0,1,true);
@@ -226,7 +232,16 @@ void test_player1() {
     player_sprites[0][5] = 0xFF;
     player_sprites[0][6] = 0xFF;
     player_sprites[0][7] = 0xFF;
-    set_player_vert_position(0,64,true);
+    // set_player_vert_position(0,64,true);
+
+    player_sprites[1][0] = 0xFA;
+    player_sprites[1][1] = 0xFA;
+    player_sprites[1][2] = 0xFA;
+    player_sprites[1][3] = 0xFA;
+    player_sprites[1][4] = 0xFA;
+    player_sprites[1][5] = 0xFA;
+    player_sprites[1][6] = 0xFA;
+    player_sprites[1][7] = 0xFA;
 }
 
 

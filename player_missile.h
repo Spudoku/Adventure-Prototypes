@@ -31,8 +31,8 @@ unsigned char player_graphics[4][128];
 #define SCREEN_LEFT_BOUND 48
 #define SCREEN_RIGHT_BOUND 208
 
-#define SCREEN_TOP_BOUND 16// assuming double line resolution
-#define SCREEN_BOTTOM_BOUND 112 
+#define SCREEN_TOP_BOUND 32// assuming double line resolution
+#define SCREEN_BOTTOM_BOUND 128
 
 /**
     FUNCTION DECLARATIONS
@@ -165,10 +165,13 @@ void write_sprite(unsigned char player, unsigned char position, bool boundsCorre
     int i;
     int intendedPos;
 
+    // TODO: change the way that graphics are cleaned out
+    // for (i = 0; i < 128; i++) {
+    //     player_graphics[player][i] = 0;
+    // }
     for (i = lowerBound; i < upperBound; i++) {
         player_graphics[player][i] = 0;
     }
-
     // write sprite to current position;
 
     lowerBound = max(0,(unsigned int)position - 8);
@@ -186,12 +189,14 @@ void write_sprite(unsigned char player, unsigned char position, bool boundsCorre
 }
 void set_player_vert_position(unsigned char player, unsigned char pos, bool boundsCorrect) {
     unsigned char correctedPos = pos;
+    
     if (boundsCorrect) {
-        correctedPos = clamp_char(correctedPos,SCREEN_BOTTOM_BOUND,SCREEN_TOP_BOUND);
+        
+        correctedPos = clamp_char(pos,SCREEN_TOP_BOUND,SCREEN_BOTTOM_BOUND);
     }
-
     // the idea: copy the bytes from range(position - 4, position + 4) and set to pos.   
     write_sprite(player,correctedPos,boundsCorrect);
+    
     player_vert_positions[player] = correctedPos;
 
 }
