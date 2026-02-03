@@ -31,8 +31,8 @@ unsigned char player_graphics[4][128];
 #define SCREEN_LEFT_BOUND 48
 #define SCREEN_RIGHT_BOUND 208
 
-#define SCREEN_TOP_BOUND 32// assuming double line resolution
-#define SCREEN_BOTTOM_BOUND 128
+#define SCREEN_TOP_BOUND 24// assuming double line resolution
+#define SCREEN_BOTTOM_BOUND 120
 
 /**
     FUNCTION DECLARATIONS

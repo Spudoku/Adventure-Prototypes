@@ -88,15 +88,9 @@ int main() {
     setup_pmg();
     
     test_player1();
-    // for (i = 0; i < charStart; i++) {
-    //     ScreenMemory[i] = 1;
-    // }
-    set_player_horiz_position(0,48,true);
-    // set_player_vert_position(0,0,true);
 
-    // for (i = 0; i < 10; i++) {
-    //     move_player_vert_position(0,1,true);
-    // }
+    set_player_horiz_position(0,48,true);
+
 
     ScreenMemory[0] = 1;
     ScreenMemory[519] = 1;
@@ -104,17 +98,65 @@ int main() {
     set_player_vert_position(0,50,false);
     while (true) {
         joystick_test();
-        // set_player_vert_position(0,get_player_vert_position(0),true);
-        // write_sprite(0,i,true);
-        // i = i++ % SCREEN_BOTTOM_BOUND;
-        // player_vert_positions[0] = player_vert_positions[0]++ % SCREEN_BOTTOM_BOUND;
+
         frame_delay();
     }
 }
 
 void joystick_test() {
     unsigned int joystick_input = (unsigned int)PEEK(JOYSTICK_REG_INPUT_0);
+    unsigned int cur_player = 0;
     // move player 0 aroud
+
+    switch (joystick_input) {
+        case JOYSTICK_MOVE_NOT: 
+            
+            break;
+        
+        case JOYSTICK_MOVE_DOWN:
+            move_player_vert_position(cur_player,1,true);
+            break;
+        
+        case JOYSTICK_MOVE_DOWN_LEFT:
+            move_player_vert_position(cur_player,1,true);
+            move_player_horiz_position(cur_player,-1,true);
+            break;
+        
+        case JOYSTICK_MOVE_LEFT:
+
+            move_player_horiz_position(cur_player,-1,true);
+            break;
+
+        case JOYSTICK_MOVE_UP_LEFT:
+            move_player_vert_position(cur_player,-1,true);
+            move_player_horiz_position(cur_player,-1,true);
+            break;
+
+        case JOYSTICK_MOVE_UP:
+            move_player_vert_position(cur_player,-1,true);
+            
+            break;
+        
+        case JOYSTICK_MOVE_UP_RIGHT:
+        move_player_horiz_position(cur_player,1,true);
+            move_player_vert_position(cur_player,-1,true);
+            
+            break;
+        
+        case JOYSTICK_MOVE_RIGHT:
+            
+            move_player_horiz_position(cur_player,1,true);
+            break;
+
+        case JOYSTICK_MOVE_DOWN_RIGHT:
+            move_player_vert_position(cur_player,1,true);
+            move_player_horiz_position(cur_player,1,true);
+            break;
+
+        default:
+            break;
+    }
+
     if (joystick_input == JOYSTICK_MOVE_NOT) {
         
     } else if (joystick_input == JOYSTICK_MOVE_DOWN) {
@@ -224,14 +266,23 @@ void frame_delay() {
 
 void test_player1() {
     // I will write a helper function in player_missile.h
-    player_sprites[0][0] = 0xFF;
-    player_sprites[0][1] = 0xFF;
-    player_sprites[0][2] = 0xFF;
+    player_sprites[0][0] = 0x81;
+    player_sprites[0][1] = 0x81;
+    player_sprites[0][2] = 0x81;
     player_sprites[0][3] = 0xFF;
     player_sprites[0][4] = 0xFF;
     player_sprites[0][5] = 0xFF;
     player_sprites[0][6] = 0xFF;
-    player_sprites[0][7] = 0xFF;
+    player_sprites[0][7] = 0xAA;
+    player_sprites[0][8] = 0xFF;
+    player_sprites[0][9] = 0xFF;
+    player_sprites[0][10] = 0xFF;
+    player_sprites[0][11] = 0xFF;
+    player_sprites[0][12] = 0xFF;
+    player_sprites[0][13] = 0xFF;
+    player_sprites[0][14] = 0xFF;
+    player_sprites[0][15] = 0xFF;
+  
     // set_player_vert_position(0,64,true);
 
     player_sprites[1][0] = 0xFA;
