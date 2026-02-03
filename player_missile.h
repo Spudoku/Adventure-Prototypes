@@ -49,7 +49,7 @@ unsigned char get_player_vert_position(unsigned char player);
 
 // copies the data in the appropriate player_sprite array to its correct
 // location based on position 
-void write_sprite(unsigned char player, unsigned char position, bool boundsCorrect);
+void write_sprite(unsigned char player, unsigned char position);
 
 
 void setup_pmg() {
@@ -105,7 +105,7 @@ void set_player_horiz_position(unsigned char player, unsigned char pos, bool bou
             break;
         case 1:
             GTIA_WRITE.hposp1 = correctedPos;
-            player_horiz_positions[0] = correctedPos;
+            player_horiz_positions[1] = correctedPos;
             break;
         case 2:
             GTIA_WRITE.hposp2 = correctedPos;
@@ -128,7 +128,7 @@ void set_player_horiz_position(unsigned char player, unsigned char pos, bool bou
 // effectively sets the position of 'player' by its current position plus 'delta'
 void move_player_horiz_position(unsigned char player,char delta, bool boundsCorrect) {
     unsigned char curPosition = get_player_horiz_position(player);
-    unsigned char finalPosition = (unsigned char)((char)curPosition + delta);
+    unsigned char finalPosition = (unsigned char)(curPosition + delta);
 
 
     set_player_horiz_position(player,finalPosition,boundsCorrect);
@@ -152,7 +152,7 @@ unsigned char get_player_horiz_position(unsigned char player) {
 // if boundsCorrect is true, then 'sprite remembering' becomes redundant.
 
 // moves current player sprite from its current position in player_vert_position[] to a new position
-void write_sprite(unsigned char player, unsigned char position, bool boundsCorrect) {
+void write_sprite(unsigned char player, unsigned char position) {
     // first, determine if the sprite would be rendered out of bounds
     // determine the center of the sprite, subtract by 4
 
@@ -195,7 +195,7 @@ void set_player_vert_position(unsigned char player, unsigned char pos, bool boun
         correctedPos = clamp_char(pos,SCREEN_TOP_BOUND,SCREEN_BOTTOM_BOUND);
     }
     // the idea: copy the bytes from range(position - 4, position + 4) and set to pos.   
-    write_sprite(player,correctedPos,boundsCorrect);
+    write_sprite(player,correctedPos);
     
     player_vert_positions[player] = correctedPos;
 

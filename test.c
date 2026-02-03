@@ -95,11 +95,14 @@ int main() {
     ScreenMemory[0] = 1;
     ScreenMemory[519] = 1;
     
-    set_player_vert_position(0,50,false);
+    set_player_vert_position(0,0,true);
     while (true) {
+
+        
         joystick_test();
 
         frame_delay();
+        
     }
 }
 
