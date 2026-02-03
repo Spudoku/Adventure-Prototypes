@@ -62,7 +62,7 @@ void setup_pmg() {
     // move 46 into SDMCTL ($22F), which sets to double-line resolution
     // move 0x3 into GRACTL ( $D01D ), which enables PMG
     // move 0x1 into GRPRIOR ($26F), which gives player priorty?
-    // set all player location registers to 120
+    
     unsigned int playerData = 0x38;
     // POKE(PCOLR0,0x1E);
     POKE(PMBASE,playerData);
@@ -72,11 +72,12 @@ void setup_pmg() {
     GTIA_WRITE.prior = 1; // set player priorty
     GTIA_WRITE.gractl = 3; // enable PMG
     
-    // set horizontal position of p0 to 120
-    GTIA_WRITE.hposp0 = 150;
+    // // set horizontal position of p0 to 120
+    // GTIA_WRITE.hposp0 = 150;
     
     // set color of player 0
     POKE(PCOLR0,0x1E);
+    
     // GTIA_WRITE.colpm0 = (unsigned char)0x1E;
 }
 
@@ -152,6 +153,7 @@ unsigned char get_player_horiz_position(unsigned char player) {
 // if boundsCorrect is true, then 'sprite remembering' becomes redundant.
 
 // moves current player sprite from its current position in player_vert_position[] to a new position
+// TODO: use VDELAY every other line
 void write_sprite(unsigned char player, unsigned char position) {
     // first, determine if the sprite would be rendered out of bounds
     // determine the center of the sprite, subtract by 4

@@ -100,7 +100,6 @@ int main() {
 
         
         joystick_test();
-
         frame_delay();
         
     }
@@ -141,8 +140,9 @@ void joystick_test() {
             break;
         
         case JOYSTICK_MOVE_UP_RIGHT:
-        move_player_horiz_position(cur_player,1,true);
             move_player_vert_position(cur_player,-1,true);
+            move_player_horiz_position(cur_player,1,true);
+            
             
             break;
         
@@ -276,7 +276,7 @@ void test_player1() {
     player_sprites[0][4] = 0xFF;
     player_sprites[0][5] = 0xFF;
     player_sprites[0][6] = 0xFF;
-    player_sprites[0][7] = 0xAA;
+    player_sprites[0][7] = 0xA1;
     player_sprites[0][8] = 0xFF;
     player_sprites[0][9] = 0xFF;
     player_sprites[0][10] = 0xFF;
@@ -289,8 +289,8 @@ void test_player1() {
     // set_player_vert_position(0,64,true);
 
     player_sprites[1][0] = 0xFA;
-    player_sprites[1][1] = 0xFA;
-    player_sprites[1][2] = 0xFA;
+    player_sprites[1][1] = 0xF1;
+    player_sprites[1][2] = 0xF1;
     player_sprites[1][3] = 0xFA;
     player_sprites[1][4] = 0xFA;
     player_sprites[1][5] = 0xFA;
