@@ -102,6 +102,7 @@ int main() {
         joystick_test();
         frame_delay();
         
+        
     }
 }
 
@@ -299,10 +300,6 @@ void test_player1() {
 }
 
 
-// clear out offset number of bytes from start
-
-
-
-
+// clear out offset number of bytes from start 
 // to compile with debug info
 // cl65 --debug-info -Wl --dbgfile,test.dbg -C atari_modifed.cfg -t atari -O -g -Ln game.lbl -o test.xex test.c

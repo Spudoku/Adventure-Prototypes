@@ -12,7 +12,7 @@ unsigned char player_vert_positions[4];
 // sprite arrays
 unsigned char player_sprites[4][16];
 unsigned char unused[304];          // it appears we can use this area safely
-unsigned char missiles_graphics[128];
+unsigned char missiles_graphics[4][32];
 unsigned char player_graphics[4][128];
 
 #pragma bss-name (pop)
@@ -63,11 +63,30 @@ void setup_pmg() {
     // move 0x3 into GRACTL ( $D01D ), which enables PMG
     // move 0x1 into GRPRIOR ($26F), which gives player priorty?
     
-    unsigned int playerData = 0x38;
+    unsigned int playerDataPage = 0x38;
+    unsigned int playerData = playerDataPage << 8;
+    unsigned int missileLocation = (unsigned int)missiles_graphics[0];
+
+    unsigned int zeroIndex;
+    unsigned int playerIndex;
+    
+
     // POKE(PCOLR0,0x1E);
-    POKE(PMBASE,playerData);
+    POKE(PMBASE,playerDataPage);
     POKE(SDMCTL,46); // I think the does: enable fetching DMA instructions, enable player/missile DMA, standard playfield
-    memZero(0x3800,0x0400);
+
+    // TODO: clear out memory more efficiently
+
+    // THIS IS TEST CODE
+    
+
+    for (zeroIndex = 0; zeroIndex < 0x80;zeroIndex++) {
+        // clear bits from missiles and players 0-1 at the same time
+        POKE(missileLocation + zeroIndex,0);
+        for (playerIndex = 0; playerIndex < 4; playerIndex++) {
+            player_graphics[playerIndex][zeroIndex] = 0;
+        }
+    }
     
     GTIA_WRITE.prior = 1; // set player priorty
     GTIA_WRITE.gractl = 3; // enable PMG
@@ -77,7 +96,7 @@ void setup_pmg() {
     
     // set color of player 0
     POKE(PCOLR0,0x1E);
-    
+
     // GTIA_WRITE.colpm0 = (unsigned char)0x1E;
 }
 
