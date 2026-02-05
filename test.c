@@ -53,7 +53,7 @@ void test_player1();
 
 
 // memory allocations
-unsigned char ScreenMemory[520];
+unsigned char ScreenMemory[960];
 
 
 char DisplayList[] = {
@@ -82,6 +82,7 @@ int charStart = 480;
 int main() {
     int frames = 0;
     int i = 0;
+    unsigned char collision;
     fix_displayList();
     init_charset();
     edit_colors();
@@ -97,8 +98,13 @@ int main() {
     
     set_player_vert_position(0,0,true);
     while (true) {
-
+        collision = GTIA_READ.p0pf;
         
+        if (collision & 0x02) {
+            ScreenMemory[250] = 1;
+        } else {
+            ScreenMemory[250] = 0;
+        }
         joystick_test();
         frame_delay();
         
