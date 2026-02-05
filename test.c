@@ -25,6 +25,14 @@
 #define DISPLAY_LIST 0x230    // location that the display list must be pushed to
 #define CHARSET_PTR 0x2F4     // character base
 
+
+// memory allocations
+
+
+#pragma bss-name (push, "SCREENAREA")
+unsigned char ScreenMemory[960];
+
+#pragma bss-name (pop)
 // Player-missile graphics starts at 0xD000
 
 
@@ -49,11 +57,10 @@ void joystick_test();
 void test_player1();
 
 
+bool check_if_any_collision(unsigned char player);
 
 
 
-// memory allocations
-unsigned char ScreenMemory[960];
 
 
 char DisplayList[] = {
@@ -62,14 +69,14 @@ char DisplayList[] = {
     DL_BLK8,
     DL_BLK8,
     // TODO: tell ANTIC to load Graphics 2 at Screen Address, total 24 times
-    DL_LMS(DL_GRAPHICS13),
-    // was DL_GRAPHICS13, now DL_GRAPHICS0
+    DL_LMS(DL_GRAPHICS12),
+    // was DL_GRAPHICS12, now DL_GRAPHICS0
     // these 2 bytes will store the location of the screen memory
     0x00,0x00,
-    DL_GRAPHICS13,DL_GRAPHICS13,DL_GRAPHICS13,DL_GRAPHICS13,DL_GRAPHICS13,DL_GRAPHICS13,
-    DL_GRAPHICS13,DL_GRAPHICS13,DL_GRAPHICS13,DL_GRAPHICS13,DL_GRAPHICS13,DL_GRAPHICS13,
-    DL_GRAPHICS13,DL_GRAPHICS13,DL_GRAPHICS13,DL_GRAPHICS13,DL_GRAPHICS13,DL_GRAPHICS13,
-    DL_GRAPHICS13,DL_GRAPHICS13,DL_GRAPHICS13,DL_GRAPHICS13,DL_GRAPHICS13,
+    DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,
+    DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,
+    DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,
+    DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,
     DL_JVB,
     // These two bytes store the location of the dispalyList itself
     0x00,0x00
@@ -93,18 +100,29 @@ int main() {
     set_player_horiz_position(0,48,true);
 
 
-    ScreenMemory[0] = 1;
+    ScreenMemory[0] = 3;
+    ScreenMemory[39] = 1;
     ScreenMemory[519] = 1;
+
+    for (i = 90; i < 99; i++) {
+        ScreenMemory[i] = 3;
+    }
     
     set_player_vert_position(0,0,true);
     while (true) {
         collision = GTIA_READ.p0pf;
         
-        if (collision & 0x02) {
-            ScreenMemory[250] = 1;
+        if (check_if_any_collision(0)) {
+            for (i = 120; i < 150; i++) {
+                ScreenMemory[i] = 3;
+            }
+            
         } else {
-            ScreenMemory[250] = 0;
+            for (i = 120; i < 150; i++) {
+                ScreenMemory[i] = 0;
+            }
         }
+        GTIA_WRITE.hitclr = 1;
         joystick_test();
         frame_delay();
         
@@ -195,8 +213,8 @@ void fix_displayList() {
 
 
     // inject dlistAddr into the indices 28 and 29
-    DisplayList[28] = dl_addr & 0xFF;   // this injects the 8 most significant bits
-    DisplayList[29] = (dl_addr >> 8) & 0xFF; // this injects the 8 least signifcant bits
+    DisplayList[sizeof(DisplayList) - 2] = dl_addr & 0xFF;   // this injects the 8 most significant bits
+    DisplayList[sizeof(DisplayList) - 1] = (dl_addr >> 8) & 0xFF; // this injects the 8 least signifcant bits
     POKEW(DISPLAY_LIST,dl_addr);
 }
 
@@ -303,6 +321,35 @@ void test_player1() {
     player_sprites[1][5] = 0xFA;
     player_sprites[1][6] = 0xFA;
     player_sprites[1][7] = 0xFA;
+}
+
+// checks if a player collides with any bit other than 0 in playfield
+bool check_if_any_collision(unsigned char player) {
+    unsigned char collision;
+
+    switch (player) {
+        case 0:
+            collision = GTIA_READ.p0pf;
+            break;
+        case 1:
+            collision = GTIA_READ.p1pf;
+            break;
+        case 2:
+            collision = GTIA_READ.p2pf;
+            break;
+        case 3:
+            collision = GTIA_READ.p3pf;
+            break;
+        default:
+            collision = GTIA_READ.p0pf;
+            break;
+    }
+
+    if (collision & 0x01 || collision & 0x02 || collision & 0x04) {
+        return true;
+    }
+    return false;
+
 }
 
 
