@@ -9,16 +9,12 @@
 unsigned char player_horiz_positions[4];
 unsigned char player_vert_positions[4];
 
-unsigned char player_sprite_0[16];
-unsigned char player_sprite_1[16];
-unsigned char player_sprite_2[16];
-unsigned char player_sprite_3[16];
+// sprite arrays
+unsigned char player_sprites[4][16];
 unsigned char unused[304];          // it appears we can use this area safely
-unsigned char missiles_graphics[128];
-unsigned char player0graphics[128]; // note: for an 8x8 sprite in the middle of the screen, use bytes 56 to 72. actually, just assume that vertical position '0' is byte 64 (center of this memory)
-unsigned char player1graphics[128];
-unsigned char player2graphics[128];
-unsigned char player3graphics[128];
+unsigned char missiles_graphics[4][32];
+unsigned char player_graphics[4][128];
+
 #pragma bss-name (pop)
 
 #include "util.h"
@@ -35,8 +31,8 @@ unsigned char player3graphics[128];
 #define SCREEN_LEFT_BOUND 48
 #define SCREEN_RIGHT_BOUND 208
 
-#define SCREEN_TOP_BOUND 16// assuming double line resolution
-#define SCREEN_BOTTOM_BOUND 112 
+#define SCREEN_TOP_BOUND 24// assuming double line resolution
+#define SCREEN_BOTTOM_BOUND 120
 
 /**
     FUNCTION DECLARATIONS
@@ -53,7 +49,7 @@ unsigned char get_player_vert_position(unsigned char player);
 
 // copies the data in the appropriate player_sprite array to its correct
 // location based on position 
-void write_sprite(unsigned char player, unsigned char position, bool boundsCorrect);
+void write_sprite(unsigned char player, unsigned char position);
 
 
 void setup_pmg() {
@@ -66,21 +62,41 @@ void setup_pmg() {
     // move 46 into SDMCTL ($22F), which sets to double-line resolution
     // move 0x3 into GRACTL ( $D01D ), which enables PMG
     // move 0x1 into GRPRIOR ($26F), which gives player priorty?
-    // set all player location registers to 120
-    unsigned int playerData = 0x38;
+    
+    unsigned int playerDataPage = 0x38;
+    unsigned int playerData = playerDataPage << 8;
+    unsigned int missileLocation = (unsigned int)missiles_graphics[0];
+
+    unsigned int zeroIndex;
+    unsigned int playerIndex;
+    
+
     // POKE(PCOLR0,0x1E);
-    POKE(PMBASE,playerData);
+    POKE(PMBASE,playerDataPage);
     POKE(SDMCTL,46); // I think the does: enable fetching DMA instructions, enable player/missile DMA, standard playfield
-    memZero(0x3800,0x0400);
+
+    // TODO: clear out memory more efficiently
+
+    // THIS IS TEST CODE
+    
+
+    for (zeroIndex = 0; zeroIndex < 0x80;zeroIndex++) {
+        // clear bits from missiles and players 0-1 at the same time
+        POKE(missileLocation + zeroIndex,0);
+        for (playerIndex = 0; playerIndex < 4; playerIndex++) {
+            player_graphics[playerIndex][zeroIndex] = 0;
+        }
+    }
     
     GTIA_WRITE.prior = 1; // set player priorty
     GTIA_WRITE.gractl = 3; // enable PMG
     
-    // set horizontal position of p0 to 120
-    GTIA_WRITE.hposp0 = 150;
+    // // set horizontal position of p0 to 120
+    // GTIA_WRITE.hposp0 = 150;
     
     // set color of player 0
     POKE(PCOLR0,0x1E);
+
     // GTIA_WRITE.colpm0 = (unsigned char)0x1E;
 }
 
@@ -109,7 +125,7 @@ void set_player_horiz_position(unsigned char player, unsigned char pos, bool bou
             break;
         case 1:
             GTIA_WRITE.hposp1 = correctedPos;
-            player_horiz_positions[0] = correctedPos;
+            player_horiz_positions[1] = correctedPos;
             break;
         case 2:
             GTIA_WRITE.hposp2 = correctedPos;
@@ -132,7 +148,7 @@ void set_player_horiz_position(unsigned char player, unsigned char pos, bool bou
 // effectively sets the position of 'player' by its current position plus 'delta'
 void move_player_horiz_position(unsigned char player,char delta, bool boundsCorrect) {
     unsigned char curPosition = get_player_horiz_position(player);
-    unsigned char finalPosition = (unsigned char)((char)curPosition + delta);
+    unsigned char finalPosition = (unsigned char)(curPosition + delta);
 
 
     set_player_horiz_position(player,finalPosition,boundsCorrect);
@@ -156,44 +172,59 @@ unsigned char get_player_horiz_position(unsigned char player) {
 // if boundsCorrect is true, then 'sprite remembering' becomes redundant.
 
 // moves current player sprite from its current position in player_vert_position[] to a new position
-void write_sprite(unsigned char player, unsigned char position, bool boundsCorrect) {
+// TODO: use VDELAY every other line
+void write_sprite(unsigned char player, unsigned char position) {
     // first, determine if the sprite would be rendered out of bounds
     // determine the center of the sprite, subtract by 4
-    unsigned char* cur_sprite;
-    unsigned char* cur_graphics;
 
-    switch(player) {
-        case 0:
-            cur_sprite = player_sprite_0;
-            cur_graphics = player0graphics;
-            break;
-        case 1:
-        cur_sprite = player_sprite_1;
-            cur_graphics = player1graphics;
-            break;
-        case 2:
-        cur_sprite = player_sprite_2;
-            cur_graphics = player2graphics;
-            break;
-        case 3:
-            
-            cur_sprite = player_sprite_3;
-            cur_graphics = player3graphics;
-            break;
-        default:
-        cur_sprite = player_sprite_0;
-            cur_graphics = player0graphics;
-            break;
-    }
+
+    // zero out current sprite
+    unsigned int lowerBound = max(0,(unsigned int)player_vert_positions[player] - 8);
+    unsigned int upperBound = min(128, (unsigned int)player_vert_positions[player] + 8);
 
     
+    int i;
+    int intendedPos;
+
+    
+    for (i = lowerBound; i < upperBound; i++) {
+        player_graphics[player][i] = 0;
+    }
+    // write sprite to current position;
+
+    lowerBound = max(0,(unsigned int)position - 8);
+    upperBound = min(128,(unsigned int)position + 8);
+
+// TODO: try memcpy or memmove
+    for (i = 0; i < 16; i++) {
+        intendedPos = position - 8 + i;
+        if (intendedPos < 0 || intendedPos > 128) {
+            continue;
+        }
+        player_graphics[player][intendedPos] = player_sprites[player][i];
+    }
+
+
 }
 void set_player_vert_position(unsigned char player, unsigned char pos, bool boundsCorrect) {
+    unsigned char correctedPos = pos;
+    
+    if (boundsCorrect) {
+        
+        correctedPos = clamp_char(pos,SCREEN_TOP_BOUND,SCREEN_BOTTOM_BOUND);
+    }
     // the idea: copy the bytes from range(position - 4, position + 4) and set to pos.   
+    write_sprite(player,correctedPos);
+    
+    player_vert_positions[player] = correctedPos;
 
 }
 void move_player_vert_position(unsigned char player,char delta, bool boundsCorrect) {
+    unsigned char curPosition = get_player_vert_position(player);
+    unsigned char finalPosition = (unsigned char)((char)curPosition + delta);
 
+
+    set_player_vert_position(player,finalPosition,boundsCorrect);
 }
 
 unsigned char get_player_vert_position(unsigned char player) {
