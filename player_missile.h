@@ -18,6 +18,7 @@ unsigned char player_graphics[4][128];
 #pragma bss-name (pop)
 
 #include "util.h"
+#include <string.h>
 
 /**
     MEMORY LOCATIONS
@@ -31,7 +32,7 @@ unsigned char player_graphics[4][128];
 #define SCREEN_LEFT_BOUND 48
 #define SCREEN_RIGHT_BOUND 208
 
-#define SCREEN_TOP_BOUND 24// assuming double line resolution
+#define SCREEN_TOP_BOUND 8// assuming double line resolution
 #define SCREEN_BOTTOM_BOUND 112
 
 /**
@@ -178,35 +179,17 @@ void write_sprite(unsigned char player, unsigned char position) {
     // determine the center of the sprite, subtract by 4
     unsigned char old_y = player_vert_positions[player];
 
-    // zero out current sprite
-    unsigned int lowerBound = max(0,(unsigned int)player_vert_positions[player] - 8);
-    unsigned int upperBound = min(128, (unsigned int)player_vert_positions[player] + 8);
-
-    
-    int i;
-    int intendedPos;
-
-    
-    for (i = lowerBound; i < upperBound; i++) {
-        player_graphics[player][i] = 0;
-    }
-    // write sprite to current position;
-
-    lowerBound = max(0,(unsigned int)position - 8);
-    upperBound = min(128,(unsigned int)position + 8);
-
-// TODO: try memcpy or memmove
-    for (i = 0; i < 16; i++) {
-        
-        intendedPos = position - 8 + i;
-        if (intendedPos < 0 || intendedPos > 128) {
-            continue;
-        }
-        player_graphics[player][intendedPos] = player_sprites[player][i];
-        // note: wsync is located at D40A
-       
+    if (old_y > SCREEN_TOP_BOUND) {
+        memset(&player_graphics[player][old_y-8],0,16);
     }
 
+    // zero out the old sprite
+    
+
+    
+   if (position >= SCREEN_TOP_BOUND || position <= SCREEN_BOTTOM_BOUND) {
+        memcpy(&player_graphics[player][position - 8],&player_sprites[player][0],16);
+   } 
 }
 void set_player_vert_position(unsigned char player, unsigned char pos, bool boundsCorrect) {
     unsigned char correctedPos = pos;
