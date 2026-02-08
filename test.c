@@ -56,6 +56,11 @@ void joystick_test();
 
 void test_player1();
 
+// wait until VCOUNT == 0
+void wait_vblank() {
+    while(ANTIC.vcount);
+}
+
 
 bool check_if_any_collision(unsigned char player);
 
@@ -112,13 +117,14 @@ int main() {
     ScreenMemory[39] = 1;
     ScreenMemory[519] = 1;
 
-    for (i = 50; i < 59; i++) {
-        ScreenMemory[i] = 3;
-    }
+    // for (i = 50; i < 59; i++) {
+    //     ScreenMemory[i] = 3;
+    // }
     
+
     set_player_vert_position(0,0,true);
     while (true) {
-        waitvsync();
+        wait_vblank();
         cur_horiz_position = player_horiz_positions[cur_player];
         cur_vert_position = player_vert_positions[cur_player];
         

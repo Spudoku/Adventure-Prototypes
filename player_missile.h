@@ -32,7 +32,7 @@ unsigned char player_graphics[4][128];
 #define SCREEN_RIGHT_BOUND 208
 
 #define SCREEN_TOP_BOUND 24// assuming double line resolution
-#define SCREEN_BOTTOM_BOUND 120
+#define SCREEN_BOTTOM_BOUND 112
 
 /**
     FUNCTION DECLARATIONS
@@ -176,7 +176,7 @@ unsigned char get_player_horiz_position(unsigned char player) {
 void write_sprite(unsigned char player, unsigned char position) {
     // first, determine if the sprite would be rendered out of bounds
     // determine the center of the sprite, subtract by 4
-
+    unsigned char old_y = player_vert_positions[player];
 
     // zero out current sprite
     unsigned int lowerBound = max(0,(unsigned int)player_vert_positions[player] - 8);
@@ -197,13 +197,15 @@ void write_sprite(unsigned char player, unsigned char position) {
 
 // TODO: try memcpy or memmove
     for (i = 0; i < 16; i++) {
+        
         intendedPos = position - 8 + i;
         if (intendedPos < 0 || intendedPos > 128) {
             continue;
         }
         player_graphics[player][intendedPos] = player_sprites[player][i];
+        // note: wsync is located at D40A
+       
     }
-
 
 }
 void set_player_vert_position(unsigned char player, unsigned char pos, bool boundsCorrect) {
