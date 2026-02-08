@@ -1,6 +1,8 @@
 #ifndef UTIL_H
 #define UTIL_H
 
+#include <stddef.h>
+
 /**
     UTILITY FUNCTIONS 
 **/
@@ -52,4 +54,7 @@ unsigned int min(unsigned int a,unsigned int b) {
     }
     return b;
 }
+
+
+
 #endif
