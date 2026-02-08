@@ -32,7 +32,7 @@ unsigned char player_graphics[4][128];
 #define SCREEN_LEFT_BOUND 48
 #define SCREEN_RIGHT_BOUND 208
 
-#define SCREEN_TOP_BOUND 8// assuming double line resolution
+#define SCREEN_TOP_BOUND 20// assuming double line resolution
 #define SCREEN_BOTTOM_BOUND 112
 
 /**
@@ -177,6 +177,7 @@ unsigned char get_player_horiz_position(unsigned char player) {
 void write_sprite(unsigned char player, unsigned char position) {
     // first, determine if the sprite would be rendered out of bounds
     // determine the center of the sprite, subtract by 4
+    // Also, this method was rewritten to use memset and memcpy with the help of Google Gemini
     unsigned char old_y = player_vert_positions[player];
 
     if (old_y > SCREEN_TOP_BOUND) {

@@ -61,15 +61,10 @@ void wait_vblank() {
     while(ANTIC.vcount);
 }
 
-
 bool check_if_any_collision(unsigned char player);
-
 void init_DLI();
 
-
-
-
-
+// variable declarations
 char DisplayList[] = {
     // 24 blank lines
     DL_BLK8,
@@ -117,20 +112,17 @@ int main() {
     ScreenMemory[39] = 1;
     ScreenMemory[519] = 1;
 
-    // for (i = 50; i < 59; i++) {
-    //     ScreenMemory[i] = 3;
-    // }
     
 
-    set_player_vert_position(0,0,true);
+    set_player_vert_position(0,SCREEN_TOP_BOUND,true);
     while (true) {
-        wait_vblank();
+        
+        // wait_vblank();
+        waitvsync();
         cur_horiz_position = player_horiz_positions[cur_player];
         cur_vert_position = player_vert_positions[cur_player];
         
         joystick_test();
-        
-       
         
         if (check_if_any_collision(cur_player)) {
             GTIA_WRITE.hitclr = 1;
@@ -210,7 +202,6 @@ void fix_displayList() {
     // inject screenmemory address into lms instruction
     DisplayList[4] = scr_addr & 0xFF;
     DisplayList[5] = (scr_addr >> 8) & 0xFF;
-
 
     // inject dlistAddr into the indices 28 and 29
     DisplayList[sizeof(DisplayList) - 2] = dl_addr & 0xFF;   // this injects the 8 most significant bits
@@ -327,6 +318,7 @@ void test_player1() {
 bool check_if_any_collision(unsigned char player) {
     unsigned char collision;
 
+    // read the correct collision register based on player number
     switch (player) {
         case 0:
             collision = GTIA_READ.p0pf;
@@ -352,13 +344,6 @@ bool check_if_any_collision(unsigned char player) {
 
 }
 
-// Init DLI
-// places valye 192 into 54286
-// what this should do is enable DLIs
-void init_DLI() {
 
-}
-
-// clear out offset number of bytes from start 
 // to compile with debug info
 // cl65 --debug-info -Wl --dbgfile,test.dbg -C atari_modifed.cfg -t atari -O -g -Ln game.lbl -o test.xex test.c
