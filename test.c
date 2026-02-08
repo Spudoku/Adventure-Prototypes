@@ -59,6 +59,8 @@ void test_player1();
 
 bool check_if_any_collision(unsigned char player);
 
+void init_DLI();
+
 
 
 
@@ -87,9 +89,15 @@ int i;
 int charStart = 480;
 
 int main() {
+
+    // variable declarations
     int frames = 0;
     int i = 0;
-    unsigned char collision;
+    unsigned int cur_player = 0;
+    unsigned int cur_horiz_position;
+    unsigned int cur_vert_position;
+    // end variable declarations
+
     fix_displayList();
     init_charset();
     edit_colors();
@@ -100,32 +108,29 @@ int main() {
     set_player_horiz_position(0,48,true);
 
 
-    ScreenMemory[0] = 3;
+    ScreenMemory[20] = 3;
     ScreenMemory[39] = 1;
     ScreenMemory[519] = 1;
 
-    for (i = 90; i < 99; i++) {
+    for (i = 50; i < 59; i++) {
         ScreenMemory[i] = 3;
     }
     
     set_player_vert_position(0,0,true);
     while (true) {
-        collision = GTIA_READ.p0pf;
+        waitvsync();
+        cur_horiz_position = player_horiz_positions[cur_player];
+        cur_vert_position = player_vert_positions[cur_player];
         
-        if (check_if_any_collision(0)) {
-            for (i = 120; i < 150; i++) {
-                ScreenMemory[i] = 3;
-            }
-            
-        } else {
-            for (i = 120; i < 150; i++) {
-                ScreenMemory[i] = 0;
-            }
-        }
-        GTIA_WRITE.hitclr = 1;
         joystick_test();
-        frame_delay();
         
+       
+        
+        if (check_if_any_collision(cur_player)) {
+            GTIA_WRITE.hitclr = 1;
+            set_player_horiz_position(cur_player,cur_horiz_position,true);
+            set_player_vert_position(cur_player,cur_vert_position,true);
+        }
         
     }
 }
@@ -135,6 +140,7 @@ void joystick_test() {
     unsigned int cur_player = 0;
     // move player 0 aroud
 
+    
     switch (joystick_input) {
         case JOYSTICK_MOVE_NOT: 
             
@@ -185,20 +191,8 @@ void joystick_test() {
             break;
     }
 
-    if (joystick_input == JOYSTICK_MOVE_NOT) {
-        
-    } else if (joystick_input == JOYSTICK_MOVE_DOWN) {
-        
-        move_player_vert_position(0,1,true);
-    } else if (joystick_input == JOYSTICK_MOVE_UP) {
-        
-        move_player_vert_position(0,-1,true);
-    }else if (joystick_input == JOYSTICK_MOVE_RIGHT) {
-        
-        move_player_horiz_position(0,1,true);
-    } else if (JOYSTICK_MOVE_LEFT) {
-        move_player_horiz_position(0,-1,true);
-    }
+    // if there's a collision, revert to previous position?
+    
 }
 
 // writes crucial bytes to the display list
@@ -352,6 +346,12 @@ bool check_if_any_collision(unsigned char player) {
 
 }
 
+// Init DLI
+// places valye 192 into 54286
+// what this should do is enable DLIs
+void init_DLI() {
+
+}
 
 // clear out offset number of bytes from start 
 // to compile with debug info

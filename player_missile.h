@@ -186,10 +186,7 @@ void write_sprite(unsigned char player, unsigned char position) {
     int i;
     int intendedPos;
 
-    // TODO: change the way that graphics are cleaned out
-    // for (i = 0; i < 128; i++) {
-    //     player_graphics[player][i] = 0;
-    // }
+    
     for (i = lowerBound; i < upperBound; i++) {
         player_graphics[player][i] = 0;
     }
@@ -198,6 +195,7 @@ void write_sprite(unsigned char player, unsigned char position) {
     lowerBound = max(0,(unsigned int)position - 8);
     upperBound = min(128,(unsigned int)position + 8);
 
+// TODO: try memcpy or memmove
     for (i = 0; i < 16; i++) {
         intendedPos = position - 8 + i;
         if (intendedPos < 0 || intendedPos > 128) {
