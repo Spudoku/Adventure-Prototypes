@@ -31,9 +31,13 @@ unsigned char player_graphics[4][128];
 
 #define SCREEN_LEFT_BOUND 48
 #define SCREEN_RIGHT_BOUND 208
+#define SCREEN_HORIZ_CENTER (SCREEN_RIGHT_BOUND + SCREEN_LEFT_BOUND) / 2
 
-#define SCREEN_TOP_BOUND 20// assuming double line resolution
+#define SCREEN_TOP_BOUND 16// assuming double line resolution
+
 #define SCREEN_BOTTOM_BOUND 112
+
+#define SCREEN_VERT_CENTER (SCREEN_BOTTOM_BOUND + SCREEN_TOP_BOUND) / 2
 
 /**
     FUNCTION DECLARATIONS

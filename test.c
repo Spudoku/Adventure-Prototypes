@@ -105,7 +105,6 @@ int main() {
     
     test_player1();
 
-    set_player_horiz_position(0,48,true);
 
 
     ScreenMemory[20] = 3;
@@ -114,15 +113,17 @@ int main() {
 
     
 
-    set_player_vert_position(0,SCREEN_TOP_BOUND,true);
+    set_player_horiz_position(0,SCREEN_HORIZ_CENTER,true);
+    set_player_vert_position(0,SCREEN_VERT_CENTER,true);
     while (true) {
-        
-        // wait_vblank();
-        waitvsync();
         cur_horiz_position = player_horiz_positions[cur_player];
         cur_vert_position = player_vert_positions[cur_player];
-        
+        // wait_vblank();
         joystick_test();
+        waitvsync();
+        
+        
+        
         
         if (check_if_any_collision(cur_player)) {
             GTIA_WRITE.hitclr = 1;
@@ -260,13 +261,13 @@ void init_charset() {
     character = 3;
     // solid box
     charset[character * 8 + 0] = 0b11111111;
-    charset[character * 8 + 1] = 0b11111111;
-    charset[character * 8 + 2] = 0b11111111;
-    charset[character * 8 + 3] = 0b11111111;
-    charset[character * 8 + 4] = 0b11111111;
-    charset[character * 8 + 5] = 0b11111111;
-    charset[character * 8 + 6] = 0b11111111;
-    charset[character * 8 + 7] = 0b11111111;
+    charset[character * 8 + 1] = 0b11000011;
+    charset[character * 8 + 2] = 0b11000011;
+    charset[character * 8 + 3] = 0b11000011;
+    charset[character * 8 + 4] = 0b11000011;
+    charset[character * 8 + 5] = 0b11000011;
+    charset[character * 8 + 6] = 0b11000011;
+    charset[character * 8 + 7] = 0b11000011;
     
 
     
