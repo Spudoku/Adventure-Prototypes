@@ -31,10 +31,7 @@
 
 
 
-#pragma bss-name (push, "SCREENAREA")
-unsigned char ScreenMemory[960];
 
-#pragma bss-name (pop)
 // Player-missile graphics starts at 0xD000
 
 
@@ -106,10 +103,12 @@ int main() {
     setup_pmg();
     
     test_player1();
+    fill_column(3,5);
+    fill_row(0,2);
+    fill_row(1,1);
 
-    ScreenMemory[20] = 4;
-    ScreenMemory[39] = 5;
-    ScreenMemory[519] = 5;
+    fill_row_section(2,20,27,3);
+    
 
     
 
