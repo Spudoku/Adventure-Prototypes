@@ -8,6 +8,7 @@
 #include <joystick.h>
 #include <unistd.h>
 #include <_gtia.h>
+// header files we defined
 #include "charmap.h"
 #include "color_pallete.h"
 #include "joystick_locations.h"
@@ -106,9 +107,9 @@ int main() {
     
     test_player1();
 
-    ScreenMemory[20] = 3;
-    ScreenMemory[39] = 1;
-    ScreenMemory[519] = 1;
+    ScreenMemory[20] = 4;
+    ScreenMemory[39] = 5;
+    ScreenMemory[519] = 5;
 
     
 

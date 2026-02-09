@@ -1,12 +1,12 @@
 Modules list:
 -------------
-test.c.43956.0.o:
+test.c.52312.0.o:
     CODE              Offs=000000  Size=000639  Align=00001  Fill=0000
     BSS               Offs=000000  Size=000002  Align=00001  Fill=0000
     DATA              Offs=000000  Size=000024  Align=00001  Fill=0000
     PMGAREA           Offs=000000  Size=0003F8  Align=00001  Fill=0000
     SCREENAREA        Offs=000000  Size=0003C0  Align=00001  Fill=0000
-charmap.c.43956.1.o:
+charmap.c.52312.1.o:
     CHARSET           Offs=000000  Size=000400  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(addeqsp.o):
     CODE              Offs=000639  Size=000011  Align=00001  Fill=0000
@@ -216,7 +216,7 @@ __STACKSIZE__ ([linker generated]):
 __STARTADDRESS__ ([linker generated]):
     system_check.o            atari/system_check.s:20
 __STARTUP__ (crt0.o):
-    test.c.43956.0.o          test.c.43956.0.s:38
+    test.c.52312.0.o          test.c.52312.0.s:38
 __SYSCHKHDR__ ([linker generated]):
     system_check.o            atari/system_check.s:28
 __SYSCHKTRL__ ([linker generated]):
@@ -225,38 +225,38 @@ __SYSTEM_CHECK__ (system_check.o):
     [linker generated]        atari_modifed.cfg:35
     [linker generated]        atari_modifed.cfg:7
 ___clocks_per_sec (clock.o):
-    test.c.43956.0.o          test.c.43956.0.s:63
-_charset (charmap.c.43956.1.o):
-    test.c.43956.0.o          test.c.43956.0.s:41
+    test.c.52312.0.o          test.c.52312.0.s:63
+_charset (charmap.c.52312.1.o):
+    test.c.52312.0.o          test.c.52312.0.s:41
 _clock (clock.o):
-    test.c.43956.0.o          test.c.43956.0.s:64
-_main (test.c.43956.0.o):
+    test.c.52312.0.o          test.c.52312.0.s:64
+_main (test.c.52312.0.o):
     callmain.o                runtime/callmain.s:11
 _memcpy (memcpy.o):
-    test.c.43956.0.o          test.c.43956.0.s:53
+    test.c.52312.0.o          test.c.52312.0.s:53
 _waitvsync (waitvsync.o):
-    test.c.43956.0.o          test.c.43956.0.s:40
+    test.c.52312.0.o          test.c.52312.0.s:40
 addeq0sp (addeqsp.o):
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
 addeqysp (addeqsp.o):
-    test.c.43956.0.o          test.c.43956.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
 addysp (addysp.o):
     incsp8.o                  runtime/incsp8.s:8
     incsp6.o                  runtime/incsp6.s:8
     incsp5.o                  runtime/incsp5.s:8
     incsp4.o                  runtime/incsp4.s:8
     incsp3.o                  runtime/incsp3.s:8
-    test.c.43956.0.o          test.c.43956.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
 addysp1 (addysp.o):
     ludiv.o                   runtime/ludiv.s:9
     lmul.o                    runtime/lmul.s:9
     ladd.o                    runtime/ladd.s:8
 aslax4 (aslax4.o):
-    test.c.43956.0.o          test.c.43956.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
 aslax7 (aslax7.o):
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
 boolult (makebool.o):
     lult.o                    runtime/lult.s:8
 c_sp (zeropage.o):
@@ -280,61 +280,61 @@ c_sp (zeropage.o):
     crt0.o                    /home/runner/work/cc65/cc65/asminc/zeropage.inc:11
     addysp.o                  runtime/addysp.s:8
     addeqsp.o                 runtime/addeqsp.s:8
-    test.c.43956.0.o          test.c.43956.0.s:10
+    test.c.52312.0.o          test.c.52312.0.s:10
 callmain (callmain.o):
     crt0.o                    atari/crt0.s:16
 decax8 (decax8.o):
-    test.c.43956.0.o          test.c.43956.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
 decsp1 (decsp1.o):
-    test.c.43956.0.o          test.c.43956.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
 decsp4 (decsp4.o):
     lpush.o                   runtime/lpush.s:12
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
 donelib (condes.o):
     crt0.o                    atari/crt0.s:15
 incsp1 (incsp1.o):
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
 incsp2 (incsp2.o):
     popptr1.o                 runtime/popptr1.s:8
-    test.c.43956.0.o          test.c.43956.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
 incsp3 (incsp3.o):
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
 incsp4 (incsp4.o):
     lcmp.o                    runtime/lcmp.s:9
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
 incsp5 (incsp5.o):
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
 incsp6 (incsp6.o):
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
 incsp8 (incsp8.o):
-    test.c.43956.0.o          test.c.43956.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
 initlib (condes.o):
     crt0.o                    atari/crt0.s:15
 ldax0sp (ldaxsp.o):
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
 ldaxysp (ldaxsp.o):
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
 ldeaxysp (ldeaxysp.o):
-    test.c.43956.0.o          test.c.43956.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
 ldptr1ysp (ldptr1sp.o):
-    test.c.43956.0.o          test.c.43956.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
 popax (incsp2.o):
     memcpy.o                  common/memcpy.s:14
 popptr1 (popptr1.o):
@@ -347,7 +347,7 @@ ptr1 (zeropage.o):
     ludiv.o                   runtime/ludiv.s:10
     lmul.o                    runtime/lmul.s:10
     ldptr1sp.o                runtime/ldptr1sp.s:8
-    test.c.43956.0.o          test.c.43956.0.s:11
+    test.c.52312.0.o          test.c.52312.0.s:11
 ptr2 (zeropage.o):
     memcpy.o                  common/memcpy.s:15
     ludiv.o                   runtime/ludiv.s:10
@@ -359,37 +359,37 @@ ptr4 (zeropage.o):
     ludiv.o                   runtime/ludiv.s:10
     lmul.o                    runtime/lmul.s:10
 push0 (pushax.o):
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
 push0ax (lpush.o):
-    test.c.43956.0.o          test.c.43956.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
 pusha (pusha.o):
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
 pusha0 (pushax.o):
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
 pushax (pushax.o):
     callmain.o                runtime/callmain.s:11
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
 pusheax (lpush.o):
-    test.c.43956.0.o          test.c.43956.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
 sreg (zeropage.o):
     lcmp.o                    runtime/lcmp.s:10
     ludiv.o                   runtime/ludiv.s:10
@@ -401,16 +401,16 @@ sreg (zeropage.o):
 start (crt0.o):
     [linker generated]        atari_modifed.cfg:34
 stax0sp (staxsp.o):
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
 staxysp (staxsp.o):
-    test.c.43956.0.o          test.c.43956.0.s:1455
-    test.c.43956.0.o          test.c.43956.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
 tmp1 (zeropage.o):
     ladd.o                    runtime/ladd.s:9
     aslax4.o                  runtime/aslax4.s:8
-    test.c.43956.0.o          test.c.43956.0.s:11
+    test.c.52312.0.o          test.c.52312.0.s:11
 tmp2 (zeropage.o):
     lmul.o                    runtime/lmul.s:10
 tmp3 (zeropage.o):
@@ -420,15 +420,15 @@ tmp4 (zeropage.o):
     ludiv.o                   runtime/ludiv.s:10
     lmul.o                    runtime/lmul.s:10
 tosaddeax (ladd.o):
-    test.c.43956.0.o          test.c.43956.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
 toslcmp (lcmp.o):
     lult.o                    runtime/lult.s:8
 tosudiv0ax (ludiv.o):
-    test.c.43956.0.o          test.c.43956.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
 tosulteax (lult.o):
-    test.c.43956.0.o          test.c.43956.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
 tosumuleax (lmul.o):
-    test.c.43956.0.o          test.c.43956.0.s:1455
+    test.c.52312.0.o          test.c.52312.0.s:1455
 zerobss (zerobss.o):
     crt0.o                    atari/crt0.s:16
 

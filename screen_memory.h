@@ -11,7 +11,7 @@ void fill_row(unsigned int index, unsigned char character);
 void fill_column(unsigned int index, unsigned char character);
 
 // these ones put the "fun" in "function"
-void fill_rect(unsigned int vert_pos,unsigned int horiz_pos,unsigned int l, unsigned int w,bool hollow);
+void fill_rect(unsigned int vert_pos,unsigned int horiz_pos,unsigned int l, unsigned int w, bool hollow);
 void fill_circle(unsigned int vert_center,unsigned int horiz_center, unsigned int radius, bool hollow);
 
 
