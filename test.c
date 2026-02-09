@@ -26,7 +26,7 @@
 #define CHARSET_PTR 0x2F4     // character base
 
 
-// memory allocations
+
 
 
 #pragma bss-name (push, "SCREENAREA")
@@ -105,8 +105,6 @@ int main() {
     
     test_player1();
 
-
-
     ScreenMemory[20] = 3;
     ScreenMemory[39] = 1;
     ScreenMemory[519] = 1;
@@ -121,9 +119,6 @@ int main() {
         // wait_vblank();
         joystick_test();
         waitvsync();
-        
-        
-        
         
         if (check_if_any_collision(cur_player)) {
             GTIA_WRITE.hitclr = 1;
@@ -220,54 +215,52 @@ void init_charset() {
     //   unsigned int charmap_addr = (unsigned int )CHARSET_ADDR;  // this value specifies with page the address is located. multiply by 256 to locate actual characters.
     
     //   test = charmap_addr * 0x100; // page number * page size
-    unsigned char* charset_ptr = charset;
-    unsigned int charset_page_num = (unsigned int)charset_ptr;
 
-    POKE(CHARSET_PTR,(charset_page_num >> 8));   // poke high byte to CHBASE register
+    POKE(756,((unsigned int)charset) >> 8);   // poke high byte to CHBASE register
 
     // set page number in CHARSET_PTR
-    character = 0;
-    charset[character * 8 + 0] = 0b00000000;
-    charset[character * 8 + 1] = 0b00000000;
-    charset[character * 8 + 2] = 0b00000000;
-    charset[character * 8 + 3] = 0b00000000;
-    charset[character * 8 + 4] = 0b00000000;
-    charset[character * 8 + 5] = 0b00000000;
-    charset[character * 8 + 6] = 0b00000000;
-    charset[character * 8 + 7] = 0b00000000;
+    // character = 0;
+    // charset[character * 8 + 0] = 0b00000000;
+    // charset[character * 8 + 1] = 0b00000000;
+    // charset[character * 8 + 2] = 0b00000000;
+    // charset[character * 8 + 3] = 0b00000000;
+    // charset[character * 8 + 4] = 0b00000000;
+    // charset[character * 8 + 5] = 0b00000000;
+    // charset[character * 8 + 6] = 0b00000000;
+    // charset[character * 8 + 7] = 0b00000000;
 
-    character = 1;
-    // solid box
-    charset[character * 8 + 0] = 0b01010101;
-    charset[character * 8 + 1] = 0b01010101;
-    charset[character * 8 + 2] = 0b01010101;
-    charset[character * 8 + 3] = 0b01010101;
-    charset[character * 8 + 4] = 0b01010101;
-    charset[character * 8 + 5] = 0b01010101;
-    charset[character * 8 + 6] = 0b01010101;
-    charset[character * 8 + 7] = 0b01010101;
+    // character = 1;
+    // // solid box
+    // charset[character * 8 + 0] = 0b01010101;
+    // charset[character * 8 + 1] = 0b01010101;
+    // charset[character * 8 + 2] = 0b01010101;
+    // charset[character * 8 + 3] = 0b01010101;
+    // charset[character * 8 + 4] = 0b01010101;
+    // charset[character * 8 + 5] = 0b01010101;
+    // charset[character * 8 + 6] = 0b01010101;
+    // charset[character * 8 + 7] = 0b01010101;
 
-    character = 2;
-    // solid box
-    charset[character * 8 + 0] = 0b10101010;
-    charset[character * 8 + 1] = 0b10101010;
-    charset[character * 8 + 2] = 0b10101010;
-    charset[character * 8 + 3] = 0b10101010;
-    charset[character * 8 + 4] = 0b10101010;
-    charset[character * 8 + 5] = 0b10101010;
-    charset[character * 8 + 6] = 0b10101010;
-    charset[character * 8 + 7] = 0b10101010;
+    // character = 2;
+    // // solid box
+    // charset[character * 8 + 0] = 0b10101010;
+    // charset[character * 8 + 1] = 0b10101010;
+    // charset[character * 8 + 2] = 0b10101010;
+    // charset[character * 8 + 3] = 0b10101010;
+    // charset[character * 8 + 4] = 0b10101010;
+    // charset[character * 8 + 5] = 0b10101010;
+    // charset[character * 8 + 6] = 0b10101010;
+    // charset[character * 8 + 7] = 0b10101010;
 
-    character = 3;
-    // solid box
-    charset[character * 8 + 0] = 0b11111111;
-    charset[character * 8 + 1] = 0b11000011;
-    charset[character * 8 + 2] = 0b11000011;
-    charset[character * 8 + 3] = 0b11000011;
-    charset[character * 8 + 4] = 0b11000011;
-    charset[character * 8 + 5] = 0b11000011;
-    charset[character * 8 + 6] = 0b11000011;
-    charset[character * 8 + 7] = 0b11000011;
+    // character = 3;
+    // // solid box
+    // charset[character * 8 + 0] = 0b11111111;
+    // charset[character * 8 + 1] = 0b11000011;
+    // charset[character * 8 + 2] = 0b11000011;
+    // charset[character * 8 + 3] = 0b11000011;
+    // charset[character * 8 + 4] = 0b11000011;
+    // charset[character * 8 + 5] = 0b11000011;
+    // charset[character * 8 + 6] = 0b11000011;
+    // charset[character * 8 + 7] = 0b11000011;
     
 
     
@@ -347,4 +340,4 @@ bool check_if_any_collision(unsigned char player) {
 
 
 // to compile with debug info
-// cl65 --debug-info -Wl --dbgfile,test.dbg -C atari_modifed.cfg -t atari -O -g -Ln game.lbl -o test.xex test.c
+// cl65 --debug-info -Wl --dbgfile,test.dbg -C atari_modifed.cfg -t atari -O -g -Ln game.lbl -m mapfile.txt -o test.xex test.c charmap.c
