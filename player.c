@@ -4,6 +4,7 @@
 #include "player.h"
 #include "util_input.h"
 #include <joystick.h>
+#include "items.h"
 
 
 //per frame behavior
@@ -67,6 +68,8 @@ STATUS playerInputProcess(){
     //will currently break if player has no child
     player.playerEntity.childEntity->frameTask(player.playerEntity.childEntity);
   }
+
+  return PASS;
 }
 
 //init the player specific vars
@@ -77,6 +80,12 @@ STATUS playerConstructor(){
 
   //call the "base" constructor
   entityConstructor(&(player.playerEntity), playerRoutine, playerRenderer);
-
   //assign to the player entity it's dummy obj item
+
+  player.playerEntity.childEntity = &nullItem;
+  //in the future, the constructor will be not ran right here, probably during
+  //boot sequence
+  nullItem_constructor(&nullItem);  
+
+  return PASS;
 }

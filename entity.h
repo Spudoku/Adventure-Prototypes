@@ -38,6 +38,7 @@ STATUS entityConstructor(Entity* thisEntity,
   thisEntity->childEntity = NULL;
   thisEntity->frameTask = frameTask;
   thisEntity->renderer = renderer;
+  return PASS;
 };
 
 
