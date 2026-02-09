@@ -12,6 +12,7 @@
 #include "color_pallete.h"
 #include "joystick_locations.h"
 #include "player_missile.h"
+#include "player.h"
 
 
 
@@ -94,16 +95,11 @@ int main() {
     int frames = 0;
     int i = 0;
     unsigned int cur_player = 0;
-    unsigned int cur_horiz_position;
-    unsigned int cur_vert_position;
+    // unsigned int cur_horiz_position;
+    // unsigned int cur_vert_position;
     // end variable declarations
 
-    fix_displayList();
-    init_charset();
-    edit_colors();
-    setup_pmg();
-    
-    test_player1();
+    initializeEngine();
 
 
 
@@ -116,83 +112,118 @@ int main() {
     set_player_horiz_position(0,SCREEN_HORIZ_CENTER,true);
     set_player_vert_position(0,SCREEN_VERT_CENTER,true);
     while (true) {
-        cur_horiz_position = player_horiz_positions[cur_player];
-        cur_vert_position = player_vert_positions[cur_player];
-        // wait_vblank();
-        joystick_test();
+
+        //process gamestate
+        // cur_horiz_position = player_horiz_positions[cur_player];
+        // cur_vert_position = player_vert_positions[cur_player];
+
+
+        
+        processFrameTasks();
+
         waitvsync();
         
         
         
-        
+        //process graphics
         if (check_if_any_collision(cur_player)) {
             GTIA_WRITE.hitclr = 1;
-            set_player_horiz_position(cur_player,cur_horiz_position,true);
-            set_player_vert_position(cur_player,cur_vert_position,true);
+            set_player_horiz_position(cur_player,player.playerEntity.eyeCoords.x,true);
+            set_player_vert_position(cur_player,player.playerEntity.eyeCoords.y,true);
         }
         
     }
 }
 
-void joystick_test() {
-    unsigned int joystick_input = (unsigned int)PEEK(JOYSTICK_REG_INPUT_0);
-    unsigned int cur_player = 0;
-    // move player 0 aroud
+//todo: return and process STATUS?
 
+void initializeEngine(){
+    fix_displayList();
+    init_charset();
+    edit_colors();
+    setup_pmg();
+
+    initializeStaticEntities(); //temp function
     
-    switch (joystick_input) {
-        case JOYSTICK_MOVE_NOT: 
-            
-            break;
-        
-        case JOYSTICK_MOVE_DOWN:
-            move_player_vert_position(cur_player,1,true);
-            break;
-        
-        case JOYSTICK_MOVE_DOWN_LEFT:
-            move_player_vert_position(cur_player,1,true);
-            move_player_horiz_position(cur_player,-1,true);
-            break;
-        
-        case JOYSTICK_MOVE_LEFT:
-
-            move_player_horiz_position(cur_player,-1,true);
-            break;
-
-        case JOYSTICK_MOVE_UP_LEFT:
-            move_player_vert_position(cur_player,-1,true);
-            move_player_horiz_position(cur_player,-1,true);
-            break;
-
-        case JOYSTICK_MOVE_UP:
-            move_player_vert_position(cur_player,-1,true);
-            
-            break;
-        
-        case JOYSTICK_MOVE_UP_RIGHT:
-            move_player_vert_position(cur_player,-1,true);
-            move_player_horiz_position(cur_player,1,true);
-            
-            
-            break;
-        
-        case JOYSTICK_MOVE_RIGHT:
-            
-            move_player_horiz_position(cur_player,1,true);
-            break;
-
-        case JOYSTICK_MOVE_DOWN_RIGHT:
-            move_player_vert_position(cur_player,1,true);
-            move_player_horiz_position(cur_player,1,true);
-            break;
-
-        default:
-            break;
-    }
-
-    // if there's a collision, revert to previous position?
     
 }
+
+//initalizes just the player for now
+void initializeStaticEntities(){
+    test_player1();
+    playerConstructor();
+
+    //temp init assign
+    player.playerEntity.eyeCoords.x = SCREEN_HORIZ_CENTER;
+    player.playerEntity.eyeCoords.y = SCREEN_VERT_CENTER;
+}
+
+//stub for now, this will be designed later
+//should produce a final gamestate...
+//the idea is to have an array of frametask ptrs to run in order
+void processFrameTasks(){
+    player.playerEntity.frameTask(&(player.playerEntity));
+}
+
+// void joystick_test() {
+//     unsigned int joystick_input = (unsigned int)PEEK(JOYSTICK_REG_INPUT_0);
+//     unsigned int cur_player = 0;
+//     // move player 0 aroud
+
+    
+//     switch (joystick_input) {
+//         case JOYSTICK_MOVE_NOT: 
+            
+//             break;
+        
+//         case JOYSTICK_MOVE_DOWN:
+//             move_player_vert_position(cur_player,1,true);
+//             break;
+        
+//         case JOYSTICK_MOVE_DOWN_LEFT:
+//             move_player_vert_position(cur_player,1,true);
+//             move_player_horiz_position(cur_player,-1,true);
+//             break;
+        
+//         case JOYSTICK_MOVE_LEFT:
+
+//             move_player_horiz_position(cur_player,-1,true);
+//             break;
+
+//         case JOYSTICK_MOVE_UP_LEFT:
+//             move_player_vert_position(cur_player,-1,true);
+//             move_player_horiz_position(cur_player,-1,true);
+//             break;
+
+//         case JOYSTICK_MOVE_UP:
+//             move_player_vert_position(cur_player,-1,true);
+            
+//             break;
+        
+//         case JOYSTICK_MOVE_UP_RIGHT:
+//             move_player_vert_position(cur_player,-1,true);
+//             move_player_horiz_position(cur_player,1,true);
+            
+            
+//             break;
+        
+//         case JOYSTICK_MOVE_RIGHT:
+            
+//             move_player_horiz_position(cur_player,1,true);
+//             break;
+
+//         case JOYSTICK_MOVE_DOWN_RIGHT:
+//             move_player_vert_position(cur_player,1,true);
+//             move_player_horiz_position(cur_player,1,true);
+//             break;
+
+//         default:
+//             break;
+//     }
+
+//     // if there's a collision, revert to previous position?
+    
+// }
 
 // writes crucial bytes to the display list
 void fix_displayList() {    

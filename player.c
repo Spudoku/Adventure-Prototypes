@@ -69,6 +69,11 @@ STATUS playerInputProcess(){
     player.playerEntity.childEntity->frameTask(player.playerEntity.childEntity);
   }
 
+  //TODO: interrupt the task or make a "lateupdate" to wait for gamestate
+  // to process
+  //TODO: clamping
+  player.playerEntity.eyeCoords.x += player.playerVelocity.x;
+  player.playerEntity.eyeCoords.y += player.playerVelocity.y;
   return PASS;
 }
 
