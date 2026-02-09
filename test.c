@@ -12,6 +12,7 @@
 #include "color_pallete.h"
 #include "joystick_locations.h"
 #include "player_missile.h"
+#include "screen_memory.h"
 
 
 
@@ -219,48 +220,7 @@ void init_charset() {
     POKE(756,((unsigned int)charset) >> 8);   // poke high byte to CHBASE register
 
     // set page number in CHARSET_PTR
-    // character = 0;
-    // charset[character * 8 + 0] = 0b00000000;
-    // charset[character * 8 + 1] = 0b00000000;
-    // charset[character * 8 + 2] = 0b00000000;
-    // charset[character * 8 + 3] = 0b00000000;
-    // charset[character * 8 + 4] = 0b00000000;
-    // charset[character * 8 + 5] = 0b00000000;
-    // charset[character * 8 + 6] = 0b00000000;
-    // charset[character * 8 + 7] = 0b00000000;
-
-    // character = 1;
-    // // solid box
-    // charset[character * 8 + 0] = 0b01010101;
-    // charset[character * 8 + 1] = 0b01010101;
-    // charset[character * 8 + 2] = 0b01010101;
-    // charset[character * 8 + 3] = 0b01010101;
-    // charset[character * 8 + 4] = 0b01010101;
-    // charset[character * 8 + 5] = 0b01010101;
-    // charset[character * 8 + 6] = 0b01010101;
-    // charset[character * 8 + 7] = 0b01010101;
-
-    // character = 2;
-    // // solid box
-    // charset[character * 8 + 0] = 0b10101010;
-    // charset[character * 8 + 1] = 0b10101010;
-    // charset[character * 8 + 2] = 0b10101010;
-    // charset[character * 8 + 3] = 0b10101010;
-    // charset[character * 8 + 4] = 0b10101010;
-    // charset[character * 8 + 5] = 0b10101010;
-    // charset[character * 8 + 6] = 0b10101010;
-    // charset[character * 8 + 7] = 0b10101010;
-
-    // character = 3;
-    // // solid box
-    // charset[character * 8 + 0] = 0b11111111;
-    // charset[character * 8 + 1] = 0b11000011;
-    // charset[character * 8 + 2] = 0b11000011;
-    // charset[character * 8 + 3] = 0b11000011;
-    // charset[character * 8 + 4] = 0b11000011;
-    // charset[character * 8 + 5] = 0b11000011;
-    // charset[character * 8 + 6] = 0b11000011;
-    // charset[character * 8 + 7] = 0b11000011;
+   
     
 
     
@@ -279,22 +239,22 @@ void frame_delay() {
 
 void test_player1() {
     // I will write a helper function in player_missile.h
-    player_sprites[0][0] = 0x81;
-    player_sprites[0][1] = 0x81;
-    player_sprites[0][2] = 0x81;
-    player_sprites[0][3] = 0xFF;
-    player_sprites[0][4] = 0xFF;
-    player_sprites[0][5] = 0xFF;
-    player_sprites[0][6] = 0xFF;
-    player_sprites[0][7] = 0xA1;
-    player_sprites[0][8] = 0xFF;
-    player_sprites[0][9] = 0xFF;
-    player_sprites[0][10] = 0xFF;
-    player_sprites[0][11] = 0xFF;
-    player_sprites[0][12] = 0xFF;
-    player_sprites[0][13] = 0xFF;
-    player_sprites[0][14] = 0xFF;
-    player_sprites[0][15] = 0xFF;
+    player_sprites[0][0] =  0b00000000;
+    player_sprites[0][1] =  0b00000000;
+    player_sprites[0][2] =  0b00000000;
+    player_sprites[0][3] =  0b00000000;
+    player_sprites[0][4] =  0b00111100;
+    player_sprites[0][5] =  0b01111110;
+    player_sprites[0][6] =  0b11111111;
+    player_sprites[0][7] =  0b11111111;
+    player_sprites[0][8] =  0b11111111;
+    player_sprites[0][9] =  0b11111111;
+    player_sprites[0][10] = 0b01111110;
+    player_sprites[0][11] = 0b00111100;
+    player_sprites[0][12] = 0b00000000;
+    player_sprites[0][13] = 0b00000000;
+    player_sprites[0][14] = 0b00000000;
+    player_sprites[0][15] = 0b00000000;
   
     // set_player_vert_position(0,64,true);
 
