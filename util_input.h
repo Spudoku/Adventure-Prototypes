@@ -21,4 +21,4 @@ unsigned char InitializeJoystick() {
 
 
 
-#endif //UTIL_INPUT_H_
+#endif

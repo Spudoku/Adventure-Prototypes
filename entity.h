@@ -30,6 +30,9 @@ typedef struct Entity {
 //constructs an entity that is allocated either automatically or by malloc
 //TODO: deconstructor?
 //WARNING: YOU WANT TO ASSIGN FUNCS HERE NULL OR VALID. good luck
+
+
+
 STATUS entityConstructor(Entity* thisEntity, 
                       STATUS (*frameTask)(Entity* thisEntity), 
                       STATUS (*renderer)(Entity* thisEntity))
@@ -44,7 +47,7 @@ STATUS entityConstructor(Entity* thisEntity,
 
 
 
-#endif //ENTITY_H
+#endif
 
 
 

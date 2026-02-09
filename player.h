@@ -21,13 +21,13 @@
 
 
 
-typedef struct Player {
+typedef struct PlayerEntity {
   Vector2 playerVelocity;
   int playerSpeed;  //may consider making this an unsigned char
   Entity playerEntity;
-} Player;
+} PlayerEntity;
 
-Player player;
+static PlayerEntity playerEnt;
 
 
 // Vector2 playerVelocity;
@@ -44,4 +44,4 @@ STATUS playerInputProcess();
 STATUS playerConstructor();
 
 
-#endif //PLAYER_H
+#endif 

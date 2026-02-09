@@ -58,12 +58,15 @@ void joystick_test();
 
 void test_player1();
 
+extern void waitvsync(void);
+extern PlayerEntity playerEnt;
+
 // wait until VCOUNT == 0
 void wait_vblank() {
     while(ANTIC.vcount);
 }
 
-bool check_if_any_collision(unsigned char player);
+bool check_if_any_collision(unsigned char playerID);
 void init_DLI();
 void initializeEngine();
 void initializeStaticEntities();
@@ -131,8 +134,8 @@ int main() {
         //process graphics
         if (check_if_any_collision(cur_player)) {
             GTIA_WRITE.hitclr = 1;
-            set_player_horiz_position(cur_player,player.playerEntity.eyeCoords.x,true);
-            set_player_vert_position(cur_player,player.playerEntity.eyeCoords.y,true);
+            set_player_horiz_position(cur_player,playerEnt.playerEntity.eyeCoords.x,true);
+            set_player_vert_position(cur_player,playerEnt.playerEntity.eyeCoords.y,true);
         }
         
     }
@@ -157,15 +160,15 @@ void initializeStaticEntities(){
     playerConstructor();
 
     //temp init assign
-    player.playerEntity.eyeCoords.x = SCREEN_HORIZ_CENTER;
-    player.playerEntity.eyeCoords.y = SCREEN_VERT_CENTER;
+    playerEnt.playerEntity.eyeCoords.x = SCREEN_HORIZ_CENTER;
+    playerEnt.playerEntity.eyeCoords.y = SCREEN_VERT_CENTER;
 }
 
 //stub for now, this will be designed later
 //should produce a final gamestate...
 //the idea is to have an array of frametask ptrs to run in order
 void processFrameTasks(){
-    player.playerEntity.frameTask(&(player.playerEntity));
+    playerEnt.playerEntity.frameTask(&(playerEnt.playerEntity));
 }
 
 // void joystick_test() {
@@ -350,11 +353,11 @@ void test_player1() {
 }
 
 // checks if a player collides with any bit other than 0 in playfield
-bool check_if_any_collision(unsigned char player) {
+bool check_if_any_collision(unsigned char playerID) {
     unsigned char collision;
 
     // read the correct collision register based on player number
-    switch (player) {
+    switch (playerID) {
         case 0:
             collision = GTIA_READ.p0pf;
             break;

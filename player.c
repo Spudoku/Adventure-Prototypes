@@ -51,43 +51,43 @@ STATUS playerInputProcess(){
   //todo: speed may need to be normalized for diagonal
   //this is if statements to allow this fuckery (cant do it in a switch?)
   if(JOY_RIGHT(joystickState)){
-    player.playerVelocity.x = player.playerSpeed;
+    playerEnt.playerVelocity.x = playerEnt.playerSpeed;
   } else {
-    player.playerVelocity.x = -player.playerSpeed * JOY_LEFT(joystickState);
+    playerEnt.playerVelocity.x = -playerEnt.playerSpeed * JOY_LEFT(joystickState);
   }
 
   if(JOY_UP(joystickState)){
-    player.playerVelocity.y = player.playerSpeed;
+    playerEnt.playerVelocity.y = playerEnt.playerSpeed;
   } else {
-    player.playerVelocity.y = -player.playerSpeed * JOY_DOWN(joystickState);
+    playerEnt.playerVelocity.y = -playerEnt.playerSpeed * JOY_DOWN(joystickState);
   }
 
 
   //makes this lock out when held
   if(JOY_FIRE(joystickState) && !JOY_FIRE(lastFrameState)){
     //will currently break if player has no child
-    player.playerEntity.childEntity->frameTask(player.playerEntity.childEntity);
+    playerEnt.playerEntity.childEntity->frameTask(playerEnt.playerEntity.childEntity);
   }
 
   //TODO: interrupt the task or make a "lateupdate" to wait for gamestate
   // to process
   //TODO: clamping
-  player.playerEntity.eyeCoords.x += player.playerVelocity.x;
-  player.playerEntity.eyeCoords.y += player.playerVelocity.y;
+  playerEnt.playerEntity.eyeCoords.x += playerEnt.playerVelocity.x;
+  playerEnt.playerEntity.eyeCoords.y += playerEnt.playerVelocity.y;
   return PASS;
 }
 
 //init the player specific vars
 STATUS playerConstructor(){
-  player.playerSpeed = 1;
-  player.playerVelocity.x = 0;
-  player.playerVelocity.y = 0;
+  playerEnt.playerSpeed = 1;
+  playerEnt.playerVelocity.x = 0;
+  playerEnt.playerVelocity.y = 0;
 
   //call the "base" constructor
-  entityConstructor(&(player.playerEntity), playerRoutine, playerRenderer);
+  entityConstructor(&(playerEnt.playerEntity), playerRoutine, playerRenderer);
   //assign to the player entity it's dummy obj item
 
-  player.playerEntity.childEntity = &nullItem;
+  playerEnt.playerEntity.childEntity = &nullItem;
   //in the future, the constructor will be not ran right here, probably during
   //boot sequence
   nullItem_constructor(&nullItem);  

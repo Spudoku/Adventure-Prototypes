@@ -3,6 +3,7 @@
 
 #include <stddef.h>
 #include <atari.h>
+#include <peekpoke.h>
 
 /**
     UTILITY FUNCTIONS 

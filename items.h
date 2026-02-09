@@ -24,4 +24,4 @@ STATUS nullItem_constructor(Entity* thisEntity) {
 };
 
 
-#endif //ITEMS_H_
+#endif 
