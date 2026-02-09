@@ -2,6 +2,7 @@
 #define UTIL_H
 
 #include <stddef.h>
+#include <atari.h>
 
 /**
     UTILITY FUNCTIONS 

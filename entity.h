@@ -19,9 +19,9 @@
 
 //entity base
 typedef struct Entity {
-  STATUS (*frameTask)(Entity* thisEntity);
-  STATUS (*renderer)(Entity* thisEntity);
-  Entity* childEntity;
+  STATUS (*frameTask)(struct Entity* thisEntity);
+  STATUS (*renderer)(struct Entity* thisEntity);
+  struct Entity* childEntity;
   Vector2 eyeCoords;
 } Entity;
 

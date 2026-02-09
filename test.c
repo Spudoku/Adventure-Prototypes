@@ -1,4 +1,4 @@
-#include <atari.h>
+
 #include <_atarios.h>
 #include <peekpoke.h>
 #include <conio.h>
@@ -13,6 +13,7 @@
 #include "joystick_locations.h"
 #include "player_missile.h"
 #include "player.h"
+#include <atari.h>
 
 
 
@@ -64,7 +65,9 @@ void wait_vblank() {
 
 bool check_if_any_collision(unsigned char player);
 void init_DLI();
-
+void initializeEngine();
+void initializeStaticEntities();
+void processFrameTasks();
 // variable declarations
 char DisplayList[] = {
     // 24 blank lines
