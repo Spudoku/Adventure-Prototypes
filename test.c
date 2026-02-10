@@ -1,5 +1,6 @@
 
 #include <atari.h>
+#include <6502.h>
 #include <conio.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -11,6 +12,7 @@
 #include "joystick_locations.h"
 #include "player_missile.h"
 #include "player.h"
+#include "util.h"
 
 
 
@@ -56,8 +58,8 @@ void joystick_test();
 
 void test_player1();
 
-void waitvsync(void);
-extern PlayerEntity playerEnt;
+//void waitvsync(void);
+//extern PlayerEntity playerEnt;
 
 // wait until VCOUNT == 0
 void wait_vblank() {

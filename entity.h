@@ -2,8 +2,8 @@
 //  Entity
 ////
 
-#ifndef ENTITY_H
-#define ENTITY_H
+#ifndef ENTITY_H_
+#define ENTITY_H_ 
 
 
 //keep in mind, these may require NULL checks
@@ -37,14 +37,7 @@ typedef struct Entity {
 
 STATUS entityConstructor(Entity* thisEntity, 
                       STATUS (*frameTask)(Entity* thisEntity), 
-                      STATUS (*renderer)(Entity* thisEntity))
-{
-  //*(thisEntity)->childEntity = NULL;
-  thisEntity->childEntity = NULL;
-  thisEntity->frameTask = frameTask;
-  thisEntity->renderer = renderer;
-  return PASS;
-};
+                      STATUS (*renderer)(Entity* thisEntity));
 
 
 

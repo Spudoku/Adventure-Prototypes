@@ -1,5 +1,5 @@
-#ifndef PLAYER_H
-#define PLAYER_H
+#ifndef PLAYER_H_
+#define PLAYER_H_
 
 #include "util.h"
 #include "util_structs.h"
@@ -29,9 +29,9 @@ typedef struct PlayerEntity {
 
 static PlayerEntity playerEnt;
 
-extern STATUS entityConstructor(Entity* thisEntity, 
-                      STATUS (*frameTask)(Entity* thisEntity), 
-                      STATUS (*renderer)(Entity* thisEntity));
+// extern STATUS entityConstructor(Entity* thisEntity, 
+//                       STATUS (*frameTask)(Entity* thisEntity), 
+//                       STATUS (*renderer)(Entity* thisEntity));
 
 // Vector2 playerVelocity;
 // int playerSpeed;  //may consider making this an unsigned char
