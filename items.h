@@ -1,7 +1,6 @@
 #ifndef ITEMS_H_
 #define ITEMS_H_
 
-#include "util_structs.h"
 #include "entity.h"
 #include <stddef.h>
 
@@ -9,6 +8,9 @@
 //items are entities designed to be held by another entity to do some action
 //to keep things concise, the declarations for all items will be here, but the
 //defintion will be in their respective [obj].c file
+
+
+
 
 //null item funcs
 Entity nullItem;

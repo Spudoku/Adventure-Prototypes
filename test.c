@@ -1,19 +1,17 @@
 
-#include <_atarios.h>
-#include <peekpoke.h>
+#include <atari.h>
 #include <conio.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <joystick.h>
 #include <unistd.h>
-#include <_gtia.h>
 #include "charmap.h"
 #include "color_pallete.h"
 #include "joystick_locations.h"
 #include "player_missile.h"
 #include "player.h"
-#include <atari.h>
+
 
 
 
@@ -58,7 +56,7 @@ void joystick_test();
 
 void test_player1();
 
-extern void waitvsync(void);
+void waitvsync(void);
 extern PlayerEntity playerEnt;
 
 // wait until VCOUNT == 0

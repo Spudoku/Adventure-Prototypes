@@ -29,6 +29,9 @@ typedef struct PlayerEntity {
 
 static PlayerEntity playerEnt;
 
+extern STATUS entityConstructor(Entity* thisEntity, 
+                      STATUS (*frameTask)(Entity* thisEntity), 
+                      STATUS (*renderer)(Entity* thisEntity));
 
 // Vector2 playerVelocity;
 // int playerSpeed;  //may consider making this an unsigned char
