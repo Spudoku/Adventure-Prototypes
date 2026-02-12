@@ -71,14 +71,12 @@ char DisplayList[] = {
     DL_BLK8,
     DL_BLK8,
     // TODO: tell ANTIC to load Graphics 2 at Screen Address, total 24 times
-    DL_LMS(DL_GRAPHICS12),
-    // was DL_GRAPHICS12, now DL_GRAPHICS0
+    DL_LMS(DL_GRAPHICS2),
+    // was DL_GRAPHICS2, now DL_GRAPHICS0
     // these 2 bytes will store the location of the screen memory
     0x00,0x00,
-    DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,
-    DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,
-    DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,
-    DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,
+    DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,
+    DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,
     DL_JVB,
     // These two bytes store the location of the dispalyList itself
     0x00,0x00
@@ -105,11 +103,11 @@ int main() {
     setup_pmg();
     
     test_player1();
-    fill_column(3,5);
-    fill_row(0,2);
-    fill_row(1,1);
+    // fill_column(3,5);
+    // fill_row(0,2);
+    // fill_row(1,1);
 
-    fill_row_section(2,20,27,3);
+    // fill_row_section(2,20,27,3);
     
 
     manual_load(&gameMap[0][0]);

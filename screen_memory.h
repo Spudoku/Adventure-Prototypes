@@ -5,9 +5,9 @@
 #include <string.h>
 
 // Currently, using ANTIC mode 4
-#define SCREEN_MEM_SIZE 960         // total number of bytes in screen memory
-#define SCREEN_ROW_SIZE 40         // number of rows
-#define SCREEN_COLUMN_SIZE 24      // number of columns
+#define SCREEN_MEM_SIZE 240         // total number of bytes in screen memory
+#define SCREEN_ROW_SIZE 20         // number of rows
+#define SCREEN_COLUMN_SIZE 12      // number of columns
 #define BUFFER_SIZE 128              // size of buffer array         
 
 #pragma bss-name (push, "SCREENAREA")
