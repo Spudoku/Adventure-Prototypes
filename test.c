@@ -113,7 +113,7 @@ int main() {
     manual_load(&gameMap[0][0]);
 
     set_player_horiz_position(0,SCREEN_HORIZ_CENTER,true);
-    set_player_vert_position(0,SCREEN_VERT_CENTER,true);
+    set_player_vert_position(0,SCREEN_VERT_CENTER - 8,true);
     while (true) {
         cur_horiz_position = player_horiz_positions[cur_player];
         cur_vert_position = player_vert_positions[cur_player];
