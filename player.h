@@ -27,7 +27,6 @@ typedef struct PlayerEntity {
   Entity playerEntity;
 } PlayerEntity;
 
-static PlayerEntity playerEnt;
 
 // extern STATUS entityConstructor(Entity* thisEntity, 
 //                       STATUS (*frameTask)(Entity* thisEntity), 

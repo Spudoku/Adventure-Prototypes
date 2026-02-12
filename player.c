@@ -6,6 +6,7 @@
 #include <joystick.h>
 #include "items.h"
 
+extern PlayerEntity playerEnt;
 
 //per frame behavior
 STATUS playerRoutine(Entity* thisEntity) {
@@ -52,8 +53,12 @@ STATUS playerInputProcess(){
   //this is if statements to allow this fuckery (cant do it in a switch?)
   if(JOY_RIGHT(joystickState)){
     playerEnt.playerVelocity.x = playerEnt.playerSpeed;
+    playerEnt.playerEntity.eyeCoords.x += playerEnt.playerVelocity.x;
+  } else if (JOY_LEFT(joystickState)){
+    playerEnt.playerVelocity.x = playerEnt.playerSpeed;
+    playerEnt.playerEntity.eyeCoords.x -= playerEnt.playerVelocity.x;
   } else {
-    playerEnt.playerVelocity.x = -playerEnt.playerSpeed * JOY_LEFT(joystickState);
+    playerEnt.playerVelocity.x = 0;
   }
 
   if(JOY_UP(joystickState)){
@@ -72,7 +77,7 @@ STATUS playerInputProcess(){
   //TODO: interrupt the task or make a "lateupdate" to wait for gamestate
   // to process
   //TODO: clamping
-  playerEnt.playerEntity.eyeCoords.x += playerEnt.playerVelocity.x;
+  
   playerEnt.playerEntity.eyeCoords.y += playerEnt.playerVelocity.y;
   return PASS;
 }
@@ -84,7 +89,12 @@ STATUS playerConstructor(){
   playerEnt.playerVelocity.y = 0;
 
   //call the "base" constructor
-  entityConstructor(&(playerEnt.playerEntity), playerRoutine, playerRenderer);
+
+  
+
+
+
+  // entityConstructor(&(playerEnt.playerEntity), playerRoutine, playerRenderer);
   //assign to the player entity it's dummy obj item
 
   playerEnt.playerEntity.childEntity = &nullItem;

@@ -58,9 +58,9 @@ void write_sprite(unsigned char playerID, unsigned char position);
 
 
 void setup_pmg() {
-    unsigned int PMBASE = 0xD407;
-    unsigned int SDMCTL = 0x22F;
-    unsigned int PCOLR0 = 0x2C0;
+    // unsigned int PMBASE = 0xD407;
+    // unsigned int SDMCTL = 0x22F;
+    // unsigned int PCOLR0 = 0x2C0;
     // TODO: do any setup for player missile graphics here
     // what Ed's code appears to do is:
     // store pmg label into PMBASE ($D407)
@@ -68,31 +68,45 @@ void setup_pmg() {
     // move 0x3 into GRACTL ( $D01D ), which enables PMG
     // move 0x1 into GRPRIOR ($26F), which gives player priorty?
     
-    unsigned int playerDataPage = 0x38;
-    unsigned int playerData = playerDataPage << 8;
-    unsigned int missileLocation = (unsigned int)missiles_graphics[0];
+    //unsigned int playerDataPage = 0x38;
+    //unsigned int playerData = playerDataPage << 8;
+    // unsigned int missileLocation = (unsigned int)missiles_graphics[0];
 
-    unsigned int zeroIndex;
-    unsigned int playerIndex;
+    // unsigned int zeroIndex;
+    // unsigned int playerIndex;
     
 
     // POKE(PCOLR0,0x1E);
-    POKE(PMBASE,playerDataPage);
-    POKE(SDMCTL,46); // I think the does: enable fetching DMA instructions, enable player/missile DMA, standard playfield
-
+    //POKE(PMBASE,playerDataPage);
+    
+    
     // TODO: clear out memory more efficiently
-
+    
     // THIS IS TEST CODE
+    //POKE(SDMCTL,46); 
+    // I think the does: enable fetching DMA instructions, enable player/missile DMA, standard playfield
     
 
-    for (zeroIndex = 0; zeroIndex < 0x80;zeroIndex++) {
-        // clear bits from missiles and players 0-1 at the same time
-        POKE(missileLocation + zeroIndex,0);
-        for (playerIndex = 0; playerIndex < 4; playerIndex++) {
-            player_graphics[playerIndex][zeroIndex] = 0;
-        }
-    }
+
     
+    // for (zeroIndex = 0; zeroIndex < 0x80;zeroIndex++) {
+    //     // clear bits from missiles and players 0-1 at the same time
+    //     POKE(missileLocation + zeroIndex,0);
+    //     for (playerIndex = 0; playerIndex < 4; playerIndex++) {
+    //         player_graphics[playerIndex][zeroIndex] = 0;
+    //     }
+    // }
+
+    //zero out the section just in case,
+    //this looks dangerous but you see. i'm more dangerous than this
+    memset(player_horiz_positions, 0, 1024);    //1024 bytes are avail in here
+
+
+
+
+    
+    ANTIC.pmbase = (unsigned int)player_horiz_positions;  //C arrays are syntatic sugar
+    OS.sdmctl = 46;
     GTIA_WRITE.prior = 1; // set player priorty
     GTIA_WRITE.gractl = 3; // enable PMG
     
@@ -100,7 +114,8 @@ void setup_pmg() {
     // GTIA_WRITE.hposp0 = 150;
     
     // set color of player 0
-    POKE(PCOLR0,0x1E);
+    //POKE(PCOLR0,0x1E);
+    OS.pcolr0 = COLOR_YELLOW;
 
     // GTIA_WRITE.colpm0 = (unsigned char)0x1E;
 }

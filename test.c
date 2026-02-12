@@ -13,7 +13,8 @@
 #include "player_missile.h"
 #include "player.h"
 #include "util.h"
-
+#include "util_input.h"
+#include <assert.h>
 
 
 
@@ -92,15 +93,20 @@ char DisplayList[] = {
     };
 
     // variable declarations
-int i;
+int i = 0;
 int charStart = 480;
-
+PlayerEntity playerEnt;
+unsigned int cur_player = 0;
+   int frames = 0;
 int main() {
 
+    
+
+    InitializeJoystick();
+
     // variable declarations
-    int frames = 0;
-    int i = 0;
-    unsigned int cur_player = 0;
+ 
+    
     // unsigned int cur_horiz_position;
     // unsigned int cur_vert_position;
     // end variable declarations
@@ -117,6 +123,7 @@ int main() {
 
     set_player_horiz_position(0,SCREEN_HORIZ_CENTER,true);
     set_player_vert_position(0,SCREEN_VERT_CENTER,true);
+    //processFrameTasks();
     while (true) {
 
         //process gamestate
@@ -129,21 +136,24 @@ int main() {
 
         waitvsync();
         
-        
+        set_player_horiz_position(cur_player,playerEnt.playerEntity.eyeCoords.x,true);
+        set_player_vert_position(cur_player,playerEnt.playerEntity.eyeCoords.y,true);
         
         //process graphics
-        if (check_if_any_collision(cur_player)) {
-            GTIA_WRITE.hitclr = 1;
-            set_player_horiz_position(cur_player,playerEnt.playerEntity.eyeCoords.x,true);
-            set_player_vert_position(cur_player,playerEnt.playerEntity.eyeCoords.y,true);
-        }
+        // if (check_if_any_collision(cur_player)) {
+        //     GTIA_WRITE.hitclr = 1;
+        //     set_player_horiz_position(cur_player,playerEnt.playerEntity.eyeCoords.x,true);
+        //     set_player_vert_position(cur_player,playerEnt.playerEntity.eyeCoords.y,true);
+        // }
         
     }
 }
 
+
 //todo: return and process STATUS?
 
 void initializeEngine(){
+    
     fix_displayList();
     init_charset();
     edit_colors();
@@ -157,6 +167,14 @@ void initializeEngine(){
 //initalizes just the player for now
 void initializeStaticEntities(){
     test_player1();
+    //Entity *test = (Entity*)&(playerEnt.playerEntity);
+
+
+    playerEnt.playerEntity.eyeCoords.x = SCREEN_HORIZ_CENTER;
+    playerEnt.playerEntity.eyeCoords.y = SCREEN_VERT_CENTER;
+
+
+    entityConstructor((Entity*)&playerEnt.playerEntity, playerRoutine, playerRenderer);
     playerConstructor();
 
     //temp init assign
@@ -244,7 +262,10 @@ void fix_displayList() {
     // inject dlistAddr into the indices 28 and 29
     DisplayList[sizeof(DisplayList) - 2] = dl_addr & 0xFF;   // this injects the 8 most significant bits
     DisplayList[sizeof(DisplayList) - 1] = (dl_addr >> 8) & 0xFF; // this injects the 8 least signifcant bits
-    POKEW(DISPLAY_LIST,dl_addr);
+    //POKEW(DISPLAY_LIST,dl_addr);
+    OS.sdlst = DisplayList;
+
+
 }
 
 // initializes a character set
@@ -261,6 +282,8 @@ void init_charset() {
     unsigned int charset_page_num = (unsigned int)charset_ptr;
 
     POKE(CHARSET_PTR,(charset_page_num >> 8));   // poke high byte to CHBASE register
+
+
 
     // set page number in CHARSET_PTR
     character = 0;
