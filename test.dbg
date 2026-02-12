@@ -129,7 +129,7 @@ csym	id=125,name="i",scope=32,type=0,sc=auto,offs=-4
 csym	id=126,name="cur_player",scope=32,type=0,sc=auto,offs=-6
 csym	id=127,name="cur_horiz_position",scope=32,type=0,sc=auto,offs=-8
 csym	id=128,name="cur_vert_position",scope=32,type=0,sc=auto,offs=-10
-file	id=0,name="test.c.32524.0.s",size=57919,mtime=0x698D3301,mod=0
+file	id=0,name="test.c.64944.0.s",size=57919,mtime=0x698D4418,mod=0
 file	id=1,name="C:\cc65\asminc/longbranch.mac",size=2632,mtime=0x695B11A8,mod=0+1
 file	id=2,name="test.c",size=8735,mtime=0x698D3162,mod=0
 file	id=3,name="C:\cc65\include/atari.h",size=22152,mtime=0x695B11A8,mod=0
@@ -157,7 +157,7 @@ file	id=24,name="C:\cc65\include/string.h",size=5678,mtime=0x695B11A8,mod=0
 file	id=25,name="screen_memory.h",size=5346,mtime=0x698D32E4,mod=0
 file	id=26,name="gamemap.c",size=2216,mtime=0x698D32FD,mod=0
 file	id=27,name="C:\cc65\include/time.h",size=5353,mtime=0x695B11A8,mod=0
-file	id=28,name="charmap.c.32524.1.s",size=12721,mtime=0x698D3301,mod=1
+file	id=28,name="charmap.c.64944.1.s",size=12721,mtime=0x698D4418,mod=1
 file	id=29,name="charmap.c",size=15860,mtime=0x698D2C64,mod=1
 file	id=30,name="/home/runner/work/cc65/cc65/asminc/generic.mac",size=937,mtime=0x695AA127,mod=10+37
 file	id=31,name="/home/runner/work/cc65/cc65/asminc/zeropage.inc",size=1020,mtime=0x695AA127,mod=9+40+45
@@ -8625,8 +8625,8 @@ line	id=8411,file=31,line=18
 line	id=8412,file=31,line=31
 line	id=8413,file=79,line=24,span=4176
 line	id=8414,file=31,line=19
-mod	id=0,name="test.c.32524.0.o",file=0
-mod	id=1,name="charmap.c.32524.1.o",file=28
+mod	id=0,name="test.c.64944.0.o",file=0
+mod	id=1,name="charmap.c.64944.1.o",file=28
 mod	id=2,name="addeqsp.o",file=36,lib=0
 mod	id=3,name="addysp.o",file=37,lib=0
 mod	id=4,name="aslax4.o",file=38,lib=0
