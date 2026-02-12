@@ -14,6 +14,7 @@
 #include "joystick_locations.h"
 #include "player_missile.h"
 #include "screen_memory.h"
+#include "gamemap.c"
 
 
 
@@ -98,6 +99,7 @@ int main() {
     // end variable declarations
 
     fix_displayList();
+    // _graphics(12);
     init_charset();
     edit_colors();
     setup_pmg();
@@ -110,7 +112,7 @@ int main() {
     fill_row_section(2,20,27,3);
     
 
-    
+    manual_load(&gameMap[0][0]);
 
     set_player_horiz_position(0,SCREEN_HORIZ_CENTER,true);
     set_player_vert_position(0,SCREEN_VERT_CENTER,true);

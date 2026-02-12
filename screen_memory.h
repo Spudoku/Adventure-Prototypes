@@ -38,6 +38,9 @@ void fill_rect(unsigned int vert_pos,unsigned int horiz_pos,unsigned int l, unsi
 void fill_circle(unsigned int vert_center,unsigned int horiz_center, unsigned int radius, bool hollow);
 
 void clear_buffer(); // clears indexBuffer; should be called within get_row and get_column
+
+// reads SCREEN_ROW_SIZE * SCREEN_COLUMN_SIZE bytes of information from start and puts them into screen memory
+void manual_load(unsigned char* start); 
 /**
     END FUNCTION DELCARATIONS
 **/
@@ -157,4 +160,14 @@ void fill_row_section(unsigned int rowNum, unsigned int start, unsigned int end,
 /**
     END COLUMN OPERATIONS
 **/
+
+void manual_load(unsigned char* start) {
+    unsigned int i;
+    unsigned int range = (unsigned int)SCREEN_ROW_SIZE * (unsigned int)SCREEN_COLUMN_SIZE;
+
+    for (i = 0; i < range; i++) {
+        unsigned char value = *(start + i);
+        ScreenMemory[i] = value;
+    }
+}
 #endif
