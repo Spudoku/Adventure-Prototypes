@@ -135,7 +135,7 @@ int main() {
         processFrameTasks();
 
         waitvsync();
-        
+        //printf("h");
         set_player_horiz_position(cur_player,playerEnt.playerEntity.eyeCoords.x,true);
         set_player_vert_position(cur_player,playerEnt.playerEntity.eyeCoords.y,true);
         

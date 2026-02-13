@@ -11,7 +11,7 @@ unsigned char player_vert_positions[4];
 
 // sprite arrays
 unsigned char player_sprites[4][16];
-unsigned char unused[304];          // it appears we can use this area safely
+unsigned char unused[312];          // it appears we can use this area safely
 unsigned char missiles_graphics[4][32];
 unsigned char player_graphics[4][128];
 
@@ -19,6 +19,7 @@ unsigned char player_graphics[4][128];
 
 #include "util.h"
 #include <string.h>
+#include <assert.h>
 
 /**
     MEMORY LOCATIONS
@@ -58,7 +59,7 @@ void write_sprite(unsigned char playerID, unsigned char position);
 
 
 void setup_pmg() {
-    // unsigned int PMBASE = 0xD407;
+    //unsigned int PMBASE = 0xD407;
     // unsigned int SDMCTL = 0x22F;
     // unsigned int PCOLR0 = 0x2C0;
     // TODO: do any setup for player missile graphics here
@@ -77,8 +78,12 @@ void setup_pmg() {
     
 
     // POKE(PCOLR0,0x1E);
-    //POKE(PMBASE,playerDataPage);
-    
+    //POKE(PMBASE,(unsigned char )*player_horiz_positions);
+    //ANTIC.pmbase = (unsigned int )player_horiz_positions;  //C arrays are syntatic sugar
+
+
+
+    ANTIC.pmbase = (unsigned int)player_horiz_positions >> 8;
     
     // TODO: clear out memory more efficiently
     
@@ -104,11 +109,10 @@ void setup_pmg() {
 
 
 
-    
-    ANTIC.pmbase = (unsigned int)player_horiz_positions;  //C arrays are syntatic sugar
+    ANTIC.dmactl = 46;
     OS.sdmctl = 46;
-    GTIA_WRITE.prior = 1; // set player priorty
     GTIA_WRITE.gractl = 3; // enable PMG
+    GTIA_WRITE.prior = 1; // set player priorty
     
     // // set horizontal position of p0 to 120
     // GTIA_WRITE.hposp0 = 150;
@@ -208,7 +212,7 @@ void write_sprite(unsigned char playerID, unsigned char position) {
 
     
    if (position >= SCREEN_TOP_BOUND || position <= SCREEN_BOTTOM_BOUND) {
-        memcpy(&player_graphics[playerID][position - 8],&player_sprites[playerID][0],16);
+        memcpy(&player_graphics[playerID][position - 8],player_sprites[playerID],16);
    } 
 }
 void set_player_vert_position(unsigned char playerID, unsigned char pos, bool boundsCorrect) {
