@@ -1,104 +1,104 @@
 Modules list:
 -------------
-test.c.23148.0.o:
-    CODE              Offs=000000  Size=00099F  Align=00001  Fill=0000
+test.c.34344.0.o:
+    CODE              Offs=000000  Size=000992  Align=00001  Fill=0000
     BSS               Offs=000000  Size=000082  Align=00001  Fill=0000
     DATA              Offs=000000  Size=000018  Align=00001  Fill=0000
     TEMPAREA          Offs=000000  Size=0000F0  Align=00001  Fill=0000
     PMGAREA           Offs=000000  Size=0003F8  Align=00001  Fill=0000
     SCREENAREA        Offs=000000  Size=0000F0  Align=00001  Fill=0000
-charmap.c.23148.1.o:
+charmap.c.34344.1.o:
     CHARSET           Offs=000000  Size=000400  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(addeqsp.o):
-    CODE              Offs=00099F  Size=000011  Align=00001  Fill=0000
+    CODE              Offs=000992  Size=000011  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(addysp.o):
-    CODE              Offs=0009B0  Size=00000E  Align=00001  Fill=0000
+    CODE              Offs=0009A3  Size=00000E  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(aslax4.o):
-    CODE              Offs=0009BE  Size=000011  Align=00001  Fill=0000
+    CODE              Offs=0009B1  Size=000011  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(aslax7.o):
-    CODE              Offs=0009CF  Size=00000A  Align=00001  Fill=0000
+    CODE              Offs=0009C2  Size=00000A  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(callmain.o):
-    CODE              Offs=0009D9  Size=000017  Align=00001  Fill=0000
+    CODE              Offs=0009CC  Size=000017  Align=00001  Fill=0000
     DATA              Offs=000018  Size=000004  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(clock.o):
-    CODE              Offs=0009F0  Size=000026  Align=00001  Fill=0000
+    CODE              Offs=0009E3  Size=000026  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(condes.o):
-    CODE              Offs=000A16  Size=00000C  Align=00001  Fill=0000
+    CODE              Offs=000A09  Size=00000C  Align=00001  Fill=0000
     DATA              Offs=00001C  Size=000025  Align=00001  Fill=0000
     ONCE              Offs=000000  Size=00000C  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(crt0.o):
     BSS               Offs=000082  Size=000005  Align=00001  Fill=0000
     STARTUP           Offs=000000  Size=000063  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(decax8.o):
-    CODE              Offs=000A22  Size=000007  Align=00001  Fill=0000
+    CODE              Offs=000A15  Size=000007  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(decsp1.o):
-    CODE              Offs=000A29  Size=000009  Align=00001  Fill=0000
+    CODE              Offs=000A1C  Size=000009  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(decsp2.o):
-    CODE              Offs=000A32  Size=00000D  Align=00001  Fill=0000
+    CODE              Offs=000A25  Size=00000D  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(decsp4.o):
-    CODE              Offs=000A3F  Size=00000D  Align=00001  Fill=0000
+    CODE              Offs=000A32  Size=00000D  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(incsp1.o):
-    CODE              Offs=000A4C  Size=000007  Align=00001  Fill=0000
+    CODE              Offs=000A3F  Size=000007  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(incsp2.o):
-    CODE              Offs=000A53  Size=000016  Align=00001  Fill=0000
+    CODE              Offs=000A46  Size=000016  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(incsp3.o):
-    CODE              Offs=000A69  Size=000005  Align=00001  Fill=0000
+    CODE              Offs=000A5C  Size=000005  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(incsp4.o):
-    CODE              Offs=000A6E  Size=000005  Align=00001  Fill=0000
+    CODE              Offs=000A61  Size=000005  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(incsp5.o):
-    CODE              Offs=000A73  Size=000005  Align=00001  Fill=0000
+    CODE              Offs=000A66  Size=000005  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(incsp6.o):
-    CODE              Offs=000A78  Size=000005  Align=00001  Fill=0000
+    CODE              Offs=000A6B  Size=000005  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(incsp7.o):
-    CODE              Offs=000A7D  Size=000005  Align=00001  Fill=0000
+    CODE              Offs=000A70  Size=000005  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(incsp8.o):
-    CODE              Offs=000A82  Size=000005  Align=00001  Fill=0000
+    CODE              Offs=000A75  Size=000005  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(ladd.o):
-    CODE              Offs=000A87  Size=000025  Align=00001  Fill=0000
+    CODE              Offs=000A7A  Size=000025  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(lcmp.o):
-    CODE              Offs=000AAC  Size=00003B  Align=00001  Fill=0000
+    CODE              Offs=000A9F  Size=00003B  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(ldaxsp.o):
-    CODE              Offs=000AE7  Size=000009  Align=00001  Fill=0000
+    CODE              Offs=000ADA  Size=000009  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(ldeaxysp.o):
-    CODE              Offs=000AF0  Size=000013  Align=00001  Fill=0000
+    CODE              Offs=000AE3  Size=000013  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(ldptr1sp.o):
-    CODE              Offs=000B03  Size=00000C  Align=00001  Fill=0000
+    CODE              Offs=000AF6  Size=00000C  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(lmul.o):
-    CODE              Offs=000B0F  Size=00005C  Align=00001  Fill=0000
+    CODE              Offs=000B02  Size=00005C  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(lpush.o):
-    CODE              Offs=000B6B  Size=000021  Align=00001  Fill=0000
+    CODE              Offs=000B5E  Size=000021  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(ludiv.o):
-    CODE              Offs=000B8C  Size=00007A  Align=00001  Fill=0000
+    CODE              Offs=000B7F  Size=00007A  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(lult.o):
-    CODE              Offs=000C06  Size=000006  Align=00001  Fill=0000
+    CODE              Offs=000BF9  Size=000006  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(makebool.o):
-    CODE              Offs=000C0C  Size=00002C  Align=00001  Fill=0000
+    CODE              Offs=000BFF  Size=00002C  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(memcpy.o):
-    CODE              Offs=000C38  Size=00003C  Align=00001  Fill=0000
+    CODE              Offs=000C2B  Size=00003C  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(mul8.o):
-    CODE              Offs=000C74  Size=00003A  Align=00001  Fill=0000
+    CODE              Offs=000C67  Size=00003A  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(popptr1.o):
-    CODE              Offs=000CAE  Size=00000E  Align=00001  Fill=0000
+    CODE              Offs=000CA1  Size=00000E  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(pusha.o):
-    CODE              Offs=000CBC  Size=000016  Align=00001  Fill=0000
+    CODE              Offs=000CAF  Size=000016  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(pushax.o):
-    CODE              Offs=000CD2  Size=00001A  Align=00001  Fill=0000
+    CODE              Offs=000CC5  Size=00001A  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(pushwsp.o):
-    CODE              Offs=000CEC  Size=00001C  Align=00001  Fill=0000
+    CODE              Offs=000CDF  Size=00001C  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(staspidx.o):
-    CODE              Offs=000D08  Size=000016  Align=00001  Fill=0000
+    CODE              Offs=000CFB  Size=000016  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(staxsp.o):
-    CODE              Offs=000D1E  Size=00000B  Align=00001  Fill=0000
+    CODE              Offs=000D11  Size=00000B  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(system_check.o):
     SYSCHK            Offs=000000  Size=0000F6  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(udiv.o):
-    CODE              Offs=000D29  Size=00004F  Align=00001  Fill=0000
+    CODE              Offs=000D1C  Size=00004F  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(umod.o):
-    CODE              Offs=000D78  Size=000011  Align=00001  Fill=0000
+    CODE              Offs=000D6B  Size=000011  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(waitvsync.o):
-    CODE              Offs=000D89  Size=000007  Align=00001  Fill=0000
+    CODE              Offs=000D7C  Size=000007  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(zerobss.o):
-    CODE              Offs=000D90  Size=000023  Align=00001  Fill=0000
+    CODE              Offs=000D83  Size=000023  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(zeropage.o):
     ZEROPAGE          Offs=000000  Size=00001A  Align=00001  Fill=0000
 
@@ -110,10 +110,10 @@ Name                   Start     End    Size  Align
 ZEROPAGE              000082  00009B  00001A  00001
 STARTUP               002000  002062  000063  00001
 ONCE                  002063  00206E  00000C  00001
-CODE                  00206F  002E21  000DB3  00001
+CODE                  00206F  002E14  000DA6  00001
 SYSCHK                002E00  002EF5  0000F6  00001
-DATA                  002E22  002E62  000041  00001
-BSS                   002E63  002EE9  000087  00001
+DATA                  002E15  002E55  000041  00001
+BSS                   002E56  002EDC  000087  00001
 TEMPAREA              003000  0030EF  0000F0  00001
 SCREENAREA            003400  0034EF  0000F0  00001
 PMGAREA               003800  003BF7  0003F8  00001
@@ -122,46 +122,46 @@ CHARSET               003C00  003FFF  000400  00001
 
 Exports list by name:
 ---------------------
-__BSS_RUN__               002E63 RLA    __BSS_SIZE__              000087 REA    
+__BSS_RUN__               002E56 RLA    __BSS_SIZE__              000087 REA    
 __CONSTRUCTOR_COUNT__     000000 REA    __CONSTRUCTOR_TABLE__     00206F RLA    
-__DESTRUCTOR_COUNT__      000000 REA    __DESTRUCTOR_TABLE__      002E22 RLA    
+__DESTRUCTOR_COUNT__      000000 REA    __DESTRUCTOR_TABLE__      002E15 RLA    
 __LOWCODE_RUN__           002063 RLA    __LOWCODE_SIZE__          000000 REA    
 __RESERVED_MEMORY__       000000 REA    __STACKSIZE__             000800 REA    
 __STARTADDRESS__          002000 REA    __STARTUP__               000001 REA    
 __SYSCHKHDR__             000000 REA    __SYSCHKTRL__             000000 REA    
-__SYSTEM_CHECK__          002E47 REA    ___clocks_per_sec         002A72 RLA    
-_charset                  003C00 RLA    _clock                    002A5F RLA    
-_main                     00296A RLA    _memcpy                   002CA7 RLA    
-_waitvsync                002DF8 RLA    addeq0sp                  002A0E RLA    
-addeqysp                  002A10 RLA    addysp                    002A20 RLA    
-addysp1                   002A1F RLA    aslax4                    002A2D RLA    
-aslax7                    002A3E RLA    boolult                   002C9A RLA    
-c_sp                      000082 RLZ    callmain                  002A48 RLA    
-decax8                    002A91 RLA    decsp1                    002A98 RLA    
-decsp2                    002AA1 RLA    decsp4                    002AAE RLA    
-donelib                   002A85 RLA    incsp1                    002ABB RLA    
-incsp2                    002ACA RLA    incsp3                    002AD8 RLA    
-incsp4                    002ADD RLA    incsp5                    002AE2 RLA    
-incsp6                    002AE7 RLA    incsp7                    002AEC RLA    
-incsp8                    002AF1 RLA    initlib                   002063 RLA    
-ldax0sp                   002B56 RLA    ldaxysp                   002B58 RLA    
-ldeaxysp                  002B61 RLA    ldptr1ysp                 002B74 RLA    
-popax                     002AC2 RLA    popptr1                   002D1D RLA    
+__SYSTEM_CHECK__          002E47 REA    ___clocks_per_sec         002A65 RLA    
+_charset                  003C00 RLA    _clock                    002A52 RLA    
+_main                     00295D RLA    _memcpy                   002C9A RLA    
+_waitvsync                002DEB RLA    addeq0sp                  002A01 RLA    
+addeqysp                  002A03 RLA    addysp                    002A13 RLA    
+addysp1                   002A12 RLA    aslax4                    002A20 RLA    
+aslax7                    002A31 RLA    boolult                   002C8D RLA    
+c_sp                      000082 RLZ    callmain                  002A3B RLA    
+decax8                    002A84 RLA    decsp1                    002A8B RLA    
+decsp2                    002A94 RLA    decsp4                    002AA1 RLA    
+donelib                   002A78 RLA    incsp1                    002AAE RLA    
+incsp2                    002ABD RLA    incsp3                    002ACB RLA    
+incsp4                    002AD0 RLA    incsp5                    002AD5 RLA    
+incsp6                    002ADA RLA    incsp7                    002ADF RLA    
+incsp8                    002AE4 RLA    initlib                   002063 RLA    
+ldax0sp                   002B49 RLA    ldaxysp                   002B4B RLA    
+ldeaxysp                  002B54 RLA    ldptr1ysp                 002B67 RLA    
+popax                     002AB5 RLA    popptr1                   002D10 RLA    
 ptr1                      00008A RLZ    ptr2                      00008C RLZ    
 ptr3                      00008E RLZ    ptr4                      000090 RLZ    
-push0                     002D41 RLA    push0ax                   002BDD RLA    
-pusha                     002D2F RLA    pusha0                    002D43 RLA    
-pushax                    002D45 RLA    pusheax                   002BE3 RLA    
-pushwysp                  002D5D RLA    sreg                      000084 RLZ    
-start                     002001 RLA    staspidx                  002D77 RLA    
-stax0sp                   002D8D RLA    staxysp                   002D8F RLA    
+push0                     002D34 RLA    push0ax                   002BD0 RLA    
+pusha                     002D22 RLA    pusha0                    002D36 RLA    
+pushax                    002D38 RLA    pusheax                   002BD6 RLA    
+pushwysp                  002D50 RLA    sreg                      000084 RLZ    
+start                     002001 RLA    staspidx                  002D6A RLA    
+stax0sp                   002D80 RLA    staxysp                   002D82 RLA    
 tmp1                      000092 RLZ    tmp2                      000093 RLZ    
 tmp3                      000094 RLZ    tmp4                      000095 RLZ    
-tosaddeax                 002AFC RLA    toslcmp                   002B1B RLA    
-tosudiv0ax                002BFB RLA    tosulteax                 002C75 RLA    
-tosumoda0                 002DE7 RLA    tosumula0                 002CE3 RLA    
-tosumuleax                002B84 RLA    udiv16                    002DA9 RLA    
-zerobss                   002DFF RLA    
+tosaddeax                 002AEF RLA    toslcmp                   002B0E RLA    
+tosudiv0ax                002BEE RLA    tosulteax                 002C68 RLA    
+tosumoda0                 002DDA RLA    tosumula0                 002CD6 RLA    
+tosumuleax                002B77 RLA    udiv16                    002D9C RLA    
+zerobss                   002DF2 RLA    
 
 
 Exports list by value:
@@ -178,33 +178,33 @@ tmp3                      000094 RLZ    tmp4                      000095 RLZ
 __STACKSIZE__             000800 REA    __STARTADDRESS__          002000 REA    
 start                     002001 RLA    __LOWCODE_RUN__           002063 RLA    
 initlib                   002063 RLA    __CONSTRUCTOR_TABLE__     00206F RLA    
-_main                     00296A RLA    addeq0sp                  002A0E RLA    
-addeqysp                  002A10 RLA    addysp1                   002A1F RLA    
-addysp                    002A20 RLA    aslax4                    002A2D RLA    
-aslax7                    002A3E RLA    callmain                  002A48 RLA    
-_clock                    002A5F RLA    ___clocks_per_sec         002A72 RLA    
-donelib                   002A85 RLA    decax8                    002A91 RLA    
-decsp1                    002A98 RLA    decsp2                    002AA1 RLA    
-decsp4                    002AAE RLA    incsp1                    002ABB RLA    
-popax                     002AC2 RLA    incsp2                    002ACA RLA    
-incsp3                    002AD8 RLA    incsp4                    002ADD RLA    
-incsp5                    002AE2 RLA    incsp6                    002AE7 RLA    
-incsp7                    002AEC RLA    incsp8                    002AF1 RLA    
-tosaddeax                 002AFC RLA    toslcmp                   002B1B RLA    
-ldax0sp                   002B56 RLA    ldaxysp                   002B58 RLA    
-ldeaxysp                  002B61 RLA    ldptr1ysp                 002B74 RLA    
-tosumuleax                002B84 RLA    push0ax                   002BDD RLA    
-pusheax                   002BE3 RLA    tosudiv0ax                002BFB RLA    
-tosulteax                 002C75 RLA    boolult                   002C9A RLA    
-_memcpy                   002CA7 RLA    tosumula0                 002CE3 RLA    
-popptr1                   002D1D RLA    pusha                     002D2F RLA    
-push0                     002D41 RLA    pusha0                    002D43 RLA    
-pushax                    002D45 RLA    pushwysp                  002D5D RLA    
-staspidx                  002D77 RLA    stax0sp                   002D8D RLA    
-staxysp                   002D8F RLA    udiv16                    002DA9 RLA    
-tosumoda0                 002DE7 RLA    _waitvsync                002DF8 RLA    
-zerobss                   002DFF RLA    __DESTRUCTOR_TABLE__      002E22 RLA    
-__SYSTEM_CHECK__          002E47 REA    __BSS_RUN__               002E63 RLA    
+_main                     00295D RLA    addeq0sp                  002A01 RLA    
+addeqysp                  002A03 RLA    addysp1                   002A12 RLA    
+addysp                    002A13 RLA    aslax4                    002A20 RLA    
+aslax7                    002A31 RLA    callmain                  002A3B RLA    
+_clock                    002A52 RLA    ___clocks_per_sec         002A65 RLA    
+donelib                   002A78 RLA    decax8                    002A84 RLA    
+decsp1                    002A8B RLA    decsp2                    002A94 RLA    
+decsp4                    002AA1 RLA    incsp1                    002AAE RLA    
+popax                     002AB5 RLA    incsp2                    002ABD RLA    
+incsp3                    002ACB RLA    incsp4                    002AD0 RLA    
+incsp5                    002AD5 RLA    incsp6                    002ADA RLA    
+incsp7                    002ADF RLA    incsp8                    002AE4 RLA    
+tosaddeax                 002AEF RLA    toslcmp                   002B0E RLA    
+ldax0sp                   002B49 RLA    ldaxysp                   002B4B RLA    
+ldeaxysp                  002B54 RLA    ldptr1ysp                 002B67 RLA    
+tosumuleax                002B77 RLA    push0ax                   002BD0 RLA    
+pusheax                   002BD6 RLA    tosudiv0ax                002BEE RLA    
+tosulteax                 002C68 RLA    boolult                   002C8D RLA    
+_memcpy                   002C9A RLA    tosumula0                 002CD6 RLA    
+popptr1                   002D10 RLA    pusha                     002D22 RLA    
+push0                     002D34 RLA    pusha0                    002D36 RLA    
+pushax                    002D38 RLA    pushwysp                  002D50 RLA    
+staspidx                  002D6A RLA    stax0sp                   002D80 RLA    
+staxysp                   002D82 RLA    udiv16                    002D9C RLA    
+tosumoda0                 002DDA RLA    _waitvsync                002DEB RLA    
+zerobss                   002DF2 RLA    __DESTRUCTOR_TABLE__      002E15 RLA    
+__SYSTEM_CHECK__          002E47 REA    __BSS_RUN__               002E56 RLA    
 _charset                  003C00 RLA    
 
 
@@ -238,7 +238,7 @@ __STACKSIZE__ ([linker generated]):
 __STARTADDRESS__ ([linker generated]):
     system_check.o            atari/system_check.s:20
 __STARTUP__ (crt0.o):
-    test.c.23148.0.o          test.c.23148.0.s:39
+    test.c.34344.0.o          test.c.34344.0.s:39
 __SYSCHKHDR__ ([linker generated]):
     system_check.o            atari/system_check.s:28
 __SYSCHKTRL__ ([linker generated]):
@@ -247,30 +247,30 @@ __SYSTEM_CHECK__ (system_check.o):
     [linker generated]        atari_modifed.cfg:37
     [linker generated]        atari_modifed.cfg:7
 ___clocks_per_sec (clock.o):
-    test.c.23148.0.o          test.c.23148.0.s:77
-_charset (charmap.c.23148.1.o):
-    test.c.23148.0.o          test.c.23148.0.s:42
+    test.c.34344.0.o          test.c.34344.0.s:77
+_charset (charmap.c.34344.1.o):
+    test.c.34344.0.o          test.c.34344.0.s:42
 _clock (clock.o):
-    test.c.23148.0.o          test.c.23148.0.s:78
-_main (test.c.23148.0.o):
+    test.c.34344.0.o          test.c.34344.0.s:78
+_main (test.c.34344.0.o):
     callmain.o                runtime/callmain.s:11
 _memcpy (memcpy.o):
-    test.c.23148.0.o          test.c.23148.0.s:54
+    test.c.34344.0.o          test.c.34344.0.s:54
 _waitvsync (waitvsync.o):
-    test.c.23148.0.o          test.c.23148.0.s:41
+    test.c.34344.0.o          test.c.34344.0.s:41
 addeq0sp (addeqsp.o):
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
 addeqysp (addeqsp.o):
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
 addysp (addysp.o):
     incsp8.o                  runtime/incsp8.s:8
     incsp7.o                  runtime/incsp7.s:8
@@ -278,19 +278,19 @@ addysp (addysp.o):
     incsp5.o                  runtime/incsp5.s:8
     incsp4.o                  runtime/incsp4.s:8
     incsp3.o                  runtime/incsp3.s:8
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
 addysp1 (addysp.o):
     ludiv.o                   runtime/ludiv.s:9
     lmul.o                    runtime/lmul.s:9
     ladd.o                    runtime/ladd.s:8
 aslax4 (aslax4.o):
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
 aslax7 (aslax7.o):
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
 boolult (makebool.o):
     lult.o                    runtime/lult.s:8
 c_sp (zeropage.o):
@@ -317,92 +317,92 @@ c_sp (zeropage.o):
     crt0.o                    /home/runner/work/cc65/cc65/asminc/zeropage.inc:11
     addysp.o                  runtime/addysp.s:8
     addeqsp.o                 runtime/addeqsp.s:8
-    test.c.23148.0.o          test.c.23148.0.s:10
+    test.c.34344.0.o          test.c.34344.0.s:10
 callmain (callmain.o):
     crt0.o                    atari/crt0.s:16
 decax8 (decax8.o):
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
 decsp1 (decsp1.o):
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
 decsp2 (decsp2.o):
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
 decsp4 (decsp4.o):
     lpush.o                   runtime/lpush.s:12
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
 donelib (condes.o):
     crt0.o                    atari/crt0.s:15
 incsp1 (incsp1.o):
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
 incsp2 (incsp2.o):
     staspidx.o                runtime/staspidx.s:8
     popptr1.o                 runtime/popptr1.s:8
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
 incsp3 (incsp3.o):
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
 incsp4 (incsp4.o):
     lcmp.o                    runtime/lcmp.s:9
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
 incsp5 (incsp5.o):
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
 incsp6 (incsp6.o):
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
 incsp7 (incsp7.o):
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
 incsp8 (incsp8.o):
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
 initlib (condes.o):
     crt0.o                    atari/crt0.s:15
 ldax0sp (ldaxsp.o):
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
 ldaxysp (ldaxsp.o):
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
 ldeaxysp (ldeaxysp.o):
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
 ldptr1ysp (ldptr1sp.o):
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
 popax (incsp2.o):
     memcpy.o                  common/memcpy.s:14
 popptr1 (popptr1.o):
@@ -421,7 +421,7 @@ ptr1 (zeropage.o):
     ludiv.o                   runtime/ludiv.s:10
     lmul.o                    runtime/lmul.s:10
     ldptr1sp.o                runtime/ldptr1sp.s:8
-    test.c.23148.0.o          test.c.23148.0.s:11
+    test.c.34344.0.o          test.c.34344.0.s:11
 ptr2 (zeropage.o):
     memcpy.o                  common/memcpy.s:15
     ludiv.o                   runtime/ludiv.s:10
@@ -436,58 +436,58 @@ ptr4 (zeropage.o):
     ludiv.o                   runtime/ludiv.s:10
     lmul.o                    runtime/lmul.s:10
 push0 (pushax.o):
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
 push0ax (lpush.o):
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
 pusha (pusha.o):
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
 pusha0 (pushax.o):
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
 pushax (pushax.o):
     callmain.o                runtime/callmain.s:11
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
 pusheax (lpush.o):
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
 pushwysp (pushwsp.o):
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
 sreg (zeropage.o):
     udiv.o                    runtime/udiv.s:10
     lcmp.o                    runtime/lcmp.s:10
@@ -501,29 +501,29 @@ sreg (zeropage.o):
 start (crt0.o):
     [linker generated]        atari_modifed.cfg:36
 staspidx (staspidx.o):
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
 stax0sp (staxsp.o):
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
 staxysp (staxsp.o):
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
 tmp1 (zeropage.o):
     staspidx.o                runtime/staspidx.s:9
     ladd.o                    runtime/ladd.s:9
     aslax4.o                  runtime/aslax4.s:8
-    test.c.23148.0.o          test.c.23148.0.s:11
+    test.c.34344.0.o          test.c.34344.0.s:11
 tmp2 (zeropage.o):
     lmul.o                    runtime/lmul.s:10
 tmp3 (zeropage.o):
@@ -533,22 +533,22 @@ tmp4 (zeropage.o):
     ludiv.o                   runtime/ludiv.s:10
     lmul.o                    runtime/lmul.s:10
 tosaddeax (ladd.o):
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
 toslcmp (lcmp.o):
     lult.o                    runtime/lult.s:8
 tosudiv0ax (ludiv.o):
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
 tosulteax (lult.o):
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
 tosumoda0 (umod.o):
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
 tosumula0 (mul8.o):
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
+    test.c.34344.0.o          test.c.34344.0.s:2363
 tosumuleax (lmul.o):
-    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.34344.0.o          test.c.34344.0.s:2363
 udiv16 (udiv.o):
     umod.o                    runtime/umod.s:8
 zerobss (zerobss.o):
