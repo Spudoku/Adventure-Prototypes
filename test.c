@@ -98,6 +98,9 @@ int charStart = 480;
 PlayerEntity playerEnt;
 unsigned int cur_player = 0;
    int frames = 0;
+
+
+//char TheFiller[28800];
 int main() {
 
     
@@ -124,6 +127,8 @@ int main() {
     set_player_horiz_position(0,SCREEN_HORIZ_CENTER,true);
     set_player_vert_position(0,SCREEN_VERT_CENTER,true);
     //processFrameTasks();
+
+    //memset(TheFiller, 3, sizeof(TheFiller)); 
     while (true) {
 
         //process gamestate
