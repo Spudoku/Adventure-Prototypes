@@ -99,23 +99,19 @@ unsigned int cur_player = 0;
 
 //char TheFiller[28800];
 int main() {
-
+ // variable declarations
     unsigned int cur_horiz_position;
     unsigned int cur_vert_position;
-
+    // end variable declarations
     InitializeJoystick();
 
-    // variable declarations
- 
-    
-    
-    // end variable declarations
+   
+
+
 
     initializeEngine();
 
     // fill_row_section(2,20,27,3);
-    
-
     manual_load(&gameMap[0][0]);
 
     set_player_horiz_position(0,SCREEN_HORIZ_CENTER,true);
