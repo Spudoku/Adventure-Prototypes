@@ -161,6 +161,7 @@ void fill_row_section(unsigned int rowNum, unsigned int start, unsigned int end,
     END COLUMN OPERATIONS
 **/
 
+// This method will soon be outdated by scrolling
 void manual_load(unsigned char* start) {
     unsigned int i;
     unsigned int range = (unsigned int)SCREEN_ROW_SIZE * (unsigned int)SCREEN_COLUMN_SIZE;
