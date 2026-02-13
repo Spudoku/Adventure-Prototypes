@@ -1,0 +1,6 @@
+something about WSYNC (wait for horizontal sync):
+    wsync freezes the 6502 until scan line reaches right edge of playfield (from de re atari)
+    could this be used to ensure that the line of players are fully drawn before moving to the next scan line?
+
+things to test:
+    during player_missile.h/write_sprite, set WSYNC register

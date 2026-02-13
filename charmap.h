@@ -1,4 +1,6 @@
-#pragma bss-name (push, "CHARSET")
-unsigned char charset[1024];
-// TODO: set values in charmap
-#pragma bss-name (pop)
+// extern; references charset
+#ifndef CHARMAP_H
+#define CHARMAP_H
+extern unsigned char charset[];
+
+#endif
