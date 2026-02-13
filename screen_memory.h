@@ -5,9 +5,9 @@
 #include <string.h>
 
 // Currently, using ANTIC mode 4
-#define SCREEN_MEM_SIZE 960         // total number of bytes in screen memory
-#define SCREEN_ROW_SIZE 40         // number of rows
-#define SCREEN_COLUMN_SIZE 24      // number of columns
+#define SCREEN_MEM_SIZE 240         // total number of bytes in screen memory
+#define SCREEN_ROW_SIZE 20         // number of rows
+#define SCREEN_COLUMN_SIZE 12      // number of columns
 #define BUFFER_SIZE 128              // size of buffer array         
 
 #pragma bss-name (push, "SCREENAREA")
@@ -161,6 +161,7 @@ void fill_row_section(unsigned int rowNum, unsigned int start, unsigned int end,
     END COLUMN OPERATIONS
 **/
 
+// This method will soon be outdated by scrolling
 void manual_load(unsigned char* start) {
     unsigned int i;
     unsigned int range = (unsigned int)SCREEN_ROW_SIZE * (unsigned int)SCREEN_COLUMN_SIZE;

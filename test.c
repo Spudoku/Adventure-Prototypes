@@ -78,14 +78,12 @@ char DisplayList[] = {
     DL_BLK8,
     DL_BLK8,
     // TODO: tell ANTIC to load Graphics 2 at Screen Address, total 24 times
-    DL_LMS(DL_GRAPHICS12),
-    // was DL_GRAPHICS12, now DL_GRAPHICS0
+    DL_LMS(DL_GRAPHICS2),
+    // was DL_GRAPHICS2, now DL_GRAPHICS0
     // these 2 bytes will store the location of the screen memory
     0x00,0x00,
-    DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,
-    DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,
-    DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,
-    DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,DL_GRAPHICS12,
+    DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,
+    DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,
     DL_JVB,
     // These two bytes store the location of the dispalyList itself
     0x00,0x00
@@ -115,7 +113,7 @@ int main() {
 
     initializeEngine();
 
-    fill_row_section(2,20,27,3);
+    // fill_row_section(2,20,27,3);
     
 
     manual_load(&gameMap[0][0]);
@@ -312,14 +310,14 @@ void test_player1() {
     player_sprites[0][1] =  0b00000000;
     player_sprites[0][2] =  0b00000000;
     player_sprites[0][3] =  0b00000000;
-    player_sprites[0][4] =  0b00111100;
-    player_sprites[0][5] =  0b01111110;
-    player_sprites[0][6] =  0b11111111;
-    player_sprites[0][7] =  0b11111111;
-    player_sprites[0][8] =  0b11111111;
-    player_sprites[0][9] =  0b11111111;
-    player_sprites[0][10] = 0b01111110;
-    player_sprites[0][11] = 0b00111100;
+    player_sprites[0][4] =  0b00000000;
+    player_sprites[0][5] =  0b00111100;
+    player_sprites[0][6] =  0b01111110;
+    player_sprites[0][7] =  0b01111110;
+    player_sprites[0][8] =  0b01111110;
+    player_sprites[0][9] =  0b01111110;
+    player_sprites[0][10] = 0b00111100;
+    player_sprites[0][11] = 0b00000000;
     player_sprites[0][12] = 0b00000000;
     player_sprites[0][13] = 0b00000000;
     player_sprites[0][14] = 0b00000000;
