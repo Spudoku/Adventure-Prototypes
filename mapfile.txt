@@ -1,13 +1,13 @@
 Modules list:
 -------------
-test.c.48780.0.o:
+test.c.23148.0.o:
     CODE              Offs=000000  Size=00099F  Align=00001  Fill=0000
     BSS               Offs=000000  Size=000082  Align=00001  Fill=0000
     DATA              Offs=000000  Size=000018  Align=00001  Fill=0000
     TEMPAREA          Offs=000000  Size=0000F0  Align=00001  Fill=0000
     PMGAREA           Offs=000000  Size=0003F8  Align=00001  Fill=0000
     SCREENAREA        Offs=000000  Size=0000F0  Align=00001  Fill=0000
-charmap.c.48780.1.o:
+charmap.c.23148.1.o:
     CHARSET           Offs=000000  Size=000400  Align=00001  Fill=0000
 C:\cc65\lib/atari.lib(addeqsp.o):
     CODE              Offs=00099F  Size=000011  Align=00001  Fill=0000
@@ -238,7 +238,7 @@ __STACKSIZE__ ([linker generated]):
 __STARTADDRESS__ ([linker generated]):
     system_check.o            atari/system_check.s:20
 __STARTUP__ (crt0.o):
-    test.c.48780.0.o          test.c.48780.0.s:39
+    test.c.23148.0.o          test.c.23148.0.s:39
 __SYSCHKHDR__ ([linker generated]):
     system_check.o            atari/system_check.s:28
 __SYSCHKTRL__ ([linker generated]):
@@ -247,30 +247,30 @@ __SYSTEM_CHECK__ (system_check.o):
     [linker generated]        atari_modifed.cfg:37
     [linker generated]        atari_modifed.cfg:7
 ___clocks_per_sec (clock.o):
-    test.c.48780.0.o          test.c.48780.0.s:77
-_charset (charmap.c.48780.1.o):
-    test.c.48780.0.o          test.c.48780.0.s:42
+    test.c.23148.0.o          test.c.23148.0.s:77
+_charset (charmap.c.23148.1.o):
+    test.c.23148.0.o          test.c.23148.0.s:42
 _clock (clock.o):
-    test.c.48780.0.o          test.c.48780.0.s:78
-_main (test.c.48780.0.o):
+    test.c.23148.0.o          test.c.23148.0.s:78
+_main (test.c.23148.0.o):
     callmain.o                runtime/callmain.s:11
 _memcpy (memcpy.o):
-    test.c.48780.0.o          test.c.48780.0.s:54
+    test.c.23148.0.o          test.c.23148.0.s:54
 _waitvsync (waitvsync.o):
-    test.c.48780.0.o          test.c.48780.0.s:41
+    test.c.23148.0.o          test.c.23148.0.s:41
 addeq0sp (addeqsp.o):
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 addeqysp (addeqsp.o):
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 addysp (addysp.o):
     incsp8.o                  runtime/incsp8.s:8
     incsp7.o                  runtime/incsp7.s:8
@@ -278,19 +278,19 @@ addysp (addysp.o):
     incsp5.o                  runtime/incsp5.s:8
     incsp4.o                  runtime/incsp4.s:8
     incsp3.o                  runtime/incsp3.s:8
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 addysp1 (addysp.o):
     ludiv.o                   runtime/ludiv.s:9
     lmul.o                    runtime/lmul.s:9
     ladd.o                    runtime/ladd.s:8
 aslax4 (aslax4.o):
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 aslax7 (aslax7.o):
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 boolult (makebool.o):
     lult.o                    runtime/lult.s:8
 c_sp (zeropage.o):
@@ -317,92 +317,92 @@ c_sp (zeropage.o):
     crt0.o                    /home/runner/work/cc65/cc65/asminc/zeropage.inc:11
     addysp.o                  runtime/addysp.s:8
     addeqsp.o                 runtime/addeqsp.s:8
-    test.c.48780.0.o          test.c.48780.0.s:10
+    test.c.23148.0.o          test.c.23148.0.s:10
 callmain (callmain.o):
     crt0.o                    atari/crt0.s:16
 decax8 (decax8.o):
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 decsp1 (decsp1.o):
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 decsp2 (decsp2.o):
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 decsp4 (decsp4.o):
     lpush.o                   runtime/lpush.s:12
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 donelib (condes.o):
     crt0.o                    atari/crt0.s:15
 incsp1 (incsp1.o):
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 incsp2 (incsp2.o):
     staspidx.o                runtime/staspidx.s:8
     popptr1.o                 runtime/popptr1.s:8
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 incsp3 (incsp3.o):
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 incsp4 (incsp4.o):
     lcmp.o                    runtime/lcmp.s:9
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 incsp5 (incsp5.o):
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 incsp6 (incsp6.o):
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 incsp7 (incsp7.o):
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 incsp8 (incsp8.o):
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 initlib (condes.o):
     crt0.o                    atari/crt0.s:15
 ldax0sp (ldaxsp.o):
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 ldaxysp (ldaxsp.o):
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 ldeaxysp (ldeaxysp.o):
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 ldptr1ysp (ldptr1sp.o):
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 popax (incsp2.o):
     memcpy.o                  common/memcpy.s:14
 popptr1 (popptr1.o):
@@ -421,7 +421,7 @@ ptr1 (zeropage.o):
     ludiv.o                   runtime/ludiv.s:10
     lmul.o                    runtime/lmul.s:10
     ldptr1sp.o                runtime/ldptr1sp.s:8
-    test.c.48780.0.o          test.c.48780.0.s:11
+    test.c.23148.0.o          test.c.23148.0.s:11
 ptr2 (zeropage.o):
     memcpy.o                  common/memcpy.s:15
     ludiv.o                   runtime/ludiv.s:10
@@ -436,58 +436,58 @@ ptr4 (zeropage.o):
     ludiv.o                   runtime/ludiv.s:10
     lmul.o                    runtime/lmul.s:10
 push0 (pushax.o):
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 push0ax (lpush.o):
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 pusha (pusha.o):
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 pusha0 (pushax.o):
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 pushax (pushax.o):
     callmain.o                runtime/callmain.s:11
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 pusheax (lpush.o):
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 pushwysp (pushwsp.o):
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 sreg (zeropage.o):
     udiv.o                    runtime/udiv.s:10
     lcmp.o                    runtime/lcmp.s:10
@@ -501,29 +501,29 @@ sreg (zeropage.o):
 start (crt0.o):
     [linker generated]        atari_modifed.cfg:36
 staspidx (staspidx.o):
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 stax0sp (staxsp.o):
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 staxysp (staxsp.o):
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 tmp1 (zeropage.o):
     staspidx.o                runtime/staspidx.s:9
     ladd.o                    runtime/ladd.s:9
     aslax4.o                  runtime/aslax4.s:8
-    test.c.48780.0.o          test.c.48780.0.s:11
+    test.c.23148.0.o          test.c.23148.0.s:11
 tmp2 (zeropage.o):
     lmul.o                    runtime/lmul.s:10
 tmp3 (zeropage.o):
@@ -533,22 +533,22 @@ tmp4 (zeropage.o):
     ludiv.o                   runtime/ludiv.s:10
     lmul.o                    runtime/lmul.s:10
 tosaddeax (ladd.o):
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 toslcmp (lcmp.o):
     lult.o                    runtime/lult.s:8
 tosudiv0ax (ludiv.o):
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 tosulteax (lult.o):
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 tosumoda0 (umod.o):
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 tosumula0 (mul8.o):
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 tosumuleax (lmul.o):
-    test.c.48780.0.o          test.c.48780.0.s:2371
+    test.c.23148.0.o          test.c.23148.0.s:2371
 udiv16 (udiv.o):
     umod.o                    runtime/umod.s:8
 zerobss (zerobss.o):
