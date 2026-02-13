@@ -100,15 +100,15 @@ unsigned int cur_player = 0;
 //char TheFiller[28800];
 int main() {
 
-    
+    unsigned int cur_horiz_position;
+    unsigned int cur_vert_position;
 
     InitializeJoystick();
 
     // variable declarations
  
     
-    // unsigned int cur_horiz_position;
-    // unsigned int cur_vert_position;
+    
     // end variable declarations
 
     initializeEngine();
@@ -126,8 +126,8 @@ int main() {
     while (true) {
 
         //process gamestate
-        // cur_horiz_position = player_horiz_positions[cur_player];
-        // cur_vert_position = player_vert_positions[cur_player];
+        cur_horiz_position = playerEnt.playerEntity.eyeCoords.x;
+        cur_vert_position = playerEnt.playerEntity.eyeCoords.y;
 
 
         
@@ -135,15 +135,17 @@ int main() {
 
         waitvsync();
         //printf("h");
-        set_player_horiz_position(cur_player,playerEnt.playerEntity.eyeCoords.x,true);
-        set_player_vert_position(cur_player,playerEnt.playerEntity.eyeCoords.y,true);
+        
         
         //process graphics
-        // if (check_if_any_collision(cur_player)) {
-        //     GTIA_WRITE.hitclr = 1;
-        //     set_player_horiz_position(cur_player,playerEnt.playerEntity.eyeCoords.x,true);
-        //     set_player_vert_position(cur_player,playerEnt.playerEntity.eyeCoords.y,true);
-        // }
+        if (check_if_any_collision(cur_player)) {
+            GTIA_WRITE.hitclr = 1;
+            set_player_horiz_position(cur_player,cur_horiz_position,true);
+            set_player_vert_position(cur_player,cur_vert_position,true);
+        } else {
+            set_player_horiz_position(cur_player,playerEnt.playerEntity.eyeCoords.x,true);
+            set_player_vert_position(cur_player,playerEnt.playerEntity.eyeCoords.y,true);
+        }
         
     }
 }
