@@ -1,20 +1,22 @@
+
 #include <atari.h>
-#include <_atarios.h>
-#include <peekpoke.h>
+#include <6502.h>
 #include <conio.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <joystick.h>
 #include <unistd.h>
-#include <_gtia.h>
-// header files we defined
 #include "charmap.h"
 #include "color_pallete.h"
 #include "joystick_locations.h"
 #include "player_missile.h"
 #include "screen_memory.h"
-#include "gamemap.c"
+#include "gamemap.h"
+#include "player.h"
+#include "util.h"
+#include "util_input.h"
+#include <assert.h>
 
 
 
@@ -56,14 +58,19 @@ void joystick_test();
 
 void test_player1();
 
+//void waitvsync(void);
+//extern PlayerEntity playerEnt;
+
 // wait until VCOUNT == 0
 void wait_vblank() {
     while(ANTIC.vcount);
 }
 
-bool check_if_any_collision(unsigned char player);
+bool check_if_any_collision(unsigned char playerID);
 void init_DLI();
-
+void initializeEngine();
+void initializeStaticEntities();
+void processFrameTasks();
 // variable declarations
 char DisplayList[] = {
     // 24 blank lines
@@ -85,29 +92,28 @@ char DisplayList[] = {
     };
 
     // variable declarations
-int i;
+int i = 0;
 int charStart = 480;
+PlayerEntity playerEnt;
+unsigned int cur_player = 0;
+   int frames = 0;
 
+
+//char TheFiller[28800];
 int main() {
 
+    
+
+    InitializeJoystick();
+
     // variable declarations
-    int frames = 0;
-    int i = 0;
-    unsigned int cur_player = 0;
-    unsigned int cur_horiz_position;
-    unsigned int cur_vert_position;
+ 
+    
+    // unsigned int cur_horiz_position;
+    // unsigned int cur_vert_position;
     // end variable declarations
 
-    fix_displayList();
-    // _graphics(12);
-    init_charset();
-    edit_colors();
-    setup_pmg();
-    
-    test_player1();
-    fill_column(3,5);
-    fill_row(0,2);
-    fill_row(1,1);
+    initializeEngine();
 
     fill_row_section(2,20,27,3);
     
@@ -116,81 +122,137 @@ int main() {
 
     set_player_horiz_position(0,SCREEN_HORIZ_CENTER,true);
     set_player_vert_position(0,SCREEN_VERT_CENTER,true);
+    //processFrameTasks();
+
+    //memset(TheFiller, 3, sizeof(TheFiller)); 
     while (true) {
-        cur_horiz_position = player_horiz_positions[cur_player];
-        cur_vert_position = player_vert_positions[cur_player];
-        // wait_vblank();
-        joystick_test();
+
+        //process gamestate
+        // cur_horiz_position = player_horiz_positions[cur_player];
+        // cur_vert_position = player_vert_positions[cur_player];
+
+
+        
+        processFrameTasks();
+
         waitvsync();
+        //printf("h");
+        set_player_horiz_position(cur_player,playerEnt.playerEntity.eyeCoords.x,true);
+        set_player_vert_position(cur_player,playerEnt.playerEntity.eyeCoords.y,true);
         
-        if (check_if_any_collision(cur_player)) {
-            GTIA_WRITE.hitclr = 1;
-            set_player_horiz_position(cur_player,cur_horiz_position,true);
-            set_player_vert_position(cur_player,cur_vert_position,true);
-        }
+        //process graphics
+        // if (check_if_any_collision(cur_player)) {
+        //     GTIA_WRITE.hitclr = 1;
+        //     set_player_horiz_position(cur_player,playerEnt.playerEntity.eyeCoords.x,true);
+        //     set_player_vert_position(cur_player,playerEnt.playerEntity.eyeCoords.y,true);
+        // }
         
     }
 }
 
-void joystick_test() {
-    unsigned int joystick_input = (unsigned int)PEEK(JOYSTICK_REG_INPUT_0);
-    unsigned int cur_player = 0;
-    // move player 0 aroud
 
+//todo: return and process STATUS?
+
+void initializeEngine(){
     
-    switch (joystick_input) {
-        case JOYSTICK_MOVE_NOT: 
-            
-            break;
-        
-        case JOYSTICK_MOVE_DOWN:
-            move_player_vert_position(cur_player,1,true);
-            break;
-        
-        case JOYSTICK_MOVE_DOWN_LEFT:
-            move_player_vert_position(cur_player,1,true);
-            move_player_horiz_position(cur_player,-1,true);
-            break;
-        
-        case JOYSTICK_MOVE_LEFT:
+    fix_displayList();
+    init_charset();
+    edit_colors();
+    setup_pmg();
 
-            move_player_horiz_position(cur_player,-1,true);
-            break;
+    fill_column(3,5);
+    fill_row(0,2);
+    fill_row(1,1);
 
-        case JOYSTICK_MOVE_UP_LEFT:
-            move_player_vert_position(cur_player,-1,true);
-            move_player_horiz_position(cur_player,-1,true);
-            break;
-
-        case JOYSTICK_MOVE_UP:
-            move_player_vert_position(cur_player,-1,true);
-            
-            break;
-        
-        case JOYSTICK_MOVE_UP_RIGHT:
-            move_player_vert_position(cur_player,-1,true);
-            move_player_horiz_position(cur_player,1,true);
-            
-            
-            break;
-        
-        case JOYSTICK_MOVE_RIGHT:
-            
-            move_player_horiz_position(cur_player,1,true);
-            break;
-
-        case JOYSTICK_MOVE_DOWN_RIGHT:
-            move_player_vert_position(cur_player,1,true);
-            move_player_horiz_position(cur_player,1,true);
-            break;
-
-        default:
-            break;
-    }
-
-    // if there's a collision, revert to previous position?
+    initializeStaticEntities(); //temp function
+    
     
 }
+
+//initalizes just the player for now
+void initializeStaticEntities(){
+    test_player1();
+    //Entity *test = (Entity*)&(playerEnt.playerEntity);
+
+
+    playerEnt.playerEntity.eyeCoords.x = SCREEN_HORIZ_CENTER;
+    playerEnt.playerEntity.eyeCoords.y = SCREEN_VERT_CENTER;
+
+
+    entityConstructor((Entity*)&playerEnt.playerEntity, playerRoutine, playerRenderer);
+    playerConstructor();
+
+    //temp init assign
+    playerEnt.playerEntity.eyeCoords.x = SCREEN_HORIZ_CENTER;
+    playerEnt.playerEntity.eyeCoords.y = SCREEN_VERT_CENTER;
+}
+
+//stub for now, this will be designed later
+//should produce a final gamestate...
+//the idea is to have an array of frametask ptrs to run in order
+void processFrameTasks(){
+    playerEnt.playerEntity.frameTask(&(playerEnt.playerEntity));
+}
+
+// void joystick_test() {
+//     unsigned int joystick_input = (unsigned int)PEEK(JOYSTICK_REG_INPUT_0);
+//     unsigned int cur_player = 0;
+//     // move player 0 aroud
+
+    
+//     switch (joystick_input) {
+//         case JOYSTICK_MOVE_NOT: 
+            
+//             break;
+        
+//         case JOYSTICK_MOVE_DOWN:
+//             move_player_vert_position(cur_player,1,true);
+//             break;
+        
+//         case JOYSTICK_MOVE_DOWN_LEFT:
+//             move_player_vert_position(cur_player,1,true);
+//             move_player_horiz_position(cur_player,-1,true);
+//             break;
+        
+//         case JOYSTICK_MOVE_LEFT:
+
+//             move_player_horiz_position(cur_player,-1,true);
+//             break;
+
+//         case JOYSTICK_MOVE_UP_LEFT:
+//             move_player_vert_position(cur_player,-1,true);
+//             move_player_horiz_position(cur_player,-1,true);
+//             break;
+
+//         case JOYSTICK_MOVE_UP:
+//             move_player_vert_position(cur_player,-1,true);
+            
+//             break;
+        
+//         case JOYSTICK_MOVE_UP_RIGHT:
+//             move_player_vert_position(cur_player,-1,true);
+//             move_player_horiz_position(cur_player,1,true);
+            
+            
+//             break;
+        
+//         case JOYSTICK_MOVE_RIGHT:
+            
+//             move_player_horiz_position(cur_player,1,true);
+//             break;
+
+//         case JOYSTICK_MOVE_DOWN_RIGHT:
+//             move_player_vert_position(cur_player,1,true);
+//             move_player_horiz_position(cur_player,1,true);
+//             break;
+
+//         default:
+//             break;
+//     }
+
+//     // if there's a collision, revert to previous position?
+    
+// }
 
 // writes crucial bytes to the display list
 void fix_displayList() {    
@@ -205,7 +267,10 @@ void fix_displayList() {
     // inject dlistAddr into the indices 28 and 29
     DisplayList[sizeof(DisplayList) - 2] = dl_addr & 0xFF;   // this injects the 8 most significant bits
     DisplayList[sizeof(DisplayList) - 1] = (dl_addr >> 8) & 0xFF; // this injects the 8 least signifcant bits
-    POKEW(DISPLAY_LIST,dl_addr);
+    //POKEW(DISPLAY_LIST,dl_addr);
+    OS.sdlst = DisplayList;
+
+
 }
 
 // initializes a character set
@@ -220,6 +285,8 @@ void init_charset() {
     //   test = charmap_addr * 0x100; // page number * page size
 
     POKE(756,((unsigned int)charset) >> 8);   // poke high byte to CHBASE register
+
+
 
     // set page number in CHARSET_PTR
    
@@ -271,11 +338,11 @@ void test_player1() {
 }
 
 // checks if a player collides with any bit other than 0 in playfield
-bool check_if_any_collision(unsigned char player) {
+bool check_if_any_collision(unsigned char playerID) {
     unsigned char collision;
 
     // read the correct collision register based on player number
-    switch (player) {
+    switch (playerID) {
         case 0:
             collision = GTIA_READ.p0pf;
             break;
