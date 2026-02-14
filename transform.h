@@ -8,10 +8,18 @@
 
 typedef struct Transform {
   Vector2 eyeCoords;  //0 > x > 255 TODO: compatibility with tilebased entity?
-  Vector2 worldSpace;
-  Vector2 objectAnchorPoint; //TODO: may convert it to a char Vect
-  //Vector2 objectBounds;
+  u32Vector2 worldCoords;
+  Vector2 objectAnchorPoint; //TODO: may convert it to a char Vect 
+  Vector2 objectBounds; //think dimensions
 } Transform;
+
+//name the member in the struct used as "transform" to use this macro
+//allow code to be a bit cleaner, 
+#define _worldCoords transform.worldCoords
+#define _eyeCoords transform.eyeCoords
+#define _objectAnchorPoint transform.objectAnchorPoint'
+#define _objectBounds transform.objectBounds
+//todo: move child entity to TF like unity?
 
 
 #endif

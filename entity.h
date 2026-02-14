@@ -9,12 +9,9 @@
 //keep in mind, these may require NULL checks
 
 #include "util_structs.h"
+#include "transform.h"
 #include <stddef.h>
 
-//Entity interface
-// typedef struct Entitye {
-//   STATUS (*frameTask)(Entity* ); 
-// };
 
 
 //entity base
@@ -22,7 +19,8 @@ typedef struct Entity {
   STATUS (*frameTask)(struct Entity* thisEntity);
   STATUS (*renderer)(struct Entity* thisEntity);
   struct Entity* childEntity;
-  Vector2 eyeCoords;
+  Transform transform;
+  Vector2 eyeCoords;  //todo, get rid of this, replaced by transform
 } Entity;
 
 //allows accessing to be funny

@@ -175,7 +175,7 @@ void initializeStaticEntities(){
     playerEnt.playerEntity.eyeCoords.y = SCREEN_VERT_CENTER;
 
 
-    entityConstructor((Entity*)&playerEnt.playerEntity, playerRoutine, playerRenderer);
+    entityConstructor((Entity*)&playerEnt.playerEntity, player_FrameTask, playerRenderer);
     playerConstructor();
 
     //temp init assign

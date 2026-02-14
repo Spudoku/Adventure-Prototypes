@@ -36,7 +36,7 @@ typedef struct PlayerEntity {
 // int playerSpeed;  //may consider making this an unsigned char
 // //may also want to include a delta time if we aren't synced with vblank 1:1
 
-STATUS playerRoutine(Entity* thisEntity);
+STATUS player_FrameTask(Entity* thisEntity);
 STATUS playerRenderer(Entity* thisEntity);
 
 //player specific, note how there is always a player so these manip the struct

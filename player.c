@@ -9,7 +9,7 @@
 extern PlayerEntity playerEnt;
 
 //per frame behavior
-STATUS playerRoutine(Entity* thisEntity) {
+STATUS player_FrameTask(Entity* thisEntity) {
   //pseudo
 
   // read input and set velocity
