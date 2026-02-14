@@ -7,4 +7,7 @@ map.txt
 *.xex
 *.dbg
 *.o
+player.o
+test.c.*.*.o
 map.txt
+.vscode/settings.json
