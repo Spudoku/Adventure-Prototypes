@@ -211,7 +211,7 @@ void write_sprite(unsigned char playerID, unsigned char position) {
     
 
     
-   if (position >= SCREEN_TOP_BOUND || position <= SCREEN_BOTTOM_BOUND) {
+   if (position <= SCREEN_TOP_BOUND || position >= SCREEN_BOTTOM_BOUND) {
         memcpy(&player_graphics[playerID][position - 8],player_sprites[playerID],16);
    } 
 }
