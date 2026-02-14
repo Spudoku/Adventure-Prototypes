@@ -2,11 +2,11 @@
 #include "util_structs.h"
 #include "entity.h"
 #include "dragon.h"
-#include "items.h"
+// #include "items.h"
 
 extern DragonEntity dragonEnt;
 
-//per frame behavior
+// //per frame behavior
 STATUS dragonRoutine(Entity* thisEntity) {
   //pseudo
 
@@ -22,11 +22,11 @@ STATUS dragonRenderer(Entity* thisEntity) {
 }
 
 STATUS dragonBehaviorProcess() {
-  // TODO: guard/pursue behavior
+  // TODO: guard/pursue behavior (which will require tracking of world coordinates)
   return PASS;
 }
 
-//init the dragon specific vars
+// //init the dragon specific vars
 STATUS dragonConstructor(){
   dragonEnt.dragonSpeed = 1;
   dragonEnt.dragonVelocity.x = 0;
@@ -37,10 +37,10 @@ STATUS dragonConstructor(){
   // entityConstructor(&(dragonEnt.dragonEntity), dragonRoutine, dragonRenderer);
   //assign to the dragon entity it's dummy obj item
 
-  dragonEnt.dragonEntity.childEntity = &nullItem;
-  //in the future, the constructor will be not ran right here, probably during
-  //boot sequence
-  nullItem_constructor(&nullItem);  
+  // dragonEnt.dragonEntity.childEntity = &nullItem;
+  // in the future, the constructor will be not ran right here, probably during
+  // boot sequence
+  // nullItem_constructor(&nullItem);  
 
   return PASS;
 }

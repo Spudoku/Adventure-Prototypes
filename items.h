@@ -9,9 +9,6 @@
 //to keep things concise, the declarations for all items will be here, but the
 //defintion will be in their respective [obj].c file
 
-
-
-
 //null item funcs
 Entity nullItem;
 

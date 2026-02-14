@@ -113,6 +113,7 @@ int main() {
     // 
     manual_load(&gameMap[0][0]);
 
+    ScreenMemory[30] = 1;
     // set_player_horiz_position(0,SCREEN_HORIZ_CENTER,true);
     // set_player_vert_position(0,SCREEN_VERT_CENTER,true);
     //processFrameTasks();

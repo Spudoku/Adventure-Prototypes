@@ -13,10 +13,6 @@ STATUS playerRoutine(Entity* thisEntity) {
   //pseudo
 
   // read input and set velocity
-  
-
-  
-
   return playerInputProcess();
 }
 
