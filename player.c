@@ -36,35 +36,31 @@ STATUS playerInputProcess(){
   lastFrameState = joystickState;
   //read the joystick data
   joystickState = joy_read(JOY_1);
-
-  // set the intended velocity
-  // switch(joystickState){
-  //   case (JOY_UP(joystickState))
-
-
-
-  //   default:
-  //     playerVelocity.x = 0;
-  //     playerVelocity.y = 0;
-  //     break;
-  // }
   
   //todo: speed may need to be normalized for diagonal
-  //this is if statements to allow this fuckery (cant do it in a switch?)
+  // 
   if(JOY_RIGHT(joystickState)){
     playerEnt.playerVelocity.x = playerEnt.playerSpeed;
     playerEnt.playerEntity.eyeCoords.x += playerEnt.playerVelocity.x;
   } else if (JOY_LEFT(joystickState)){
     playerEnt.playerVelocity.x = playerEnt.playerSpeed;
+    // this looks redundant but apparently susbee said that subtracting unsigned ints is weird,
+    // so don't touch this for now
     playerEnt.playerEntity.eyeCoords.x -= playerEnt.playerVelocity.x;
   } else {
     playerEnt.playerVelocity.x = 0;
   }
 
+  // vertical movement
   if(JOY_UP(joystickState)){
     playerEnt.playerVelocity.y = playerEnt.playerSpeed;
-  } else {
-    playerEnt.playerVelocity.y = -playerEnt.playerSpeed * JOY_DOWN(joystickState);
+    playerEnt.playerEntity.eyeCoords.y -= playerEnt.playerVelocity.y;
+  } else if (JOY_DOWN(joystickState)) {
+    playerEnt.playerVelocity.y = playerEnt.playerSpeed;
+    playerEnt.playerEntity.eyeCoords.y += playerEnt.playerVelocity.y;
+    }else {
+    // playerEnt.playerVelocity.y = playerEnt.playerSpeed * JOY_DOWN(joystickState);
+    playerEnt.playerVelocity.y = 0;
   }
 
 
@@ -78,7 +74,7 @@ STATUS playerInputProcess(){
   // to process
   //TODO: clamping
   
-  playerEnt.playerEntity.eyeCoords.y += playerEnt.playerVelocity.y;
+  
   return PASS;
 }
 
@@ -89,10 +85,6 @@ STATUS playerConstructor(){
   playerEnt.playerVelocity.y = 0;
 
   //call the "base" constructor
-
-  
-
-
 
   // entityConstructor(&(playerEnt.playerEntity), playerRoutine, playerRenderer);
   //assign to the player entity it's dummy obj item

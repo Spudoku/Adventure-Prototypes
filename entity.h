@@ -12,10 +12,6 @@
 #include <stddef.h>
 
 //Entity interface
-// typedef struct Entitye {
-//   STATUS (*frameTask)(Entity* ); 
-// };
-
 
 //entity base
 typedef struct Entity {

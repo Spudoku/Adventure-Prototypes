@@ -93,7 +93,7 @@ char DisplayList[] = {
 int i = 0;
 int charStart = 480;
 PlayerEntity playerEnt;
-unsigned int cur_player = 0;
+
    int frames = 0;
 
 
@@ -102,20 +102,18 @@ int main() {
  // variable declarations
     unsigned int cur_horiz_position;
     unsigned int cur_vert_position;
+    unsigned int cur_player = 0;
     // end variable declarations
     InitializeJoystick();
-
-   
-
 
 
     initializeEngine();
 
-    // fill_row_section(2,20,27,3);
+    // 
     manual_load(&gameMap[0][0]);
 
-    set_player_horiz_position(0,SCREEN_HORIZ_CENTER,true);
-    set_player_vert_position(0,SCREEN_VERT_CENTER,true);
+    // set_player_horiz_position(0,SCREEN_HORIZ_CENTER,true);
+    // set_player_vert_position(0,SCREEN_VERT_CENTER,true);
     //processFrameTasks();
 
     //memset(TheFiller, 3, sizeof(TheFiller)); 
@@ -125,22 +123,20 @@ int main() {
         cur_horiz_position = playerEnt.playerEntity.eyeCoords.x;
         cur_vert_position = playerEnt.playerEntity.eyeCoords.y;
 
-
-        
         processFrameTasks();
 
         waitvsync();
         //printf("h");
-        
+        set_player_horiz_position(cur_player,playerEnt.playerEntity.eyeCoords.x,true);
+        set_player_vert_position(cur_player,playerEnt.playerEntity.eyeCoords.y,true);
         
         //process graphics
         if (check_if_any_collision(cur_player)) {
             GTIA_WRITE.hitclr = 1;
-            set_player_horiz_position(cur_player,cur_horiz_position,true);
-            set_player_vert_position(cur_player,cur_vert_position,true);
-        } else {
-            set_player_horiz_position(cur_player,playerEnt.playerEntity.eyeCoords.x,true);
-            set_player_vert_position(cur_player,playerEnt.playerEntity.eyeCoords.y,true);
+            playerEnt.playerEntity.eyeCoords.x = cur_horiz_position;
+            playerEnt.playerEntity.eyeCoords.y = cur_vert_position;
+            playerEnt.playerVelocity.x = 0;
+            playerEnt.playerVelocity.y = 0;
         }
         
     }
@@ -156,9 +152,9 @@ void initializeEngine(){
     edit_colors();
     setup_pmg();
 
-    fill_column(3,5);
-    fill_row(0,2);
-    fill_row(1,1);
+    // fill_column(3,5);
+    // fill_row(0,2);
+    // fill_row(1,1);
 
     initializeStaticEntities(); //temp function
     
@@ -171,8 +167,8 @@ void initializeStaticEntities(){
     //Entity *test = (Entity*)&(playerEnt.playerEntity);
 
 
-    playerEnt.playerEntity.eyeCoords.x = SCREEN_HORIZ_CENTER;
-    playerEnt.playerEntity.eyeCoords.y = SCREEN_VERT_CENTER;
+    // playerEnt.playerEntity.eyeCoords.x = SCREEN_HORIZ_CENTER;
+    // playerEnt.playerEntity.eyeCoords.y = SCREEN_VERT_CENTER;
 
 
     entityConstructor((Entity*)&playerEnt.playerEntity, playerRoutine, playerRenderer);
@@ -190,65 +186,7 @@ void processFrameTasks(){
     playerEnt.playerEntity.frameTask(&(playerEnt.playerEntity));
 }
 
-// void joystick_test() {
-//     unsigned int joystick_input = (unsigned int)PEEK(JOYSTICK_REG_INPUT_0);
-//     unsigned int cur_player = 0;
-//     // move player 0 aroud
 
-    
-//     switch (joystick_input) {
-//         case JOYSTICK_MOVE_NOT: 
-            
-//             break;
-        
-//         case JOYSTICK_MOVE_DOWN:
-//             move_player_vert_position(cur_player,1,true);
-//             break;
-        
-//         case JOYSTICK_MOVE_DOWN_LEFT:
-//             move_player_vert_position(cur_player,1,true);
-//             move_player_horiz_position(cur_player,-1,true);
-//             break;
-        
-//         case JOYSTICK_MOVE_LEFT:
-
-//             move_player_horiz_position(cur_player,-1,true);
-//             break;
-
-//         case JOYSTICK_MOVE_UP_LEFT:
-//             move_player_vert_position(cur_player,-1,true);
-//             move_player_horiz_position(cur_player,-1,true);
-//             break;
-
-//         case JOYSTICK_MOVE_UP:
-//             move_player_vert_position(cur_player,-1,true);
-            
-//             break;
-        
-//         case JOYSTICK_MOVE_UP_RIGHT:
-//             move_player_vert_position(cur_player,-1,true);
-//             move_player_horiz_position(cur_player,1,true);
-            
-            
-//             break;
-        
-//         case JOYSTICK_MOVE_RIGHT:
-            
-//             move_player_horiz_position(cur_player,1,true);
-//             break;
-
-//         case JOYSTICK_MOVE_DOWN_RIGHT:
-//             move_player_vert_position(cur_player,1,true);
-//             move_player_horiz_position(cur_player,1,true);
-//             break;
-
-//         default:
-//             break;
-//     }
-
-//     // if there's a collision, revert to previous position?
-    
-// }
 
 // writes crucial bytes to the display list
 void fix_displayList() {    
