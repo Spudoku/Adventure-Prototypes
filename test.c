@@ -14,10 +14,11 @@
 #include "screen_memory.h"
 #include "gamemap.h"
 #include "player.h"
+
 #include "util.h"
 #include "util_input.h"
 #include <assert.h>
-
+#include "dragon.h"
 
 
 #include <time.h>

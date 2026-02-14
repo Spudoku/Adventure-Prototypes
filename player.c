@@ -1,6 +1,6 @@
 #include "util.h"
 #include "util_structs.h"
-// #include "entity.h"
+#include "entity.h"
 #include "player.h"
 #include "util_input.h"
 #include <joystick.h>

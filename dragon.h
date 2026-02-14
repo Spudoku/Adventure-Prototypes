@@ -4,7 +4,7 @@
 #include "util.h"
 #include "util_structs.h"
 #include "entity.h"
-
+#include "items.h"
 
 // this should NOT be a singleton
 
