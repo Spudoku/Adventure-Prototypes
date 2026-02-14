@@ -2,7 +2,7 @@
 #include "util_structs.h"
 #include "entity.h"
 #include "dragon.h"
-// #include "items.h"
+#include "items.c"
 
 extern DragonEntity dragonEnt;
 
@@ -37,10 +37,10 @@ STATUS dragonConstructor(){
   // entityConstructor(&(dragonEnt.dragonEntity), dragonRoutine, dragonRenderer);
   //assign to the dragon entity it's dummy obj item
 
-  // dragonEnt.dragonEntity.childEntity = &nullItem;
+  dragonEnt.dragonEntity.childEntity = &nullItem;
   // in the future, the constructor will be not ran right here, probably during
   // boot sequence
-  // nullItem_constructor(&nullItem);  
+  nullItem_constructor(&nullItem);  
 
   return PASS;
 }
