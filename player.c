@@ -54,7 +54,7 @@ STATUS playerInputProcess(){
   } else if (JOY_DOWN(joystickState)) {
     playerEnt.playerVelocity.y = playerEnt.playerSpeed;
     playerEnt.playerEntity.eyeCoords.y += playerEnt.playerVelocity.y;
-    }else {
+  }else {
     // playerEnt.playerVelocity.y = playerEnt.playerSpeed * JOY_DOWN(joystickState);
     playerEnt.playerVelocity.y = 0;
   }

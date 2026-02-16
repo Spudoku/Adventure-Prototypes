@@ -123,31 +123,32 @@ int main() {
 
     //memset(TheFiller, 3, sizeof(TheFiller)); 
     while (true) {
-
+        // correct_eyecoords_test();
         //process gamestate
-        cur_horiz_position = playerEnt.playerEntity.eyeCoords.x;
-        cur_vert_position = playerEnt.playerEntity.eyeCoords.y;
+        // cur_horiz_position = playerEnt.playerEntity.eyeCoords.x;
+        // cur_vert_position = playerEnt.playerEntity.eyeCoords.y;
 
-        processFrameTasks();
+        // processFrameTasks();
 
         waitvsync();
         // make sure player and dragon remain on screen for now
-        correct_eyecoords_test();
-        //printf("h");
-        set_player_horiz_position(cur_player,playerEnt.playerEntity.eyeCoords.x,true);
-        set_player_vert_position(cur_player,playerEnt.playerEntity.eyeCoords.y,true);
-
-        set_player_horiz_position(1,dragonEnt.dragonEntity.eyeCoords.x,true);
-        set_player_vert_position(1,dragonEnt.dragonEntity.eyeCoords.y,true);
         
+        //printf("h");
+        // set_player_horiz_position(cur_player,playerEnt.playerEntity.eyeCoords.x,false);
+        // set_player_vert_position(cur_player,playerEnt.playerEntity.eyeCoords.y,false);
+
+        // set_player_horiz_position(1,dragonEnt.dragonEntity.eyeCoords.x,false);
+        // set_player_vert_position(1,dragonEnt.dragonEntity.eyeCoords.y,false);
+        set_player_horiz_position(0,SCREEN_HORIZ_CENTER,true);
+        set_player_vert_position(0,SCREEN_VERT_CENTER,false);
         //process graphics
-        if (check_if_any_collision(cur_player)) {
-            GTIA_WRITE.hitclr = 1;
-            playerEnt.playerEntity.eyeCoords.x = cur_horiz_position;
-            playerEnt.playerEntity.eyeCoords.y = cur_vert_position;
-            playerEnt.playerVelocity.x = 0;
-            playerEnt.playerVelocity.y = 0;
-        }
+        // if (check_if_any_collision(cur_player)) {
+        //     GTIA_WRITE.hitclr = 1;
+        //     playerEnt.playerEntity.eyeCoords.x = cur_horiz_position;
+        //     playerEnt.playerEntity.eyeCoords.y = cur_vert_position;
+        //     playerEnt.playerVelocity.x = 0;
+        //     playerEnt.playerVelocity.y = 0;
+        // }
         
     }
 }
@@ -189,12 +190,15 @@ void initializeStaticEntities(){
     // playerEnt.playerEntity.eyeCoords.y = SCREEN_VERT_CENTER;
 
     playerEnt.playerEntity.eyeCoords.x = 30;
-    playerEnt.playerEntity.eyeCoords.y = 0;
+    playerEnt.playerEntity.eyeCoords.y = 30;
 
-    entityConstructor((Entity*)&dragonEnt.dragonEntity,dragonRoutine, dragonRenderer);
-    dragonConstructor();
-    dragonEnt.dragonEntity.eyeCoords.x = 30;
-    dragonEnt.dragonEntity.eyeCoords.y = 0;
+    set_player_horiz_position(0,playerEnt.playerEntity.eyeCoords.x,true);
+    set_player_vert_position(0,playerEnt.playerEntity.eyeCoords.y,true);
+
+    // entityConstructor((Entity*)&dragonEnt.dragonEntity,dragonRoutine, dragonRenderer);
+    // dragonConstructor();
+    // dragonEnt.dragonEntity.eyeCoords.x = 30;
+    // dragonEnt.dragonEntity.eyeCoords.y = 0;
 }
 
 //stub for now, this will be designed later
@@ -329,11 +333,8 @@ bool check_if_any_collision(unsigned char playerID) {
 
 void correct_eyecoords_test() {
     // player 
-    if (playerEnt.playerEntity.eyeCoords.x > SCREEN_RIGHT_BOUND) {
-        playerEnt.playerEntity.eyeCoords.x = SCREEN_RIGHT_BOUND;
-    } else if (playerEnt.playerEntity.eyeCoords.x < SCREEN_LEFT_BOUND) {
-        playerEnt.playerEntity.eyeCoords.x = SCREEN_LEFT_BOUND;
-    }
+    playerEnt.playerEntity.eyeCoords.x = clamp_int(playerEnt.playerEntity.eyeCoords.x, SCREEN_LEFT_BOUND,SCREEN_RIGHT_BOUND);
+    playerEnt.playerEntity.eyeCoords.y = clamp_int(playerEnt.playerEntity.eyeCoords.y, SCREEN_TOP_BOUND,SCREEN_BOTTOM_BOUND);
     // dragon
 }
 
