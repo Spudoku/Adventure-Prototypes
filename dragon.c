@@ -2,7 +2,7 @@
 #include "util_structs.h"
 #include "entity.h"
 #include "dragon.h"
-#include "items.c"
+#include "items.h"
 
 extern DragonEntity dragonEnt;
 

@@ -4,7 +4,7 @@
 #include "player.h"
 #include "util_input.h"
 #include <joystick.h>
-#include "items.c"
+#include "items.h"
 
 extern PlayerEntity playerEnt;
 
