@@ -14,7 +14,7 @@ typedef struct DragonEntity {
   Entity dragonEntity;
 } DragonEntity;
 
-
+extern DragonEntity dragonEnt;
 
 // //may also want to include a delta time if we aren't synced with vblank 1:1
 

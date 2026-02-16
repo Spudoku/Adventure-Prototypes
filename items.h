@@ -10,11 +10,12 @@
 //defintion will be in their respective [obj].c file
 
 //null item funcs
-Entity nullItem;
+extern Entity nullItem;
 
-STATUS nullItem_Task(Entity* thisEntity) { return UNDEFINED; };
-STATUS nullItem_renderer(Entity* thisEntity) { return UNDEFINED; };
-
+STATUS nullItem_Task(Entity* thisEntity);
+// STATUS nullItem_Task(Entity* thisEntity) { return UNDEFINED; };
+// STATUS nullItem_renderer(Entity* thisEntity) { return UNDEFINED; };
+STATUS nullItem_renderer(Entity* thisEntity);
 
 STATUS nullItem_constructor(Entity* thisEntity);
 

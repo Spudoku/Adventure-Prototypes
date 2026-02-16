@@ -4,7 +4,7 @@
 #include "dragon.h"
 #include "items.h"
 
-extern DragonEntity dragonEnt;
+DragonEntity dragonEnt;
 
 // //per frame behavior
 STATUS dragonRoutine(Entity* thisEntity) {

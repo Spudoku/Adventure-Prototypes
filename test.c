@@ -59,6 +59,9 @@ void joystick_test();
 
 void test_player1();
 
+void correct_eyecoords_test();
+
+
 //void waitvsync(void);
 //extern PlayerEntity playerEnt;
 
@@ -128,9 +131,14 @@ int main() {
         processFrameTasks();
 
         waitvsync();
+        // make sure player and dragon remain on screen for now
+        correct_eyecoords_test();
         //printf("h");
         set_player_horiz_position(cur_player,playerEnt.playerEntity.eyeCoords.x,true);
         set_player_vert_position(cur_player,playerEnt.playerEntity.eyeCoords.y,true);
+
+        set_player_horiz_position(1,dragonEnt.dragonEntity.eyeCoords.x,true);
+        set_player_vert_position(1,dragonEnt.dragonEntity.eyeCoords.y,true);
         
         //process graphics
         if (check_if_any_collision(cur_player)) {
@@ -177,8 +185,16 @@ void initializeStaticEntities(){
     playerConstructor();
 
     //temp init assign
-    playerEnt.playerEntity.eyeCoords.x = SCREEN_HORIZ_CENTER;
-    playerEnt.playerEntity.eyeCoords.y = SCREEN_VERT_CENTER;
+    // playerEnt.playerEntity.eyeCoords.x = SCREEN_HORIZ_CENTER;
+    // playerEnt.playerEntity.eyeCoords.y = SCREEN_VERT_CENTER;
+
+    playerEnt.playerEntity.eyeCoords.x = 30;
+    playerEnt.playerEntity.eyeCoords.y = 0;
+
+    entityConstructor((Entity*)&dragonEnt.dragonEntity,dragonRoutine, dragonRenderer);
+    dragonConstructor();
+    dragonEnt.dragonEntity.eyeCoords.x = 30;
+    dragonEnt.dragonEntity.eyeCoords.y = 0;
 }
 
 //stub for now, this will be designed later
@@ -262,15 +278,23 @@ void test_player1() {
     player_sprites[0][15] = 0b00000000;
   
     // set_player_vert_position(0,64,true);
-
-    player_sprites[1][0] = 0xFA;
-    player_sprites[1][1] = 0xF1;
-    player_sprites[1][2] = 0xF1;
-    player_sprites[1][3] = 0xFA;
-    player_sprites[1][4] = 0xFA;
-    player_sprites[1][5] = 0xFA;
-    player_sprites[1][6] = 0xFA;
-    player_sprites[1][7] = 0xFA;
+    // dragon sprite
+    player_sprites[1][0] =  0b00000110;
+    player_sprites[1][1] =  0b00001111;
+    player_sprites[1][2] =  0b11110011;
+    player_sprites[1][3] =  0b11111110;
+    player_sprites[1][4] =  0b00000100;
+    player_sprites[1][5] =  0b00011110;
+    player_sprites[1][6] =  0b00111111;
+    player_sprites[1][7] =  0b01110011;
+    player_sprites[1][8] =  0b01100011;
+    player_sprites[1][9] =  0b01100011;
+    player_sprites[1][10] = 0b01100111;
+    player_sprites[1][11] = 0b00111110;
+    player_sprites[1][12] = 0b00011100;
+    player_sprites[1][13] = 0b00011100;
+    player_sprites[1][14] = 0b00001111;
+    player_sprites[1][15] = 0b00000111;
 }
 
 // checks if a player collides with any bit other than 0 in playfield
@@ -301,6 +325,16 @@ bool check_if_any_collision(unsigned char playerID) {
     }
     return false;
 
+}
+
+void correct_eyecoords_test() {
+    // player 
+    if (playerEnt.playerEntity.eyeCoords.x > SCREEN_RIGHT_BOUND) {
+        playerEnt.playerEntity.eyeCoords.x = SCREEN_RIGHT_BOUND;
+    } else if (playerEnt.playerEntity.eyeCoords.x < SCREEN_LEFT_BOUND) {
+        playerEnt.playerEntity.eyeCoords.x = SCREEN_LEFT_BOUND;
+    }
+    // dragon
 }
 
 
