@@ -12,9 +12,15 @@ typedef struct DragonEntity {
   Vector2 dragonVelocity;
   int dragonSpeed;  //may consider making this an unsigned char
   Entity dragonEntity;
+
+  // dragon-specific fields
+
+  Vector2 targetLocation;
+  Entity loves[3]; // things this dragon loves
+  Entity hates[3]; // things this dragon hates
 } DragonEntity;
 
-extern DragonEntity dragonEnt;
+extern DragonEntity dragonEntities[];
 
 // //may also want to include a delta time if we aren't synced with vblank 1:1
 
@@ -26,6 +32,8 @@ STATUS dragonRenderer(Entity* thisEntity);
 // STATUS dragonInputProcess();
 STATUS dragonBehaviorProcess();
 STATUS dragonConstructor();
+
+void moveTowards(unsigned int dragonNum, Vector2 location);
 
 
 #endif 

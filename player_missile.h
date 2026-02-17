@@ -10,8 +10,8 @@ unsigned char player_horiz_positions[4];
 unsigned char player_vert_positions[4];
 
 // sprite arrays
-unsigned char player_sprites[4][16];
-unsigned char unused[312];          // it appears we can use this area safely
+unsigned char player_sprites[4][32];
+unsigned char unused[248];          // it appears we can use this area safely
 unsigned char missiles_graphics[4][32];
 unsigned char player_graphics[4][128];
 
@@ -39,6 +39,9 @@ unsigned char player_graphics[4][128];
 #define SCREEN_BOTTOM_BOUND 116
 
 #define SCREEN_VERT_CENTER (SCREEN_BOTTOM_BOUND + SCREEN_TOP_BOUND) / 2
+
+
+unsigned int stupid = 0;
 
 /**
     FUNCTION DECLARATIONS
@@ -68,20 +71,6 @@ void setup_pmg() {
     // move 46 into SDMCTL ($22F), which sets to double-line resolution
     // move 0x3 into GRACTL ( $D01D ), which enables PMG
     // move 0x1 into GRPRIOR ($26F), which gives player priorty?
-    
-    //unsigned int playerDataPage = 0x38;
-    //unsigned int playerData = playerDataPage << 8;
-    // unsigned int missileLocation = (unsigned int)missiles_graphics[0];
-
-    // unsigned int zeroIndex;
-    // unsigned int playerIndex;
-    
-
-    // POKE(PCOLR0,0x1E);
-    //POKE(PMBASE,(unsigned char )*player_horiz_positions);
-    //ANTIC.pmbase = (unsigned int )player_horiz_positions;  //C arrays are syntatic sugar
-
-
 
     ANTIC.pmbase = (unsigned int)player_horiz_positions >> 8;
     
@@ -90,23 +79,10 @@ void setup_pmg() {
     // THIS IS TEST CODE
     //POKE(SDMCTL,46); 
     // I think the does: enable fetching DMA instructions, enable player/missile DMA, standard playfield
-    
-
-
-    
-    // for (zeroIndex = 0; zeroIndex < 0x80;zeroIndex++) {
-    //     // clear bits from missiles and players 0-1 at the same time
-    //     POKE(missileLocation + zeroIndex,0);
-    //     for (playerIndex = 0; playerIndex < 4; playerIndex++) {
-    //         player_graphics[playerIndex][zeroIndex] = 0;
-    //     }
-    // }
 
     //zero out the section just in case,
     //this looks dangerous but you see. i'm more dangerous than this
     memset(player_horiz_positions, 0, 1024);    //1024 bytes are avail in here
-
-
 
 
     ANTIC.dmactl = 46;
@@ -120,6 +96,7 @@ void setup_pmg() {
     // set color of player 0
     //POKE(PCOLR0,0x1E);
     OS.pcolr0 = COLOR_YELLOW;
+    OS.pcolr1 = COLOR_RED;
 
     // GTIA_WRITE.colpm0 = (unsigned char)0x1E;
 }
@@ -204,15 +181,16 @@ void write_sprite(unsigned char playerID, unsigned char position) {
     unsigned char old_y = player_vert_positions[playerID];
 
     if (old_y > SCREEN_TOP_BOUND) {
-        memset(&player_graphics[playerID][old_y-8],0,16);
+        memset(&player_graphics[playerID][old_y-16],0,16);
     }
 
     // zero out the old sprite
     
 
     
-   if (position <= SCREEN_TOP_BOUND || position >= SCREEN_BOTTOM_BOUND) {
-        memcpy(&player_graphics[playerID][position - 8],player_sprites[playerID],16);
+   if (position >= SCREEN_TOP_BOUND || position <= SCREEN_BOTTOM_BOUND) {
+        memcpy(&player_graphics[playerID][position - 16],player_sprites[playerID],16);
+
    } 
 }
 void set_player_vert_position(unsigned char playerID, unsigned char pos, bool boundsCorrect) {

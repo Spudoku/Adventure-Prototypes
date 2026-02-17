@@ -4,8 +4,8 @@
 #include "dragon.h"
 #include "items.h"
 
-DragonEntity dragonEnt;
 
+DragonEntity dragonEntities[3];
 // //per frame behavior
 STATUS dragonRoutine(Entity* thisEntity) {
   //pseudo
@@ -27,17 +27,17 @@ STATUS dragonBehaviorProcess() {
 }
 
 // //init the dragon specific vars
-STATUS dragonConstructor(){
-  dragonEnt.dragonSpeed = 1;
-  dragonEnt.dragonVelocity.x = 0;
-  dragonEnt.dragonVelocity.y = 0;
+STATUS dragonConstructor(unsigned int num){
+  dragonEntities[num].dragonSpeed = 1;
+  dragonEntities[num].dragonVelocity.x = 0;
+  dragonEntities[num].dragonVelocity.y = 0;
 
   //call the "base" constructor
 
-  // entityConstructor(&(dragonEnt.dragonEntity), dragonRoutine, dragonRenderer);
+  entityConstructor(&(dragonEntities[num].dragonEntity), dragonRoutine, dragonRenderer);
   //assign to the dragon entity it's dummy obj item
 
-  dragonEnt.dragonEntity.childEntity = &nullItem;
+  dragonEntities[num].dragonEntity.childEntity = &nullItem;
   // in the future, the constructor will be not ran right here, probably during
   // boot sequence
   nullItem_constructor(&nullItem);  

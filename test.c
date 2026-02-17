@@ -117,9 +117,10 @@ int main() {
     manual_load(&gameMap[0][0]);
     initializeEngine();
     ScreenMemory[30] = 1;
-    
+    set_player_horiz_position(1,SCREEN_HORIZ_CENTER,true);
+        set_player_vert_position(1,SCREEN_VERT_CENTER,true);
     while (true) {
-        // correct_eyecoords_test();
+        correct_eyecoords_test();
         //process gamestate
         cur_horiz_position = playerEnt.playerEntity.eyeCoords.x;
         cur_vert_position = playerEnt.playerEntity.eyeCoords.y;
@@ -130,13 +131,11 @@ int main() {
         // make sure player and dragon remain on screen for now
         
         //printf("h");
-        set_player_horiz_position(cur_player,playerEnt.playerEntity.eyeCoords.x, false);
-        set_player_vert_position(cur_player,playerEnt.playerEntity.eyeCoords.y, false);
+        set_player_horiz_position(cur_player,playerEnt.playerEntity.eyeCoords.x, true);
+        set_player_vert_position(cur_player,playerEnt.playerEntity.eyeCoords.y, true);
 
-        // set_player_horiz_position(1,dragonEnt.dragonEntity.eyeCoords.x,false);
-        // set_player_vert_position(1,dragonEnt.dragonEntity.eyeCoords.y,false);
-        // set_player_horiz_position(0,SCREEN_HORIZ_CENTER,true);
-        // set_player_vert_position(0,SCREEN_VERT_CENTER,false);
+        
+
         //process graphics
         if (check_if_any_collision(cur_player)) {
             GTIA_WRITE.hitclr = 1;
@@ -185,16 +184,18 @@ void initializeStaticEntities(){
     // playerEnt.playerEntity.eyeCoords.x = SCREEN_HORIZ_CENTER;
     // playerEnt.playerEntity.eyeCoords.y = SCREEN_VERT_CENTER;
 
-    playerEnt.playerEntity.eyeCoords.x = SCREEN_HORIZ_CENTER;
+    playerEnt.playerEntity.eyeCoords.x = SCREEN_HORIZ_CENTER + 20;
     playerEnt.playerEntity.eyeCoords.y = SCREEN_VERT_CENTER;
 
     set_player_horiz_position(0,playerEnt.playerEntity.eyeCoords.x,true);
     set_player_vert_position(0,playerEnt.playerEntity.eyeCoords.y,true);
 
-    // entityConstructor((Entity*)&dragonEnt.dragonEntity,dragonRoutine, dragonRenderer);
-    // dragonConstructor();
-    // dragonEnt.dragonEntity.eyeCoords.x = 30;
-    // dragonEnt.dragonEntity.eyeCoords.y = 0;
+    // dragon 0
+
+    entityConstructor((Entity*)&dragonEntities[0].dragonEntity,dragonRoutine, dragonRenderer);
+    dragonConstructor(0);
+    dragonEntities[0].dragonEntity.eyeCoords.x = 50;
+    dragonEntities[0].dragonEntity.eyeCoords.y = 60;
 }
 
 //stub for now, this will be designed later
