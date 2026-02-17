@@ -158,9 +158,6 @@ void initializeEngine(){
     edit_colors();
     setup_pmg();
 
-    // fill_column(3,5);
-    // fill_row(0,2);
-    // fill_row(1,1);
 
     initializeStaticEntities(); //temp function
     
@@ -170,33 +167,22 @@ void initializeEngine(){
 //initalizes just the player for now
 void initializeStaticEntities(){
     test_player1();
-    //Entity *test = (Entity*)&(playerEnt.playerEntity);
-
-
-    // playerEnt.playerEntity.eyeCoords.x = SCREEN_HORIZ_CENTER;
-    // playerEnt.playerEntity.eyeCoords.y = SCREEN_VERT_CENTER;
 
 
     entityConstructor((Entity*)&playerEnt.playerEntity, playerRoutine, playerRenderer);
     playerConstructor();
 
-    //temp init assign
-    // playerEnt.playerEntity.eyeCoords.x = SCREEN_HORIZ_CENTER;
-    // playerEnt.playerEntity.eyeCoords.y = SCREEN_VERT_CENTER;
-
     playerEnt.playerEntity.eyeCoords.x = SCREEN_HORIZ_CENTER + 20;
     playerEnt.playerEntity.eyeCoords.y = SCREEN_VERT_CENTER;
 
-    set_player_horiz_position(0,playerEnt.playerEntity.eyeCoords.x,true);
-    set_player_vert_position(0,playerEnt.playerEntity.eyeCoords.y,true);
 
     // dragon 0
-
-    entityConstructor((Entity*)&dragonEntities[0].dragonEntity,dragonRoutine, dragonRenderer);
+    // TODO: fix "test.c:181: Warning: Incompatible pointer conversion to 'enum STATUS (*)(struct Entity *)' from 'enum STATUS (*)(struct Entity *, unsigned int)'"
+    entityConstructor(&dragonEntities[0].dragonEntity, dragonRoutine, dragonRenderer);
     dragonConstructor(0);
     dragonEntities[0].dragonEntity.eyeCoords.x = 50;
     dragonEntities[0].dragonEntity.eyeCoords.y = 60;
-    
+
     dragonEntities[0].loves = playerEnt.playerEntity; // "dragon 0 loves the player"
 }
 

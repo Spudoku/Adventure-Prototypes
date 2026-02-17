@@ -2,8 +2,8 @@
 #define UTIL_S_H
 
 typedef struct Vector2 {
-  unsigned int x;
-  unsigned int y;
+  int x;
+  int y;
 } Vector2;
 
 //Useful for certain values that shouldn't be huge (i.e. velocity)

@@ -38,7 +38,6 @@ STATUS dragonConstructor(unsigned int num){
   dragonEntities[num].id = num;
   //call the "base" constructor
 
-  entityConstructor(&(dragonEntities[num].dragonEntity), dragonRoutine, dragonRenderer);
   //assign to the dragon entity it's dummy obj item
 
   dragonEntities[num].dragonEntity.childEntity = &nullItem;
@@ -58,6 +57,7 @@ Vector2 chooseTargetLocation(unsigned int dragonNum) {
 
   // TODO: go through each LOVE and compare location
   newLocation = dragonEntities[dragonNum].loves.eyeCoords;
+  dist = Vector2Dist(dragonEntities[dragonNum].dragonEntity.eyeCoords,newLocation);
 
   return newLocation;
 }
