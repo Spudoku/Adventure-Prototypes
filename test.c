@@ -196,6 +196,8 @@ void initializeStaticEntities(){
     dragonConstructor(0);
     dragonEntities[0].dragonEntity.eyeCoords.x = 50;
     dragonEntities[0].dragonEntity.eyeCoords.y = 60;
+    
+    dragonEntities[0].loves = playerEnt.playerEntity; // "dragon 0 loves the player"
 }
 
 //stub for now, this will be designed later

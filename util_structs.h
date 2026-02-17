@@ -19,4 +19,8 @@ typedef enum STATUS {
   PASS = 0,
   UNDEFINED = 1,
 } STATUS;
+
+unsigned int Vector2Dist(Vector2 a, Vector2 b);
+
+
 #endif 

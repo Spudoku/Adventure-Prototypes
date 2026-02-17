@@ -14,25 +14,28 @@ typedef struct DragonEntity {
   Entity dragonEntity;
 
   // dragon-specific fields
-
+  unsigned int id;
+  unsigned int sightRange;
   Vector2 targetLocation;
-  Entity loves[3]; // things this dragon loves
-  Entity hates[3]; // things this dragon hates
+  Entity loves;
+  // Entity loves[3]; // things this dragon loves
+  // Entity hates[3]; // things this dragon hates
 } DragonEntity;
 
 extern DragonEntity dragonEntities[];
 
 // //may also want to include a delta time if we aren't synced with vblank 1:1
 
-STATUS dragonRoutine(Entity* thisEntity);
+STATUS dragonRoutine(Entity* thisEntity,unsigned int id);
 STATUS dragonRenderer(Entity* thisEntity);
 
 
 //other entities might not have this special privilege
 // STATUS dragonInputProcess();
-STATUS dragonBehaviorProcess();
+STATUS dragonBehaviorProcess(unsigned int id);
 STATUS dragonConstructor();
 
+Vector2 chooseTargetLocation(unsigned int dragonNum);
 void moveTowards(unsigned int dragonNum, Vector2 location);
 
 
