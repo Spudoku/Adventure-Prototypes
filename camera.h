@@ -9,11 +9,11 @@
 
 //feels a bit jank
 #define _TrackedObject cameraEntity.childEntity
+#define _screenResolution camera.screenResolution 
 
 
-
-//union to allow all entities to allow other datatypes to declare this and have it autolink back
-//to the singleton
+//union to allow all entities to allow other datatypes to declare this and 
+//have it autolink back to the singleton
 //i wonder if declaring a camera in entity would make the compiler mad (circular declaration?)
 typedef union Camera{
   Entity cameraEntity;

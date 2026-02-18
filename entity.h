@@ -18,6 +18,9 @@
 typedef struct Entity {
   STATUS (*frameTask)(struct Entity* thisEntity);
   STATUS (*renderer)(struct Entity* thisEntity);
+
+  //TODO: make this a one way ref instead?
+  void *entityData; //cast into sub class as appropriate
   struct Entity* childEntity;
   Transform transform;
   Vector2 eyeCoords;  //todo, get rid of this, replaced by transform
