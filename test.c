@@ -161,6 +161,8 @@ void initializeStaticEntities(){
     dragonConstructor(&dragonEntities[0].myEntity, &dragonEntities[0]);
     // // pass functions to dragon 0
     entityConstructor((Entity*)&dragonEntities[0].myEntity,dragonRoutine,dragonRenderer);
+
+    dragonEntities[0].loves = &playerEnt.playerEntity;
     
 }
 

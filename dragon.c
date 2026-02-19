@@ -3,13 +3,14 @@
 #include "entity.h"
 #include "dragon.h"
 #include "items.h"
-
+#include "player.h"
 
 int test;
+int dummy;
 
 // //per frame behavior
 STATUS dragonRoutine(Entity* thisEntity) {
-  test++;
+  
 
   // read input and set velocity
   return dragonBehaviorProcess(thisEntity);
@@ -44,12 +45,12 @@ STATUS dragonConstructor(Entity* subEntity,DragonEntity* theSuperEntity){
   return PASS;
 }
 
-Vector2 chooseTargetLocation(Entity* thisEntity) {
+Vector2 chooseTargetLocation(DragonEntity* thisEntity) {
   
   struct Vector2 newLocation;
   unsigned int dist;
-  newLocation.x = 100;
-  newLocation.y = 55;
+  newLocation.x = thisEntity->loves->eyeCoords.x;
+  newLocation.y = thisEntity->loves->eyeCoords.y;
 
   // // TODO: go through each LOVE and compare location
   // newLocation = dragonEntities[dragonNum].loves.eyeCoords;
@@ -61,41 +62,20 @@ Vector2 chooseTargetLocation(Entity* thisEntity) {
 
 void moveTowards(DragonEntity* thisEntity, Vector2* location) {
   Entity* transformEntity = &(thisEntity->myEntity);
-  int deltaY = location->y - transformEntity->eyeCoords.y;
-  int deltaX = location->x - transformEntity->eyeCoords.x;
-
-  // horizontal movement
-  if (deltaX < 0) {
-    // moving left
-    if (deltaX <= -(thisEntity->dragonSpeed)) {
-      transformEntity->eyeCoords.x = location->x;
-    } else {
-      transformEntity->eyeCoords.x -= thisEntity->dragonSpeed;
-    }
-  } else {
-    if (deltaX <= (thisEntity->dragonSpeed)) {
-      transformEntity->eyeCoords.x = location->x;
-    } else {
-      transformEntity->eyeCoords.x += thisEntity->dragonSpeed;
-    }
-  }
-
-  if (deltaY < 0) {
-    // moving up
-    if (deltaY <= -(thisEntity->dragonSpeed)) {
-      transformEntity->eyeCoords.y = location->y;
-    } else {
-      transformEntity->eyeCoords.y -= thisEntity->dragonSpeed;
-    }
-  } else {
-    if (deltaY <= (thisEntity->dragonSpeed)) {
-      transformEntity->eyeCoords.y = location->y;
-    } else {
-      transformEntity->eyeCoords.y += thisEntity->dragonSpeed;
-    }
-  }
-
   
-
+  if (location->y > transformEntity->eyeCoords.y) {
+    // move down
+    transformEntity->eyeCoords.y += thisEntity->dragonSpeed;
+  } else if (location->y > transformEntity->eyeCoords.y) {
+    transformEntity->eyeCoords.y -= thisEntity->dragonSpeed;
+  }
+test++;
+  if (location->x > transformEntity->eyeCoords.x) {
+    // move down
+    transformEntity->eyeCoords.x += thisEntity->dragonSpeed;
+  } else if (location->x > transformEntity->eyeCoords.x) {
+    transformEntity->eyeCoords.x -= thisEntity->dragonSpeed;
+  }
+  dummy++;
   // thisEntity->myEntityeyeCoords.x += 1;
 }

@@ -36,7 +36,7 @@ STATUS dragonRenderer(Entity* thisEntity);
 STATUS dragonBehaviorProcess(Entity* thisEntity);
 STATUS dragonConstructor(Entity* subEntity, DragonEntity* theSuperEntity);
 
-Vector2 chooseTargetLocation(Entity* thisEntity);
+Vector2 chooseTargetLocation(DragonEntity* thisEntity);
 
 void moveTowards(DragonEntity* thisEntity, Vector2* location);
 
