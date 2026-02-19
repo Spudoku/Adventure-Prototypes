@@ -64,10 +64,17 @@ void moveTowards(Entity* thisEntity, Vector2* location) {
   int curY = thisEntity->eyeCoords.y;
 
   int deltaY = location->y - curY;
+  
   int deltaX = location->x - curX;
-  DragonEntity* dEntity = (DragonEntity*)(thisEntity->superEntity);
-  // vertical movement
-  if (abs(deltaY) > dEntity->dragonSpeed) {
+   DragonEntity* dEntity = (DragonEntity*)(thisEntity->superEntity);
+  deltaY = deltaY > 0 ? deltaY : -deltaY;
+  deltaX = deltaX > 0 ? deltaX : -deltaX;
 
+ 
+  // vertical movement
+  if (deltaY > dEntity->dragonSpeed) {
+
+  } else {
+    thisEntity->eyeCoords.y = location->y;
   }
 }

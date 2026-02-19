@@ -12,3 +12,4 @@ player.o
 test.c.*.*.o
 map.txt
 .vscode/settings.json
+compile.bat

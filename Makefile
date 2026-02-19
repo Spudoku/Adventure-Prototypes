@@ -55,6 +55,7 @@ $(target) : $(objects)
 all: $(target)
 
 clean :
+	
 	$(RM) $(objects)
 	$(RM) *.spr
 	$(RM) *.s
