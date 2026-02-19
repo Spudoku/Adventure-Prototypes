@@ -28,6 +28,10 @@ STATUS playerInputProcess(){
   static unsigned char joystickState = 0; //useful for how often it will be
   static unsigned char lastFrameState;
 
+  TrackMoveDelayFramesPlayer();
+  if (playerEnt.moveDelayCounter < playerEnt.moveFrameDelay) {
+    return PASS;
+  }
 
   lastFrameState = joystickState;
   //read the joystick data
@@ -66,9 +70,7 @@ STATUS playerInputProcess(){
     playerEnt.playerEntity.childEntity->frameTask(playerEnt.playerEntity.childEntity);
   }
 
-  //TODO: interrupt the task or make a "lateupdate" to wait for gamestate
-  // to process
-  //TODO: clamping
+
   
   
   return PASS;
@@ -77,13 +79,14 @@ STATUS playerInputProcess(){
 //init the player specific vars
 STATUS playerConstructor(){
   playerEnt.playerSpeed = 1;
+  playerEnt.moveFrameDelay = 0;
   playerEnt.playerVelocity.x = 0;
   playerEnt.playerVelocity.y = 0;
 
   //call the "base" constructor
 
   // entityConstructor(&(playerEnt.playerEntity), playerRoutine, playerRenderer);
-  //assign to the player entity it's dummy obj item
+  // assign to the player entity it's dummy obj item
 
   playerEnt.playerEntity.childEntity = &nullItem;
   //in the future, the constructor will be not ran right here, probably during
@@ -91,4 +94,11 @@ STATUS playerConstructor(){
   nullItem_constructor(&nullItem);  
 
   return PASS;
+}
+
+void TrackMoveDelayFramesPlayer() {
+  playerEnt.moveDelayCounter++;
+  if (playerEnt.moveDelayCounter > playerEnt.moveFrameDelay) {
+    playerEnt.moveDelayCounter = 0;
+  }
 }

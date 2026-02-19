@@ -126,37 +126,37 @@ void fill_row_section(unsigned int rowNum, unsigned int start, unsigned int end,
 // 80 + 1
 // ..
 // TODO: Fix (currently incorrect indices)
-    void get_column(unsigned int index) {
-        unsigned int i;
+    // void get_column(unsigned int index) {
+    //     unsigned int i;
 
-        for (i = 0; i < SCREEN_COLUMN_SIZE; i++) {
-            indexBuffer[i] = (SCREEN_ROW_SIZE * i) + index;
-        }
-    }
+    //     for (i = 0; i < SCREEN_COLUMN_SIZE; i++) {
+    //         indexBuffer[i] = (SCREEN_ROW_SIZE * i) + index;
+    //     }
+    // }
 
-    void get_column_section(unsigned int columnNum, unsigned int start, unsigned int end) {
-        unsigned int correctedStart = clamp_int(start,0,SCREEN_COLUMN_SIZE);
-        unsigned int correctedEnd = clamp_int(end,0,SCREEN_COLUMN_SIZE);
-        unsigned int i;
-        unsigned int range = correctedEnd - correctedStart;
-        // clear_buffer();
-        for (i = 0; i < range; i++) {
-            // indexBuffer[i] = ;
-        }
-    }
+    // void get_column_section(unsigned int columnNum, unsigned int start, unsigned int end) {
+    //     unsigned int correctedStart = clamp_int(start,0,SCREEN_COLUMN_SIZE);
+    //     unsigned int correctedEnd = clamp_int(end,0,SCREEN_COLUMN_SIZE);
+    //     unsigned int i;
+    //     unsigned int range = correctedEnd - correctedStart;
+    //     // clear_buffer();
+    //     for (i = 0; i < range; i++) {
+    //         // indexBuffer[i] = ;
+    //     }
+    // }
 
-    void fill_column(unsigned int index, unsigned char character) {
-        unsigned int i;
-        get_column(index);
-        for (i = 0; i < SCREEN_COLUMN_SIZE; i++) {
-            ScreenMemory[indexBuffer[i]] = character;
-        }
-    }
+    // void fill_column(unsigned int index, unsigned char character) {
+    //     unsigned int i;
+    //     get_column(index);
+    //     for (i = 0; i < SCREEN_COLUMN_SIZE; i++) {
+    //         ScreenMemory[indexBuffer[i]] = character;
+    //     }
+    // }
 
 
-    void fill_column_section(unsigned int columnNum, unsigned int start, unsigned int end, unsigned char character) {
+    // void fill_column_section(unsigned int columnNum, unsigned int start, unsigned int end, unsigned char character) {
 
-    }
+    // }
 /**
     END COLUMN OPERATIONS
 **/

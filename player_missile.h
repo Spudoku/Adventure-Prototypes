@@ -182,7 +182,7 @@ void write_sprite(unsigned char playerID, unsigned char position) {
     unsigned char old_y = player_vert_positions[playerID];
 
     if (old_y > SCREEN_TOP_BOUND) {
-        memset(&player_graphics[playerID][old_y-16],0,16);
+        memset(&player_graphics[playerID][old_y-16],0,32);
     }
 
     // zero out the old sprite
@@ -190,7 +190,7 @@ void write_sprite(unsigned char playerID, unsigned char position) {
 
     
    if (position >= SCREEN_TOP_BOUND || position <= SCREEN_BOTTOM_BOUND) {
-        memcpy(&player_graphics[playerID][position - 16],player_sprites[playerID],16);
+        memcpy(&player_graphics[playerID][position - 16],player_sprites[playerID],32);
 
    } 
 }

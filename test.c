@@ -174,8 +174,6 @@ void processFrameTasks(){
     dragonEntities[0].myEntity.frameTask(&(dragonEntities[0].myEntity));
 }
 
-
-
 // writes crucial bytes to the display list
 void fix_displayList() {    
     // location of screen memory
@@ -230,41 +228,74 @@ void frame_delay() {
 
 void test_player1() {
     // I will write a helper function in player_missile.h
+
     player_sprites[0][0] =  0b00000000;
     player_sprites[0][1] =  0b00000000;
     player_sprites[0][2] =  0b00000000;
     player_sprites[0][3] =  0b00000000;
     player_sprites[0][4] =  0b00000000;
-    player_sprites[0][5] =  0b00111100;
-    player_sprites[0][6] =  0b01111110;
-    player_sprites[0][7] =  0b01111110;
-    player_sprites[0][8] =  0b01111110;
-    player_sprites[0][9] =  0b01111110;
-    player_sprites[0][10] = 0b00111100;
-    player_sprites[0][11] = 0b00000000;
-    player_sprites[0][12] = 0b00000000;
-    player_sprites[0][13] = 0b00000000;
-    player_sprites[0][14] = 0b00000000;
-    player_sprites[0][15] = 0b00000000;
+    player_sprites[0][5] =  0b00000000;
+    player_sprites[0][6] =  0b00000000;
+    player_sprites[0][7] =  0b00000000;
+    player_sprites[0][8] =  0b00000000;
+    player_sprites[0][9] =  0b00000000;
+    player_sprites[0][10] =  0b00000000;
+    player_sprites[0][11] =  0b00000000;
+    player_sprites[0][12] =  0b00000000;
+    player_sprites[0][13] =  0b00111100;
+    player_sprites[0][14] =  0b01111110;
+    player_sprites[0][15] =  0b01111110;
+    player_sprites[0][16] =  0b01111110;
+    player_sprites[0][17] =  0b01111110;
+    player_sprites[0][18] = 0b00111100;
+    player_sprites[0][19] = 0b00000000;
+    player_sprites[0][20] = 0b00000000;
+    player_sprites[0][21] = 0b00000000;
+    player_sprites[0][22] = 0b00000000;
+    player_sprites[0][23] = 0b00000000;
+    player_sprites[0][24] =  0b00000000;
+    player_sprites[0][25] =  0b00000000;
+    player_sprites[0][26] =  0b00000000;
+    player_sprites[0][27] =  0b00000000;
+    player_sprites[0][28] =  0b00000000;
+    player_sprites[0][29] =  0b00000000;
+    player_sprites[0][30] =  0b00000000;
+    player_sprites[0][31] =  0b00000000;
   
     // set_player_vert_position(0,64,true);
     // dragon sprite
-    player_sprites[1][0] =  0b00000110;
-    player_sprites[1][1] =  0b00001111;
-    player_sprites[1][2] =  0b11110011;
-    player_sprites[1][3] =  0b11111110;
-    player_sprites[1][4] =  0b00000100;
-    player_sprites[1][5] =  0b00011110;
-    player_sprites[1][6] =  0b00111111;
-    player_sprites[1][7] =  0b01110011;
-    player_sprites[1][8] =  0b01100011;
-    player_sprites[1][9] =  0b01100011;
-    player_sprites[1][10] = 0b01100111;
-    player_sprites[1][11] = 0b00111110;
-    player_sprites[1][12] = 0b00011100;
-    player_sprites[1][13] = 0b00011100;
-    player_sprites[1][14] = 0b00001111;
-    player_sprites[1][15] = 0b00000111;
+    player_sprites[0][0] =   0b00000000;
+    player_sprites[0][1] =   0b00000000;
+    player_sprites[0][2] =   0b00000000;
+    player_sprites[0][3] =   0b00000000;
+    player_sprites[0][4] =   0b00000000;
+    player_sprites[0][5] =   0b00000110;
+    player_sprites[0][6] =   0b00001111;
+    player_sprites[0][7] =   0b11110011;
+    player_sprites[0][8] =   0b11111110;
+    player_sprites[0][9] =   0b00001110;
+    player_sprites[0][10] =  0b00000100;
+    player_sprites[0][11] =  0b00000100;
+    player_sprites[0][12] =  0b00011110;
+    player_sprites[0][13] =  0b00111111;
+    player_sprites[0][14] =  0b01111111;
+    player_sprites[0][15] =  0b11100011;
+    player_sprites[0][16] =  0b11000011;
+    player_sprites[0][17] =  0b11000011;
+    player_sprites[0][18] =  0b11000111;
+    player_sprites[0][19] =  0b11111111;
+    player_sprites[0][20] =  0b00111100;
+    player_sprites[0][21] =  0b00001000;
+    player_sprites[0][22] =  0b10001111;
+    player_sprites[0][23] =  0b11100001;
+    player_sprites[0][24] =  0b00111111;
+    player_sprites[0][25] =  0b00000000;
+    player_sprites[0][26] =  0b00000000;
+    player_sprites[0][27] =  0b00000000;
+    player_sprites[0][28] =  0b00000000;
+    player_sprites[0][29] =  0b00000000;
+    player_sprites[0][30] =  0b00000000;
+    player_sprites[0][31] =  0b00000000;
 }
 
 // checks if a player collides with any bit other than 0 in playfield

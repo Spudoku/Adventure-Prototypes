@@ -25,6 +25,9 @@ typedef struct PlayerEntity {
   Vector2 playerVelocity;
   int playerSpeed;  //may consider making this an unsigned char
   Entity playerEntity;
+
+  unsigned int moveFrameDelay;
+  unsigned int moveDelayCounter;
 } PlayerEntity;
 
 
@@ -45,5 +48,5 @@ STATUS playerRenderer(Entity* thisEntity);
 STATUS playerInputProcess();
 STATUS playerConstructor();
 
-
+void TrackMoveDelayFramesPlayer();
 #endif 

@@ -6,12 +6,15 @@
 #include "entity.h"
 
 #define DEFAULT_DRAGON_SPEED 1
-#define DEFAULT_DRAGON_SIGHTRANGE 20;
+#define DEFAULT_DRAGON_MOVE_DELAY 1
+#define DEFAULT_DRAGON_SIGHTRANGE 20
 // this should NOT be a singleton
 
 typedef struct DragonEntity {
-  Vector2 dragonVelocity;
-  int dragonSpeed;  //may consider making this an unsigned char
+  // Vector2 dragonVelocity;
+  int mySpeed;  //may consider making this an unsigned char
+  unsigned int moveFrameDelay;
+  unsigned int moveDelayCounter;
   Entity myEntity;
 
   // dragon-specific fields
@@ -39,6 +42,8 @@ STATUS dragonConstructor(Entity* subEntity, DragonEntity* theSuperEntity);
 Vector2 chooseTargetLocation(DragonEntity* thisEntity);
 
 void moveTowards(DragonEntity* thisEntity, Vector2* location);
+
+void TrackMoveDelayFrames(DragonEntity* thisEntity);
 
 
 #endif 
