@@ -113,7 +113,9 @@ int main() {
         set_player_horiz_position(cur_player,playerEnt.playerEntity.eyeCoords.x, true);
         set_player_vert_position(cur_player,playerEnt.playerEntity.eyeCoords.y, true);
 
-        
+         set_player_vert_position(1,dragonEntities[0].myEntity.eyeCoords.y,true);
+        set_player_horiz_position(1,dragonEntities[0].myEntity.eyeCoords.x,true);
+       
 
         //process graphics
         if (check_if_any_collision(cur_player)) {
@@ -167,7 +169,7 @@ void initializeStaticEntities(){
 //the idea is to have an array of frametask ptrs to run in order
 void processFrameTasks(){
     playerEnt.playerEntity.frameTask(&(playerEnt.playerEntity));
-    
+    dragonEntities[0].myEntity.frameTask(&(dragonEntities[0].myEntity));
 }
 
 

@@ -38,7 +38,7 @@ STATUS dragonConstructor(Entity* subEntity, DragonEntity* theSuperEntity);
 
 Vector2 chooseTargetLocation(Entity* thisEntity);
 
-void moveTowards(Entity* thisEntity, Vector2* location);
+void moveTowards(DragonEntity* thisEntity, Vector2* location);
 
 
 #endif 

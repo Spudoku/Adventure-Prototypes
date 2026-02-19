@@ -5,11 +5,11 @@
 #include "items.h"
 
 
+int test;
 
-Vector2 test;
 // //per frame behavior
 STATUS dragonRoutine(Entity* thisEntity) {
-  
+  test++;
 
   // read input and set velocity
   return dragonBehaviorProcess(thisEntity);
@@ -25,9 +25,9 @@ STATUS dragonRenderer(Entity* thisEntity) {
 // the behavior of the dragon
 STATUS dragonBehaviorProcess(Entity* thisEntity) {
   // TODO: guard/pursue behavior (which will require tracking of world coordinates)
-  
-  // test = chooseTargetLocation(id);
-  // dragonEntities[id].targetLocation = test;
+  DragonEntity* dEntity = (DragonEntity*)(thisEntity->superEntity);
+  moveTowards(dEntity,&(dEntity->targetLocation));
+
   
 
   return PASS;
@@ -49,32 +49,53 @@ Vector2 chooseTargetLocation(Entity* thisEntity) {
   struct Vector2 newLocation;
   unsigned int dist;
   newLocation.x = 100;
-  newLocation.y = 0;
+  newLocation.y = 55;
 
   // // TODO: go through each LOVE and compare location
   // newLocation = dragonEntities[dragonNum].loves.eyeCoords;
-  dist = Vector2Dist(thisEntity->eyeCoords,newLocation);
+  // dist = Vector2Dist(thisEntity->eyeCoords,newLocation);
 
 
   return newLocation;
 }
 
-void moveTowards(Entity* thisEntity, Vector2* location) {
-  int curX = thisEntity->eyeCoords.x;
-  int curY = thisEntity->eyeCoords.y;
+void moveTowards(DragonEntity* thisEntity, Vector2* location) {
+  Entity* transformEntity = &(thisEntity->myEntity);
+  int deltaY = location->y - transformEntity->eyeCoords.y;
+  int deltaX = location->x - transformEntity->eyeCoords.x;
 
-  int deltaY = location->y - curY;
-  
-  int deltaX = location->x - curX;
-   DragonEntity* dEntity = (DragonEntity*)(thisEntity->superEntity);
-  deltaY = deltaY > 0 ? deltaY : -deltaY;
-  deltaX = deltaX > 0 ? deltaX : -deltaX;
-
- 
-  // vertical movement
-  if (deltaY > dEntity->dragonSpeed) {
-
+  // horizontal movement
+  if (deltaX < 0) {
+    // moving left
+    if (deltaX <= -(thisEntity->dragonSpeed)) {
+      transformEntity->eyeCoords.x = location->x;
+    } else {
+      transformEntity->eyeCoords.x -= thisEntity->dragonSpeed;
+    }
   } else {
-    thisEntity->eyeCoords.y = location->y;
+    if (deltaX <= (thisEntity->dragonSpeed)) {
+      transformEntity->eyeCoords.x = location->x;
+    } else {
+      transformEntity->eyeCoords.x += thisEntity->dragonSpeed;
+    }
   }
+
+  if (deltaY < 0) {
+    // moving up
+    if (deltaY <= -(thisEntity->dragonSpeed)) {
+      transformEntity->eyeCoords.y = location->y;
+    } else {
+      transformEntity->eyeCoords.y -= thisEntity->dragonSpeed;
+    }
+  } else {
+    if (deltaY <= (thisEntity->dragonSpeed)) {
+      transformEntity->eyeCoords.y = location->y;
+    } else {
+      transformEntity->eyeCoords.y += thisEntity->dragonSpeed;
+    }
+  }
+
+  
+
+  // thisEntity->myEntityeyeCoords.x += 1;
 }

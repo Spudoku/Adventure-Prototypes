@@ -41,10 +41,4 @@ unsigned int min(unsigned int a,unsigned int b) {
     return b;
 }
 
-// int abs(int a) {
-
-//     if (a < 0) {
-//         return a * -1;
-//     }
-//     return a;
-// }
+// int abs(int a) 
