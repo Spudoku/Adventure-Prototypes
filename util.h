@@ -18,7 +18,7 @@ unsigned int min(unsigned int a, unsigned int b);
 //unsigned char InitializeJoystick();
 
 
-
+int abs(int a);
 
 
 

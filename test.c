@@ -31,22 +31,12 @@
 #define DISPLAY_LIST 0x230    // location that the display list must be pushed to
 #define CHARSET_PTR 0x2F4     // character base
 
-
+DragonEntity dragonEntities[3];
 
 
 
 
 // Player-missile graphics starts at 0xD000
-
-
-
-// #define CHARSET_ADDR 0x3C
-// according to Ed, 0x3C00 is chosen since its 4 pages from the screen memory buffer he allocated (0x4000). S
-// According to Mapping the Atari, cannot set 756 to any odd number or else we will have screen garbage.
-// additionally, need to start on a page boundary (any value in the form $XX00), such as $C000
-// DL_CHR40x8x1
-
-//  #define CHARSET_ADDR // location of character set
 
 // function declarations
 void fix_displayList();
@@ -61,14 +51,6 @@ void test_player1();
 
 void correct_eyecoords_test();
 
-
-//void waitvsync(void);
-//extern PlayerEntity playerEnt;
-
-// wait until VCOUNT == 0
-void wait_vblank() {
-    while(ANTIC.vcount);
-}
 
 bool check_if_any_collision(unsigned char playerID);
 void init_DLI();
@@ -109,9 +91,6 @@ int main() {
     unsigned int cur_player = 0;
     // end variable declarations
     InitializeJoystick();
-
-
-    
 
     // 
     manual_load(&gameMap[0][0]);
@@ -175,15 +154,12 @@ void initializeStaticEntities(){
     playerEnt.playerEntity.eyeCoords.x = SCREEN_HORIZ_CENTER + 20;
     playerEnt.playerEntity.eyeCoords.y = SCREEN_VERT_CENTER;
 
-
-    // dragon 0
-    // TODO: fix "test.c:181: Warning: Incompatible pointer conversion to 'enum STATUS (*)(struct Entity *)' from 'enum STATUS (*)(struct Entity *, unsigned int)'"
-    entityConstructor(&dragonEntities[0].dragonEntity, dragonRoutine, dragonRenderer);
-    dragonConstructor(0);
-    dragonEntities[0].dragonEntity.eyeCoords.x = 50;
-    dragonEntities[0].dragonEntity.eyeCoords.y = 60;
-
-    dragonEntities[0].loves = playerEnt.playerEntity; // "dragon 0 loves the player"
+    // initialize dragons
+    
+    dragonConstructor(&dragonEntities[0].myEntity, &dragonEntities[0]);
+    // // pass functions to dragon 0
+    entityConstructor((Entity*)&dragonEntities[0].myEntity,dragonRoutine,dragonRenderer);
+    
 }
 
 //stub for now, this will be designed later
@@ -191,6 +167,7 @@ void initializeStaticEntities(){
 //the idea is to have an array of frametask ptrs to run in order
 void processFrameTasks(){
     playerEnt.playerEntity.frameTask(&(playerEnt.playerEntity));
+    
 }
 
 

@@ -18,6 +18,7 @@ typedef struct Entity {
   STATUS (*frameTask)(struct Entity* thisEntity);
   STATUS (*renderer)(struct Entity* thisEntity);
   struct Entity* childEntity;
+  void* superEntity; // The struct that stores this instance of Entity
   Vector2 eyeCoords;
 } Entity;
 

@@ -11,7 +11,8 @@ unsigned char player_vert_positions[4];
 
 // sprite arrays
 unsigned char player_sprites[4][32];
-unsigned char unused[248];          // it appears we can use this area safely
+unsigned char missile_sprites[4][8];
+unsigned char unused[236];          // it appears we can use this area safely
 unsigned char missiles_graphics[4][32];
 unsigned char player_graphics[4][128];
 
@@ -34,7 +35,7 @@ unsigned char player_graphics[4][128];
 #define SCREEN_RIGHT_BOUND 200
 #define SCREEN_HORIZ_CENTER (SCREEN_RIGHT_BOUND + SCREEN_LEFT_BOUND) / 2
 
-#define SCREEN_TOP_BOUND 0// assuming double line resolution
+#define SCREEN_TOP_BOUND 16// assuming double line resolution
 
 #define SCREEN_BOTTOM_BOUND 116
 
