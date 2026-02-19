@@ -127,8 +127,8 @@ void DisplayList = {
     //LMS will be needed for each dl entry
     //and a mem address for the stream
 
-    ScreenMemory,
-    DL_LMS(DL_GRAPHICS2), &ScreenMemory[20],     //second group of 2
+    gameMap,
+    DL_GRAPHICS2,     //second group of 2
     DL_GRAPHICS2,
     DL_GRAPHICS2,
     DL_GRAPHICS2,
@@ -173,7 +173,7 @@ int main() {
     initializeEngine();
 
     // fill_row_section(2,20,27,3);
-    manual_load(&gameMap[0][0]);
+    //manual_load(&gameMap[0][0]);
 
     set_player_horiz_position(0,SCREEN_HORIZ_CENTER,true);
     set_player_vert_position(0,SCREEN_VERT_CENTER,true);
@@ -346,7 +346,11 @@ void init_charset() {
     
     //   test = charmap_addr * 0x100; // page number * page size
 
-    POKE(756,((unsigned int)charset) >> 8);   // poke high byte to CHBASE register
+    IntToTwoChar charsetAddress;
+    charsetAddress.integer = (unsigned int)charset;
+    //ANTIC.chbase = (unsigned char)charsetAddress.bytes[1];
+    OS.chbas = charsetAddress.bytes[1];
+    //POKE(756,charsetAddress.bytes[1]);   // poke high byte to CHBASE register
 
 
 

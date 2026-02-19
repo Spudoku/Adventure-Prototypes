@@ -84,9 +84,6 @@ void setup_pmg() {
 
 
     IntToTwoChar convert;
-
-    (IntToTwoChar)player_horiz_positions
-
     convert.integer = (unsigned int)player_horiz_positions;
     ANTIC.pmbase = convert.bytes[1];
     
