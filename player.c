@@ -92,9 +92,7 @@ STATUS playerConstructor(){
 
   
 
-
-
-  // entityConstructor(&(playerEnt.playerEntity), playerRoutine, playerRenderer);
+  entityConstructor((Entity*)&playerEnt.playerEntity, player_FrameTask, playerRenderer);
   //assign to the player entity it's dummy obj item
 
   playerEnt.playerEntity.childEntity = &nullItem;

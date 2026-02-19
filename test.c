@@ -72,7 +72,47 @@ void initializeEngine();
 void initializeStaticEntities();
 void processFrameTasks();
 // variable declarations
-char DisplayList[] = {
+
+
+//TODO: align the DL to a known interval, and specify each line of charmap h_mem
+// char DisplayList[] = {
+//     // 24 blank lines
+//     DL_BLK8,
+//     DL_BLK8,
+//     DL_BLK8,
+//     // TODO: tell ANTIC to load Graphics 2 at Screen Address, total 24 times
+//     DL_LMS(DL_GRAPHICS2),
+//     // was DL_GRAPHICS2, now DL_GRAPHICS0
+//     // these 2 bytes will store the location of the screen memory
+
+//     //eventually work up to DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2)))
+//     //for the fine scrolling
+//     //LMS will be needed for each dl entry
+//     //and a mem address for the stream
+
+//     0x00,0x00,
+//     DL_GRAPHICS2,
+//     //second group of 2
+
+    
+//     DL_GRAPHICS2,
+//     DL_GRAPHICS2,
+//     DL_GRAPHICS2,
+//     DL_GRAPHICS2,
+//     DL_GRAPHICS2,
+//     DL_GRAPHICS2,
+//     DL_GRAPHICS2,
+//     DL_GRAPHICS2,
+//     DL_GRAPHICS2,
+//     DL_GRAPHICS2,
+//     DL_JVB,
+//     // These two bytes store the location of the dispalyList itself
+//     0x00,0x00
+//     };
+
+
+//CC65 is funny and supports this non standard void struct
+void DisplayList = {
     // 24 blank lines
     DL_BLK8,
     DL_BLK8,
@@ -81,13 +121,34 @@ char DisplayList[] = {
     DL_LMS(DL_GRAPHICS2),
     // was DL_GRAPHICS2, now DL_GRAPHICS0
     // these 2 bytes will store the location of the screen memory
-    0x00,0x00,
-    DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,
-    DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,
+
+    //eventually work up to DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2)))
+    //for the fine scrolling
+    //LMS will be needed for each dl entry
+    //and a mem address for the stream
+
+    ScreenMemory,
+    DL_LMS(DL_GRAPHICS2), &ScreenMemory[20],     //second group of 2
+    DL_GRAPHICS2,
+    DL_GRAPHICS2,
+    DL_GRAPHICS2,
+    DL_GRAPHICS2,
+    DL_GRAPHICS2,
+    DL_GRAPHICS2,
+    DL_GRAPHICS2,
+    DL_GRAPHICS2,
+    DL_GRAPHICS2,
+    DL_GRAPHICS2,
     DL_JVB,
     // These two bytes store the location of the dispalyList itself
-    0x00,0x00
-    };
+    &DisplayList
+};
+
+
+//
+
+
+
 
     // variable declarations
 int i = 0;
@@ -175,7 +236,7 @@ void initializeStaticEntities(){
     playerEnt.playerEntity.eyeCoords.y = SCREEN_VERT_CENTER;
 
 
-    entityConstructor((Entity*)&playerEnt.playerEntity, player_FrameTask, playerRenderer);
+    
     playerConstructor();
 
     //temp init assign
@@ -251,20 +312,25 @@ void processFrameTasks(){
 // }
 
 // writes crucial bytes to the display list
-void fix_displayList() {    
+void fix_displayList() {
+    
+
+
+    OS.sdlst = &DisplayList;
+
+    return;
     // location of screen memory
-    unsigned int scr_addr = (unsigned int)ScreenMemory; // address of screen memory array
-    unsigned int dl_addr = (unsigned int)DisplayList; // address of display list
+    // unsigned int scr_addr = (unsigned int)ScreenMemory; // address of screen memory array
+    // unsigned int dl_addr = (unsigned int)DisplayList; // address of display list
 
-    // inject screenmemory address into lms instruction
-    DisplayList[4] = scr_addr & 0xFF;
-    DisplayList[5] = (scr_addr >> 8) & 0xFF;
+    // // inject screenmemory address into lms instruction
+    // DisplayList[4] = scr_addr & 0xFF;
+    // DisplayList[5] = (scr_addr >> 8) & 0xFF;
 
-    // inject dlistAddr into the indices 28 and 29
-    DisplayList[sizeof(DisplayList) - 2] = dl_addr & 0xFF;   // this injects the 8 most significant bits
-    DisplayList[sizeof(DisplayList) - 1] = (dl_addr >> 8) & 0xFF; // this injects the 8 least signifcant bits
+    // // inject dlistAddr into the indices 28 and 29
+    // DisplayList[sizeof(DisplayList) - 2] = dl_addr & 0xFF;   // this injects the 8 most significant bits
+    // DisplayList[sizeof(DisplayList) - 1] = (dl_addr >> 8) & 0xFF; // this injects the 8 least signifcant bits
     //POKEW(DISPLAY_LIST,dl_addr);
-    OS.sdlst = DisplayList;
 
 
 }

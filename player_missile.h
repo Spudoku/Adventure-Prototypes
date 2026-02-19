@@ -18,6 +18,7 @@ unsigned char player_graphics[4][128];
 #pragma bss-name (pop)
 
 #include "util.h"
+#include "util_structs.h"
 #include <string.h>
 #include <assert.h>
 
@@ -82,8 +83,12 @@ void setup_pmg() {
     //ANTIC.pmbase = (unsigned int )player_horiz_positions;  //C arrays are syntatic sugar
 
 
+    IntToTwoChar convert;
 
-    ANTIC.pmbase = (unsigned int)player_horiz_positions >> 8;
+    (IntToTwoChar)player_horiz_positions
+
+    convert.integer = (unsigned int)player_horiz_positions;
+    ANTIC.pmbase = convert.bytes[1];
     
     // TODO: clear out memory more efficiently
     

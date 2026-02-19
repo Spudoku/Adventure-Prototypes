@@ -2,9 +2,14 @@
 
 
 STATUS cameraConstructor(Entity *toTrack){
-    camera.draggingMargin = DEFAULT_MARGIN;
+    camera.draggingMargin = DEFAULT_MARGIN; 
     camera.screenResolution.x = 160;
     camera.screenResolution.y = 96;
+
+    camera.innerMargin.x = _screenResolution.x - _cameraMargin;
+    camera.innerMargin.y = _screenResolution.y - _cameraMargin;
+    camera.centerPoint.x = _screenResolution.x/2;
+    camera.centerPoint.y = _screenResolution.y/2;
 
 
     //for later
@@ -84,3 +89,80 @@ Vector2 convertToEyeCoords(Vector2 toConvert){
   toConvert.y -= camera.cameraEntity._worldCoords.y;
   return toConvert;
 }
+
+
+
+
+STATUS camera_FrameTask(Entity* thisEntity){
+
+
+  if(camera._TrackedObject != NULL && 
+      ObjectInsideMargin(&thisEntity->transform) == FAIL)
+  {
+    //hopefully it actually adds negatives correctly...
+    Vector2 offset = objectToMargin(&thisEntity->transform);
+    camera.cameraEntity._worldCoords.x += offset.x;
+    camera.cameraEntity._worldCoords.x += offset.x;
+
+  }
+
+  //considering something like
+  //main.updatecoords?
+
+}
+
+//bases on top left for now (calc center later?)
+STATUS ObjectInsideMargin(Transform *toCheck) {
+  //simplify later, premature optimization bad
+  //there has to be a more optimal trick...
+  //TODO: if the memory is there, can the margin result be calced and stored?
+
+
+  //6502 does have hardware comp
+
+  //check the likely option, its within
+  //NOTE: i bet some weird casting issue will happen here between u16,s32
+  if(toCheck->eyeCoords.x < camera.draggingMargin) return FAIL;
+
+  if(toCheck->eyeCoords.y < camera.draggingMargin) return FAIL;
+
+  if(toCheck->eyeCoords.x > camera.innerMargin.x)
+    return FAIL;
+
+  if(toCheck->eyeCoords.y > camera.innerMargin.y)
+    return FAIL;
+
+  return PASS;
+}
+
+//calculate the minimum relative displacement that would put the object within
+//the margin, used for moving the camera
+// //its possible this may utilize less cycles than comping then subtracting
+Vector2 objectToMargin(Transform *toCheck){
+  Vector2 result;
+
+  if(toCheck->eyeCoords.x > camera.centerPoint.x) {
+    //right side is closer, get x dist to that
+    result.x = toCheck->eyeCoords.x - camera.innerMargin.x;
+  } else {
+    //left side is closer, eyecoords will be negative
+    result.x = toCheck->eyeCoords.x - camera.draggingMargin;
+  }
+
+  if(toCheck->eyeCoords.y > camera.centerPoint.y) {
+    result.y = toCheck->eyeCoords.y - camera.innerMargin.y;
+  } else {
+    result.y = toCheck->eyeCoords.y - camera.draggingMargin;
+  }
+  
+  return result;
+}
+
+
+
+
+
+// the renderer stuff. it shifts the playfield according to camera data
+STATUS camera_renderer(Entity* thisEntity){
+
+} 

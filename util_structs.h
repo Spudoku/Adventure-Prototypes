@@ -32,4 +32,13 @@ typedef enum STATUS {
   PASS = 0,
   UNDEFINED = 1,
 } STATUS;
+
+
+//allows getting most/least sig byte a bit easier
+typedef union int16_2int8{
+  int16_t integer;
+  int8_t bytes[2];
+} IntToTwoChar; 
+
+
 #endif 
