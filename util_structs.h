@@ -1,6 +1,6 @@
 #ifndef UTIL_S_H
 #define UTIL_S_H
-
+#include "util.h"
 typedef struct Vector2 {
   int x;
   int y;
@@ -20,7 +20,7 @@ typedef enum STATUS {
   UNDEFINED = 1,
 } STATUS;
 
-unsigned int Vector2Dist(Vector2 a, Vector2 b);
+unsigned int Vector2Dist(Vector2 *a, Vector2 *b);
 
 
 #endif 

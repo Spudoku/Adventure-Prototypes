@@ -35,7 +35,7 @@ unsigned char player_graphics[4][128];
 #define SCREEN_RIGHT_BOUND 200
 #define SCREEN_HORIZ_CENTER (SCREEN_RIGHT_BOUND + SCREEN_LEFT_BOUND) / 2
 
-#define SCREEN_TOP_BOUND 16// assuming double line resolution
+#define SCREEN_TOP_BOUND 8// assuming double line resolution
 
 #define SCREEN_BOTTOM_BOUND 116
 
@@ -89,7 +89,7 @@ void setup_pmg() {
     ANTIC.dmactl = 46;
     OS.sdmctl = 46;
     GTIA_WRITE.gractl = 3; // enable PMG
-    GTIA_WRITE.prior = 1; // set player priorty
+    GTIA_WRITE.prior =  PRIOR_P03_PF03 ; // set player priorty
     
     // // set horizontal position of p0 to 120
     // GTIA_WRITE.hposp0 = 150;
@@ -207,6 +207,7 @@ void set_player_vert_position(unsigned char playerID, unsigned char pos, bool bo
     player_vert_positions[playerID] = correctedPos;
 
 }
+
 void move_player_vert_position(unsigned char playerID,char delta, bool boundsCorrect) {
     unsigned char curPosition = get_player_vert_position(playerID);
     unsigned char finalPosition = (unsigned char)((char)curPosition + delta);

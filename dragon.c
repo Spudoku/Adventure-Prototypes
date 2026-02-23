@@ -30,13 +30,19 @@ STATUS dragonBehaviorProcess(Entity* thisEntity) {
   
   DragonEntity* dEntity = (DragonEntity*)(thisEntity->superEntity);
   // MOVEMENT
-    TrackMoveDelayFrames(dEntity);
-
+  TrackMoveDelayFrames(dEntity);
+  test = dEntity->sightRange;
   if (dEntity->moveDelayCounter >= dEntity->moveFrameDelay) {
     dEntity->targetLocation = chooseTargetLocation(dEntity);
     testLocation.x = dEntity->targetLocation.x;
     testLocation.y = dEntity->targetLocation.y;
-    moveTowards(dEntity,&(dEntity->targetLocation));
+    
+    dummy = Vector2Dist(&(dEntity->targetLocation),&(thisEntity->eyeCoords));
+    if (dummy
+    <= dEntity->sightRange) {
+        moveTowards(dEntity,&(dEntity->targetLocation));
+    }
+    
   }
   
 
@@ -65,6 +71,7 @@ Vector2 chooseTargetLocation(DragonEntity* thisEntity) {
   // currently relies on the 'loves' Entity
   newLocation.x = thisEntity->loves->eyeCoords.x;
   newLocation.y = thisEntity->loves->eyeCoords.y;
+
 
 
   return newLocation;
