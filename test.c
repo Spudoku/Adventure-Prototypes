@@ -51,6 +51,8 @@
 void fix_displayList();
 void init_charset();
 void edit_colors();
+void setScreenMemOffset(int x, int y);
+void relativeMoveScrMem(int dx, int dy);
 
 void frame_delay();
 
@@ -75,7 +77,55 @@ void processFrameTasks();
 
 
 //TODO: align the DL to a known interval, and specify each line of charmap h_mem
-// char DisplayList[] = {
+char DisplayList[] = {
+    // 24 blank lines
+    DL_BLK8,
+    DL_BLK8,
+    DL_BLK8,
+    // TODO: tell ANTIC to load Graphics 2 at Screen Address, total 24 times
+    // was DL_GRAPHICS2, now DL_GRAPHICS0
+    // these 2 bytes will store the location of the screen memory
+    
+    //eventually work up to DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2)))
+    //for the fine scrolling
+    //LMS will be needed for each dl entry
+    //and a mem address for the stream
+    
+    DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
+    0x00,0x00,
+    DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
+    0x00,0x00,
+    //second group of 2
+
+    
+    DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
+    0x00,0x00,
+    DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
+    0x00,0x00,
+    DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
+    0x00,0x00,
+    DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
+    0x00,0x00,
+    DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
+    0x00,0x00,
+    DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
+    0x00,0x00,
+    DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
+    0x00,0x00,
+    DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
+    0x00,0x00,
+    DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
+    0x00,0x00,
+    DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
+    0x00,0x00,
+    DL_JVB,
+    // These two bytes store the location of the dispalyList itself
+    0x00,0x00
+    };
+
+
+//CC65 is funny and supports this non standard void struct
+// void DisplayList = {
 //     // 24 blank lines
 //     DL_BLK8,
 //     DL_BLK8,
@@ -90,11 +140,8 @@ void processFrameTasks();
 //     //LMS will be needed for each dl entry
 //     //and a mem address for the stream
 
-//     0x00,0x00,
-//     DL_GRAPHICS2,
-//     //second group of 2
-
-    
+//     gameMap,
+//     DL_GRAPHICS2,     //second group of 2
 //     DL_GRAPHICS2,
 //     DL_GRAPHICS2,
 //     DL_GRAPHICS2,
@@ -107,42 +154,8 @@ void processFrameTasks();
 //     DL_GRAPHICS2,
 //     DL_JVB,
 //     // These two bytes store the location of the dispalyList itself
-//     0x00,0x00
-//     };
-
-
-//CC65 is funny and supports this non standard void struct
-void DisplayList = {
-    // 24 blank lines
-    DL_BLK8,
-    DL_BLK8,
-    DL_BLK8,
-    // TODO: tell ANTIC to load Graphics 2 at Screen Address, total 24 times
-    DL_LMS(DL_GRAPHICS2),
-    // was DL_GRAPHICS2, now DL_GRAPHICS0
-    // these 2 bytes will store the location of the screen memory
-
-    //eventually work up to DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2)))
-    //for the fine scrolling
-    //LMS will be needed for each dl entry
-    //and a mem address for the stream
-
-    gameMap,
-    DL_GRAPHICS2,     //second group of 2
-    DL_GRAPHICS2,
-    DL_GRAPHICS2,
-    DL_GRAPHICS2,
-    DL_GRAPHICS2,
-    DL_GRAPHICS2,
-    DL_GRAPHICS2,
-    DL_GRAPHICS2,
-    DL_GRAPHICS2,
-    DL_GRAPHICS2,
-    DL_GRAPHICS2,
-    DL_JVB,
-    // These two bytes store the location of the dispalyList itself
-    &DisplayList
-};
+//     &DisplayList
+// };
 
 
 //
@@ -155,20 +168,42 @@ int i = 0;
 int charStart = 480;
 PlayerEntity playerEnt;
 unsigned int cur_player = 0;
-   int frames = 0;
+// int DEBUG = 1;
+int goForward = 1;
+int goDown = 1;
+int fineScroll_y = 16; //test only
+int fineScroll_x = 16; //test only
 
+Vector2 QuickAndDirtyCamera;
 
 //char TheFiller[28800];
 int main() {
  // variable declarations
     unsigned int cur_horiz_position;
     unsigned int cur_vert_position;
+
+    //fineScroll_y = 16;
+    // int number = 257;
+    // char arraytest[2];
+
+    // if(DEBUG == 1) {
+        
+    //     *(int *)arraytest = number;
+
+    //     printf("%d", *(int *)arraytest );
+    //     for(;;) {
+    //         sleep(1);
+    //     }
+    // }
+    QuickAndDirtyCamera.x = 0;
+    QuickAndDirtyCamera.y = 0;
+
+
     // end variable declarations
     InitializeJoystick();
 
    
-
-
+    // int bigNumber;
 
     initializeEngine();
 
@@ -181,28 +216,86 @@ int main() {
 
     //memset(TheFiller, 3, sizeof(TheFiller)); 
     while (true) {
-
+        
+        //fine scroll test
+        
         //process gamestate
         cur_horiz_position = playerEnt.playerEntity.eyeCoords.x;
         cur_vert_position = playerEnt.playerEntity.eyeCoords.y;
-
-
         
-        processFrameTasks();
-
+        //if(fineScroll_y > 1) { fineScroll_y = fineScroll_x;}
+        
+        //processFrameTasks();
+        
         waitvsync();
-        //printf("h");
+        if(goForward == 1) {
+
+            fineScroll_x--;
+        if(fineScroll_x < 0) {
+            fineScroll_x = 15;
+            ANTIC.hscrol = fineScroll_x;
+            relativeMoveScrMem(2,0);
+         } else {
+                ANTIC.hscrol = fineScroll_x;
+           }
+           QuickAndDirtyCamera.x += 1;
+
+           if(QuickAndDirtyCamera.x > 160) goForward = 0;
+
+        } else {
+            fineScroll_x++;
+            if(fineScroll_x > 15) {
+                fineScroll_x = 0;
+            ANTIC.hscrol = fineScroll_x;
+            relativeMoveScrMem(-2,0);
+            } else {
+                ANTIC.hscrol = fineScroll_x;
+             }
+            QuickAndDirtyCamera.x -= 1;
+
+            if(QuickAndDirtyCamera.x <= 0) goForward = 1;
+        }
+
+        if(goDown == 1) {
+
+            fineScroll_y++;
+        if(fineScroll_y > 15) {
+            fineScroll_y = 0;
+            ANTIC.vscrol = fineScroll_y;
+            relativeMoveScrMem(0,1);
+         } else {
+                ANTIC.vscrol = fineScroll_y;
+           }
+           QuickAndDirtyCamera.y += 1;
+
+           if(QuickAndDirtyCamera.y > 192) goDown = 0;
+
+        } else {
+            fineScroll_y--;
+            if(fineScroll_y < 0) {
+                fineScroll_y = 15;
+                ANTIC.vscrol = fineScroll_y;
+                relativeMoveScrMem(0,-1);
+            } else {
+                ANTIC.vscrol = fineScroll_y;
+             }
+            QuickAndDirtyCamera.y -= 1;
+
+            if(QuickAndDirtyCamera.y <= 0) goDown = 1;
+        }
+        
+        
         
         
         //process graphics
-        if (check_if_any_collision(cur_player)) {
-            GTIA_WRITE.hitclr = 1;
-            set_player_horiz_position(cur_player,cur_horiz_position,true);
-            set_player_vert_position(cur_player,cur_vert_position,true);
-        } else {
-            set_player_horiz_position(cur_player,playerEnt.playerEntity.eyeCoords.x,true);
-            set_player_vert_position(cur_player,playerEnt.playerEntity.eyeCoords.y,true);
-        }
+        // if (check_if_any_collision(cur_player)) {
+        //     GTIA_WRITE.hitclr = 1;
+        //     set_player_horiz_position(cur_player,cur_horiz_position,true);
+        //     set_player_vert_position(cur_player,cur_vert_position,true);
+        // } else {
+        //     set_player_horiz_position(cur_player,playerEnt.playerEntity.eyeCoords.x,true);
+        //     set_player_vert_position(cur_player,playerEnt.playerEntity.eyeCoords.y,true);
+        // }
         
     }
 }
@@ -313,10 +406,46 @@ void processFrameTasks(){
 
 // writes crucial bytes to the display list
 void fix_displayList() {
+    // unsigned int j = 1;
+    // unsigned int i;
+
     
+    //go to the location, scan down in inc of three
+
+    //start at the first graphics instr
+    //the comparison is to compare memory address
+
+    // for(i = 3; DisplayList[i] != DL_JVB && i < sizeof(DisplayList); i+= 3){
+    //     //work with a window of 3 bytes, convert i+1 to an int ptr
+    //     //foregoing the syntatic sugar here
+
+
+        
+    //     *(unsigned int *)(DisplayList + (i+1)) = (unsigned int)(gameMap[j]);
+    //     j += 1;
+    // } 
+
+    // assert(DisplayList[i] == DL_JVB);   //TODO: remove this debug later
+    // ((unsigned int *)(DisplayList + (i))
+
+    //*(unsigned int *)(DisplayList + i+1) = (unsigned int)DisplayList; 
+
+    setScreenMemOffset(0,0);
+    //relativeMoveScrMem(0,0);
+
+
+    *(unsigned int *)&DisplayList[sizeof(DisplayList) - 1] = (unsigned int)DisplayList;
+
+
+    //hscroll does mean that we cant get to the furthest left part of the screen
+    ANTIC.hscrol = 15;  //neccisary to center it with hscroll enabled
+    ANTIC.vscrol = 0;
 
 
     OS.sdlst = &DisplayList;
+
+
+
 
     return;
     // location of screen memory
@@ -333,6 +462,57 @@ void fix_displayList() {
     //POKEW(DISPLAY_LIST,dl_addr);
 
 
+}
+
+//offset from top left (0,0)
+void setScreenMemOffset(int x, int y){
+    //unsigned int j = y;
+    unsigned int i;
+
+    
+    //go to the location, scan down in inc of three
+
+    //start at the first graphics instr
+    //the comparison is to compare memory address
+
+
+    //TODO: transition this later to iterate the ptr directly
+    for(i = 3; DisplayList[i] != DL_JVB && i < sizeof(DisplayList); i+= 3){
+        //work with a window of 3 bytes, convert i+1 to an int ptr
+        //foregoing the syntatic sugar here
+
+
+        
+        *(unsigned int *)(DisplayList + (i+1)) = (unsigned int)(gameMap[y]) + x;
+        y += 1;
+    } 
+}
+
+//this may be slower than just setting!
+void relativeMoveScrMem(int dx, int dy){
+    int i = 0;
+    switch(dy) {
+        case -1:
+            dy = -40;
+        case 0:
+            break;
+        case 1:
+            dy = 40;
+            break;
+        default:
+            dy *= 40;
+            break;
+    }
+
+    for(i = 3; DisplayList[i] != DL_JVB && i < sizeof(DisplayList); i+= 3){
+        //work with a window of 3 bytes, convert i+1 to an int ptr
+        //foregoing the syntatic sugar here
+
+
+        
+        *(unsigned int *)(DisplayList + (i+1)) += dy + dx;
+        //y += ;
+    } 
 }
 
 // initializes a character set
