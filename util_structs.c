@@ -7,11 +7,7 @@ unsigned int Vector2Dist(Vector2 *a, Vector2 *b) {
     unsigned int yDist;
 
     xDist = max(a->x,b->x) - min(a->x,b->x);
+    yDist = max(a->y,b->y) - min(a->y,b->y);
 
-    if (a->y > b->y) {
-        yDist = a->y - b->y;
-    } else {
-        yDist = b->y - a->y;
-    }
-  return xDist;
+  return xDist + yDist;
 }

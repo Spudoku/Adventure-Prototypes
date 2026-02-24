@@ -34,6 +34,12 @@
 DragonEntity dragonEntities[3];
 
 
+// debugging variables
+    unsigned int cur_horiz_position;
+    unsigned int cur_vert_position;
+
+    unsigned int cur_horiz_velocity;
+    unsigned int cur_vert_velocity;
 
 
 // Player-missile graphics starts at 0xD000
@@ -86,8 +92,7 @@ PlayerEntity playerEnt;
 //char TheFiller[28800];
 int main() {
  // variable declarations
-    unsigned int cur_horiz_position;
-    unsigned int cur_vert_position;
+
     unsigned int cur_player = 0;
     // end variable declarations
     InitializeJoystick();
@@ -103,6 +108,8 @@ int main() {
         //process gamestate
         cur_horiz_position = playerEnt.playerEntity.eyeCoords.x;
         cur_vert_position = playerEnt.playerEntity.eyeCoords.y;
+        cur_horiz_velocity = playerEnt.playerVelocity.x;
+        cur_vert_velocity = playerEnt.playerVelocity.y;
 
         processFrameTasks();
 
@@ -113,15 +120,17 @@ int main() {
         set_player_horiz_position(cur_player,playerEnt.playerEntity.eyeCoords.x, true);
         set_player_vert_position(cur_player,playerEnt.playerEntity.eyeCoords.y, true);
 
-         set_player_vert_position(1,dragonEntities[0].myEntity.eyeCoords.y,true);
+        set_player_vert_position(1,dragonEntities[0].myEntity.eyeCoords.y,true);
         set_player_horiz_position(1,dragonEntities[0].myEntity.eyeCoords.x,true);
        
 
         //process graphics
         if (check_if_any_collision(cur_player)) {
             GTIA_WRITE.hitclr = 1;
-            playerEnt.playerEntity.eyeCoords.x = cur_horiz_position;
-            playerEnt.playerEntity.eyeCoords.y = cur_vert_position;
+            // playerEnt.playerEntity.eyeCoords.x = cur_horiz_position - playerEnt.playerVelocity.x;
+            // playerEnt.playerEntity.eyeCoords.y = cur_vert_position - playerEnt.playerVelocity.y;
+            playerEnt.playerEntity.eyeCoords.x = cur_horiz_position ;
+            playerEnt.playerEntity.eyeCoords.y = cur_vert_position ;
             playerEnt.playerVelocity.x = 0;
             playerEnt.playerVelocity.y = 0;
         }
@@ -147,6 +156,10 @@ void initializeEngine(){
 
 //initalizes just the player for now
 void initializeStaticEntities(){
+    Vector2 starting_coords = {
+        120,
+        60
+    };
     test_player1();
 
 
@@ -163,6 +176,7 @@ void initializeStaticEntities(){
     entityConstructor((Entity*)&dragonEntities[0].myEntity,dragonRoutine,dragonRenderer);
 
     dragonEntities[0].loves = &playerEnt.playerEntity;
+    dragonEntities[0].myEntity.eyeCoords = starting_coords;
     
 }
 

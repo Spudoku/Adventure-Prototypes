@@ -7,7 +7,7 @@
 
 #define DEFAULT_DRAGON_SPEED 1
 #define DEFAULT_DRAGON_MOVE_DELAY 1
-#define DEFAULT_DRAGON_SIGHTRANGE 20
+#define DEFAULT_DRAGON_SIGHTRANGE 200
 // this should NOT be a singleton
 
 typedef struct DragonEntity {

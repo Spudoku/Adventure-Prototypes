@@ -43,18 +43,18 @@ STATUS playerInputProcess(){
     playerEnt.playerVelocity.x = playerEnt.playerSpeed;
     playerEnt.playerEntity.eyeCoords.x += playerEnt.playerVelocity.x;
   } else if (JOY_LEFT(joystickState)){
-    playerEnt.playerVelocity.x = playerEnt.playerSpeed;
+    playerEnt.playerVelocity.x = -playerEnt.playerSpeed;
     // this looks redundant but apparently susbee said that subtracting unsigned ints is weird,
     // so don't touch this for now
-    playerEnt.playerEntity.eyeCoords.x -= playerEnt.playerVelocity.x;
+    playerEnt.playerEntity.eyeCoords.x += playerEnt.playerVelocity.x;
   } else {
     playerEnt.playerVelocity.x = 0;
   }
 
   // vertical movement
   if(JOY_UP(joystickState)){
-    playerEnt.playerVelocity.y = playerEnt.playerSpeed;
-    playerEnt.playerEntity.eyeCoords.y -= playerEnt.playerVelocity.y;
+    playerEnt.playerVelocity.y = -playerEnt.playerSpeed;
+    playerEnt.playerEntity.eyeCoords.y += playerEnt.playerVelocity.y;
   } else if (JOY_DOWN(joystickState)) {
     playerEnt.playerVelocity.y = playerEnt.playerSpeed;
     playerEnt.playerEntity.eyeCoords.y += playerEnt.playerVelocity.y;

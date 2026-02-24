@@ -37,8 +37,8 @@ STATUS dragonBehaviorProcess(Entity* thisEntity) {
     testLocation.x = dEntity->targetLocation.x;
     testLocation.y = dEntity->targetLocation.y;
     
-    dummy = Vector2Dist(&(dEntity->targetLocation),&(thisEntity->eyeCoords));
-    if (dummy
+    dummy = thisEntity->eyeCoords.x;
+    if (Vector2Dist(&(dEntity->targetLocation),&(thisEntity->eyeCoords))
     <= dEntity->sightRange) {
         moveTowards(dEntity,&(dEntity->targetLocation));
     }
