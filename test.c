@@ -35,11 +35,7 @@ DragonEntity dragonEntities[3];
 
 
 // debugging variables
-    unsigned int cur_horiz_position;
-    unsigned int cur_vert_position;
 
-    unsigned int cur_horiz_velocity;
-    unsigned int cur_vert_velocity;
 
 
 // Player-missile graphics starts at 0xD000
@@ -93,7 +89,13 @@ PlayerEntity playerEnt;
 int main() {
  // variable declarations
 
+
     unsigned int cur_player = 0;
+
+    struct Vector2 prev_unstuck_pos = {
+        0,
+        0
+    };
     // end variable declarations
     InitializeJoystick();
 
@@ -102,14 +104,15 @@ int main() {
     initializeEngine();
     ScreenMemory[30] = 1;
     set_player_horiz_position(1,SCREEN_HORIZ_CENTER,true);
-        set_player_vert_position(1,SCREEN_VERT_CENTER,true);
+    set_player_vert_position(1,SCREEN_VERT_CENTER,true);
+
+    prev_unstuck_pos.x = playerEnt.playerEntity.eyeCoords.x;
+    prev_unstuck_pos.y = playerEnt.playerEntity.eyeCoords.y;
     while (true) {
         correct_eyecoords_test();
         //process gamestate
-        cur_horiz_position = playerEnt.playerEntity.eyeCoords.x;
-        cur_vert_position = playerEnt.playerEntity.eyeCoords.y;
-        cur_horiz_velocity = playerEnt.playerVelocity.x;
-        cur_vert_velocity = playerEnt.playerVelocity.y;
+        prev_unstuck_pos.x = playerEnt.playerEntity.eyeCoords.x -  (playerEnt.playerVelocity.x);
+        prev_unstuck_pos.y = playerEnt.playerEntity.eyeCoords.y - (playerEnt.playerVelocity.y);
 
         processFrameTasks();
 
@@ -126,15 +129,14 @@ int main() {
 
         //process graphics
         if (check_if_any_collision(cur_player)) {
-            GTIA_WRITE.hitclr = 1;
+            
             // playerEnt.playerEntity.eyeCoords.x = cur_horiz_position - playerEnt.playerVelocity.x;
             // playerEnt.playerEntity.eyeCoords.y = cur_vert_position - playerEnt.playerVelocity.y;
-            playerEnt.playerEntity.eyeCoords.x = cur_horiz_position ;
-            playerEnt.playerEntity.eyeCoords.y = cur_vert_position ;
-            playerEnt.playerVelocity.x = 0;
-            playerEnt.playerVelocity.y = 0;
+            playerEnt.playerEntity.eyeCoords.x = prev_unstuck_pos.x ;
+            playerEnt.playerEntity.eyeCoords.y = prev_unstuck_pos.y ;
+
         }
-        
+        GTIA_WRITE.hitclr = 1;
     }
 }
 
@@ -254,14 +256,14 @@ void test_player1() {
     player_sprites[0][8] =  0b00000000;
     player_sprites[0][9] =  0b00000000;
     player_sprites[0][10] =  0b00000000;
-    player_sprites[0][11] =  0b00000000;
-    player_sprites[0][12] =  0b00000000;
-    player_sprites[0][13] =  0b00111100;
-    player_sprites[0][14] =  0b01111110;
-    player_sprites[0][15] =  0b01111110;
-    player_sprites[0][16] =  0b01111110;
-    player_sprites[0][17] =  0b01111110;
-    player_sprites[0][18] = 0b00111100;
+    player_sprites[0][11] =     0b00000000;
+    player_sprites[0][12] =     0b00000000;
+    player_sprites[0][13] =     0b00000000;
+    player_sprites[0][14] =     0b00111100;
+    player_sprites[0][15] =     0b00111100;
+    player_sprites[0][16] =     0b00111100;
+    player_sprites[0][17] =     0b00111100;
+    player_sprites[0][18] =     0b00000000;
     player_sprites[0][19] = 0b00000000;
     player_sprites[0][20] = 0b00000000;
     player_sprites[0][21] = 0b00000000;

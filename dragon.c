@@ -67,7 +67,7 @@ STATUS dragonConstructor(Entity* subEntity,DragonEntity* theSuperEntity){
 Vector2 chooseTargetLocation(DragonEntity* thisEntity) {
   
   struct Vector2 newLocation;
-  unsigned int dist;
+  // unsigned int dist;
   // currently relies on the 'loves' Entity
   newLocation.x = thisEntity->loves->eyeCoords.x;
   newLocation.y = thisEntity->loves->eyeCoords.y;
