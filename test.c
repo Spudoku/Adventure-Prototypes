@@ -102,7 +102,7 @@ int main() {
     // 
     manual_load(&gameMap[0][0]);
     initializeEngine();
-    ScreenMemory[30] = 1;
+    // ScreenMemory[30] = 1;
     set_player_horiz_position(1,SCREEN_HORIZ_CENTER,true);
     set_player_vert_position(1,SCREEN_VERT_CENTER,true);
 
@@ -316,31 +316,8 @@ void test_player1() {
 
 // checks if a player collides with any bit other than 0 in playfield
 bool check_if_any_collision(unsigned char playerID) {
-    unsigned char collision;
-
-    // read the correct collision register based on player number
-    switch (playerID) {
-        case 0:
-            collision = GTIA_READ.p0pf;
-            break;
-        case 1:
-            collision = GTIA_READ.p1pf;
-            break;
-        case 2:
-            collision = GTIA_READ.p2pf;
-            break;
-        case 3:
-            collision = GTIA_READ.p3pf;
-            break;
-        default:
-            collision = GTIA_READ.p0pf;
-            break;
-    }
-
-    if (collision & 0x01 || collision & 0x02 || collision & 0x04) {
-        return true;
-    }
-    return false;
+    unsigned char collision = player_to_playfield_collisions(playerID);
+    return collision > 0;
 
 }
 

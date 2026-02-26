@@ -68,6 +68,8 @@ unsigned char player_to_playfield_collisions(unsigned char player);
 unsigned char missile_to_player_collisions(unsigned char player);
 unsigned char missile_to_playfield_collisions(unsigned char missile);
 
+bool collision_with_index(unsigned char data, unsigned char index);
+
 
 void setup_pmg() {
     // TODO: do any setup for player missile graphics here
@@ -289,6 +291,21 @@ unsigned char missile_to_playfield_collisions(unsigned char missile) {
             return 0;
             
     }
+}
+
+// How this works is you pass 'data' from one of the helper methods (e.g,
+// player_to_playfield_collisions(0)), and an index from 0-3
+// to check which object is being collided with.
+// usage example:
+// unsigned char p0_pf_collisions = player_to_playfield_collisions(unsigned char player);
+// // say 0b00001000 is returned
+// bool collide_with_3 = collision_with_index(p0_pf_collisions, 3);
+// // result: collide_with_3 is true if player 0 is colliding with playfield 3
+bool collision_with_index(unsigned char data, unsigned char index){
+    if (index > 3) {
+        return false;
+    }
+    return (data >> index) & 1;
 }
 
 // END COLLISION HELPERS
