@@ -62,10 +62,14 @@ unsigned char get_player_vert_position(unsigned char playerID);
 void write_sprite(unsigned char playerID, unsigned char position);
 
 
+// collision helpers
+unsigned char player_to_player_collisions(unsigned char player);
+unsigned char player_to_playfield_collisions(unsigned char player);
+unsigned char missile_to_player_collisions(unsigned char player);
+unsigned char missile_to_playfield_collisions(unsigned char missile);
+
+
 void setup_pmg() {
-    //unsigned int PMBASE = 0xD407;
-    // unsigned int SDMCTL = 0x22F;
-    // unsigned int PCOLR0 = 0x2C0;
     // TODO: do any setup for player missile graphics here
     // what Ed's code appears to do is:
     // store pmg label into PMBASE ($D407)
@@ -74,32 +78,20 @@ void setup_pmg() {
     // move 0x1 into GRPRIOR ($26F), which gives player priorty?
 
     ANTIC.pmbase = (unsigned int)player_horiz_positions >> 8;
-    
-    // TODO: clear out memory more efficiently
-    
-    // THIS IS TEST CODE
-    //POKE(SDMCTL,46); 
-    // I think the does: enable fetching DMA instructions, enable player/missile DMA, standard playfield
 
     //zero out the section just in case,
     //this looks dangerous but you see. i'm more dangerous than this
     memset(player_horiz_positions, 0, 1024);    //1024 bytes are avail in here
 
-
-    ANTIC.dmactl = 46;
     OS.sdmctl = 46;
     GTIA_WRITE.gractl = 3; // enable PMG
-    GTIA_WRITE.prior =  PRIOR_P03_PF03 ; // set player priorty
+    OS.gprior = PRIOR_P03_PF03;
+
     
-    // // set horizontal position of p0 to 120
-    // GTIA_WRITE.hposp0 = 150;
-    
-    // set color of player 0
-    //POKE(PCOLR0,0x1E);
+    // set color of players
     OS.pcolr0 = COLOR_YELLOW;
     OS.pcolr1 = COLOR_RED;
 
-    // GTIA_WRITE.colpm0 = (unsigned char)0x1E;
 }
 
 /**
@@ -220,8 +212,85 @@ unsigned char get_player_vert_position(unsigned char playerID) {
     return player_vert_positions[playerID % 4];
 }
 
+// START COLLISION HELPERS
+unsigned char player_to_player_collisions(unsigned char player) {
+    switch (player) {
+        case 0:
+            return GTIA_READ.p0pl;
+            
+        case 1:
+            return GTIA_READ.p1pl;
+            
+        case 2:
+            return GTIA_READ.p2pl;
+            
+        case 3:
+            return GTIA_READ.p3pl;
+            
+        default:
+            return 0;
+            
+    }
+}
 
+unsigned char missile_to_player_collisions(unsigned char missile) {
+    switch (missile) {
+        case 0:
+            return GTIA_READ.m0pl;
 
+        case 1:
+            return GTIA_READ.m1pl;
+            
+        case 2:
+            return GTIA_READ.m2pl;
+            
+        case 3:
+            return GTIA_READ.m3pl;
+       default:
+            return 0;
+            
+    }
 
+}
+
+unsigned char player_to_playfield_collisions(unsigned char player) {
+    switch (player) {
+        case 0:
+            return GTIA_READ.p0pf;
+
+        case 1:
+            return GTIA_READ.p1pf;
+            
+        case 2:
+            return GTIA_READ.p2pf;
+            
+        case 3:
+            return GTIA_READ.p3pf;
+       default:
+            return 0;
+            
+    }
+}
+
+unsigned char missile_to_playfield_collisions(unsigned char missile) {
+    switch (missile) {
+        case 0:
+            return GTIA_READ.m0pf;
+
+        case 1:
+            return GTIA_READ.m1pf;
+            
+        case 2:
+            return GTIA_READ.m2pf;
+            
+        case 3:
+            return GTIA_READ.m3pf;
+       default:
+            return 0;
+            
+    }
+}
+
+// END COLLISION HELPERS
 
 #endif
