@@ -20,7 +20,7 @@ typedef struct Entity {
   struct Entity* childEntity;
   void* superEntity; // The struct that stores this instance of Entity
   Vector2 eyeCoords;
-
+  unsigned char pmg_id; // which pmg player this entity should be
 } Entity;
 
 //allows accessing to be funny
