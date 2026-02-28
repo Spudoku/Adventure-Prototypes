@@ -5,6 +5,7 @@
 #include "items.h"
 #include "player.h"
 
+
 int test;
 int dummy;
 
@@ -104,4 +105,9 @@ void TrackMoveDelayFrames(DragonEntity* thisEntity) {
   if (thisEntity->moveDelayCounter > thisEntity->moveFrameDelay) {
     thisEntity->moveDelayCounter = 0;
   }
+}
+
+void SetSpriteByIndex(DragonEntity* thisEntity, unsigned char id) {
+  thisEntity->activeSprite = id;
+  // TODO: render the sprite;
 }

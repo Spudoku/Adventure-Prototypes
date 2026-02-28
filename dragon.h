@@ -4,10 +4,14 @@
 #include "util.h"
 #include "util_structs.h"
 #include "entity.h"
+#include "entity_sprites.h"
+// #include "player_missile.h"
 
 #define DEFAULT_DRAGON_SPEED 1
 #define DEFAULT_DRAGON_MOVE_DELAY 1
 #define DEFAULT_DRAGON_SIGHTRANGE 200
+
+#define SPRITE_COUNT 3
 // this should NOT be a singleton
 
 typedef struct DragonEntity {
@@ -18,12 +22,15 @@ typedef struct DragonEntity {
   Entity myEntity;
 
   // dragon-specific fields
-  unsigned int id;
+  unsigned int id;            // which graphics player to use
   unsigned int sightRange;
   Vector2 targetLocation;
   Entity* loves;
   // Entity loves[3]; // things this dragon loves
   // Entity hates[3]; // things this dragon hates
+  unsigned char activeSprite;
+  struct Sprite* sprites[SPRITE_COUNT]; // 
+
 } DragonEntity;
 
 extern DragonEntity dragonEntities[];
@@ -44,6 +51,8 @@ Vector2 chooseTargetLocation(DragonEntity* thisEntity);
 void moveTowards(DragonEntity* thisEntity, Vector2* location);
 
 void TrackMoveDelayFrames(DragonEntity* thisEntity);
+
+void SetSpriteByIndex(DragonEntity* thisEntity, unsigned char id);
 
 
 #endif 

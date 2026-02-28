@@ -4,15 +4,32 @@
     POPULATING MEMORY SEGMENT
     allocated in atari_modifed.cfg
 **/
+
+#include "entity_sprites.h"
+
+// TODO: 
+// 0. make entities store sprite ids; write any necessary helpers
+// 1. change player_sprites and missile_sprites to be arrays of Sprite and
+//  Missile_Sprite pointers
+// 2. change write_sprite to use Sprite* and access the bytes from it. basically
+//  the idea is to make player_sprite and missile_sprites to be 'registers' that
+//  write_sprite accesses
+// 3. create data structures for sprites in test.c, then write helper methods
+//  to set 'default' sprites for each entity
+// other: 
+//      make memory segment purely for an array of sprites and missile_sprites?
+//      
 #pragma bss-name (push, "PMGAREA")
 // assuming double-line resolution
 unsigned char player_horiz_positions[4];
 unsigned char player_vert_positions[4];
-
+unsigned char missile_horiz_positions[4];
+unsigned char missile_vert_positions[4];
 // sprite arrays
 unsigned char player_sprites[4][32];
 unsigned char missile_sprites[4][8];
-unsigned char unused[236];          // it appears we can use this area safely
+unsigned char unused[228];             // it appears we can use this area safely
+                                        // I might use it to store all sprites
 unsigned char missiles_graphics[4][32];
 unsigned char player_graphics[4][128];
 
@@ -25,6 +42,8 @@ unsigned char player_graphics[4][128];
 /**
     MEMORY LOCATIONS
 **/
+
+
 
 #define PLAYER_0_POS_HORIZ 0xD000
 #define PLAYER_1_POS_HORIZ 0xD001
