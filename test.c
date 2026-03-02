@@ -19,6 +19,7 @@
 #include "util_input.h"
 #include <assert.h>
 #include "dragon.h"
+#include "test_sprites.h"
 
 
 #include <time.h>
@@ -32,6 +33,8 @@
 #define CHARSET_PTR 0x2F4     // character base
 
 DragonEntity dragonEntities[3];
+
+
 
 
 // debugging variables
@@ -215,20 +218,7 @@ void fix_displayList() {
 int character = 0;
 void init_charset() {
     // address of CharMap
-    // unsigned int charmap_addr = (unsigned int )CharMap;
-    //   unsigned int charmap_addr = (unsigned int )CHARSET_ADDR;  // this value specifies with page the address is located. multiply by 256 to locate actual characters.
-    
-    //   test = charmap_addr * 0x100; // page number * page size
-
     POKE(756,((unsigned int)charset) >> 8);   // poke high byte to CHBASE register
-
-
-
-    // set page number in CHARSET_PTR
-   
-    
-
-    
 }
 
 void edit_colors() {
@@ -244,74 +234,8 @@ void frame_delay() {
 
 void test_player1() {
     // I will write a helper function in player_missile.h
-
-    player_sprites[0][0] =  0b00000000;
-    player_sprites[0][1] =  0b00000000;
-    player_sprites[0][2] =  0b00000000;
-    player_sprites[0][3] =  0b00000000;
-    player_sprites[0][4] =  0b00000000;
-    player_sprites[0][5] =  0b00000000;
-    player_sprites[0][6] =  0b00000000;
-    player_sprites[0][7] =  0b00000000;
-    player_sprites[0][8] =  0b00000000;
-    player_sprites[0][9] =  0b00000000;
-    player_sprites[0][10] =  0b00000000;
-    player_sprites[0][11] =     0b00000000;
-    player_sprites[0][12] =     0b00000000;
-    player_sprites[0][13] =     0b00000000;
-    player_sprites[0][14] =     0b00111100;
-    player_sprites[0][15] =     0b00111100;
-    player_sprites[0][16] =     0b00111100;
-    player_sprites[0][17] =     0b00111100;
-    player_sprites[0][18] =     0b00000000;
-    player_sprites[0][19] = 0b00000000;
-    player_sprites[0][20] = 0b00000000;
-    player_sprites[0][21] = 0b00000000;
-    player_sprites[0][22] = 0b00000000;
-    player_sprites[0][23] = 0b00000000;
-    player_sprites[0][24] =  0b00000000;
-    player_sprites[0][25] =  0b00000000;
-    player_sprites[0][26] =  0b00000000;
-    player_sprites[0][27] =  0b00000000;
-    player_sprites[0][28] =  0b00000000;
-    player_sprites[0][29] =  0b00000000;
-    player_sprites[0][30] =  0b00000000;
-    player_sprites[0][31] =  0b00000000;
-  
-    // set_player_vert_position(0,64,true);
-    // dragon sprite
-    player_sprites[1][0] =   0b00000000;
-    player_sprites[1][1] =   0b00000000;
-    player_sprites[1][2] =   0b00000000;
-    player_sprites[1][3] =   0b00000000;
-    player_sprites[1][4] =   0b00000000;
-    player_sprites[1][5] =   0b00000110;
-    player_sprites[1][6] =   0b00001111;
-    player_sprites[1][7] =   0b11110011;
-    player_sprites[1][8] =   0b11111110;
-    player_sprites[1][9] =   0b00001110;
-    player_sprites[1][10] =  0b00000100;
-    player_sprites[1][11] =  0b00000100;
-    player_sprites[1][12] =  0b00011110;
-    player_sprites[1][13] =  0b00111111;
-    player_sprites[1][14] =  0b01111111;
-    player_sprites[1][15] =  0b11100011;
-    player_sprites[1][16] =  0b11000011;
-    player_sprites[1][17] =  0b11000011;
-    player_sprites[1][18] =  0b11000111;
-    player_sprites[1][19] =  0b11111111;
-    player_sprites[1][20] =  0b00111100;
-    player_sprites[1][21] =  0b00001000;
-    player_sprites[1][22] =  0b10001111;
-    player_sprites[1][23] =  0b11100001;
-    player_sprites[1][24] =  0b00111111;
-    player_sprites[1][25] =  0b00000000;
-    player_sprites[1][26] =  0b00000000;
-    player_sprites[1][27] =  0b00000000;
-    player_sprites[1][28] =  0b00000000;
-    player_sprites[1][29] =  0b00000000;
-    player_sprites[1][30] =  0b00000000;
-    player_sprites[1][31] =  0b00000000;
+    player_sprites[0] = &testSprites[0];
+    player_sprites[1] = &testSprites[1];
 }
 
 // checks if a player collides with any bit other than 0 in playfield

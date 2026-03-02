@@ -26,9 +26,10 @@ unsigned char player_vert_positions[4];
 unsigned char missile_horiz_positions[4];
 unsigned char missile_vert_positions[4];
 // sprite arrays
-unsigned char player_sprites[4][32];
-unsigned char missile_sprites[4][8];
-unsigned char unused[228];             // it appears we can use this area safely
+// unsigned char player_sprites[4][32];
+Missile_Sprite* missile_sprites[4];
+Sprite* player_sprites[4];
+unsigned char unused[352];             // it appears we can use this area safely
                                         // I might use it to store all sprites
 unsigned char missiles_graphics[4][32];
 unsigned char player_graphics[4][128];
