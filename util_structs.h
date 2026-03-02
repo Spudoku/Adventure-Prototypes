@@ -1,7 +1,8 @@
 #ifndef UTIL_S_H
 #define UTIL_S_H
 
-
+#define HIGH_BYTE 1
+#define LOW_BYTE 0
 
 #include <stdint.h>
 
@@ -34,11 +35,18 @@ typedef enum STATUS {
 } STATUS;
 
 
+
 //allows getting most/least sig byte a bit easier
 typedef union int16_2int8{
   int16_t integer;
   int8_t bytes[2];
 } IntToTwoChar; 
+
+
+typedef struct uint16_2int8_u32Vector2{
+  IntToTwoChar x;
+  IntToTwoChar y;
+} u8int2x2_u32Vector2;
 
 
 #endif 

@@ -167,8 +167,9 @@ char DisplayList[] = {
 int i = 0;
 int charStart = 480;
 PlayerEntity playerEnt;
-unsigned int cur_player = 0;
-// int DEBUG = 1;
+unsigned int cur_player = 0; 
+int DEBUG = 23;
+int DEBUG2 = 0;
 int goForward = 1;
 int goDown = 1;
 int fineScroll_y = 16; //test only
@@ -176,11 +177,42 @@ int fineScroll_x = 16; //test only
 
 Vector2 QuickAndDirtyCamera;
 
+void switchStatement();
+void switchStatement(){
+
+}
+
+void ifelseChain();
+void ifelseChain(){
+    if(DEBUG == 1){
+        DEBUG2 += 2;
+    } else if (DEBUG == 2){
+        DEBUG2 -= 1;
+    } else if (DEBUG == 23) {
+        DEBUG2 += 4;
+    } else {
+        DEBUG2 += 40;
+    }
+}
+
 //char TheFiller[28800];
 int main() {
  // variable declarations
     unsigned int cur_horiz_position;
     unsigned int cur_vert_position;
+
+    switchStatement();
+    ifelseChain();
+
+
+    // DEBUG = -16;
+
+
+    // DEBUG >>= 1;
+
+    // assert(DEBUG == -8);
+
+    
 
     //fineScroll_y = 16;
     // int number = 257;
@@ -225,7 +257,7 @@ int main() {
         
         //if(fineScroll_y > 1) { fineScroll_y = fineScroll_x;}
         
-        //processFrameTasks();
+        processFrameTasks();
         
         waitvsync();
         if(goForward == 1) {
@@ -258,8 +290,8 @@ int main() {
 
         if(goDown == 1) {
 
-            fineScroll_y++;
-        if(fineScroll_y > 15) {
+            fineScroll_y+= 2;
+        if(fineScroll_y > 14) {
             fineScroll_y = 0;
             ANTIC.vscrol = fineScroll_y;
             relativeMoveScrMem(0,1);
@@ -268,12 +300,12 @@ int main() {
            }
            QuickAndDirtyCamera.y += 1;
 
-           if(QuickAndDirtyCamera.y > 192) goDown = 0;
+           if(QuickAndDirtyCamera.y > 96) goDown = 0;
 
         } else {
-            fineScroll_y--;
+            fineScroll_y-= 2;
             if(fineScroll_y < 0) {
-                fineScroll_y = 15;
+                fineScroll_y = 14;
                 ANTIC.vscrol = fineScroll_y;
                 relativeMoveScrMem(0,-1);
             } else {
@@ -288,14 +320,14 @@ int main() {
         
         
         //process graphics
-        // if (check_if_any_collision(cur_player)) {
-        //     GTIA_WRITE.hitclr = 1;
-        //     set_player_horiz_position(cur_player,cur_horiz_position,true);
-        //     set_player_vert_position(cur_player,cur_vert_position,true);
-        // } else {
-        //     set_player_horiz_position(cur_player,playerEnt.playerEntity.eyeCoords.x,true);
-        //     set_player_vert_position(cur_player,playerEnt.playerEntity.eyeCoords.y,true);
-        // }
+        if (check_if_any_collision(cur_player)) {
+            GTIA_WRITE.hitclr = 1;
+            set_player_horiz_position(cur_player,cur_horiz_position,true);
+            set_player_vert_position(cur_player,cur_vert_position,true);
+        } else {
+            set_player_horiz_position(cur_player,playerEnt.playerEntity.eyeCoords.x,true);
+            set_player_vert_position(cur_player,playerEnt.playerEntity.eyeCoords.y,true);
+        }
         
     }
 }
@@ -522,13 +554,14 @@ int character = 0;
 void init_charset() {
     // address of CharMap
     // unsigned int charmap_addr = (unsigned int )CharMap;
-    //   unsigned int charmap_addr = (unsigned int )CHARSET_ADDR;  // this value specifies with page the address is located. multiply by 256 to locate actual characters.
+    //   unsigned int charmap_addr = (unsigned int )CHARSET_ADDR;  
+    // this value specifies with page the address is located. multiply by 256 to locate actual characters.
     
     //   test = charmap_addr * 0x100; // page number * page size
 
+    //ANTIC.chbase = (unsigned char)charsetAddress.bytes[1];
     IntToTwoChar charsetAddress;
     charsetAddress.integer = (unsigned int)charset;
-    //ANTIC.chbase = (unsigned char)charsetAddress.bytes[1];
     OS.chbas = charsetAddress.bytes[1];
     //POKE(756,charsetAddress.bytes[1]);   // poke high byte to CHBASE register
 

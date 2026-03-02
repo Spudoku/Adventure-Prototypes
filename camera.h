@@ -6,28 +6,32 @@
 #include "entity.h"
 #include "transform.h"
 
-
-//feels a bit jank
+//macros to make life easier
 #define _TrackedObject cameraEntity.childEntity
 #define _screenResolution camera.screenResolution 
 #define _cameraMargin camera.draggingMargin
 
 
-//union to allow all entities to allow other datatypes to declare this and 
-//have it autolink back to the singleton
-//i wonder if declaring a camera in entity would make the compiler mad (circular declaration?)
 typedef struct Camera{
   Entity cameraEntity;
   //entity* _trackedobject (just pretend its here due to preprocessor)
 
 
-    u16Vector2 centerPoint;
+  u16Vector2 centerPoint;
   //TODO: consider making these a compile time constant? if the compiler doesnt already
   //preprocessor directives WONT do that probably
   u16Vector2 screenResolution;  
   u16Vector2 innerMargin; //calced at init
 
   int8_t draggingMargin; //may make this a compile time thing?
+
+
+  //rendering data (make into own struct?)
+  uint8_t* tileMap;
+  uint8_t* displayListLocation;
+
+  
+
 } Camera;
 
 Camera camera;
