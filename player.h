@@ -5,22 +5,16 @@
 #include "util_structs.h"
 #include "entity.h"
 #include <joystick.h>
+#include "entity_sprites.h"
+#include "player_missile.h"
+
+#define PLAYER_GRAPHICS_PLAYER 0
+#define PLAYER_SPRITE_COUNT 1
 
 //player will probably end up being effectively a singleton here
 
-// typedef struct Player{
 
-
-// };
-
-// typedef struct Entity{
-//   STATUS (*frameTask)(Entity* thisEntity);
-//   STATUS (*renderer)(Entity* thisEntity);
-//   Vector2 eyeCoords;
-// };
-
-
-
+extern Sprite playerSprites[];
 typedef struct PlayerEntity {
   Vector2 playerVelocity;
   int playerSpeed;  //may consider making this an unsigned char
@@ -31,12 +25,6 @@ typedef struct PlayerEntity {
 } PlayerEntity;
 
 
-// extern STATUS entityConstructor(Entity* thisEntity, 
-//                       STATUS (*frameTask)(Entity* thisEntity), 
-//                       STATUS (*renderer)(Entity* thisEntity));
-
-// Vector2 playerVelocity;
-// int playerSpeed;  //may consider making this an unsigned char
 // //may also want to include a delta time if we aren't synced with vblank 1:1
 
 STATUS playerRoutine(Entity* thisEntity);

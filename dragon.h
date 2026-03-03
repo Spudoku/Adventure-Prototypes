@@ -6,7 +6,8 @@
 #include "entity.h"
 #include "entity_sprites.h"
 
-// #include "player_missile.h"
+#include "player_missile.h"
+#include "player.h"
 
 #define DEFAULT_DRAGON_SPEED 1
 #define DEFAULT_DRAGON_MOVE_DELAY 1
@@ -16,9 +17,11 @@
 #define DRAGON_GRAPHICS_PLAYER 1     // this means that all dragons share player 1,
                               // if we only allow one dragon on screen at once
 
-#define SPRITE_COUNT 3
+#define DRAGON_SPRITE_COUNT 3
 
-extern Sprite sprites[];
+#define DRAGON_CHOMP_DELAY 16
+
+extern Sprite dragonSprites[];
 
 
 
@@ -39,6 +42,9 @@ typedef struct DragonEntity {
   // Entity loves[3]; // things this dragon loves
   // Entity hates[3]; // things this dragon hates
   unsigned char activeSprite;
+
+  unsigned int dragonChompCounter;
+  
   
 
 } DragonEntity;
@@ -63,6 +69,11 @@ void moveTowards(DragonEntity* thisEntity, Vector2* location);
 void TrackMoveDelayFrames(DragonEntity* thisEntity);
 
 void SetSpriteByIndex(DragonEntity* thisEntity, unsigned char id);
+
+// silly chomp animation
+void DragonChomp(DragonEntity* thisEntity);
+
+bool CollidingWithPlayer();
 
 
 #endif 

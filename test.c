@@ -52,7 +52,7 @@ void frame_delay();
 
 void joystick_test();
 
-void test_player1();
+void initialize_sprite_registers();
 
 void correct_eyecoords_test();
 
@@ -165,7 +165,7 @@ void initializeStaticEntities(){
         120,
         60
     };
-    test_player1();
+    initialize_sprite_registers();
 
 
     entityConstructor((Entity*)&playerEnt.playerEntity, playerRoutine, playerRenderer);
@@ -232,10 +232,10 @@ void frame_delay() {
     while(clock() < end);
 }
 
-void test_player1() {
+void initialize_sprite_registers() {
     // I will write a helper function in player_missile.h
-    player_sprites[0] = &testSprites[0];
-    player_sprites[1] = &testSprites[1];
+    player_sprites[PLAYER_GRAPHICS_PLAYER] = &playerSprites[0];
+    player_sprites[DRAGON_GRAPHICS_PLAYER] = &dragonSprites[1];
 }
 
 // checks if a player collides with any bit other than 0 in playfield
