@@ -5,13 +5,23 @@
 #include "util_structs.h"
 #include "entity.h"
 #include "entity_sprites.h"
+
 // #include "player_missile.h"
 
 #define DEFAULT_DRAGON_SPEED 1
 #define DEFAULT_DRAGON_MOVE_DELAY 1
 #define DEFAULT_DRAGON_SIGHTRANGE 200
 
+
+#define DRAGON_GRAPHICS_PLAYER 1     // this means that all dragons share player 1,
+                              // if we only allow one dragon on screen at once
+
 #define SPRITE_COUNT 3
+
+extern Sprite sprites[];
+
+
+
 // this should NOT be a singleton
 
 typedef struct DragonEntity {
@@ -29,7 +39,7 @@ typedef struct DragonEntity {
   // Entity loves[3]; // things this dragon loves
   // Entity hates[3]; // things this dragon hates
   unsigned char activeSprite;
-  struct Sprite* sprites[SPRITE_COUNT]; // 
+  
 
 } DragonEntity;
 

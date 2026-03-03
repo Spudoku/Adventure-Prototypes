@@ -39,6 +39,7 @@ unsigned char player_graphics[4][128];
 #include "util.h"
 #include <string.h>
 #include <assert.h>
+#include <stdbool.h>
 
 /**
     MEMORY LOCATIONS

@@ -11,6 +11,99 @@ int dummy;
 
 Vector2 testLocation;
 
+// think of this as a 'static' library of sprites that any given dragon 
+// can read from
+// TODO: move this somewhere else?
+Sprite sprites[SPRITE_COUNT] = {
+  // normal dragon
+  {
+        0b00001111,
+        0b11110011,
+        0b11111110,
+        0b00001110,
+        0b00000100,
+        0b00000100,
+        0b00011110,
+        0b00111111,
+        0b01111111,
+        0b11100011,
+        0b11000011,
+        0b11000011,
+        0b11000111,
+        0b11111111,
+        0b00111100,
+        0b00001000,
+        0b10001111,
+        0b11100001,
+        0b00111111,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+    }, 
+    // eating dragon
+    {
+        0b00001111,
+        0b11110011,
+        0b11111110,
+        0b00001110,
+        0b00000100,
+        0b00000100,
+        0b00011110,
+        0b00111111,
+        0b01111111,
+        0b11100011,
+        0b11000011,
+        0b11000011,
+        0b11000111,
+        0b11111111,
+        0b00111100,
+        0b00001000,
+        0b10001111,
+        0b11100001,
+        0b00111111,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+    }, 
+    // dead dragon
+    {
+        0b00001111,
+        0b11110011,
+        0b11111110,
+        0b00001110,
+        0b00000100,
+        0b00000100,
+        0b00011110,
+        0b00111111,
+        0b01111111,
+        0b11100011,
+        0b11000011,
+        0b11000011,
+        0b11000111,
+        0b11111111,
+        0b00111100,
+        0b00001000,
+        0b10001111,
+        0b11100001,
+        0b00111111,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+    }, 
+};
+
 // //per frame behavior
 STATUS dragonRoutine(Entity* thisEntity) {
   
@@ -61,6 +154,9 @@ STATUS dragonConstructor(Entity* subEntity,DragonEntity* theSuperEntity){
 
   theSuperEntity->moveFrameDelay = DEFAULT_DRAGON_MOVE_DELAY;
   theSuperEntity->moveDelayCounter = 0;
+
+  subEntity->pmg_id = DRAGON_GRAPHICS_PLAYER;
+  
   return PASS;
 }
 
