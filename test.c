@@ -17,6 +17,7 @@
 #include "util.h"
 #include "util_input.h"
 #include <assert.h>
+#include "gfx.h"
 
 
 
@@ -77,51 +78,51 @@ void processFrameTasks();
 
 
 //TODO: align the DL to a known interval, and specify each line of charmap h_mem
-char DisplayList[] = {
-    // 24 blank lines
-    DL_BLK8,
-    DL_BLK8,
-    DL_BLK8,
-    // TODO: tell ANTIC to load Graphics 2 at Screen Address, total 24 times
-    // was DL_GRAPHICS2, now DL_GRAPHICS0
-    // these 2 bytes will store the location of the screen memory
+// char DisplayList[] = {
+//     // 24 blank lines
+//     DL_BLK8,
+//     DL_BLK8,
+//     DL_BLK8,
+//     // TODO: tell ANTIC to load Graphics 2 at Screen Address, total 24 times
+//     // was DL_GRAPHICS2, now DL_GRAPHICS0
+//     // these 2 bytes will store the location of the screen memory
     
-    //eventually work up to DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2)))
-    //for the fine scrolling
-    //LMS will be needed for each dl entry
-    //and a mem address for the stream
+//     //eventually work up to DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2)))
+//     //for the fine scrolling
+//     //LMS will be needed for each dl entry
+//     //and a mem address for the stream
     
-    DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
-    0x00,0x00,
-    DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
-    0x00,0x00,
-    //second group of 2
+//     DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
+//     0x00,0x00,
+//     DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
+//     0x00,0x00,
+//     //second group of 2
 
     
-    DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
-    0x00,0x00,
-    DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
-    0x00,0x00,
-    DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
-    0x00,0x00,
-    DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
-    0x00,0x00,
-    DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
-    0x00,0x00,
-    DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
-    0x00,0x00,
-    DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
-    0x00,0x00,
-    DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
-    0x00,0x00,
-    DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
-    0x00,0x00,
-    DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
-    0x00,0x00,
-    DL_JVB,
-    // These two bytes store the location of the dispalyList itself
-    0x00,0x00
-    };
+//     DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
+//     0x00,0x00,
+//     DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
+//     0x00,0x00,
+//     DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
+//     0x00,0x00,
+//     DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
+//     0x00,0x00,
+//     DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
+//     0x00,0x00,
+//     DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
+//     0x00,0x00,
+//     DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
+//     0x00,0x00,
+//     DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
+//     0x00,0x00,
+//     DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
+//     0x00,0x00,
+//     DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
+//     0x00,0x00,
+//     DL_JVB,
+//     // These two bytes store the location of the dispalyList itself
+//     0x00,0x00
+//     };
 
 
 //CC65 is funny and supports this non standard void struct
@@ -174,8 +175,10 @@ int goForward = 1;
 int goDown = 1;
 int fineScroll_y = 16; //test only
 int fineScroll_x = 16; //test only
+int roughScroll_x;
 
 Vector2 QuickAndDirtyCamera;
+Vector2 dir, revDir;
 
 void switchStatement();
 void switchStatement(){
@@ -204,7 +207,10 @@ int main() {
     switchStatement();
     ifelseChain();
 
-
+    dir.x = 1;
+    dir.y = 0;
+    revDir.x = -1;
+    revDir.y = 0;
     // DEBUG = -16;
 
 
@@ -260,61 +266,74 @@ int main() {
         processFrameTasks();
         
         waitvsync();
+
+        
         if(goForward == 1) {
 
-            fineScroll_x--;
-        if(fineScroll_x < 0) {
-            fineScroll_x = 15;
-            ANTIC.hscrol = fineScroll_x;
-            relativeMoveScrMem(2,0);
-         } else {
-                ANTIC.hscrol = fineScroll_x;
-           }
-           QuickAndDirtyCamera.x += 1;
+            //fineScroll_x++;
+        // if(fineScroll_x < 0) {
+            //fineScroll_x = 15;
+            
+            // if(roughScroll_x >> 1 !=  (QuickAndDirtyCamera.x-1) >> 4 ){
+            //     setScreenMemOffset((((QuickAndDirtyCamera.x - 1) >> 4) << 1),0);
+
+            // }
+        //  } else {
+                //ANTIC.hscrol = fineScroll_x;
+        //    }
+           QuickAndDirtyCamera.x++;
+           map_relativeMove(dir);
 
            if(QuickAndDirtyCamera.x > 160) goForward = 0;
 
         } else {
-            fineScroll_x++;
-            if(fineScroll_x > 15) {
-                fineScroll_x = 0;
-            ANTIC.hscrol = fineScroll_x;
-            relativeMoveScrMem(-2,0);
-            } else {
-                ANTIC.hscrol = fineScroll_x;
-             }
-            QuickAndDirtyCamera.x -= 1;
-
+            // fineScroll_x++;
+            // if(fineScroll_x > 15) {
+            //     fineScroll_x = 0;
+            // ANTIC.hscrol = fineScroll_x;
+            // relativeMoveScrMem(-2,0);
+            // } else {
+            //     ANTIC.hscrol = fineScroll_x;
+            //  }
+            QuickAndDirtyCamera.x--;
+            map_relativeMove(revDir);
             if(QuickAndDirtyCamera.x <= 0) goForward = 1;
         }
 
-        if(goDown == 1) {
+        ANTIC.hscrol = -QuickAndDirtyCamera.x;
 
-            fineScroll_y+= 2;
-        if(fineScroll_y > 14) {
-            fineScroll_y = 0;
-            ANTIC.vscrol = fineScroll_y;
-            relativeMoveScrMem(0,1);
-         } else {
-                ANTIC.vscrol = fineScroll_y;
-           }
-           QuickAndDirtyCamera.y += 1;
 
-           if(QuickAndDirtyCamera.y > 96) goDown = 0;
+        // if(roughScroll_x >> 1 !=  (QuickAndDirtyCamera.x-1) >> 4 ){
+        //     setScreenMemOffset((((QuickAndDirtyCamera.x - 1) >> 4) << 1),0);
+        // }
 
-        } else {
-            fineScroll_y-= 2;
-            if(fineScroll_y < 0) {
-                fineScroll_y = 14;
-                ANTIC.vscrol = fineScroll_y;
-                relativeMoveScrMem(0,-1);
-            } else {
-                ANTIC.vscrol = fineScroll_y;
-             }
-            QuickAndDirtyCamera.y -= 1;
+        // if(goDown == 1) {
 
-            if(QuickAndDirtyCamera.y <= 0) goDown = 1;
-        }
+        //     fineScroll_y+= 2;
+        // if(fineScroll_y > 14) {
+        //     fineScroll_y = 0;
+        //     ANTIC.vscrol = fineScroll_y;
+        //     relativeMoveScrMem(0,1);
+        //  } else {
+        //         ANTIC.vscrol = fineScroll_y;
+        //    }
+        //    QuickAndDirtyCamera.y += 1;
+
+        //    if(QuickAndDirtyCamera.y > 96) goDown = 0;
+
+        // } else {
+        //     fineScroll_y-= 2;
+        //     if(fineScroll_y < 0) {
+        //         fineScroll_y = 14;
+        //         ANTIC.vscrol = fineScroll_y;
+        //         relativeMoveScrMem(0,-1);
+        //     } else {
+        //         ANTIC.vscrol = fineScroll_y;
+        //      }
+        //     QuickAndDirtyCamera.y -= 1;
+
+        //     if(QuickAndDirtyCamera.y <= 0) goDown = 1;
+        // }
         
         
         
@@ -376,93 +395,16 @@ void processFrameTasks(){
     playerEnt.playerEntity.frameTask(&(playerEnt.playerEntity));
 }
 
-// void joystick_test() {
-//     unsigned int joystick_input = (unsigned int)PEEK(JOYSTICK_REG_INPUT_0);
-//     unsigned int cur_player = 0;
-//     // move player 0 aroud
-
-    
-//     switch (joystick_input) {
-//         case JOYSTICK_MOVE_NOT: 
-            
-//             break;
-        
-//         case JOYSTICK_MOVE_DOWN:
-//             move_player_vert_position(cur_player,1,true);
-//             break;
-        
-//         case JOYSTICK_MOVE_DOWN_LEFT:
-//             move_player_vert_position(cur_player,1,true);
-//             move_player_horiz_position(cur_player,-1,true);
-//             break;
-        
-//         case JOYSTICK_MOVE_LEFT:
-
-//             move_player_horiz_position(cur_player,-1,true);
-//             break;
-
-//         case JOYSTICK_MOVE_UP_LEFT:
-//             move_player_vert_position(cur_player,-1,true);
-//             move_player_horiz_position(cur_player,-1,true);
-//             break;
-
-//         case JOYSTICK_MOVE_UP:
-//             move_player_vert_position(cur_player,-1,true);
-            
-//             break;
-        
-//         case JOYSTICK_MOVE_UP_RIGHT:
-//             move_player_vert_position(cur_player,-1,true);
-//             move_player_horiz_position(cur_player,1,true);
-            
-            
-//             break;
-        
-//         case JOYSTICK_MOVE_RIGHT:
-            
-//             move_player_horiz_position(cur_player,1,true);
-//             break;
-
-//         case JOYSTICK_MOVE_DOWN_RIGHT:
-//             move_player_vert_position(cur_player,1,true);
-//             move_player_horiz_position(cur_player,1,true);
-//             break;
-
-//         default:
-//             break;
-//     }
-
-//     // if there's a collision, revert to previous position?
-    
-// }
-
 // writes crucial bytes to the display list
 void fix_displayList() {
-    // unsigned int j = 1;
-    // unsigned int i;
-
-    
-    //go to the location, scan down in inc of three
-
-    //start at the first graphics instr
-    //the comparison is to compare memory address
-
-    // for(i = 3; DisplayList[i] != DL_JVB && i < sizeof(DisplayList); i+= 3){
-    //     //work with a window of 3 bytes, convert i+1 to an int ptr
-    //     //foregoing the syntatic sugar here
 
 
-        
-    //     *(unsigned int *)(DisplayList + (i+1)) = (unsigned int)(gameMap[j]);
-    //     j += 1;
-    // } 
 
-    // assert(DisplayList[i] == DL_JVB);   //TODO: remove this debug later
-    // ((unsigned int *)(DisplayList + (i))
-
-    //*(unsigned int *)(DisplayList + i+1) = (unsigned int)DisplayList; 
-
-    setScreenMemOffset(0,0);
+    //this means that antic technically loads offscreen garbage data, but this
+    //is how a true 0,0 pixel coord is achieved
+    QuickAndDirtyCamera.x = 0;
+    QuickAndDirtyCamera.y = 0;
+    setScreenMemOffset(-2,0);
     //relativeMoveScrMem(0,0);
 
 
@@ -470,7 +412,7 @@ void fix_displayList() {
 
 
     //hscroll does mean that we cant get to the furthest left part of the screen
-    ANTIC.hscrol = 15;  //neccisary to center it with hscroll enabled
+    ANTIC.hscrol = 0; 
     ANTIC.vscrol = 0;
 
 
@@ -506,7 +448,7 @@ void setScreenMemOffset(int x, int y){
 
     //start at the first graphics instr
     //the comparison is to compare memory address
-
+    roughScroll_x = x;
 
     //TODO: transition this later to iterate the ptr directly
     for(i = 3; DisplayList[i] != DL_JVB && i < sizeof(DisplayList); i+= 3){

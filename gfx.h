@@ -13,4 +13,10 @@ void map_relativeMove(Vector2 relativePosition);
 void map_resetPosition();
 
 
+typedef struct MapData{
+  Vector2 offset; //this MIGHT get consolidated to the camera
+  Vector2 coarseOffset;
+} MapData;
+
+
 #endif

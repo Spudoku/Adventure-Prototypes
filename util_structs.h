@@ -6,6 +6,12 @@
 
 #include <stdint.h>
 
+
+//vecs need to be the same exact type in this macro
+#define ADD_ASSIGN_VEC2(lhs, rhs)   \
+  lhs.x += rhs.x;                   \
+  lhs.y += rhs.y;                   \
+
 typedef struct s32Vector2 {
   int16_t x;
   int16_t y;
