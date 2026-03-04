@@ -39,6 +39,8 @@ typedef struct DragonEntity {
   unsigned int sightRange;
   Vector2 targetLocation;
   Entity* loves;
+
+  unsigned int stunFrames;
   // Entity loves[3]; // things this dragon loves
   // Entity hates[3]; // things this dragon hates
   unsigned char activeSprite;

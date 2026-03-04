@@ -142,7 +142,15 @@ STATUS dragonBehaviorProcess(Entity* thisEntity) {
     DragonChomp(dEntity);
   }
 
-  if (dEntity->moveDelayCounter >= dEntity->moveFrameDelay && !(CollidingWithPlayer())) {
+  if (dEntity->stunFrames > 0) {
+    dEntity->stunFrames--;
+  }
+
+  if (CollidingWithPlayer()) {
+    dEntity->stunFrames = 100;
+  }
+
+  if (dEntity->moveDelayCounter >= dEntity->moveFrameDelay && dEntity->stunFrames == 0) {
     dEntity->targetLocation = chooseTargetLocation(dEntity);
     testLocation.x = dEntity->targetLocation.x;
     testLocation.y = dEntity->targetLocation.y;
@@ -173,7 +181,7 @@ STATUS dragonConstructor(Entity* subEntity,DragonEntity* theSuperEntity){
 
   subEntity->pmg_id = DRAGON_GRAPHICS_PLAYER;
 
-
+  theSuperEntity->stunFrames = 0;
   
   SetSpriteByIndex(theSuperEntity,0);
 
