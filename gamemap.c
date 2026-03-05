@@ -32,3 +32,11 @@ unsigned char gameMap[24][40] = {
 };
 
 #pragma data-name (pop)
+
+
+int multmap_gameMapheight[] = {
+    -240, -200, -160, -120, -80, -40, 0, 40, 80, 120, 160, 200, 240,
+};
+
+int* mult_gameMapHeight = 
+    multmap_gameMapheight + ((sizeof(multmap_gameMapheight)/sizeof(int))/2);

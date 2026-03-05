@@ -47,7 +47,7 @@ char DisplayList[] = {
     };
 
 void InitDisplayList(){
-    *(unsigned int *)&DisplayList[sizeof(DisplayList) - 1] 
+    *(unsigned int *)&DisplayList[sizeof(DisplayList) - 2] 
           = (unsigned int)DisplayList;
 
 

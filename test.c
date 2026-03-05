@@ -177,12 +177,46 @@ int fineScroll_y = 16; //test only
 int fineScroll_x = 16; //test only
 int roughScroll_x;
 
-Vector2 QuickAndDirtyCamera;
+Vector2 QuickAndDirtyCamera = {0,0};
 Vector2 dir, revDir;
 
 void switchStatement();
 void switchStatement(){
-
+    switch(DEBUG){
+        case (int)1:
+            DEBUG++;
+            break;
+        case (int)2:
+            DEBUG+=2;
+            break;
+        case (int)3:
+            DEBUG+=3;
+            break;
+        case (int)4:
+            DEBUG+=4;
+            break;
+        case (int)5:
+            DEBUG+=5;
+            break;
+        case (int)6:
+            DEBUG+=6;
+            break;
+        case (int)7:
+            DEBUG+=7;
+            break;
+        case (int)8:
+            DEBUG+=8;
+            break;
+        case (int)9:
+            DEBUG+=9;
+            break;
+        case (int)10:
+            DEBUG+=10;
+            break;
+        default:
+            DEBUG = 69;
+            break;
+    }
 }
 
 void ifelseChain();
@@ -203,6 +237,8 @@ int main() {
  // variable declarations
     unsigned int cur_horiz_position;
     unsigned int cur_vert_position;
+
+    DEBUG = 4;
 
     switchStatement();
     ifelseChain();
@@ -265,9 +301,9 @@ int main() {
         
         processFrameTasks();
         
-        waitvsync();
-
         
+
+        waitvsync();
         if(goForward == 1) {
 
             //fineScroll_x++;
@@ -281,9 +317,8 @@ int main() {
         //  } else {
                 //ANTIC.hscrol = fineScroll_x;
         //    }
-           QuickAndDirtyCamera.x++;
            map_relativeMove(dir);
-
+           QuickAndDirtyCamera.x++;
            if(QuickAndDirtyCamera.x > 160) goForward = 0;
 
         } else {
@@ -295,12 +330,16 @@ int main() {
             // } else {
             //     ANTIC.hscrol = fineScroll_x;
             //  }
-            QuickAndDirtyCamera.x--;
             map_relativeMove(revDir);
+            QuickAndDirtyCamera.x--;
             if(QuickAndDirtyCamera.x <= 0) goForward = 1;
         }
 
-        ANTIC.hscrol = -QuickAndDirtyCamera.x;
+
+        
+        //map_absoluteMove(QuickAndDirtyCamera);
+
+        //ANTIC.hscrol = -QuickAndDirtyCamera.x;
 
 
         // if(roughScroll_x >> 1 !=  (QuickAndDirtyCamera.x-1) >> 4 ){
@@ -397,26 +436,29 @@ void processFrameTasks(){
 
 // writes crucial bytes to the display list
 void fix_displayList() {
+    //Vector2 zero = {0, 0};
 
+    
 
 
     //this means that antic technically loads offscreen garbage data, but this
     //is how a true 0,0 pixel coord is achieved
     QuickAndDirtyCamera.x = 0;
     QuickAndDirtyCamera.y = 0;
-    setScreenMemOffset(-2,0);
-    //relativeMoveScrMem(0,0);
+    // setScreenMemOffset(-2,0);
+    // //relativeMoveScrMem(0,0);
 
 
-    *(unsigned int *)&DisplayList[sizeof(DisplayList) - 1] = (unsigned int)DisplayList;
-
+    // *(unsigned int *)&DisplayList[sizeof(DisplayList) - 1] = (unsigned int)DisplayList;
+    map_absoluteMove(QuickAndDirtyCamera);
+    InitDisplayList();
 
     //hscroll does mean that we cant get to the furthest left part of the screen
-    ANTIC.hscrol = 0; 
-    ANTIC.vscrol = 0;
+    // ANTIC.hscrol = 0; 
+    // ANTIC.vscrol = 0;
 
 
-    OS.sdlst = &DisplayList;
+    //OS.sdlst = &DisplayList;
 
 
 
