@@ -1,12 +1,11 @@
 #ifndef GAME_MAP_H
 #define GAME_MAP_H
 
-#define MAP_LENGTH_BYTES 40;
-#define MAP_HEIGHT_BYTES 24;
+#define MAP_LENGTH_BYTES 40
+#define MAP_HEIGHT_BYTES 24
 
 
-
-extern unsigned char gameMap[][40];
+extern unsigned char gameMap[MAP_HEIGHT_BYTES][MAP_LENGTH_BYTES];
 
 //precalced multiplication map for game map height interval vals
 extern int multmap_gameMapheight_raw[13];

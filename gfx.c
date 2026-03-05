@@ -22,6 +22,7 @@ void map_absoluteMove(Vector2 absolutePosition){
     //unsigned int j = y;
     unsigned int i;
 
+    unsigned int j = 0;
     //1 color cycle per pixel
     //ANTIC.hscrol = -absolutePosition.x;
 
@@ -70,10 +71,10 @@ void map_absoluteMove(Vector2 absolutePosition){
 
         //treat the window like a single int
         *(unsigned int *)(DisplayList + (i+1)) =
-         (unsigned int)(gameMap[mapData.coarseOffset.y]) + mapData.coarseOffset.x;
+         (unsigned int)(gameMap[mapData.coarseOffset.y + j]) + mapData.coarseOffset.x;
 
 
-        mapData.coarseOffset.y += 1;  //offset for next row
+        j += 1;  //offset for next row
     } 
 
     //antic will auto truncate a value above 15.. but also go right to go left
@@ -85,17 +86,19 @@ void map_absoluteMove(Vector2 absolutePosition){
 }
 
 int foo;
+unsigned int startAddress;
+int firstLineOffset = 0;
+Vector2 newCoarse;
+Vector2 newOffset;
 
 //move by delta pixels
 void map_relativeMove(Vector2 relativePosition){
 
-    Vector2 newOffset;
-    int firstLineOffset = 0;
-    unsigned int startAddress;
-    int tempCoarse; //delete later, just layout
+    
+    
+ 
     char dirty = 0;
     char i = 0;
-    //int foo;
     //expand out to new absolute position
     newOffset = mapData.offset;
     ADD_ASSIGN_VEC2(newOffset, relativePosition)
@@ -103,11 +106,11 @@ void map_relativeMove(Vector2 relativePosition){
 
     SET_VEC2_ANTIC_SCROLL(newOffset)
     // ANTIC.hscrol = -newOffset.x;
-    // ANTIC.vscrol = newOffset.y << 1;
+    // ANTIC.vscrol = abs(newOffset.y << 1);
     
     //t
     
-
+    firstLineOffset = 0;
 
     //calculate the y
 
@@ -136,26 +139,31 @@ void map_relativeMove(Vector2 relativePosition){
     //calculate the offset per-line interval,
 
     //if(mapData.coarseOffset !=)
-    if((((newOffset.y & ~mapData.offset.y) 
-            & IGNORE_VSCROL_PIXELS_BITMASK) != 0))  //changes to coarse Y exist
+    // if((((newOffset.y & ~mapData.offset.y) 
+    //         & IGNORE_VSCROL_PIXELS_BITMASK) != 0))  //changes to coarse Y exist
+
+    newCoarse.y = Y_PIXEL_TO_COARSE(newOffset.y);
+    if(newCoarse.y  != mapData.coarseOffset.y)
     {
         //calc new memory start in o(1) if possible
-        if(abs(relativePosition.y) > 200){
+        if(abs(newCoarse.y - mapData.coarseOffset.y) > 6){
             //they're moving more than half the screen, straight to jail
             map_absoluteMove(newOffset);
             return;
         }
 
-        
+
+        firstLineOffset += mult_gameMapHeight[newCoarse.y - mapData.coarseOffset.y];
+        mapData.coarseOffset.y = newCoarse.y;
 
         
-        if(relativePosition.y > 0){
-            firstLineOffset += 
-                mult_gameMapHeight[Y_PIXEL_TO_COARSE(relativePosition.y) + 1];
-        } else{
-            firstLineOffset += 
-                mult_gameMapHeight[Y_PIXEL_TO_COARSE(relativePosition.y) - 1];
-        }
+        // if(relativePosition.y > 0){
+        //     firstLineOffset += 
+        //         mult_gameMapHeight[Y_PIXEL_TO_COARSE(relativePosition.y) + 1];
+        // } else{
+        //     firstLineOffset += 
+        //         mult_gameMapHeight[Y_PIXEL_TO_COARSE(relativePosition.y) - ];
+        // }
         
         //lineInterval = MAP_LENGTH_BYTES;
 
@@ -167,22 +175,36 @@ void map_relativeMove(Vector2 relativePosition){
     //         & IGNORE_HSCROL_PIXELS_BITMASK) != 0))  //changes to coarse X exist
 
 
-    if(mapData.offset.x - newOffset.x)    
+    //compiler should convert this to an and
+
+    // if((mapData.offset.x % HSCROL_PIXEL_RANGE) )
+
+    // if(mapData.offset.x - newOffset.x)    
+
+
+    newCoarse.x = X_PIXEL_TO_COARSE(newOffset.x);
+
+    if(newCoarse.x  != mapData.coarseOffset.x)  //changes to coarse X exist
     {
         //coarse offset delta x is guaranteed to have a magnitude of atleast 
         //1 set of two chars
         //get the total number of sets, multiply later to get x delta offset
 
 
-        firstLineOffset += (
-            (int)(relativePosition.x & IGNORE_HSCROL_PIXELS_BITMASK) >> 
-                    COARSE_SCROLL_IGNORABLE_BITS);
+        // firstLineOffset += (
+        //     (int)(relativePosition.x & IGNORE_HSCROL_PIXELS_BITMASK) >> 
+        //             COARSE_SCROLL_IGNORABLE_BITS);
 
-        if(relativePosition.x > 0){
-            firstLineOffset++;
-        } else{
-            firstLineOffset--;
-        }
+
+        firstLineOffset += newCoarse.x - mapData.coarseOffset.x;
+
+        // if(relativePosition.x > 0){
+        //     firstLineOffset++;
+        // } else{
+        //     firstLineOffset--;
+        // }
+
+        mapData.coarseOffset.x = newCoarse.x;
 
         dirty = 1;
     }
@@ -190,12 +212,13 @@ void map_relativeMove(Vector2 relativePosition){
 
     //no more work needed
     if(dirty != 1) {
+        mapData.offset = newOffset;
         return;
     }
 
 
     //more work required
-    startAddress = ((unsigned int *)DisplayList)[4];
+    startAddress = ((unsigned int *)DisplayList)[2];
     startAddress += firstLineOffset;
 
 
@@ -213,6 +236,6 @@ void map_relativeMove(Vector2 relativePosition){
 
 
 
-
+    mapData.offset = newOffset;
     return;
 }

@@ -18,25 +18,13 @@
 #include "util_input.h"
 #include <assert.h>
 #include "gfx.h"
-
-
-
 #include <time.h>
-// #include <tgi.h>
-
-// #define SCREEN_HEIGHT 24
-
-
-// Memory locations
-#define DISPLAY_LIST 0x230    // location that the display list must be pushed to
-#define CHARSET_PTR 0x2F4     // character base
 
 
 
 
 
 
-// Player-missile graphics starts at 0xD000
 
 
 
@@ -46,7 +34,6 @@
 // additionally, need to start on a page boundary (any value in the form $XX00), such as $C000
 // DL_CHR40x8x1
 
-//  #define CHARSET_ADDR // location of character set
 
 // function declarations
 void fix_displayList();
@@ -55,14 +42,11 @@ void edit_colors();
 void setScreenMemOffset(int x, int y);
 void relativeMoveScrMem(int dx, int dy);
 
-void frame_delay();
 
 void joystick_test();
 
 void test_player1();
 
-//void waitvsync(void);
-//extern PlayerEntity playerEnt;
 
 // wait until VCOUNT == 0
 void wait_vblank() {
@@ -74,103 +58,12 @@ void init_DLI();
 void initializeEngine();
 void initializeStaticEntities();
 void processFrameTasks();
+
 // variable declarations
-
-
-//TODO: align the DL to a known interval, and specify each line of charmap h_mem
-// char DisplayList[] = {
-//     // 24 blank lines
-//     DL_BLK8,
-//     DL_BLK8,
-//     DL_BLK8,
-//     // TODO: tell ANTIC to load Graphics 2 at Screen Address, total 24 times
-//     // was DL_GRAPHICS2, now DL_GRAPHICS0
-//     // these 2 bytes will store the location of the screen memory
-    
-//     //eventually work up to DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2)))
-//     //for the fine scrolling
-//     //LMS will be needed for each dl entry
-//     //and a mem address for the stream
-    
-//     DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
-//     0x00,0x00,
-//     DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
-//     0x00,0x00,
-//     //second group of 2
-
-    
-//     DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
-//     0x00,0x00,
-//     DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
-//     0x00,0x00,
-//     DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
-//     0x00,0x00,
-//     DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
-//     0x00,0x00,
-//     DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
-//     0x00,0x00,
-//     DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
-//     0x00,0x00,
-//     DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
-//     0x00,0x00,
-//     DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
-//     0x00,0x00,
-//     DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
-//     0x00,0x00,
-//     DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2))),
-//     0x00,0x00,
-//     DL_JVB,
-//     // These two bytes store the location of the dispalyList itself
-//     0x00,0x00
-//     };
-
-
-//CC65 is funny and supports this non standard void struct
-// void DisplayList = {
-//     // 24 blank lines
-//     DL_BLK8,
-//     DL_BLK8,
-//     DL_BLK8,
-//     // TODO: tell ANTIC to load Graphics 2 at Screen Address, total 24 times
-//     DL_LMS(DL_GRAPHICS2),
-//     // was DL_GRAPHICS2, now DL_GRAPHICS0
-//     // these 2 bytes will store the location of the screen memory
-
-//     //eventually work up to DL_LMS(DL_HSCROL(DL_VSCROL(DL_GRAPHICS2)))
-//     //for the fine scrolling
-//     //LMS will be needed for each dl entry
-//     //and a mem address for the stream
-
-//     gameMap,
-//     DL_GRAPHICS2,     //second group of 2
-//     DL_GRAPHICS2,
-//     DL_GRAPHICS2,
-//     DL_GRAPHICS2,
-//     DL_GRAPHICS2,
-//     DL_GRAPHICS2,
-//     DL_GRAPHICS2,
-//     DL_GRAPHICS2,
-//     DL_GRAPHICS2,
-//     DL_GRAPHICS2,
-//     DL_GRAPHICS2,
-//     DL_JVB,
-//     // These two bytes store the location of the dispalyList itself
-//     &DisplayList
-// };
-
-
-//
-
-
-
-
-    // variable declarations
 int i = 0;
-int charStart = 480;
 PlayerEntity playerEnt;
 unsigned int cur_player = 0; 
-int DEBUG = 23;
-int DEBUG2 = 0;
+
 int goForward = 1;
 int goDown = 1;
 int fineScroll_y = 16; //test only
@@ -178,111 +71,20 @@ int fineScroll_x = 16; //test only
 int roughScroll_x;
 
 Vector2 QuickAndDirtyCamera = {0,0};
-Vector2 dir, revDir;
+Vector2 dir = {1, 1};
+Vector2 revDir = {0, -1};
 
-void switchStatement();
-void switchStatement(){
-    switch(DEBUG){
-        case (int)1:
-            DEBUG++;
-            break;
-        case (int)2:
-            DEBUG+=2;
-            break;
-        case (int)3:
-            DEBUG+=3;
-            break;
-        case (int)4:
-            DEBUG+=4;
-            break;
-        case (int)5:
-            DEBUG+=5;
-            break;
-        case (int)6:
-            DEBUG+=6;
-            break;
-        case (int)7:
-            DEBUG+=7;
-            break;
-        case (int)8:
-            DEBUG+=8;
-            break;
-        case (int)9:
-            DEBUG+=9;
-            break;
-        case (int)10:
-            DEBUG+=10;
-            break;
-        default:
-            DEBUG = 69;
-            break;
-    }
-}
+//char theFiller[17000];    //test for worst case map fit
 
-void ifelseChain();
-void ifelseChain(){
-    if(DEBUG == 1){
-        DEBUG2 += 2;
-    } else if (DEBUG == 2){
-        DEBUG2 -= 1;
-    } else if (DEBUG == 23) {
-        DEBUG2 += 4;
-    } else {
-        DEBUG2 += 40;
-    }
-}
-
-//char TheFiller[28800];
 int main() {
  // variable declarations
     unsigned int cur_horiz_position;
     unsigned int cur_vert_position;
 
-    DEBUG = 4;
 
-    switchStatement();
-    ifelseChain();
-
-    dir.x = 1;
-    dir.y = 0;
-    revDir.x = -1;
-    revDir.y = 0;
-    // DEBUG = -16;
-
-
-    // DEBUG >>= 1;
-
-    // assert(DEBUG == -8);
-
-    
-
-    //fineScroll_y = 16;
-    // int number = 257;
-    // char arraytest[2];
-
-    // if(DEBUG == 1) {
-        
-    //     *(int *)arraytest = number;
-
-    //     printf("%d", *(int *)arraytest );
-    //     for(;;) {
-    //         sleep(1);
-    //     }
-    // }
-    QuickAndDirtyCamera.x = 0;
-    QuickAndDirtyCamera.y = 0;
-
-
-    // end variable declarations
     InitializeJoystick();
-
-   
-    // int bigNumber;
-
     initializeEngine();
 
-    // fill_row_section(2,20,27,3);
-    //manual_load(&gameMap[0][0]);
 
     set_player_horiz_position(0,SCREEN_HORIZ_CENTER,true);
     set_player_vert_position(0,SCREEN_VERT_CENTER,true);
@@ -304,36 +106,36 @@ int main() {
         
 
         waitvsync();
-        if(goForward == 1) {
+        // if(goForward == 1) {
 
-            //fineScroll_x++;
-        // if(fineScroll_x < 0) {
-            //fineScroll_x = 15;
+        //     //fineScroll_x++;
+        // // if(fineScroll_x < 0) {
+        //     //fineScroll_x = 15;
             
-            // if(roughScroll_x >> 1 !=  (QuickAndDirtyCamera.x-1) >> 4 ){
-            //     setScreenMemOffset((((QuickAndDirtyCamera.x - 1) >> 4) << 1),0);
+        //     // if(roughScroll_x >> 1 !=  (QuickAndDirtyCamera.x-1) >> 4 ){
+        //     //     setScreenMemOffset((((QuickAndDirtyCamera.x - 1) >> 4) << 1),0);
 
-            // }
-        //  } else {
-                //ANTIC.hscrol = fineScroll_x;
-        //    }
-           map_relativeMove(dir);
-           QuickAndDirtyCamera.x++;
-           if(QuickAndDirtyCamera.x > 160) goForward = 0;
+        //     // }
+        // //  } else {
+        //         //ANTIC.hscrol = fineScroll_x;
+        // //    }
+        //    map_relativeMove(dir);
+        //    QuickAndDirtyCamera.x++;
+        //    if(QuickAndDirtyCamera.x > 160) goForward = 0;
 
-        } else {
-            // fineScroll_x++;
-            // if(fineScroll_x > 15) {
-            //     fineScroll_x = 0;
-            // ANTIC.hscrol = fineScroll_x;
-            // relativeMoveScrMem(-2,0);
-            // } else {
-            //     ANTIC.hscrol = fineScroll_x;
-            //  }
-            map_relativeMove(revDir);
-            QuickAndDirtyCamera.x--;
-            if(QuickAndDirtyCamera.x <= 0) goForward = 1;
-        }
+        // } else {
+        //     // fineScroll_x++;
+        //     // if(fineScroll_x > 15) {
+        //     //     fineScroll_x = 0;
+        //     // ANTIC.hscrol = fineScroll_x;
+        //     // relativeMoveScrMem(-2,0);
+        //     // } else {
+        //     //     ANTIC.hscrol = fineScroll_x;
+        //     //  }
+        //     map_relativeMove(revDir);
+        //     QuickAndDirtyCamera.x--;
+        //     if(QuickAndDirtyCamera.x <= 0) goForward = 1;
+        // }
 
 
         
@@ -346,31 +148,54 @@ int main() {
         //     setScreenMemOffset((((QuickAndDirtyCamera.x - 1) >> 4) << 1),0);
         // }
 
+        map_relativeMove(dir);
+        ADD_ASSIGN_VEC2(QuickAndDirtyCamera, dir)
+
+        //quick and dirty debug test
+        //if depth height is lessEq than 96 (test val)) add
+
+
+        //if in range, dont flip
+        dir.y = ((QuickAndDirtyCamera.y > 96) 
+            || (QuickAndDirtyCamera.y <= 0)) ? -dir.y : dir.y;
+
+
+        dir.x = ((QuickAndDirtyCamera.x > 160) 
+            || (QuickAndDirtyCamera.x <= 0)) ? -dir.x : dir.x;
+
+        // if(QuickAndDirtyCamera.y > 96){
+
+        // } else if 
+   
+
+
         // if(goDown == 1) {
 
-        //     fineScroll_y+= 2;
-        // if(fineScroll_y > 14) {
-        //     fineScroll_y = 0;
-        //     ANTIC.vscrol = fineScroll_y;
-        //     relativeMoveScrMem(0,1);
-        //  } else {
-        //         ANTIC.vscrol = fineScroll_y;
-        //    }
-        //    QuickAndDirtyCamera.y += 1;
+        // //     fineScroll_y+= 2;
+        // // if(fineScroll_y > 14) {
+        // //     fineScroll_y = 0;
+        // //     ANTIC.vscrol = fineScroll_y;
+        // //     relativeMoveScrMem(0,1);
+        // //  } else {
+        // //         ANTIC.vscrol = fineScroll_y;
+        // //    }
 
+        //    map_relativeMove(dir);
+        //    QuickAndDirtyCamera.y += 1;
         //    if(QuickAndDirtyCamera.y > 96) goDown = 0;
 
         // } else {
-        //     fineScroll_y-= 2;
-        //     if(fineScroll_y < 0) {
-        //         fineScroll_y = 14;
-        //         ANTIC.vscrol = fineScroll_y;
-        //         relativeMoveScrMem(0,-1);
-        //     } else {
-        //         ANTIC.vscrol = fineScroll_y;
-        //      }
-        //     QuickAndDirtyCamera.y -= 1;
+        //     // fineScroll_y-= 2;
+        //     // if(fineScroll_y < 0) {
+        //     //     fineScroll_y = 14;
+        //     //     ANTIC.vscrol = fineScroll_y;
+        //     //     relativeMoveScrMem(0,-1);
+        //     // } else {
+        //     //     ANTIC.vscrol = fineScroll_y;
+        //     //  }
 
+        //     map_relativeMove(revDir);
+        //     QuickAndDirtyCamera.y -= 1;
         //     if(QuickAndDirtyCamera.y <= 0) goDown = 1;
         // }
         
@@ -531,43 +356,18 @@ void relativeMoveScrMem(int dx, int dy){
     } 
 }
 
-// initializes a character set
-// in the future we will write code that does this somewhere else
-// or does writes to it at compile time
-int character = 0;
+// initializes the character set
 void init_charset() {
-    // address of CharMap
-    // unsigned int charmap_addr = (unsigned int )CharMap;
-    //   unsigned int charmap_addr = (unsigned int )CHARSET_ADDR;  
-    // this value specifies with page the address is located. multiply by 256 to locate actual characters.
-    
-    //   test = charmap_addr * 0x100; // page number * page size
-
-    //ANTIC.chbase = (unsigned char)charsetAddress.bytes[1];
     IntToTwoChar charsetAddress;
-    charsetAddress.integer = (unsigned int)charset;
-    OS.chbas = charsetAddress.bytes[1];
-    //POKE(756,charsetAddress.bytes[1]);   // poke high byte to CHBASE register
+    charsetAddress.integer = (unsigned int)charset; //get highbyte from addr
 
-
-
-    // set page number in CHARSET_PTR
-   
-    
-
-    
+    OS.chbas = charsetAddress.bytes[1]; //set high byte to CHBASE register
 }
 
 void edit_colors() {
     POKE(COLOR_REG_1,0xF3);
 }
 
-
-void frame_delay() {
-    clock_t frame_delay_length = 17;
-    clock_t end = clock() + frame_delay_length * (CLOCKS_PER_SEC / 1000);
-    while(clock() < end);
-}
 
 void test_player1() {
     // I will write a helper function in player_missile.h
