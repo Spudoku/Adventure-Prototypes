@@ -5,6 +5,7 @@
 
 #include "entity.h"
 #include "transform.h"
+#include "gfx.h"
 
 //macros to make life easier
 #define _TrackedObject cameraEntity.childEntity
@@ -17,7 +18,7 @@ typedef struct Camera{
   //entity* _trackedobject (just pretend its here due to preprocessor)
 
 
-  u16Vector2 centerPoint;
+  Vector2 centerPoint;
   //TODO: consider making these a compile time constant? if the compiler doesnt already
   //preprocessor directives WONT do that probably
   u16Vector2 screenResolution;  
@@ -34,7 +35,7 @@ typedef struct Camera{
 
 } Camera;
 
-Camera camera;
+extern Camera camera;
 
 //note that childEntity is being used as the Target entity to track
 //idealy id like to have a way to point to it (preprocessor stuff?) from this level instead of
@@ -49,6 +50,9 @@ STATUS cameraConstructor(Entity *toTrack);  //pass NULL to not track, will defau
 void setTrackedEntity(Entity *toTrack); //pass NULL to stop tracking
 STATUS objectVisible(Transform *toCheck); //determines if the transform would be visible in eyeSpace
 void marginalTrack();
+
+STATUS ObjectInsideMargin(Transform *toCheck);
+Vector2 objectToMargin(Transform *toCheck);
 
 void MoveTo();
 

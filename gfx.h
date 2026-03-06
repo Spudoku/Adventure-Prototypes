@@ -18,7 +18,7 @@
 
 
 //careful, macros have no type checking!
-
+//antic will auto truncate a value above 15.. but also go right to go left on x
 #define SET_ANTIC_SCROLL(pixelX, pixelY)              \
   ANTIC_SCROLL_VEC2.x = -pixelX;                       \
   ANTIC_SCROLL_VEC2.y = pixelY << 1;                       \
@@ -29,8 +29,9 @@ SET_ANTIC_SCROLL(input_u16vec.x, input_u16vec.y)  \
 
 
 
-void map_absoluteMove(Vector2 absolutePosition);
+void map_absoluteMove(Vector2 absolutePosition);  //for resetting HARD
 void map_relativeMove(Vector2 relativePosition);
+void map_fastAbsoluteMove(Vector2 absolutePosition);
 void map_resetPosition();
 
 

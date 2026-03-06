@@ -19,6 +19,7 @@
 #include <assert.h>
 #include "gfx.h"
 #include <time.h>
+#include "camera.h"
 
 
 
@@ -61,7 +62,11 @@ void processFrameTasks();
 
 // variable declarations
 int i = 0;
-PlayerEntity playerEnt;
+// PlayerEntity playerEnt = {{0,0}, 0, 
+//     {player_FrameTask, playerRenderer, (void *)NULL, (Entity *)NULL, {{0,0}, {0,0}, {0,0},{0,0}}, {0,0}}};
+
+extern PlayerEntity playerEnt;
+
 unsigned int cur_player = 0; 
 
 int goForward = 1;
@@ -88,129 +93,54 @@ int main() {
 
     set_player_horiz_position(0,SCREEN_HORIZ_CENTER,true);
     set_player_vert_position(0,SCREEN_VERT_CENTER,true);
-    //processFrameTasks();
 
-    //memset(TheFiller, 3, sizeof(TheFiller)); 
+
     while (true) {
-        
-        //fine scroll test
+
         
         //process gamestate
         cur_horiz_position = playerEnt.playerEntity.eyeCoords.x;
         cur_vert_position = playerEnt.playerEntity.eyeCoords.y;
         
-        //if(fineScroll_y > 1) { fineScroll_y = fineScroll_x;}
+        
         
         processFrameTasks();
-        
-        
-
         waitvsync();
-        // if(goForward == 1) {
+        GTIA_WRITE.hposp0 = playerEnt.playerEntity._eyeCoords.x + 48;
+        camera.cameraEntity.renderer(&camera.cameraEntity);
+        // map_relativeMove(dir);
+        // ADD_ASSIGN_VEC2(QuickAndDirtyCamera, dir)
 
-        //     //fineScroll_x++;
-        // // if(fineScroll_x < 0) {
-        //     //fineScroll_x = 15;
-            
-        //     // if(roughScroll_x >> 1 !=  (QuickAndDirtyCamera.x-1) >> 4 ){
-        //     //     setScreenMemOffset((((QuickAndDirtyCamera.x - 1) >> 4) << 1),0);
-
-        //     // }
-        // //  } else {
-        //         //ANTIC.hscrol = fineScroll_x;
-        // //    }
-        //    map_relativeMove(dir);
-        //    QuickAndDirtyCamera.x++;
-        //    if(QuickAndDirtyCamera.x > 160) goForward = 0;
-
-        // } else {
-        //     // fineScroll_x++;
-        //     // if(fineScroll_x > 15) {
-        //     //     fineScroll_x = 0;
-        //     // ANTIC.hscrol = fineScroll_x;
-        //     // relativeMoveScrMem(-2,0);
-        //     // } else {
-        //     //     ANTIC.hscrol = fineScroll_x;
-        //     //  }
-        //     map_relativeMove(revDir);
-        //     QuickAndDirtyCamera.x--;
-        //     if(QuickAndDirtyCamera.x <= 0) goForward = 1;
-        // }
+        // //quick and dirty debug test
+        // //if depth height is lessEq than 96 (test val)) add
 
 
-        
-        //map_absoluteMove(QuickAndDirtyCamera);
-
-        //ANTIC.hscrol = -QuickAndDirtyCamera.x;
-
-
-        // if(roughScroll_x >> 1 !=  (QuickAndDirtyCamera.x-1) >> 4 ){
-        //     setScreenMemOffset((((QuickAndDirtyCamera.x - 1) >> 4) << 1),0);
-        // }
-
-        map_relativeMove(dir);
-        ADD_ASSIGN_VEC2(QuickAndDirtyCamera, dir)
-
-        //quick and dirty debug test
-        //if depth height is lessEq than 96 (test val)) add
+        // //if in range, dont flip
+        // dir.y = ((QuickAndDirtyCamera.y > 96) 
+        //     || (QuickAndDirtyCamera.y <= 0)) ? -dir.y : dir.y;
 
 
-        //if in range, dont flip
-        dir.y = ((QuickAndDirtyCamera.y > 96) 
-            || (QuickAndDirtyCamera.y <= 0)) ? -dir.y : dir.y;
+        // dir.x = ((QuickAndDirtyCamera.x > 160) 
+        //     || (QuickAndDirtyCamera.x <= 0)) ? -dir.x : dir.x;
 
-
-        dir.x = ((QuickAndDirtyCamera.x > 160) 
-            || (QuickAndDirtyCamera.x <= 0)) ? -dir.x : dir.x;
-
-        // if(QuickAndDirtyCamera.y > 96){
-
-        // } else if 
    
-
-
-        // if(goDown == 1) {
-
-        // //     fineScroll_y+= 2;
-        // // if(fineScroll_y > 14) {
-        // //     fineScroll_y = 0;
-        // //     ANTIC.vscrol = fineScroll_y;
-        // //     relativeMoveScrMem(0,1);
-        // //  } else {
-        // //         ANTIC.vscrol = fineScroll_y;
-        // //    }
-
-        //    map_relativeMove(dir);
-        //    QuickAndDirtyCamera.y += 1;
-        //    if(QuickAndDirtyCamera.y > 96) goDown = 0;
-
-        // } else {
-        //     // fineScroll_y-= 2;
-        //     // if(fineScroll_y < 0) {
-        //     //     fineScroll_y = 14;
-        //     //     ANTIC.vscrol = fineScroll_y;
-        //     //     relativeMoveScrMem(0,-1);
-        //     // } else {
-        //     //     ANTIC.vscrol = fineScroll_y;
-        //     //  }
-
-        //     map_relativeMove(revDir);
-        //     QuickAndDirtyCamera.y -= 1;
-        //     if(QuickAndDirtyCamera.y <= 0) goDown = 1;
-        // }
         
-        
-        
+
+
+
+        //set_player_horiz_position(cur_player,playerEnt.playerEntity._eyeCoords.x,true);
+        set_player_vert_position(cur_player,playerEnt.playerEntity._eyeCoords.y,true);
+    
         
         //process graphics
-        if (check_if_any_collision(cur_player)) {
-            GTIA_WRITE.hitclr = 1;
-            set_player_horiz_position(cur_player,cur_horiz_position,true);
-            set_player_vert_position(cur_player,cur_vert_position,true);
-        } else {
-            set_player_horiz_position(cur_player,playerEnt.playerEntity.eyeCoords.x,true);
-            set_player_vert_position(cur_player,playerEnt.playerEntity.eyeCoords.y,true);
-        }
+        // if (check_if_any_collision(cur_player)) {
+        //     GTIA_WRITE.hitclr = 1;
+        //     set_player_horiz_position(cur_player,cur_horiz_position,true);
+        //     set_player_vert_position(cur_player,cur_vert_position,true);
+        // } else {
+        //     set_player_horiz_position(cur_player,playerEnt.playerEntity.eyeCoords.x,true);
+        //     set_player_vert_position(cur_player,playerEnt.playerEntity.eyeCoords.y,true);
+        // }
         
     }
 }
@@ -225,9 +155,9 @@ void initializeEngine(){
     edit_colors();
     setup_pmg();
 
-    fill_column(3,5);
-    fill_row(0,2);
-    fill_row(1,1);
+    // fill_column(3,5);
+    // fill_row(0,2);
+    // fill_row(1,1);
 
     initializeStaticEntities(); //temp function
     
@@ -240,14 +170,18 @@ void initializeStaticEntities(){
     //Entity *test = (Entity*)&(playerEnt.playerEntity);
 
 
-    playerEnt.playerEntity.eyeCoords.x = SCREEN_HORIZ_CENTER;
-    playerEnt.playerEntity.eyeCoords.y = SCREEN_VERT_CENTER;
+    // playerEnt.playerEntity.eyeCoords.x = SCREEN_HORIZ_CENTER;
+    // playerEnt.playerEntity.eyeCoords.y = SCREEN_VERT_CENTER;
 
 
     
     playerConstructor();
+    cameraConstructor(&playerEnt.playerEntity);
 
-    //temp init assign
+    //debug manual assign for now
+    playerEnt.playerEntity._worldCoords = camera.centerPoint;
+
+    // //temp init assign
     playerEnt.playerEntity.eyeCoords.x = SCREEN_HORIZ_CENTER;
     playerEnt.playerEntity.eyeCoords.y = SCREEN_VERT_CENTER;
 }
@@ -257,6 +191,7 @@ void initializeStaticEntities(){
 //the idea is to have an array of frametask ptrs to run in order
 void processFrameTasks(){
     playerEnt.playerEntity.frameTask(&(playerEnt.playerEntity));
+    camera.cameraEntity.frameTask(&(camera.cameraEntity));
 }
 
 // writes crucial bytes to the display list

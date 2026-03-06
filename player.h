@@ -4,6 +4,7 @@
 #include "util.h"
 #include "util_structs.h"
 #include "entity.h"
+#include "camera.h"
 #include <joystick.h>
 
 //player will probably end up being effectively a singleton here

@@ -1,36 +1,40 @@
 #include "camera.h"
 
+Camera camera;
+
+Vector2 worldCoordView;
+Vector2 debugEyeView;
 
 STATUS cameraConstructor(Entity *toTrack){
     camera.draggingMargin = DEFAULT_MARGIN; 
     camera.screenResolution.x = 160;
     camera.screenResolution.y = 96;
 
-    camera.innerMargin.x = _screenResolution.x - _cameraMargin;
-    camera.innerMargin.y = _screenResolution.y - _cameraMargin;
+    camera.innerMargin.x = _screenResolution.x - _cameraMargin * 2;
+    camera.innerMargin.y = _screenResolution.y - _cameraMargin * 2;
     camera.centerPoint.x = _screenResolution.x/2;
     camera.centerPoint.y = _screenResolution.y/2;
 
 
     //for later
     //entityConstructor(&camera.cameraEntity, camera_FrameTask, camera_renderer);
-    entityConstructor(&camera.cameraEntity, camera_FrameTask, NULL);
+    entityConstructor(&camera.cameraEntity, camera_FrameTask, camera_renderer);
 
     //put back-ref into entity
 
     camera.cameraEntity.entityData = &camera;
 
 
-    if(camera._TrackedObject != NULL){
+    if(toTrack != NULL){
       //WARNING WILL ASSIGN BLINDLY, you better make it null!
       camera._TrackedObject = toTrack;
-      camera.cameraEntity._worldCoords.x = camera._TrackedObject->_worldCoords.x;
-      camera.cameraEntity._worldCoords.y = camera._TrackedObject->_worldCoords.y;
+      // camera.cameraEntity._worldCoords.x = camera._TrackedObject->_worldCoords.x;
+      // camera.cameraEntity._worldCoords.y = camera._TrackedObject->_worldCoords.y;
       return PASS;
     }
 
-    camera.cameraEntity._worldCoords.x = camera.screenResolution.x / 2;
-    camera.cameraEntity._worldCoords.y = camera.screenResolution.y / 2;
+    // camera.cameraEntity._worldCoords.x = camera.screenResolution.x / 2;
+    // camera.cameraEntity._worldCoords.y = camera.screenResolution.y / 2;
 
 
     return PASS;
@@ -94,22 +98,47 @@ Vector2 convertToEyeCoords(Vector2 toConvert){
 
 
 STATUS camera_FrameTask(Entity* thisEntity){
+  Vector2 offset;
 
-
-  if(camera._TrackedObject != NULL && 
-      ObjectInsideMargin(&thisEntity->transform) == FAIL)
-  {
-    //hopefully it actually adds negatives correctly...
-    Vector2 offset = objectToMargin(&thisEntity->transform);
-    camera.cameraEntity._worldCoords.x += offset.x;
-    camera.cameraEntity._worldCoords.x += offset.x;
-
+  if(camera._TrackedObject == NULL ){
+    return PASS;
   }
 
-  //considering something like
-  //main.updatecoords?
 
+    //refresh tracked entity's eyecoord, they are priveleged
+    //this does mean the entity may refresh it's eyecoord twice tho
+
+  camera._TrackedObject->_eyeCoords = 
+    convertToEyeCoords(camera._TrackedObject->_worldCoords);
+
+
+  //margin move,
+  if(ObjectInsideMargin(&camera._TrackedObject->transform) == FAIL) 
+  {
+    
+
+
+
+
+
+    //hopefully it actually adds negatives correctly...
+    offset = objectToMargin(&camera._TrackedObject->transform);
+    camera.cameraEntity._worldCoords.x += offset.x;
+    camera.cameraEntity._worldCoords.x += offset.x;
+  }
+
+  //basic centering for debug
+  // if(camera._TrackedObject != NULL) {
+  //   camera.cameraEntity._worldCoords.x = camera._TrackedObject->_worldCoords.x - camera.centerPoint.x;
+  //   camera.cameraEntity._worldCoords.y = camera._TrackedObject->_worldCoords.y - camera.centerPoint.y;
+  //   worldCoordView = thisEntity->_worldCoords; 
+  // }
+
+  debugEyeView = camera._TrackedObject->_eyeCoords;
+  return PASS;
 }
+
+
 
 //bases on top left for now (calc center later?)
 STATUS ObjectInsideMargin(Transform *toCheck) {
@@ -165,4 +194,8 @@ Vector2 objectToMargin(Transform *toCheck){
 // the renderer stuff. it shifts the playfield according to camera data
 STATUS camera_renderer(Entity* thisEntity){
 
+
+  map_fastAbsoluteMove(camera.cameraEntity._worldCoords);
+
+  return PASS;
 } 

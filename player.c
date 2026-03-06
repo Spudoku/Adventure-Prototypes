@@ -6,7 +6,19 @@
 #include <joystick.h>
 #include "items.h"
 
-extern PlayerEntity playerEnt;
+Vector2 worldCoordPlayerView;
+
+//initializer list to allow compile time assign/construct
+PlayerEntity playerEnt = {
+  {0,0}, 1, // player specific vars
+    
+    {player_FrameTask, playerRenderer, (void *)&playerEnt, &nullItem, //entity
+      
+      {{0,0}, {0,0}, {0,0},{0,0}}, //entity.transform
+      
+      {0,0}}  //legacy eyecoords
+  
+  };
 
 //per frame behavior
 STATUS player_FrameTask(Entity* thisEntity) {
@@ -24,6 +36,10 @@ STATUS player_FrameTask(Entity* thisEntity) {
 //calced
 //prepare the graphics driver
 STATUS playerRenderer(Entity* thisEntity) {
+
+  thisEntity->_eyeCoords = convertToEyeCoords(thisEntity->_worldCoords);
+  
+
   return UNDEFINED;
 }
 
@@ -50,13 +66,15 @@ STATUS playerInputProcess(){
   // }
   
   //todo: speed may need to be normalized for diagonal
+
+  //TODO: make a bitflag of the states and use a switch statement
   //this is if statements to allow this fuckery (cant do it in a switch?)
   if(JOY_RIGHT(joystickState)){
     playerEnt.playerVelocity.x = playerEnt.playerSpeed;
-    playerEnt.playerEntity.eyeCoords.x += playerEnt.playerVelocity.x;
+    playerEnt.playerEntity._worldCoords.x += playerEnt.playerVelocity.x;
   } else if (JOY_LEFT(joystickState)){
     playerEnt.playerVelocity.x = playerEnt.playerSpeed;
-    playerEnt.playerEntity.eyeCoords.x -= playerEnt.playerVelocity.x;
+    playerEnt.playerEntity._worldCoords.x -= playerEnt.playerVelocity.x;
   } else {
     playerEnt.playerVelocity.x = 0;
   }
@@ -78,27 +96,30 @@ STATUS playerInputProcess(){
   // to process
   //TODO: clamping
   
-  playerEnt.playerEntity.eyeCoords.y += playerEnt.playerVelocity.y;
+  playerEnt.playerEntity._worldCoords.y += playerEnt.playerVelocity.y;
+  
+  //calc
+
   return PASS;
 }
 
 //init the player specific vars
 STATUS playerConstructor(){
-  playerEnt.playerSpeed = 1;
-  playerEnt.playerVelocity.x = 0;
-  playerEnt.playerVelocity.y = 0;
+  // playerEnt.playerSpeed = 1;
+  // playerEnt.playerVelocity.x = 0;
+  // playerEnt.playerVelocity.y = 0;
 
   //call the "base" constructor
 
   
 
-  entityConstructor((Entity*)&playerEnt.playerEntity, player_FrameTask, playerRenderer);
+  //entityConstructor((Entity*)&playerEnt.playerEntity, player_FrameTask, playerRenderer);
   //assign to the player entity it's dummy obj item
 
-  playerEnt.playerEntity.childEntity = &nullItem;
-  //in the future, the constructor will be not ran right here, probably during
-  //boot sequence
-  nullItem_constructor(&nullItem);  
+  // playerEnt.playerEntity.childEntity = &nullItem;
+  // //in the future, the constructor will be not ran right here, probably during
+  // //boot sequence
+  // nullItem_constructor(&nullItem);  
 
   return PASS;
 }
