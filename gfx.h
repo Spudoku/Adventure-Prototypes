@@ -6,13 +6,15 @@
 #include "gamemap.h"  //TODO: rename this to gamemap data (or similar?
 #include "displaylist.h"
 #include "util_structs.h"
+#include "charmap.h"
 
 
 
 //#define UPDATE_SCROL_REGS(pixel_x,pixel_y)      \
 
 
-
+#define SCR_RES_X 160
+#define SCR_RES_Y 96
 
 #define ANTIC_SCROLL_VEC2 (*(u16Vector2 *)(&(ANTIC.hscrol)))
 

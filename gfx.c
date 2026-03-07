@@ -3,12 +3,10 @@
 
 MapData mapData;
 
-// //debug intermediary value holders to make memory inspection easier
-// Vector2 coarseViewer;
-// Vector2 offsetViewer;
-// Vector2 fineViewer;
 
 Vector2 offsetHopper;
+
+
 
 
 //WARNING: any use of these move methods MUST be as close as possible to vblank.
@@ -26,14 +24,8 @@ void map_absoluteMove(Vector2 absolutePosition){
     SET_VEC2_ANTIC_SCROLL(absolutePosition)
 
     
-    //go to the location, scan down in inc of three
-
-    //start at the first graphics instr
-    //the comparison is to compare memory address
 
     //calc the coarse offset. this is highly dependent on the antic mode
-
-
     mapData.coarseOffset.y = Y_PIXEL_TO_COARSE(absolutePosition.y);
     //offset needs to accomodate two lines per pixel
     mapData.coarseOffset.x = X_PIXEL_TO_COARSE(absolutePosition.x);

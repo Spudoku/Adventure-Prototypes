@@ -23,19 +23,13 @@ typedef struct Entity {
   void *entityData; //cast into sub class as appropriate
   struct Entity* childEntity;
   Transform transform;
-  Vector2 eyeCoords;  //todo, get rid of this, replaced by transform
 } Entity;
 
-//allows accessing to be funny
+
 
 //constructs an entity that is allocated either automatically or by malloc
 //TODO: deconstructor?
 //WARNING: YOU WANT TO ASSIGN FUNCS HERE NULL OR VALID. good luck
-// STATUS entityConstructor(Entity* thisEntity, 
-//                       STATUS (*frameTask)(Entity* thisEntity), 
-//                       STATUS (*renderer)(Entity* thisEntity));
-
-
 STATUS entityConstructor(Entity* thisEntity, 
                       STATUS (*frameTask)(Entity* thisEntity), 
                       STATUS (*renderer)(Entity* thisEntity));

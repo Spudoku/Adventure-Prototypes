@@ -14,9 +14,8 @@ PlayerEntity playerEnt = {
     
     {player_FrameTask, playerRenderer, (void *)&playerEnt, &nullItem, //entity
       
-      {{0,0}, {0,0}, {0,0},{0,0}}, //entity.transform
-      
-      {0,0}}  //legacy eyecoords
+      {{0,0}, {0,0}, {1,6},{6,6}}} //entity.transform
+
   
   };
 
@@ -38,7 +37,7 @@ STATUS player_FrameTask(Entity* thisEntity) {
 STATUS playerRenderer(Entity* thisEntity) {
 
   thisEntity->_eyeCoords = convertToEyeCoords(thisEntity->_worldCoords);
-  
+  //incomplete
 
   return UNDEFINED;
 }

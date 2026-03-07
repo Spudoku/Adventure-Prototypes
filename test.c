@@ -24,112 +24,66 @@
 
 
 
-
-
-
-
-
-// #define CHARSET_ADDR 0x3C
-// according to Ed, 0x3C00 is chosen since its 4 pages from the screen memory buffer he allocated (0x4000). S
-// According to Mapping the Atari, cannot set 756 to any odd number or else we will have screen garbage.
-// additionally, need to start on a page boundary (any value in the form $XX00), such as $C000
-// DL_CHR40x8x1
-
-
-// function declarations
-void fix_displayList();
-void init_charset();
+//legacy functions
 void edit_colors();
-void setScreenMemOffset(int x, int y);
-void relativeMoveScrMem(int dx, int dy);
-
-
-void joystick_test();
-
 void test_player1();
-
-
-// wait until VCOUNT == 0
-void wait_vblank() {
-    while(ANTIC.vcount);
-}
-
 bool check_if_any_collision(unsigned char playerID);
-void init_DLI();
-void initializeEngine();
-void initializeStaticEntities();
-void processFrameTasks();
-
-// variable declarations
-int i = 0;
-// PlayerEntity playerEnt = {{0,0}, 0, 
-//     {player_FrameTask, playerRenderer, (void *)NULL, (Entity *)NULL, {{0,0}, {0,0}, {0,0},{0,0}}, {0,0}}};
-
-extern PlayerEntity playerEnt;
-
+//legacy vars
 unsigned int cur_player = 0; 
 
-int goForward = 1;
-int goDown = 1;
-int fineScroll_y = 16; //test only
-int fineScroll_x = 16; //test only
-int roughScroll_x;
 
-Vector2 QuickAndDirtyCamera = {0,0};
+//engine routines
+void InitializeEngine();
+void InitializeStaticEntities();
+void ProcessFrameTasks();
+
+
+//temp debug utils
+void debug_autoMove(Transform *toMove);  //force an oscillating move
+
+
+//diagnostic vars
 Vector2 dir = {1, 1};
-Vector2 revDir = {0, -1};
-
-//char theFiller[17000];    //test for worst case map fit
+Vector2 zeroVec = {0, 0};
+char theFiller[17000];    //test for worst case map fit
 
 int main() {
- // variable declarations
-    unsigned int cur_horiz_position;
-    unsigned int cur_vert_position;
 
+
+
+    //redirect stdout to altirra printer
+    //for some reason this makes the top line bug out when x is negative
+    //A PRINT IS EXPENSIVE 
+    //freopen("P1:", "w", stdout);
+    //printf("hi!\n");
 
     InitializeJoystick();
-    initializeEngine();
+    InitializeEngine();
 
 
-    set_player_horiz_position(0,SCREEN_HORIZ_CENTER,true);
-    set_player_vert_position(0,SCREEN_VERT_CENTER,true);
+    // set_player_horiz_position(0,SCREEN_HORIZ_CENTER,true);
+    // set_player_vert_position(0,SCREEN_VERT_CENTER,true);
 
 
     while (true) {
 
         
         //process gamestate
-        cur_horiz_position = playerEnt.playerEntity.eyeCoords.x;
-        cur_vert_position = playerEnt.playerEntity.eyeCoords.y;
-        
-        
-        
-        processFrameTasks();
+        ProcessFrameTasks();
+        //PRINT_VEC2(playerEnt.playerEntity._worldCoords)
+        //printf("aaa");
         waitvsync();
-        GTIA_WRITE.hposp0 = playerEnt.playerEntity._eyeCoords.x + 48;
+
+        //test render code assumes player never goes off screen
+        GTIA_WRITE.hposp0 = playerEnt.playerEntity._eyeCoords.x 
+            + HPOSP_MIN + playerEnt.playerEntity._objectAnchorPoint.x;
         camera.cameraEntity.renderer(&camera.cameraEntity);
         // map_relativeMove(dir);
         // ADD_ASSIGN_VEC2(QuickAndDirtyCamera, dir)
 
-        // //quick and dirty debug test
-        // //if depth height is lessEq than 96 (test val)) add
-
-
-        // //if in range, dont flip
-        // dir.y = ((QuickAndDirtyCamera.y > 96) 
-        //     || (QuickAndDirtyCamera.y <= 0)) ? -dir.y : dir.y;
-
-
-        // dir.x = ((QuickAndDirtyCamera.x > 160) 
-        //     || (QuickAndDirtyCamera.x <= 0)) ? -dir.x : dir.x;
-
-   
-        
-
-
-
-        //set_player_horiz_position(cur_player,playerEnt.playerEntity._eyeCoords.x,true);
-        set_player_vert_position(cur_player,playerEnt.playerEntity._eyeCoords.y,true);
+        set_player_vert_position(cur_player,
+                playerEnt.playerEntity._eyeCoords.y + V_MIN - 
+                    playerEnt.playerEntity._objectAnchorPoint.y ,true);
     
         
         //process graphics
@@ -148,156 +102,53 @@ int main() {
 
 //todo: return and process STATUS?
 
-void initializeEngine(){
+void InitializeEngine(){
     
-    fix_displayList();
+
+    //init graphics
+    InitDisplayList();
     init_charset();
     edit_colors();
     setup_pmg();
 
-    // fill_column(3,5);
-    // fill_row(0,2);
-    // fill_row(1,1);
-
-    initializeStaticEntities(); //temp function
-    
-    
+    InitializeStaticEntities();     
 }
 
-//initalizes just the player for now
-void initializeStaticEntities(){
+
+void InitializeStaticEntities(){
     test_player1();
-    //Entity *test = (Entity*)&(playerEnt.playerEntity);
-
-
-    // playerEnt.playerEntity.eyeCoords.x = SCREEN_HORIZ_CENTER;
-    // playerEnt.playerEntity.eyeCoords.y = SCREEN_VERT_CENTER;
-
 
     
     playerConstructor();
-    cameraConstructor(&playerEnt.playerEntity);
-
+    
     //debug manual assign for now
-    playerEnt.playerEntity._worldCoords = camera.centerPoint;
-
-    // //temp init assign
-    playerEnt.playerEntity.eyeCoords.x = SCREEN_HORIZ_CENTER;
-    playerEnt.playerEntity.eyeCoords.y = SCREEN_VERT_CENTER;
+    playerEnt.playerEntity._worldCoords.x = SCR_RES_X/2;
+    playerEnt.playerEntity._worldCoords.y = SCR_RES_Y/2;
+    
+    cameraConstructor(&playerEnt.playerEntity);
 }
 
 //stub for now, this will be designed later
 //should produce a final gamestate...
 //the idea is to have an array of frametask ptrs to run in order
-void processFrameTasks(){
+void ProcessFrameTasks(){
     playerEnt.playerEntity.frameTask(&(playerEnt.playerEntity));
+
+    
+    //debug_autoMove(&(playerEnt.playerEntity.transform));
+
+
     camera.cameraEntity.frameTask(&(camera.cameraEntity));
 }
 
-// writes crucial bytes to the display list
-void fix_displayList() {
-    //Vector2 zero = {0, 0};
 
-    
-
-
-    //this means that antic technically loads offscreen garbage data, but this
-    //is how a true 0,0 pixel coord is achieved
-    QuickAndDirtyCamera.x = 0;
-    QuickAndDirtyCamera.y = 0;
-    // setScreenMemOffset(-2,0);
-    // //relativeMoveScrMem(0,0);
-
-
-    // *(unsigned int *)&DisplayList[sizeof(DisplayList) - 1] = (unsigned int)DisplayList;
-    map_absoluteMove(QuickAndDirtyCamera);
-    InitDisplayList();
-
-    //hscroll does mean that we cant get to the furthest left part of the screen
-    // ANTIC.hscrol = 0; 
-    // ANTIC.vscrol = 0;
-
-
-    //OS.sdlst = &DisplayList;
-
-
-
-
-    return;
-    // location of screen memory
-    // unsigned int scr_addr = (unsigned int)ScreenMemory; // address of screen memory array
-    // unsigned int dl_addr = (unsigned int)DisplayList; // address of display list
-
-    // // inject screenmemory address into lms instruction
-    // DisplayList[4] = scr_addr & 0xFF;
-    // DisplayList[5] = (scr_addr >> 8) & 0xFF;
-
-    // // inject dlistAddr into the indices 28 and 29
-    // DisplayList[sizeof(DisplayList) - 2] = dl_addr & 0xFF;   // this injects the 8 most significant bits
-    // DisplayList[sizeof(DisplayList) - 1] = (dl_addr >> 8) & 0xFF; // this injects the 8 least signifcant bits
-    //POKEW(DISPLAY_LIST,dl_addr);
-
-
+//WARNING: Use only on one object at a time!
+void debug_autoMove(Transform *toMove){
+    dir.x = ((toMove->worldCoords.x > 312) 
+         || (toMove->worldCoords.x < 8)) ? -dir.x : dir.x;
+    toMove->worldCoords.x += dir.x;
 }
 
-//offset from top left (0,0)
-void setScreenMemOffset(int x, int y){
-    //unsigned int j = y;
-    unsigned int i;
-
-    
-    //go to the location, scan down in inc of three
-
-    //start at the first graphics instr
-    //the comparison is to compare memory address
-    roughScroll_x = x;
-
-    //TODO: transition this later to iterate the ptr directly
-    for(i = 3; DisplayList[i] != DL_JVB && i < sizeof(DisplayList); i+= 3){
-        //work with a window of 3 bytes, convert i+1 to an int ptr
-        //foregoing the syntatic sugar here
-
-
-        
-        *(unsigned int *)(DisplayList + (i+1)) = (unsigned int)(gameMap[y]) + x;
-        y += 1;
-    } 
-}
-
-//this may be slower than just setting!
-void relativeMoveScrMem(int dx, int dy){
-    int i = 0;
-    switch(dy) {
-        case -1:
-            dy = -40;
-        case 0:
-            break;
-        case 1:
-            dy = 40;
-            break;
-        default:
-            dy *= 40;
-            break;
-    }
-
-    for(i = 3; DisplayList[i] != DL_JVB && i < sizeof(DisplayList); i+= 3){
-        //work with a window of 3 bytes, convert i+1 to an int ptr
-        //foregoing the syntatic sugar here
-
-
-        
-        *(unsigned int *)(DisplayList + (i+1)) += dy + dx;
-        //y += ;
-    } 
-}
-
-// initializes the character set
-void init_charset() {
-    IntToTwoChar charsetAddress;
-    charsetAddress.integer = (unsigned int)charset; //get highbyte from addr
-
-    OS.chbas = charsetAddress.bytes[1]; //set high byte to CHBASE register
-}
 
 void edit_colors() {
     POKE(COLOR_REG_1,0xF3);

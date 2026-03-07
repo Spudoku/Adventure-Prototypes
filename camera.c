@@ -1,41 +1,32 @@
 #include "camera.h"
 
+//#include <stdio.h>
+
 Camera camera;
 
-Vector2 worldCoordView;
-Vector2 debugEyeView;
+
 
 STATUS cameraConstructor(Entity *toTrack){
     camera.draggingMargin = DEFAULT_MARGIN; 
-    camera.screenResolution.x = 160;
-    camera.screenResolution.y = 96;
 
-    camera.innerMargin.x = _screenResolution.x - _cameraMargin * 2;
-    camera.innerMargin.y = _screenResolution.y - _cameraMargin * 2;
-    camera.centerPoint.x = _screenResolution.x/2;
-    camera.centerPoint.y = _screenResolution.y/2;
+    camera.innerMargin.x = SCR_RES_X - _cameraMargin;
+    camera.innerMargin.y = SCR_RES_Y - _cameraMargin;
 
 
-    //for later
-    //entityConstructor(&camera.cameraEntity, camera_FrameTask, camera_renderer);
+
     entityConstructor(&camera.cameraEntity, camera_FrameTask, camera_renderer);
 
     //put back-ref into entity
-
     camera.cameraEntity.entityData = &camera;
 
 
     if(toTrack != NULL){
       //WARNING WILL ASSIGN BLINDLY, you better make it null!
       camera._TrackedObject = toTrack;
-      // camera.cameraEntity._worldCoords.x = camera._TrackedObject->_worldCoords.x;
-      // camera.cameraEntity._worldCoords.y = camera._TrackedObject->_worldCoords.y;
-      return PASS;
+      camera_FrameTask(&camera.cameraEntity);
     }
 
-    // camera.cameraEntity._worldCoords.x = camera.screenResolution.x / 2;
-    // camera.cameraEntity._worldCoords.y = camera.screenResolution.y / 2;
-
+    map_absoluteMove(camera.cameraEntity._worldCoords);
 
     return PASS;
 } 
@@ -64,11 +55,11 @@ STATUS objectVisible(Transform *toCheck){
   //less to more computationally intensive
   //TODO: this is probably not efficient
   //check the left bound
-  if(toCheck->eyeCoords.x > _screenResolution.x) {
+  if(toCheck->eyeCoords.x > SCR_RES_X) {
     return FAIL;
   }
 
-  if(toCheck->eyeCoords.y > _screenResolution.y) {
+  if(toCheck->eyeCoords.y > SCR_RES_Y) {
     return FAIL;
   }
 
@@ -113,8 +104,8 @@ STATUS camera_FrameTask(Entity* thisEntity){
 
 
   //margin move,
-  if(ObjectInsideMargin(&camera._TrackedObject->transform) == FAIL) 
-  {
+  // if(ObjectInsideMargin(&camera._TrackedObject->transform) == FAIL) 
+  // {
     
 
 
@@ -124,8 +115,8 @@ STATUS camera_FrameTask(Entity* thisEntity){
     //hopefully it actually adds negatives correctly...
     offset = objectToMargin(&camera._TrackedObject->transform);
     camera.cameraEntity._worldCoords.x += offset.x;
-    camera.cameraEntity._worldCoords.x += offset.x;
-  }
+    camera.cameraEntity._worldCoords.y += offset.y;
+  // }
 
   //basic centering for debug
   // if(camera._TrackedObject != NULL) {
@@ -134,7 +125,6 @@ STATUS camera_FrameTask(Entity* thisEntity){
   //   worldCoordView = thisEntity->_worldCoords; 
   // }
 
-  debugEyeView = camera._TrackedObject->_eyeCoords;
   return PASS;
 }
 
@@ -166,24 +156,31 @@ STATUS ObjectInsideMargin(Transform *toCheck) {
 
 //calculate the minimum relative displacement that would put the object within
 //the margin, used for moving the camera
-// //its possible this may utilize less cycles than comping then subtracting
+//TODO: please make faster, takes up 6-7% of frame time
 Vector2 objectToMargin(Transform *toCheck){
-  Vector2 result;
+  Vector2 result = {0, 0};
 
-  if(toCheck->eyeCoords.x > camera.centerPoint.x) {
+  
+  
+  if((toCheck->eyeCoords.x + toCheck->objectBounds.x)  > camera.innerMargin.x) {
     //right side is closer, get x dist to that
-    result.x = toCheck->eyeCoords.x - camera.innerMargin.x;
-  } else {
+    result.x = (toCheck->eyeCoords.x + toCheck->objectBounds.x) - camera.innerMargin.x;
+  } else if (toCheck->eyeCoords.x < camera.draggingMargin){
     //left side is closer, eyecoords will be negative
     result.x = toCheck->eyeCoords.x - camera.draggingMargin;
   }
 
-  if(toCheck->eyeCoords.y > camera.centerPoint.y) {
-    result.y = toCheck->eyeCoords.y - camera.innerMargin.y;
-  } else {
+
+  if((toCheck->eyeCoords.y + toCheck->objectBounds.y) > camera.innerMargin.y) {
+    //bottom is closer, get x dist to that
+    result.y = (toCheck->eyeCoords.y + toCheck->objectBounds.y) - camera.innerMargin.y;
+  } else if (toCheck->eyeCoords.y < camera.draggingMargin){
+    //top side is closer, eyecoords will be negative
     result.y = toCheck->eyeCoords.y - camera.draggingMargin;
   }
   
+  //PRINT_VEC2(result)
+
   return result;
 }
 

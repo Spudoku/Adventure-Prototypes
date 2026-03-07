@@ -13,6 +13,8 @@
 #define _cameraMargin camera.draggingMargin
 
 
+
+
 typedef struct Camera{
   Entity cameraEntity;
   //entity* _trackedobject (just pretend its here due to preprocessor)
@@ -21,7 +23,6 @@ typedef struct Camera{
   Vector2 centerPoint;
   //TODO: consider making these a compile time constant? if the compiler doesnt already
   //preprocessor directives WONT do that probably
-  u16Vector2 screenResolution;  
   u16Vector2 innerMargin; //calced at init
 
   int8_t draggingMargin; //may make this a compile time thing?

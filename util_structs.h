@@ -12,6 +12,10 @@
   lhs.x += rhs.x;                   \
   lhs.y += rhs.y;                   \
 
+
+#define PRINT_VEC2(vec)                           \
+  printf("%s \t|\tx:%d\ty:%d\n", #vec, vec.x, vec.y);  \
+
 typedef struct s32Vector2 {
   int16_t x;
   int16_t y;

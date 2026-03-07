@@ -9,17 +9,6 @@
 
 //player will probably end up being effectively a singleton here
 
-// typedef struct Player{
-
-
-// };
-
-// typedef struct Entity{
-//   STATUS (*frameTask)(Entity* thisEntity);
-//   STATUS (*renderer)(Entity* thisEntity);
-//   Vector2 eyeCoords;
-// };
-
 
 
 typedef struct PlayerEntity {
@@ -29,13 +18,7 @@ typedef struct PlayerEntity {
 } PlayerEntity;
 
 
-// extern STATUS entityConstructor(Entity* thisEntity, 
-//                       STATUS (*frameTask)(Entity* thisEntity), 
-//                       STATUS (*renderer)(Entity* thisEntity));
 
-// Vector2 playerVelocity;
-// int playerSpeed;  //may consider making this an unsigned char
-// //may also want to include a delta time if we aren't synced with vblank 1:1
 
 STATUS player_FrameTask(Entity* thisEntity);
 STATUS playerRenderer(Entity* thisEntity);
@@ -45,6 +28,8 @@ STATUS playerRenderer(Entity* thisEntity);
 //other entities might not have this special privelge
 STATUS playerInputProcess();
 STATUS playerConstructor();
+
+extern PlayerEntity playerEnt;
 
 
 #endif 
