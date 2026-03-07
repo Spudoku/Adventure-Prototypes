@@ -17,131 +17,84 @@
 #include "util.h"
 #include "util_input.h"
 #include <assert.h>
-
-
-
+#include "gfx.h"
 #include <time.h>
-// #include <tgi.h>
-
-// #define SCREEN_HEIGHT 24
-
-
-// Memory locations
-#define DISPLAY_LIST 0x230    // location that the display list must be pushed to
-#define CHARSET_PTR 0x2F4     // character base
+#include "camera.h"
 
 
 
 
-
-
-// Player-missile graphics starts at 0xD000
-
-
-
-// #define CHARSET_ADDR 0x3C
-// according to Ed, 0x3C00 is chosen since its 4 pages from the screen memory buffer he allocated (0x4000). S
-// According to Mapping the Atari, cannot set 756 to any odd number or else we will have screen garbage.
-// additionally, need to start on a page boundary (any value in the form $XX00), such as $C000
-// DL_CHR40x8x1
-
-//  #define CHARSET_ADDR // location of character set
-
-// function declarations
-void fix_displayList();
-void init_charset();
+//legacy functions
 void edit_colors();
-
-void frame_delay();
-
-void joystick_test();
-
 void test_player1();
-
-//void waitvsync(void);
-//extern PlayerEntity playerEnt;
-
-// wait until VCOUNT == 0
-void wait_vblank() {
-    while(ANTIC.vcount);
-}
-
 bool check_if_any_collision(unsigned char playerID);
-void init_DLI();
-void initializeEngine();
-void initializeStaticEntities();
-void processFrameTasks();
-// variable declarations
-char DisplayList[] = {
-    // 24 blank lines
-    DL_BLK8,
-    DL_BLK8,
-    DL_BLK8,
-    // TODO: tell ANTIC to load Graphics 2 at Screen Address, total 24 times
-    DL_LMS(DL_GRAPHICS2),
-    // was DL_GRAPHICS2, now DL_GRAPHICS0
-    // these 2 bytes will store the location of the screen memory
-    0x00,0x00,
-    DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,
-    DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,DL_GRAPHICS2,
-    DL_JVB,
-    // These two bytes store the location of the dispalyList itself
-    0x00,0x00
-    };
-
-    // variable declarations
-int i = 0;
-int charStart = 480;
-PlayerEntity playerEnt;
-unsigned int cur_player = 0;
-   int frames = 0;
+//legacy vars
+unsigned int cur_player = 0; 
 
 
-//char TheFiller[28800];
+//engine routines
+void InitializeEngine();
+void InitializeStaticEntities();
+void ProcessFrameTasks();
+
+
+//temp debug utils
+void debug_autoMove(Transform *toMove);  //force an oscillating move
+
+
+//diagnostic vars
+Vector2 dir = {1, 1};
+Vector2 zeroVec = {0, 0};
+char theFiller[17000];    //test for worst case map fit
+
 int main() {
- // variable declarations
-    unsigned int cur_horiz_position;
-    unsigned int cur_vert_position;
-    // end variable declarations
+
+
+
+    //redirect stdout to altirra printer
+    //for some reason this makes the top line bug out when x is negative
+    //A PRINT IS EXPENSIVE 
+    //freopen("P1:", "w", stdout);
+    //printf("hi!\n");
+
     InitializeJoystick();
-
-   
-
+    InitializeEngine();
 
 
-    initializeEngine();
+    // set_player_horiz_position(0,SCREEN_HORIZ_CENTER,true);
+    // set_player_vert_position(0,SCREEN_VERT_CENTER,true);
 
-    // fill_row_section(2,20,27,3);
-    manual_load(&gameMap[0][0]);
 
-    set_player_horiz_position(0,SCREEN_HORIZ_CENTER,true);
-    set_player_vert_position(0,SCREEN_VERT_CENTER,true);
-    //processFrameTasks();
-
-    //memset(TheFiller, 3, sizeof(TheFiller)); 
     while (true) {
 
+        
         //process gamestate
-        cur_horiz_position = playerEnt.playerEntity.eyeCoords.x;
-        cur_vert_position = playerEnt.playerEntity.eyeCoords.y;
-
-
-        
-        processFrameTasks();
-
+        ProcessFrameTasks();
+        //PRINT_VEC2(playerEnt.playerEntity._worldCoords)
+        //printf("aaa");
         waitvsync();
-        //printf("h");
-        
+
+        //test render code assumes player never goes off screen
+        GTIA_WRITE.hposp0 = playerEnt.playerEntity._eyeCoords.x 
+            + HPOSP_MIN + playerEnt.playerEntity._objectAnchorPoint.x;
+        camera.cameraEntity.renderer(&camera.cameraEntity);
+        // map_relativeMove(dir);
+        // ADD_ASSIGN_VEC2(QuickAndDirtyCamera, dir)
+
+        set_player_vert_position(cur_player,
+                playerEnt.playerEntity._eyeCoords.y + V_MIN - 
+                    playerEnt.playerEntity._objectAnchorPoint.y ,true);
+    
         
         //process graphics
-        if (check_if_any_collision(cur_player)) {
-            GTIA_WRITE.hitclr = 1;
-            set_player_horiz_position(cur_player,cur_horiz_position,true);
-            set_player_vert_position(cur_player,cur_vert_position,true);
-        } else {
-            set_player_horiz_position(cur_player,playerEnt.playerEntity.eyeCoords.x,true);
-            set_player_vert_position(cur_player,playerEnt.playerEntity.eyeCoords.y,true);
-        }
+        // if (check_if_any_collision(cur_player)) {
+        //     GTIA_WRITE.hitclr = 1;
+        //     set_player_horiz_position(cur_player,cur_horiz_position,true);
+        //     set_player_vert_position(cur_player,cur_vert_position,true);
+        // } else {
+        //     set_player_horiz_position(cur_player,playerEnt.playerEntity.eyeCoords.x,true);
+        //     set_player_vert_position(cur_player,playerEnt.playerEntity.eyeCoords.y,true);
+        // }
         
     }
 }
@@ -149,158 +102,58 @@ int main() {
 
 //todo: return and process STATUS?
 
-void initializeEngine(){
+void InitializeEngine(){
     
-    fix_displayList();
+
+    //init graphics
+    InitDisplayList();
     init_charset();
     edit_colors();
     setup_pmg();
 
-    fill_column(3,5);
-    fill_row(0,2);
-    fill_row(1,1);
-
-    initializeStaticEntities(); //temp function
-    
-    
+    InitializeStaticEntities();     
 }
 
-//initalizes just the player for now
-void initializeStaticEntities(){
+
+void InitializeStaticEntities(){
     test_player1();
-    //Entity *test = (Entity*)&(playerEnt.playerEntity);
 
-
-    playerEnt.playerEntity.eyeCoords.x = SCREEN_HORIZ_CENTER;
-    playerEnt.playerEntity.eyeCoords.y = SCREEN_VERT_CENTER;
-
-
-    entityConstructor((Entity*)&playerEnt.playerEntity, playerRoutine, playerRenderer);
+    
     playerConstructor();
-
-    //temp init assign
-    playerEnt.playerEntity.eyeCoords.x = SCREEN_HORIZ_CENTER;
-    playerEnt.playerEntity.eyeCoords.y = SCREEN_VERT_CENTER;
+    
+    //debug manual assign for now
+    playerEnt.playerEntity._worldCoords.x = SCR_RES_X/2;
+    playerEnt.playerEntity._worldCoords.y = SCR_RES_Y/2;
+    
+    cameraConstructor(&playerEnt.playerEntity);
 }
 
 //stub for now, this will be designed later
 //should produce a final gamestate...
 //the idea is to have an array of frametask ptrs to run in order
-void processFrameTasks(){
+void ProcessFrameTasks(){
     playerEnt.playerEntity.frameTask(&(playerEnt.playerEntity));
+
+    
+    //debug_autoMove(&(playerEnt.playerEntity.transform));
+
+
+    camera.cameraEntity.frameTask(&(camera.cameraEntity));
 }
 
-// void joystick_test() {
-//     unsigned int joystick_input = (unsigned int)PEEK(JOYSTICK_REG_INPUT_0);
-//     unsigned int cur_player = 0;
-//     // move player 0 aroud
 
-    
-//     switch (joystick_input) {
-//         case JOYSTICK_MOVE_NOT: 
-            
-//             break;
-        
-//         case JOYSTICK_MOVE_DOWN:
-//             move_player_vert_position(cur_player,1,true);
-//             break;
-        
-//         case JOYSTICK_MOVE_DOWN_LEFT:
-//             move_player_vert_position(cur_player,1,true);
-//             move_player_horiz_position(cur_player,-1,true);
-//             break;
-        
-//         case JOYSTICK_MOVE_LEFT:
-
-//             move_player_horiz_position(cur_player,-1,true);
-//             break;
-
-//         case JOYSTICK_MOVE_UP_LEFT:
-//             move_player_vert_position(cur_player,-1,true);
-//             move_player_horiz_position(cur_player,-1,true);
-//             break;
-
-//         case JOYSTICK_MOVE_UP:
-//             move_player_vert_position(cur_player,-1,true);
-            
-//             break;
-        
-//         case JOYSTICK_MOVE_UP_RIGHT:
-//             move_player_vert_position(cur_player,-1,true);
-//             move_player_horiz_position(cur_player,1,true);
-            
-            
-//             break;
-        
-//         case JOYSTICK_MOVE_RIGHT:
-            
-//             move_player_horiz_position(cur_player,1,true);
-//             break;
-
-//         case JOYSTICK_MOVE_DOWN_RIGHT:
-//             move_player_vert_position(cur_player,1,true);
-//             move_player_horiz_position(cur_player,1,true);
-//             break;
-
-//         default:
-//             break;
-//     }
-
-//     // if there's a collision, revert to previous position?
-    
-// }
-
-// writes crucial bytes to the display list
-void fix_displayList() {    
-    // location of screen memory
-    unsigned int scr_addr = (unsigned int)ScreenMemory; // address of screen memory array
-    unsigned int dl_addr = (unsigned int)DisplayList; // address of display list
-
-    // inject screenmemory address into lms instruction
-    DisplayList[4] = scr_addr & 0xFF;
-    DisplayList[5] = (scr_addr >> 8) & 0xFF;
-
-    // inject dlistAddr into the indices 28 and 29
-    DisplayList[sizeof(DisplayList) - 2] = dl_addr & 0xFF;   // this injects the 8 most significant bits
-    DisplayList[sizeof(DisplayList) - 1] = (dl_addr >> 8) & 0xFF; // this injects the 8 least signifcant bits
-    //POKEW(DISPLAY_LIST,dl_addr);
-    OS.sdlst = DisplayList;
-
-
+//WARNING: Use only on one object at a time!
+void debug_autoMove(Transform *toMove){
+    dir.x = ((toMove->worldCoords.x > 312) 
+         || (toMove->worldCoords.x < 8)) ? -dir.x : dir.x;
+    toMove->worldCoords.x += dir.x;
 }
 
-// initializes a character set
-// in the future we will write code that does this somewhere else
-// or does writes to it at compile time
-int character = 0;
-void init_charset() {
-    // address of CharMap
-    // unsigned int charmap_addr = (unsigned int )CharMap;
-    //   unsigned int charmap_addr = (unsigned int )CHARSET_ADDR;  // this value specifies with page the address is located. multiply by 256 to locate actual characters.
-    
-    //   test = charmap_addr * 0x100; // page number * page size
-
-    POKE(756,((unsigned int)charset) >> 8);   // poke high byte to CHBASE register
-
-
-
-    // set page number in CHARSET_PTR
-   
-    
-
-    
-}
 
 void edit_colors() {
     POKE(COLOR_REG_1,0xF3);
 }
 
-
-void frame_delay() {
-    clock_t frame_delay_length = 17;
-    clock_t end = clock() + frame_delay_length * (CLOCKS_PER_SEC / 1000);
-    while(clock() < end);
-}
 
 void test_player1() {
     // I will write a helper function in player_missile.h

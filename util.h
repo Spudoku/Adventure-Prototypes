@@ -5,6 +5,11 @@
 #include <atari.h>
 #include <peekpoke.h>
 
+
+//fixed screen offsets 
+#define HPOSP_MIN 47
+#define V_MIN 24
+
 /**
     UTILITY FUNCTIONS 
 **/
@@ -15,11 +20,6 @@ unsigned char clamp_char(unsigned char value,unsigned char min,unsigned char max
 
 unsigned int max(unsigned int a, unsigned int b);
 unsigned int min(unsigned int a, unsigned int b);
-//unsigned char InitializeJoystick();
-
-
-
-
 
 
 #endif
