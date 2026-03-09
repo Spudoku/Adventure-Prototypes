@@ -104,7 +104,7 @@ STATUS playerInputProcess(){
 
 //init the player specific vars
 STATUS playerConstructor(){
-  // playerEnt.playerSpeed = 1;
+  playerEnt.playerSpeed = 1;
   // playerEnt.playerVelocity.x = 0;
   // playerEnt.playerVelocity.y = 0;
 
