@@ -31,14 +31,18 @@ TOUCH=touch
 AFLAGS=-I $(CA65_INC) --debug-info -t $(SYS) -D $(BUILD)
 
 # Flags for C-code compiler
-CFLAGS=-I ./includes -t $(SYS) --add-source -O -g -Or -Cl -Os -D $(BUILD)
+CFLAGS=-I ./includes -t $(SYS) --add-source -g -D $(BUILD)
 
 target = test.xex
 viceLabel = game.lbl
-objects = player.o test.o
+
+engine = test.o entity.o util_input.o util.o
+graphics = gamemap.o gfx.o charmap.o displaylist.o
+entities = camera.o items.o player.o
+objects = $(engine) $(graphics) $(entities)
 		  
 $(target) : $(objects)
-	$(CL) -t $(SYS) -Wl --dbgfile,test.dbg -C atari_modifed.cfg -o $@ $(objects) 
+	$(CL) -t $(SYS) -Ln test.lbl -Wl --dbgfile,test.dbg -C atari_modifed.cfg -o $@ $(objects) 
 
 # Rule for making a *.o file out of a *.c file
 %.o: %.c
@@ -60,3 +64,6 @@ clean :
 	$(RM) *.spr
 	$(RM) *.s
 	$(RM) *.pal
+	$(RM) *.xex
+	$(RM) *.lbl
+	$(RM) *.dbg

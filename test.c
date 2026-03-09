@@ -18,24 +18,22 @@
 #include "util.h"
 #include "util_input.h"
 #include <assert.h>
+<<<<<<< HEAD
 #include "dragon.h"
 #include "test_sprites.h"
 
 
+=======
+#include "gfx.h"
+>>>>>>> 40d6363eb74a5ac503cff75762d8fa049e0e1db1
 #include <time.h>
-// #include <tgi.h>
-
-// #define SCREEN_HEIGHT 24
-
-
-// Memory locations
-#define DISPLAY_LIST 0x230    // location that the display list must be pushed to
-#define CHARSET_PTR 0x2F4     // character base
+#include "camera.h"
 
 DragonEntity dragonEntities[3];
 
 
 
+<<<<<<< HEAD
 
 // debugging variables
 
@@ -86,10 +84,33 @@ int charStart = 480;
 PlayerEntity playerEnt;
 
    int frames = 0;
+=======
+//legacy functions
+void edit_colors();
+void test_player1();
+bool check_if_any_collision(unsigned char playerID);
+//legacy vars
+unsigned int cur_player = 0; 
+>>>>>>> 40d6363eb74a5ac503cff75762d8fa049e0e1db1
 
 
-//char TheFiller[28800];
+//engine routines
+void InitializeEngine();
+void InitializeStaticEntities();
+void ProcessFrameTasks();
+
+
+//temp debug utils
+void debug_autoMove(Transform *toMove);  //force an oscillating move
+
+
+//diagnostic vars
+Vector2 dir = {1, 1};
+Vector2 zeroVec = {0, 0};
+char theFiller[17000];    //test for worst case map fit
+
 int main() {
+<<<<<<< HEAD
  // variable declarations
 
 
@@ -140,19 +161,72 @@ int main() {
 
         }
         GTIA_WRITE.hitclr = 1;
+=======
+
+
+
+    //redirect stdout to altirra printer
+    //for some reason this makes the top line bug out when x is negative
+    //A PRINT IS EXPENSIVE 
+    //freopen("P1:", "w", stdout);
+    //printf("hi!\n");
+
+    InitializeJoystick();
+    InitializeEngine();
+
+
+    // set_player_horiz_position(0,SCREEN_HORIZ_CENTER,true);
+    // set_player_vert_position(0,SCREEN_VERT_CENTER,true);
+
+
+    while (true) {
+
+        
+        //process gamestate
+        ProcessFrameTasks();
+        //PRINT_VEC2(playerEnt.playerEntity._worldCoords)
+        //printf("aaa");
+        waitvsync();
+
+        //test render code assumes player never goes off screen
+        GTIA_WRITE.hposp0 = playerEnt.playerEntity._eyeCoords.x 
+            + HPOSP_MIN + playerEnt.playerEntity._objectAnchorPoint.x;
+        camera.cameraEntity.renderer(&camera.cameraEntity);
+        // map_relativeMove(dir);
+        // ADD_ASSIGN_VEC2(QuickAndDirtyCamera, dir)
+
+        set_player_vert_position(cur_player,
+                playerEnt.playerEntity._eyeCoords.y + V_MIN - 
+                    playerEnt.playerEntity._objectAnchorPoint.y ,true);
+    
+        
+        //process graphics
+        // if (check_if_any_collision(cur_player)) {
+        //     GTIA_WRITE.hitclr = 1;
+        //     set_player_horiz_position(cur_player,cur_horiz_position,true);
+        //     set_player_vert_position(cur_player,cur_vert_position,true);
+        // } else {
+        //     set_player_horiz_position(cur_player,playerEnt.playerEntity.eyeCoords.x,true);
+        //     set_player_vert_position(cur_player,playerEnt.playerEntity.eyeCoords.y,true);
+        // }
+        
+>>>>>>> 40d6363eb74a5ac503cff75762d8fa049e0e1db1
     }
 }
 
 
 //todo: return and process STATUS?
 
-void initializeEngine(){
+void InitializeEngine(){
     
-    fix_displayList();
+
+    //init graphics
+    InitDisplayList();
     init_charset();
     edit_colors();
     setup_pmg();
 
+<<<<<<< HEAD
 
     initializeStaticEntities(); //temp function
     
@@ -183,13 +257,31 @@ void initializeStaticEntities(){
     dragonEntities[0].loves = &playerEnt.playerEntity;
     dragonEntities[0].myEntity.eyeCoords = starting_coords;
     
+=======
+    InitializeStaticEntities();     
+}
+
+
+void InitializeStaticEntities(){
+    test_player1();
+
+    
+    playerConstructor();
+    
+    //debug manual assign for now
+    playerEnt.playerEntity._worldCoords.x = SCR_RES_X/2;
+    playerEnt.playerEntity._worldCoords.y = SCR_RES_Y/2;
+    
+    cameraConstructor(&playerEnt.playerEntity);
+>>>>>>> 40d6363eb74a5ac503cff75762d8fa049e0e1db1
 }
 
 //stub for now, this will be designed later
 //should produce a final gamestate...
 //the idea is to have an array of frametask ptrs to run in order
-void processFrameTasks(){
+void ProcessFrameTasks(){
     playerEnt.playerEntity.frameTask(&(playerEnt.playerEntity));
+<<<<<<< HEAD
     dragonEntities[0].myEntity.frameTask(&(dragonEntities[0].myEntity));
 }
 
@@ -209,9 +301,25 @@ void fix_displayList() {
     //POKEW(DISPLAY_LIST,dl_addr);
     OS.sdlst = DisplayList;
 
+=======
 
+    
+    //debug_autoMove(&(playerEnt.playerEntity.transform));
+
+
+    camera.cameraEntity.frameTask(&(camera.cameraEntity));
 }
 
+>>>>>>> 40d6363eb74a5ac503cff75762d8fa049e0e1db1
+
+//WARNING: Use only on one object at a time!
+void debug_autoMove(Transform *toMove){
+    dir.x = ((toMove->worldCoords.x > 312) 
+         || (toMove->worldCoords.x < 8)) ? -dir.x : dir.x;
+    toMove->worldCoords.x += dir.x;
+}
+
+<<<<<<< HEAD
 // initializes a character set
 // in the future we will write code that does this somewhere else
 // or does writes to it at compile time
@@ -220,12 +328,15 @@ void init_charset() {
     // address of CharMap
     POKE(756,((unsigned int)charset) >> 8);   // poke high byte to CHBASE register
 }
+=======
+>>>>>>> 40d6363eb74a5ac503cff75762d8fa049e0e1db1
 
 void edit_colors() {
     POKE(COLOR_REG_1,0xF3);
 }
 
 
+<<<<<<< HEAD
 void frame_delay() {
     clock_t frame_delay_length = 17;
     clock_t end = clock() + frame_delay_length * (CLOCKS_PER_SEC / 1000);
@@ -233,6 +344,9 @@ void frame_delay() {
 }
 
 void initialize_sprite_registers() {
+=======
+void test_player1() {
+>>>>>>> 40d6363eb74a5ac503cff75762d8fa049e0e1db1
     // I will write a helper function in player_missile.h
     player_sprites[PLAYER_GRAPHICS_PLAYER] = &playerSprites[0];
     player_sprites[DRAGON_GRAPHICS_PLAYER] = &dragonSprites[1];

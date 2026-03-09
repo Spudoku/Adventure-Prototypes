@@ -1,3 +1,11 @@
+#include "charmap.h"
+
+void init_charset() {
+    IntToTwoChar charsetAddress;
+    charsetAddress.integer = (unsigned int)charset; //get highbyte from addr
+    OS.chbas = charsetAddress.bytes[1]; //set high byte to CHBASE register
+}
+
 #pragma data-name (push, "CHARSET")
 unsigned char charset[1024] = {
 // character 1
