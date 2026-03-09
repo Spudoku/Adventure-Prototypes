@@ -20,9 +20,11 @@ typedef struct Entity {
   STATUS (*renderer)(struct Entity* thisEntity);
 
   //TODO: make this a one way ref instead?
-  void *entityData; //cast into sub class as appropriate
+  void *superEntity; //cast into sub class as appropriate
   struct Entity* childEntity;
   Transform transform;
+
+  unsigned int pmg_id;
 } Entity;
 
 

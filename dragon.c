@@ -155,8 +155,8 @@ STATUS dragonBehaviorProcess(Entity* thisEntity) {
     testLocation.x = dEntity->targetLocation.x;
     testLocation.y = dEntity->targetLocation.y;
     
-    dummy = thisEntity->eyeCoords.x;
-    if (Vector2Dist(&(dEntity->targetLocation),&(thisEntity->eyeCoords))
+    dummy = thisEntity->_eyeCoords.x;
+    if (Vector2Dist(&(dEntity->targetLocation),&(thisEntity->_eyeCoords))
     <= dEntity->sightRange) {
         moveTowards(dEntity,&(dEntity->targetLocation));
     }
@@ -194,8 +194,8 @@ Vector2 chooseTargetLocation(DragonEntity* thisEntity) {
   struct Vector2 newLocation;
   // unsigned int dist;
   // currently relies on the 'loves' Entity
-  newLocation.x = thisEntity->loves->eyeCoords.x;
-  newLocation.y = thisEntity->loves->eyeCoords.y;
+  newLocation.x = thisEntity->loves->_eyeCoords.x;
+  newLocation.y = thisEntity->loves->_eyeCoords.y;
 
 
 
@@ -206,19 +206,19 @@ Vector2 chooseTargetLocation(DragonEntity* thisEntity) {
 void moveTowards(DragonEntity* thisEntity, Vector2* location) {
   Entity* transformEntity = &(thisEntity->myEntity);
   
-  if (location->y > transformEntity->eyeCoords.y) {
+  if (location->y > transformEntity->_eyeCoords.y) {
     // move down
-    transformEntity->eyeCoords.y += thisEntity->mySpeed;
-  } else if (location->y < transformEntity->eyeCoords.y) {
-    transformEntity->eyeCoords.y -= thisEntity->mySpeed;
+    transformEntity->_eyeCoords.y += thisEntity->mySpeed;
+  } else if (location->y < transformEntity->_eyeCoords.y) {
+    transformEntity->_eyeCoords.y -= thisEntity->mySpeed;
   }
 
-  if (location->x > transformEntity->eyeCoords.x) {
+  if (location->x > transformEntity->_eyeCoords.x) {
     // move left
-    transformEntity->eyeCoords.x += thisEntity->mySpeed;
-  } else if (location->x < transformEntity->eyeCoords.x) {
+    transformEntity->_eyeCoords.x += thisEntity->mySpeed;
+  } else if (location->x < transformEntity->_eyeCoords.x) {
 
-    transformEntity->eyeCoords.x -= thisEntity->mySpeed;
+    transformEntity->_eyeCoords.x -= thisEntity->mySpeed;
   }
 
 }

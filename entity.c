@@ -6,7 +6,7 @@ STATUS entityConstructor(Entity* thisEntity,
 {
   thisEntity->_worldCoords.x = 0;
   thisEntity->_worldCoords.y = 0;
-  thisEntity->entityData = NULL;
+  thisEntity->superEntity = NULL;
   thisEntity->childEntity = NULL;
   thisEntity->frameTask = frameTask;
   thisEntity->renderer = renderer;

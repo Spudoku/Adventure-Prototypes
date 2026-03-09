@@ -14,12 +14,9 @@
 
 //player will probably end up being effectively a singleton here
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 40d6363eb74a5ac503cff75762d8fa049e0e1db1
 
 extern Sprite playerSprites[];
+
 typedef struct PlayerEntity {
   Vector2 playerVelocity;
   int playerSpeed;  //may consider making this an unsigned char
@@ -30,11 +27,7 @@ typedef struct PlayerEntity {
 } PlayerEntity;
 
 
-<<<<<<< HEAD
 // //may also want to include a delta time if we aren't synced with vblank 1:1
-=======
-
->>>>>>> 40d6363eb74a5ac503cff75762d8fa049e0e1db1
 
 STATUS player_FrameTask(Entity* thisEntity);
 STATUS playerRenderer(Entity* thisEntity);
@@ -45,11 +38,8 @@ STATUS playerRenderer(Entity* thisEntity);
 STATUS playerInputProcess();
 STATUS playerConstructor();
 
-<<<<<<< HEAD
 void TrackMoveDelayFramesPlayer();
-=======
 extern PlayerEntity playerEnt;
 
 
->>>>>>> 40d6363eb74a5ac503cff75762d8fa049e0e1db1
 #endif 

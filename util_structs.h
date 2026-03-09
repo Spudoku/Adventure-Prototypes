@@ -1,27 +1,11 @@
 #ifndef UTIL_S_H
 #define UTIL_S_H
-<<<<<<< HEAD
 #include "util.h"
 #define HIGH_BYTE 1
 #define LOW_BYTE 0
 
 #include <stdint.h>
 
-
-//vecs need to be the same exact type in this macro
-#define ADD_ASSIGN_VEC2(lhs, rhs)   \
-  lhs.x += rhs.x;                   \
-  lhs.y += rhs.y;                   \
-
-
-#define PRINT_VEC2(vec)                           \
-  printf("%s \t|\tx:%d\ty:%d\n", #vec, vec.x, vec.y);  \
-
-typedef struct s32Vector2 {
-  int16_t x;
-  int16_t y;
-=======
-
 #define HIGH_BYTE 1
 #define LOW_BYTE 0
 
@@ -37,25 +21,14 @@ typedef struct s32Vector2 {
 #define PRINT_VEC2(vec)                           \
   printf("%s \t|\tx:%d\ty:%d\n", #vec, vec.x, vec.y);  \
 
-typedef struct s32Vector2 {
+
+typedef struct Vector2 {
   int16_t x;
   int16_t y;
->>>>>>> 40d6363eb74a5ac503cff75762d8fa049e0e1db1
 } Vector2;
 
 //Useful for certain values that shouldn't be huge (i.e. velocity)
 //or even screen coords
-typedef struct u16Vector2{
-  uint8_t x;
-  uint8_t y;
-} u16Vector2;
-
-
-//used for global map coords
-typedef struct u32Vector2 {
-  uint16_t x;
-  uint16_t y;
-} u32Vector2;
 typedef struct u16Vector2{
   uint8_t x;
   uint8_t y;
@@ -79,40 +52,23 @@ typedef enum STATUS {
   UNDEFINED = 1,
 } STATUS;
 
-<<<<<<< HEAD
+
+
+//allows getting most/least sig byte a bit easier
+typedef union int16_2int8{
+  int16_t integer;
+  int8_t bytes[2];
+} IntToTwoChar; 
+
+
+typedef struct uint16_2int8_u32Vector2{
+  IntToTwoChar x;
+  IntToTwoChar y;
+} u8int2x2_u32Vector2;
+
+
 unsigned int Vector2Dist(Vector2 *a, Vector2 *b);
 
-=======
-
-
-//allows getting most/least sig byte a bit easier
-typedef union int16_2int8{
-  int16_t integer;
-  int8_t bytes[2];
-} IntToTwoChar; 
-
-
-typedef struct uint16_2int8_u32Vector2{
-  IntToTwoChar x;
-  IntToTwoChar y;
-} u8int2x2_u32Vector2;
-
->>>>>>> 40d6363eb74a5ac503cff75762d8fa049e0e1db1
-
-
-
-
-//allows getting most/least sig byte a bit easier
-typedef union int16_2int8{
-  int16_t integer;
-  int8_t bytes[2];
-} IntToTwoChar; 
-
-
-typedef struct uint16_2int8_u32Vector2{
-  IntToTwoChar x;
-  IntToTwoChar y;
-} u8int2x2_u32Vector2;
 
 
 #endif 

@@ -17,7 +17,7 @@ STATUS cameraConstructor(Entity *toTrack){
     entityConstructor(&camera.cameraEntity, camera_FrameTask, camera_renderer);
 
     //put back-ref into entity
-    camera.cameraEntity.entityData = &camera;
+    camera.cameraEntity.superEntity = &camera;
 
 
     if(toTrack != NULL){
