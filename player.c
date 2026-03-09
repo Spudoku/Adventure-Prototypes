@@ -104,7 +104,7 @@ STATUS playerInputProcess(){
   } else if (JOY_LEFT(joystickState)){
     playerEnt.playerVelocity.x = playerEnt.playerSpeed;
     playerEnt.playerEntity._worldCoords.x -= playerEnt.playerVelocity.x;
-    playerEnt.playerEntity._worldCoords.x -= playerEnt.playerVelocity.x;
+    // playerEnt.playerEntity._worldCoords.x -= playerEnt.playerVelocity.x;
   } else {
     playerEnt.playerVelocity.x = 0;
   }
@@ -112,10 +112,10 @@ STATUS playerInputProcess(){
   // vertical movement
   if(JOY_UP(joystickState)){
     playerEnt.playerVelocity.y = -playerEnt.playerSpeed;
-    playerEnt.playerEntity._eyeCoords.y += playerEnt.playerVelocity.y;
+    playerEnt.playerEntity._worldCoords.y += playerEnt.playerVelocity.y;
   } else if (JOY_DOWN(joystickState)) {
     playerEnt.playerVelocity.y = playerEnt.playerSpeed;
-    playerEnt.playerEntity._eyeCoords.y += playerEnt.playerVelocity.y;
+    playerEnt.playerEntity._worldCoords.y += playerEnt.playerVelocity.y;
   }else {
     // playerEnt.playerVelocity.y = playerEnt.playerSpeed * JOY_DOWN(joystickState);
     playerEnt.playerVelocity.y = 0;
@@ -132,7 +132,7 @@ STATUS playerInputProcess(){
   // to process
   //TODO: clamping
   
-  playerEnt.playerEntity._worldCoords.y += playerEnt.playerVelocity.y;
+  playerEnt.playerEntity._worldCoords.x += playerEnt.playerVelocity.x;
 
   playerEnt.playerEntity._worldCoords.y += playerEnt.playerVelocity.y;
   

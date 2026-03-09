@@ -55,7 +55,7 @@ void correct_eyecoords_test();
 bool check_if_any_collision(unsigned char playerID);
 void init_DLI();
 // void initializeEngine();
-void initializeStaticEntities();
+// void initializeStaticEntities();
 // void processFrameTasks();
 // variable declarations
 // char DisplayList[] = {
@@ -171,13 +171,13 @@ void InitializeEngine(){
     setup_pmg();
 
 
-    initializeStaticEntities(); //temp function
+    InitializeStaticEntities(); //temp function
     
     
 }
 
 //initalizes just the player for now
-void initializeStaticEntities(){
+void InitializeStaticEntities(){
     Vector2 starting_coords = {
         120,
         60
@@ -198,23 +198,12 @@ void initializeStaticEntities(){
 
     dragonEntities[0].loves = &playerEnt.playerEntity;
     dragonEntities[0].myEntity._eyeCoords = starting_coords;
+
+    cameraConstructor(&playerEnt.playerEntity);
     
     InitializeStaticEntities();     
 }
 
-
-void InitializeStaticEntities(){
-    // test_player1();
-
-    
-    playerConstructor();
-    
-    //debug manual assign for now
-    playerEnt.playerEntity._worldCoords.x = SCR_RES_X/2;
-    playerEnt.playerEntity._worldCoords.y = SCR_RES_Y/2;
-    
-    cameraConstructor(&playerEnt.playerEntity);
-}
 
 //stub for now, this will be designed later
 //should produce a final gamestate...
