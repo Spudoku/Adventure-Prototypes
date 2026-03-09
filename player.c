@@ -6,7 +6,7 @@
 #include <joystick.h>
 #include "items.h"
 
-Vector2 worldCoordPlayerView;
+
 
 
 Sprite playerSprites[PLAYER_SPRITE_COUNT] = {
@@ -46,6 +46,9 @@ Sprite playerSprites[PLAYER_SPRITE_COUNT] = {
     },
 };
 Vector2 worldCoordPlayerView;
+
+int playerWorldPosX;
+
 
 //initializer list to allow compile time assign/construct
 PlayerEntity playerEnt = {
@@ -135,6 +138,8 @@ STATUS playerInputProcess(){
   playerEnt.playerEntity._worldCoords.x += playerEnt.playerVelocity.x;
 
   playerEnt.playerEntity._worldCoords.y += playerEnt.playerVelocity.y;
+
+  playerWorldPosX = playerEnt.playerEntity._worldCoords.x ;
   
   //calc
 

@@ -190,10 +190,13 @@ void InitializeStaticEntities(){
     playerEnt.playerEntity._eyeCoords.x = SCREEN_HORIZ_CENTER + 20;
     playerEnt.playerEntity._eyeCoords.y = SCREEN_VERT_CENTER;
 
-    // initialize dragons
+    playerEnt.playerEntity._worldCoords.y = 108;
+    playerEnt.playerEntity._worldCoords.x = 240;
+
+
+    // initialize dragon 0
     
     dragonConstructor(&dragonEntities[0].myEntity, &dragonEntities[0]);
-    // // pass functions to dragon 0
     entityConstructor((Entity*)&dragonEntities[0].myEntity,dragonRoutine,dragonRenderer);
 
     dragonEntities[0].loves = &playerEnt.playerEntity;
