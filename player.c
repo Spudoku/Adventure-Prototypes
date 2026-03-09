@@ -7,7 +7,18 @@
 #include "items.h"
 
 <<<<<<< HEAD
-extern PlayerEntity playerEnt;
+Vector2 worldCoordPlayerView;
+
+//initializer list to allow compile time assign/construct
+PlayerEntity playerEnt = {
+  {0,0}, 1, // player specific vars
+    
+    {player_FrameTask, playerRenderer, (void *)&playerEnt, &nullItem, //entity
+      
+      {{0,0}, {0,0}, {1,6},{6,6}}} //entity.transform
+
+  
+  };
 Sprite playerSprites[PLAYER_SPRITE_COUNT] = {
   {
         0b00000000,
@@ -61,6 +72,7 @@ PlayerEntity playerEnt = {
 
 //per frame behavior
 STATUS player_FrameTask(Entity* thisEntity) {
+STATUS player_FrameTask(Entity* thisEntity) {
   //pseudo
 
   // read input and set velocity
@@ -71,6 +83,10 @@ STATUS player_FrameTask(Entity* thisEntity) {
 //calced
 //prepare the graphics driver
 STATUS playerRenderer(Entity* thisEntity) {
+
+  thisEntity->_eyeCoords = convertToEyeCoords(thisEntity->_worldCoords);
+  //incomplete
+
 
   thisEntity->_eyeCoords = convertToEyeCoords(thisEntity->_worldCoords);
   //incomplete
@@ -93,6 +109,8 @@ STATUS playerInputProcess(){
   joystickState = joy_read(JOY_1);
   
   //todo: speed may need to be normalized for diagonal
+
+  //TODO: make a bitflag of the states and use a switch statement
 <<<<<<< HEAD
   // 
 =======
@@ -108,9 +126,10 @@ STATUS playerInputProcess(){
     playerEnt.playerVelocity.x = -playerEnt.playerSpeed;
     // this looks redundant but apparently susbee said that subtracting unsigned ints is weird,
     // so don't touch this for now
-    playerEnt.playerEntity.eyeCoords.x += playerEnt.playerVelocity.x;
+    playerEnt.playerEntity._worldCoords.x += playerEnt.playerVelocity.x;
 =======
     playerEnt.playerVelocity.x = playerEnt.playerSpeed;
+    playerEnt.playerEntity._worldCoords.x -= playerEnt.playerVelocity.x;
     playerEnt.playerEntity._worldCoords.x -= playerEnt.playerVelocity.x;
 >>>>>>> 40d6363eb74a5ac503cff75762d8fa049e0e1db1
   } else {
@@ -136,6 +155,14 @@ STATUS playerInputProcess(){
     playerEnt.playerEntity.childEntity->frameTask(playerEnt.playerEntity.childEntity);
   }
 
+  //TODO: interrupt the task or make a "lateupdate" to wait for gamestate
+  // to process
+  //TODO: clamping
+  
+  playerEnt.playerEntity._worldCoords.y += playerEnt.playerVelocity.y;
+  
+  //calc
+
 
   
   
@@ -152,12 +179,16 @@ STATUS playerInputProcess(){
 //init the player specific vars
 STATUS playerConstructor(){
 <<<<<<< HEAD
-  playerEnt.playerSpeed = 1;
+  // playerEnt.playerSpeed = 1;
   playerEnt.moveFrameDelay = 0;
-  playerEnt.playerVelocity.x = 0;
-  playerEnt.playerVelocity.y = 0;
+  // playerEnt.playerVelocity.x = 0;
+  // playerEnt.playerVelocity.y = 0;
 
   //call the "base" constructor
+
+  
+
+  //entityConstructor((Entity*)&playerEnt.playerEntity, player_FrameTask, playerRenderer);
 
   // entityConstructor(&(playerEnt.playerEntity), playerRoutine, playerRenderer);
   // assign to the player entity it's dummy obj item
@@ -174,6 +205,10 @@ STATUS playerConstructor(){
   //assign to the player entity it's dummy obj item
 >>>>>>> 40d6363eb74a5ac503cff75762d8fa049e0e1db1
 
+  // playerEnt.playerEntity.childEntity = &nullItem;
+  // //in the future, the constructor will be not ran right here, probably during
+  // //boot sequence
+  // nullItem_constructor(&nullItem);  
   // playerEnt.playerEntity.childEntity = &nullItem;
   // //in the future, the constructor will be not ran right here, probably during
   // //boot sequence

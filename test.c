@@ -218,7 +218,11 @@ int main() {
 //todo: return and process STATUS?
 
 void InitializeEngine(){
+void InitializeEngine(){
     
+
+    //init graphics
+    InitDisplayList();
 
     //init graphics
     InitDisplayList();
@@ -241,8 +245,7 @@ void initializeStaticEntities(){
     };
     initialize_sprite_registers();
 
-
-    entityConstructor((Entity*)&playerEnt.playerEntity, playerRoutine, playerRenderer);
+    
     playerConstructor();
 
     playerEnt.playerEntity.eyeCoords.x = SCREEN_HORIZ_CENTER + 20;
@@ -279,6 +282,7 @@ void InitializeStaticEntities(){
 //stub for now, this will be designed later
 //should produce a final gamestate...
 //the idea is to have an array of frametask ptrs to run in order
+void ProcessFrameTasks(){
 void ProcessFrameTasks(){
     playerEnt.playerEntity.frameTask(&(playerEnt.playerEntity));
 <<<<<<< HEAD

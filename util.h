@@ -10,6 +10,11 @@
 #define HPOSP_MIN 47
 #define V_MIN 24
 
+
+//fixed screen offsets 
+#define HPOSP_MIN 47
+#define V_MIN 24
+
 /**
     UTILITY FUNCTIONS 
 **/

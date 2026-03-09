@@ -12,3 +12,6 @@ player.o
 test.c.*.*.o
 map.txt
 .vscode/settings.json
+.vscode/c_cpp_properties.json
+.vscode/
+*.lbl

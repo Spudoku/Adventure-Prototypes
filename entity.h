@@ -12,10 +12,6 @@
 #include "transform.h"
 #include <stddef.h>
 
-//Entity interface
-// typedef struct Entitye {
-//   STATUS (*frameTask)(Entity* ); 
-// };
 
 
 //entity base
@@ -26,7 +22,7 @@ typedef struct Entity {
   //TODO: make this a one way ref instead?
   void *entityData; //cast into sub class as appropriate
   struct Entity* childEntity;
-  Vector2 eyeCoords;
+  Transform transform;
 } Entity;
 
 

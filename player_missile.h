@@ -106,8 +106,9 @@ void setup_pmg() {
     //ANTIC.pmbase = (unsigned int )player_horiz_positions;  //C arrays are syntatic sugar
 
 
-
-    ANTIC.pmbase = (unsigned int)player_horiz_positions >> 8;
+    IntToTwoChar convert;
+    convert.integer = (unsigned int)player_horiz_positions;
+    ANTIC.pmbase = convert.bytes[1];
     
     // TODO: clear out memory more efficiently
     
