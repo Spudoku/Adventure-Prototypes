@@ -234,7 +234,8 @@ void TrackMoveDelayFrames(DragonEntity* thisEntity) {
 void SetSpriteByIndex(DragonEntity* thisEntity, unsigned char id) {
   thisEntity->activeSprite = id;
   // TODO: render the sprite;
-  player_sprites[DRAGON_GRAPHICS_PLAYER] = &dragonSprites[(unsigned int)(thisEntity->activeSprite)];
+  player_sprites[DRAGON_GRAPHICS_PLAYER] = 
+    &dragonSprites[(unsigned int)(thisEntity->activeSprite)];
 }
 
 void DragonChomp(DragonEntity* thisEntity) {
