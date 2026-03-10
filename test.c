@@ -137,11 +137,13 @@ void InitializeStaticEntities(){
     
     playerConstructor();
 
-    playerEnt.playerEntity._eyeCoords.x = SCREEN_HORIZ_CENTER + 20;
-    playerEnt.playerEntity._eyeCoords.y = SCREEN_VERT_CENTER;
 
-    playerEnt.playerEntity._worldCoords.y = 108;
-    playerEnt.playerEntity._worldCoords.x = 240;
+
+    playerEnt.playerEntity._worldCoords.y = 94;
+    playerEnt.playerEntity._worldCoords.x = 156;
+
+        playerEnt.playerEntity._eyeCoords.x = SCREEN_HORIZ_CENTER + 20;
+    playerEnt.playerEntity._eyeCoords.y = SCREEN_VERT_CENTER;
 
 
     // initialize dragon 0

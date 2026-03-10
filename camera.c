@@ -7,10 +7,11 @@ Camera camera;
 
 
 STATUS cameraConstructor(Entity *toTrack){
-    camera.draggingMargin = DEFAULT_MARGIN; 
+    camera.draggingMarginX = DEFAULT_MARGIN_X; 
+    camera.draggingMarginY = DEFAULT_MARGIN_Y; 
 
-    camera.innerMargin.x = SCR_RES_X - _cameraMargin;
-    camera.innerMargin.y = SCR_RES_Y - _cameraMargin;
+    camera.innerMargin.x = SCR_RES_X - _cameraMarginX;
+    camera.innerMargin.y = SCR_RES_Y - _cameraMarginY;
 
 
 
@@ -141,9 +142,9 @@ STATUS ObjectInsideMargin(Transform *toCheck) {
 
   //check the likely option, its within
   //NOTE: i bet some weird casting issue will happen here between u16,s32
-  if(toCheck->eyeCoords.x < camera.draggingMargin) return FAIL;
+  if(toCheck->eyeCoords.x < camera.draggingMarginX) return FAIL;
 
-  if(toCheck->eyeCoords.y < camera.draggingMargin) return FAIL;
+  if(toCheck->eyeCoords.y < camera.draggingMarginY) return FAIL;
 
   if(toCheck->eyeCoords.x > camera.innerMargin.x)
     return FAIL;
@@ -165,18 +166,18 @@ Vector2 objectToMargin(Transform *toCheck){
   if((toCheck->eyeCoords.x + toCheck->objectBounds.x)  > camera.innerMargin.x) {
     //right side is closer, get x dist to that
     result.x = (toCheck->eyeCoords.x + toCheck->objectBounds.x) - camera.innerMargin.x;
-  } else if (toCheck->eyeCoords.x < camera.draggingMargin){
+  } else if (toCheck->eyeCoords.x < camera.draggingMarginX){
     //left side is closer, eyecoords will be negative
-    result.x = toCheck->eyeCoords.x - camera.draggingMargin;
+    result.x = toCheck->eyeCoords.x - camera.draggingMarginX;
   }
 
 
   if((toCheck->eyeCoords.y + toCheck->objectBounds.y) > camera.innerMargin.y) {
     //bottom is closer, get x dist to that
     result.y = (toCheck->eyeCoords.y + toCheck->objectBounds.y) - camera.innerMargin.y;
-  } else if (toCheck->eyeCoords.y < camera.draggingMargin){
+  } else if (toCheck->eyeCoords.y < camera.draggingMarginY){
     //top side is closer, eyecoords will be negative
-    result.y = toCheck->eyeCoords.y - camera.draggingMargin;
+    result.y = toCheck->eyeCoords.y - camera.draggingMarginY;
   }
   
   //PRINT_VEC2(result)

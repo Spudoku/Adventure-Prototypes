@@ -1,7 +1,8 @@
 #ifndef CAMERA_H_
 #define CAMERA_H_
 
-#define DEFAULT_MARGIN 40
+#define DEFAULT_MARGIN_X 72
+#define DEFAULT_MARGIN_Y 40
 
 #include "entity.h"
 #include "transform.h"
@@ -10,7 +11,8 @@
 //macros to make life easier
 #define _TrackedObject cameraEntity.childEntity
 #define _screenResolution camera.screenResolution 
-#define _cameraMargin camera.draggingMargin
+#define _cameraMarginX camera.draggingMarginX
+#define _cameraMarginY camera.draggingMarginY
 
 
 
@@ -25,7 +27,8 @@ typedef struct Camera{
   //preprocessor directives WONT do that probably
   u16Vector2 innerMargin; //calced at init
 
-  int8_t draggingMargin; //may make this a compile time thing?
+  int8_t draggingMarginX; //may make this a compile time thing?
+  int8_t draggingMarginY;
 
 
   //rendering data (make into own struct?)
