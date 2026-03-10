@@ -6,6 +6,42 @@
 #include <joystick.h>
 #include "items.h"
 
+Sprite playerSprites[PLAYER_SPRITE_COUNT] = {
+  {
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00111100,
+        0b00101000, //
+        0b00111100, //
+        0b00111100,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+    },
+};
 Vector2 worldCoordPlayerView;
 
 //initializer list to allow compile time assign/construct
@@ -52,17 +88,6 @@ STATUS playerInputProcess(){
   //read the joystick data
   joystickState = joy_read(JOY_1);
 
-  // set the intended velocity
-  // switch(joystickState){
-  //   case (JOY_UP(joystickState))
-
-
-
-  //   default:
-  //     playerVelocity.x = 0;
-  //     playerVelocity.y = 0;
-  //     break;
-  // }
   
   //todo: speed may need to be normalized for diagonal
 
@@ -72,16 +97,18 @@ STATUS playerInputProcess(){
     playerEnt.playerVelocity.x = playerEnt.playerSpeed;
     playerEnt.playerEntity._worldCoords.x += playerEnt.playerVelocity.x;
   } else if (JOY_LEFT(joystickState)){
-    playerEnt.playerVelocity.x = playerEnt.playerSpeed;
-    playerEnt.playerEntity._worldCoords.x -= playerEnt.playerVelocity.x;
+    playerEnt.playerVelocity.x = -playerEnt.playerSpeed;
+    playerEnt.playerEntity._worldCoords.x += playerEnt.playerVelocity.x;
   } else {
     playerEnt.playerVelocity.x = 0;
   }
 
   if(JOY_UP(joystickState)){
-    playerEnt.playerVelocity.y = playerEnt.playerSpeed;
+    playerEnt.playerVelocity.y = -playerEnt.playerSpeed;
   } else {
-    playerEnt.playerVelocity.y = -playerEnt.playerSpeed * JOY_DOWN(joystickState);
+    // for some reason JOY_DOWN returns 0 or 2
+    // actually just look at atari.h, where it's defined as 0x02
+    playerEnt.playerVelocity.y = playerEnt.playerSpeed * JOY_DOWN(joystickState) / 2;
   }
 
 

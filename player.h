@@ -6,10 +6,12 @@
 #include "entity.h"
 #include "camera.h"
 #include <joystick.h>
+#include "entity_sprites.h"
 
 //player will probably end up being effectively a singleton here
-
-
+#define PLAYER_GRAPHICS_PLAYER 0
+#define PLAYER_SPRITE_COUNT 1
+extern Sprite playerSprites[];
 
 typedef struct PlayerEntity {
   Vector2 playerVelocity;

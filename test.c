@@ -1,4 +1,3 @@
-
 #include <atari.h>
 #include <6502.h>
 #include <conio.h>
@@ -7,6 +6,10 @@
 #include <stdlib.h>
 #include <joystick.h>
 #include <unistd.h>
+#include <assert.h>
+#include <time.h>
+
+
 #include "charmap.h"
 #include "color_pallete.h"
 #include "joystick_locations.h"
@@ -16,9 +19,7 @@
 #include "player.h"
 #include "util.h"
 #include "util_input.h"
-#include <assert.h>
 #include "gfx.h"
-#include <time.h>
 #include "camera.h"
 
 
@@ -37,6 +38,8 @@ void InitializeEngine();
 void InitializeStaticEntities();
 void ProcessFrameTasks();
 
+void initialize_sprite_registers();
+
 
 //temp debug utils
 void debug_autoMove(Transform *toMove);  //force an oscillating move
@@ -48,6 +51,12 @@ Vector2 zeroVec = {0, 0};
 char theFiller[17000];    //test for worst case map fit
 
 int main() {
+
+    struct Vector2 prev_unstuck_pos = {
+        0,
+        0
+    };
+
 
 
 
@@ -64,37 +73,39 @@ int main() {
     // set_player_horiz_position(0,SCREEN_HORIZ_CENTER,true);
     // set_player_vert_position(0,SCREEN_VERT_CENTER,true);
 
-
     while (true) {
+        
+        // test code
+        prev_unstuck_pos.x = playerEnt.playerEntity._worldCoords.x -  (playerEnt.playerVelocity.x);
+        prev_unstuck_pos.y = playerEnt.playerEntity._worldCoords.y - (playerEnt.playerVelocity.y);
 
         
         //process gamestate
         ProcessFrameTasks();
-        //PRINT_VEC2(playerEnt.playerEntity._worldCoords)
-        //printf("aaa");
+
         waitvsync();
 
         //test render code assumes player never goes off screen
         GTIA_WRITE.hposp0 = playerEnt.playerEntity._eyeCoords.x 
             + HPOSP_MIN + playerEnt.playerEntity._objectAnchorPoint.x;
         camera.cameraEntity.renderer(&camera.cameraEntity);
-        // map_relativeMove(dir);
-        // ADD_ASSIGN_VEC2(QuickAndDirtyCamera, dir)
+
 
         set_player_vert_position(cur_player,
                 playerEnt.playerEntity._eyeCoords.y + V_MIN - 
                     playerEnt.playerEntity._objectAnchorPoint.y ,true);
     
         
-        //process graphics
-        // if (check_if_any_collision(cur_player)) {
-        //     GTIA_WRITE.hitclr = 1;
-        //     set_player_horiz_position(cur_player,cur_horiz_position,true);
-        //     set_player_vert_position(cur_player,cur_vert_position,true);
-        // } else {
-        //     set_player_horiz_position(cur_player,playerEnt.playerEntity.eyeCoords.x,true);
-        //     set_player_vert_position(cur_player,playerEnt.playerEntity.eyeCoords.y,true);
-        // }
+  
+       if (check_if_any_collision(cur_player)) {
+            
+            // playerEnt.playerEntity._eyeCoords.x = cur_horiz_position - playerEnt.playerVelocity.x;
+            // playerEnt.playerEntity._eyeCoords.y = cur_vert_position - playerEnt.playerVelocity.y;
+            playerEnt.playerEntity._worldCoords.x = prev_unstuck_pos.x ;
+            playerEnt.playerEntity._worldCoords.y = prev_unstuck_pos.y ;
+
+        }
+        GTIA_WRITE.hitclr = 1;
         
     }
 }
@@ -115,19 +126,36 @@ void InitializeEngine(){
 }
 
 
+//initalizes just the player for now
 void InitializeStaticEntities(){
-    test_player1();
+    Vector2 starting_coords = {
+        120,
+        60
+    };
+    initialize_sprite_registers();
 
     
     playerConstructor();
-    
-    //debug manual assign for now
-    playerEnt.playerEntity._worldCoords.x = SCR_RES_X/2;
-    playerEnt.playerEntity._worldCoords.y = SCR_RES_Y/2;
-    
-    cameraConstructor(&playerEnt.playerEntity);
-}
 
+    playerEnt.playerEntity._eyeCoords.x = SCREEN_HORIZ_CENTER + 20;
+    playerEnt.playerEntity._eyeCoords.y = SCREEN_VERT_CENTER;
+
+    playerEnt.playerEntity._worldCoords.y = 108;
+    playerEnt.playerEntity._worldCoords.x = 240;
+
+
+    // initialize dragon 0
+    
+    // dragonConstructor(&dragonEntities[0].myEntity, &dragonEntities[0]);
+    // entityConstructor((Entity*)&dragonEntities[0].myEntity,dragonRoutine,dragonRenderer);
+
+    // dragonEntities[0].loves = &playerEnt.playerEntity;
+    // dragonEntities[0].myEntity._eyeCoords = starting_coords;
+
+    cameraConstructor(&playerEnt.playerEntity);
+    
+        
+}
 //stub for now, this will be designed later
 //should produce a final gamestate...
 //the idea is to have an array of frametask ptrs to run in order
@@ -155,37 +183,11 @@ void edit_colors() {
 }
 
 
-void test_player1() {
+void initialize_sprite_registers() {
     // I will write a helper function in player_missile.h
-    player_sprites[0][0] =  0b00000000;
-    player_sprites[0][1] =  0b00000000;
-    player_sprites[0][2] =  0b00000000;
-    player_sprites[0][3] =  0b00000000;
-    player_sprites[0][4] =  0b00000000;
-    player_sprites[0][5] =  0b00111100;
-    player_sprites[0][6] =  0b01111110;
-    player_sprites[0][7] =  0b01111110;
-    player_sprites[0][8] =  0b01111110;
-    player_sprites[0][9] =  0b01111110;
-    player_sprites[0][10] = 0b00111100;
-    player_sprites[0][11] = 0b00000000;
-    player_sprites[0][12] = 0b00000000;
-    player_sprites[0][13] = 0b00000000;
-    player_sprites[0][14] = 0b00000000;
-    player_sprites[0][15] = 0b00000000;
-  
-    // set_player_vert_position(0,64,true);
-
-    player_sprites[1][0] = 0xFA;
-    player_sprites[1][1] = 0xF1;
-    player_sprites[1][2] = 0xF1;
-    player_sprites[1][3] = 0xFA;
-    player_sprites[1][4] = 0xFA;
-    player_sprites[1][5] = 0xFA;
-    player_sprites[1][6] = 0xFA;
-    player_sprites[1][7] = 0xFA;
+    player_sprites[PLAYER_GRAPHICS_PLAYER] = &playerSprites[0];
+    // player_sprites[DRAGON_GRAPHICS_PLAYER] = &dragonSprites[1];
 }
-
 // checks if a player collides with any bit other than 0 in playfield
 bool check_if_any_collision(unsigned char playerID) {
     unsigned char collision;
