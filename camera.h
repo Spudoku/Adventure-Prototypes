@@ -1,7 +1,7 @@
 #ifndef CAMERA_H_
 #define CAMERA_H_
 
-#define DEFAULT_MARGIN 8
+#define DEFAULT_MARGIN 40
 
 #include "entity.h"
 #include "transform.h"

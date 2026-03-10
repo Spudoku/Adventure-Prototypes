@@ -1,9 +1,10 @@
+#include "gamemap.h"
 #pragma data-name (push, "TEMPAREA")
 
 
 
 
-unsigned char gameMap[24][40] = {
+unsigned char gameMap[MAP_HEIGHT_BYTES][MAP_LENGTH_BYTES] = {
     {1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,},
     {0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0, 0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,},
     {0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0, 0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,},
@@ -33,7 +34,7 @@ unsigned char gameMap[24][40] = {
 
 #pragma data-name (pop)
 
-
+// multiples of length of game world
 int multmap_gameMapheight[] = {
     -240, -200, -160, -120, -80, -40, 0, 40, 80, 120, 160, 200, 240,
 };
