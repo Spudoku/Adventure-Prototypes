@@ -139,8 +139,8 @@ void InitializeStaticEntities(){
 
 
 
-    playerEnt.playerEntity._worldCoords.y = 94;
-    playerEnt.playerEntity._worldCoords.x = 156;
+    playerEnt.playerEntity._worldCoords.y = 80;
+    playerEnt.playerEntity._worldCoords.x = 240;
 
         playerEnt.playerEntity._eyeCoords.x = SCREEN_HORIZ_CENTER + 20;
     playerEnt.playerEntity._eyeCoords.y = SCREEN_VERT_CENTER;
@@ -182,6 +182,8 @@ void debug_autoMove(Transform *toMove){
 
 void edit_colors() {
     POKE(COLOR_REG_1,0xF3);
+    // POKE(COLOR_REG_1,0x23);
+    POKE(COLOR_REG_2,0x11);
 }
 
 
