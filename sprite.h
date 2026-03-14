@@ -3,11 +3,12 @@
 
 #include <stdint.h>
 
-typedef struct PMSprite{
+typedef struct PMGSprite{
   uint8_t height;
   uint8_t cachedY;
   uint8_t color;
+  uint8_t* spriteSilo;  //the corresponding entry in a pmg instance
   uint8_t* bitmap;
-} PMSprite;
+} PMGSprite;
 
 #endif

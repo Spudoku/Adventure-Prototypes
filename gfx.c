@@ -8,6 +8,9 @@ Vector2 offsetHopper;
 
 
 
+PMGInstance pmgInstance;
+
+
 
 //WARNING: any use of these move methods MUST be as close as possible to vblank.
 //h/vscrol getting adjusted during the frame could cause graphical issues
@@ -153,4 +156,9 @@ void map_fastAbsoluteMove(Vector2 absolutePosition){
 
     mapData.offset = newOffset;
     return;
+}
+
+
+void gfx_WritePMSprite(Vector2 newLocation, PMSprite* spriteData){
+
 }

@@ -1,7 +1,8 @@
 #ifndef PMG_H_
-#define PMH_H_
+#define PMG_H_
 
 #include <stdint.h>
+#include <string.h>
 
 typedef struct DoubleLine_PMGInstance{
 
@@ -16,5 +17,7 @@ typedef struct DoubleLine_PMGInstance{
   uint8_t player_graphics[4][128];
 } PMGInstance;
 
+
+void pmg_clear(PMGInstance* pmgInstance);
 
 #endif
