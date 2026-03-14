@@ -18,6 +18,8 @@
 typedef struct Entity {
   STATUS (*frameTask)(struct Entity* thisEntity);
   STATUS (*renderer)(struct Entity* thisEntity);
+  //TODO: should this pass a self ref?
+  void (*OnCollision)(struct Entity* thisEntity, struct Entity* otherEntity);  //optional
 
   //TODO: make this a one way ref instead?
   void *entityData; //cast into sub class as appropriate
@@ -35,7 +37,7 @@ STATUS entityConstructor(Entity* thisEntity,
                       STATUS (*renderer)(Entity* thisEntity));
 
 
-
+void default_OnCollision(struct Entity* thisEntity, struct Entity* otherEntity);
 
 #endif
 

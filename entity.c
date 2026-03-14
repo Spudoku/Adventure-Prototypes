@@ -10,5 +10,15 @@ STATUS entityConstructor(Entity* thisEntity,
   thisEntity->childEntity = NULL;
   thisEntity->frameTask = frameTask;
   thisEntity->renderer = renderer;
+  
+  //TODO: set collider but figure out how to make it optional
+
+
   return PASS;
 };
+
+  void default_OnCollision(struct Entity* thisEntity, 
+    struct Entity* otherEntity){
+      
+    return;
+  };

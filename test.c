@@ -45,16 +45,21 @@ void debug_autoMove(Transform *toMove);  //force an oscillating move
 //diagnostic vars
 Vector2 dir = {1, 1};
 Vector2 zeroVec = {0, 0};
-char theFiller[17000];    //test for worst case map fit
+//char theFiller[17000];    //test for worst case map fit
 
 int main() {
+    int i = 0;
 
-
+    // bool yesno = 1;
+    // for(i = 0; i < sizeof(theFiller); i++){
+    //     theFiller[i] = yesno;
+    //     yesno = -yesno;
+    // }
 
     //redirect stdout to altirra printer
     //for some reason this makes the top line bug out when x is negative
     //A PRINT IS EXPENSIVE 
-    //freopen("P1:", "w", stdout);
+    freopen("P1:", "w", stdout);
     //printf("hi!\n");
 
     InitializeJoystick();

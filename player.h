@@ -9,12 +9,13 @@
 
 //player will probably end up being effectively a singleton here
 
+#define DEFAULT_PLAYER_SPEED 1
 
 
 typedef struct PlayerEntity {
+  Entity playerEntity;
   Vector2 playerVelocity;
   int playerSpeed;  //may consider making this an unsigned char
-  Entity playerEntity;
 } PlayerEntity;
 
 
@@ -22,6 +23,7 @@ typedef struct PlayerEntity {
 
 STATUS player_FrameTask(Entity* thisEntity);
 STATUS playerRenderer(Entity* thisEntity);
+void player_OnCollide(Entity* otherEntity);
 
 //player specific, note how there is always a player so these manip the struct
 //directly without passing a ptr

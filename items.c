@@ -1,7 +1,7 @@
 #include "items.h"
 
 
-Entity nullItem = {nullItem_Task, nullItem_renderer, (void *)NULL, &nullItem, {{0,0}, {0,0}, {0,0},{0,0}}};
+Entity nullItem = {nullItem_Task, nullItem_renderer, default_OnCollision, (void *)NULL, &nullItem, {{0,0}, {0,0}, {0,0},{0,0}}};
 
 STATUS nullItem_Task(Entity* thisEntity) { return UNDEFINED; };
 STATUS nullItem_renderer(Entity* thisEntity) { return UNDEFINED; };

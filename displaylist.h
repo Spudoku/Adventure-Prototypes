@@ -42,7 +42,8 @@
 //we use an int here because cc65 forgets this is a signed int after applying
 //the mask
 #define X_PIXEL_TO_COARSE(x)                                          \
-  ((int)((x - 1) & IGNORE_HSCROL_PIXELS_BITMASK) >> COARSE_SCROLL_IGNORABLE_BITS) \
+  ((int)((x - 1) & IGNORE_HSCROL_PIXELS_BITMASK) >> COARSE_SCROLL_IGNORABLE_BITS)
+
 
 #define Y_PIXEL_TO_COARSE(y) (y >> COARSE_SCROLL_IGNORABLE_BITS)
 

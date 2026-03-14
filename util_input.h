@@ -9,5 +9,13 @@
 
 unsigned char InitializeJoystick();
 
+//extra grandular masks that atari.h doesnt have
+#define JOY_UPDOWN_MASK 0x03
+
+#define JOY_UPDOWN(v) ((v) & JOY_UPDOWN_MASK)
+
+#define JOY_LEFTRIGHT_MASK 0x0C
+
+#define JOY_LEFTRIGHT(v) ((v) & JOY_LEFTRIGHT_MASK)
 
 #endif
