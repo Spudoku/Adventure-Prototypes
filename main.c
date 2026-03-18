@@ -21,6 +21,8 @@
 #include <time.h>
 #include "camera.h"
 
+#include "sound.h"
+
 
 
 
@@ -63,11 +65,9 @@ int main() {
 
     // set_player_horiz_position(0,SCREEN_HORIZ_CENTER,true);
     // set_player_vert_position(0,SCREEN_VERT_CENTER,true);
-
-
+    play_sound(0,121,10,3,10000);
     while (true) {
-
-        
+        update_voice_frames();
         //process gamestate
         ProcessFrameTasks();
         //PRINT_VEC2(playerEnt.playerEntity._worldCoords)
