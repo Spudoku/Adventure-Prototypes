@@ -40,3 +40,12 @@ unsigned int min(unsigned int a,unsigned int b) {
     }
     return b;
 }
+
+// based on: https://stackoverflow.com/questions/2602823/in-c-c-whats-the-simplest-way-to-reverse-the-order-of-bits-in-a-byte
+
+unsigned char reverse_char(unsigned char c) {
+    c = (c & 0xF0) >> 4 | (c & 0x0F) << 4;
+   c = (c & 0xCC) >> 2 | (c & 0x33) << 2;
+   c = (c & 0xAA) >> 1 | (c & 0x55) << 1;
+   return c;
+}

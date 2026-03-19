@@ -21,5 +21,7 @@ unsigned char clamp_char(unsigned char value,unsigned char min,unsigned char max
 unsigned int max(unsigned int a, unsigned int b);
 unsigned int min(unsigned int a, unsigned int b);
 
+unsigned char reverse_char(unsigned char c);
+
 
 #endif

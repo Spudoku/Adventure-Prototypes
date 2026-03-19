@@ -33,6 +33,9 @@ bool check_if_any_collision(unsigned char playerID);
 //legacy vars
 unsigned int cur_player = 0; 
 
+// testing reverse_byte function
+// unsigned char testByte = 0b00110010;
+
 
 //engine routines
 void InitializeEngine();
@@ -50,7 +53,7 @@ Vector2 zeroVec = {0, 0};
 char theFiller[17000];    //test for worst case map fit
 
 int main() {
-
+    
 
 
     //redirect stdout to altirra printer
@@ -65,7 +68,9 @@ int main() {
 
     // set_player_horiz_position(0,SCREEN_HORIZ_CENTER,true);
     // set_player_vert_position(0,SCREEN_VERT_CENTER,true);
-    play_sound(0,121,10,3,10000);
+    play_sound(0,255,10,3,120);
+
+    // testByte = reverse_char(testByte);
     while (true) {
         update_voice_frames();
         //process gamestate
