@@ -17,6 +17,21 @@ extern void stop_all_sound();
 
 extern void update_voice_frames();
 
+/*
+    predefined sounds;
+    these are examples of what sound functions might look like
+*/
+extern void sound_generic_buzz();
+
+extern void sound_item_pickup();
+
+extern void sound_item_drop();
+
+extern void sound_dragon_flap();
+
+/*
+    END predefined sounds
+*/
 
 
 

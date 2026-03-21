@@ -1,0 +1,12 @@
+items will need:
+    offset coords, aka how far to keep from player while moving
+    sound effects when picked up and dropped
+    collision detection with players (player 0 [THE player], and dragons)
+
+will they be players or missiles?
+    probably missiles, though they should probably be players that use multi-
+    plexxing; I want to use missiles for decorations if possible
+    before I implement multiplexxing, maybe I should just implement the sword
+    so that we can have a dragon you can fight, or the chalice so that you can
+    win the game
+

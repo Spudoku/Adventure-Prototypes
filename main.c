@@ -20,6 +20,7 @@
 #include "gfx.h"
 #include <time.h>
 #include "camera.h"
+#include "items.h"
 
 #include "sound.h"
 
@@ -68,7 +69,7 @@ int main() {
 
     // set_player_horiz_position(0,SCREEN_HORIZ_CENTER,true);
     // set_player_vert_position(0,SCREEN_VERT_CENTER,true);
-    play_sound(0,255,10,3,120);
+    // play_sound(0,255,10,3,120);
 
     // testByte = reverse_char(testByte);
     while (true) {
@@ -131,6 +132,8 @@ void InitializeStaticEntities(){
     playerEnt.playerEntity._worldCoords.y = SCR_RES_Y/2;
     
     cameraConstructor(&playerEnt.playerEntity);
+
+    dumbItem_constructor(&dumbItem);
 }
 
 //stub for now, this will be designed later
@@ -144,6 +147,8 @@ void ProcessFrameTasks(){
 
 
     camera.cameraEntity.frameTask(&(camera.cameraEntity));
+
+    dumbItem.frameTask(&dumbItem);
 }
 
 
