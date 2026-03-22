@@ -26,5 +26,5 @@ void update_voice_frames() {
 
 void sound_generic_buzz() {
     // remember: voice, pitch, distortion, volume, frames
-    play_sound(1,1,20,4,20);
+    play_sound(1,46,10,4,20);
 }
