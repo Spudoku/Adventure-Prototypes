@@ -125,6 +125,9 @@ void InitializeEngine(){
     printf("Initalizing PMG...\n");
     pmg_init(&pmgMainInstance);
 
+    OS.color4 = GTIA_COLOR_GRAY3;
+    OS.color0 = GTIA_COLOR_LIGHTGREEN;
+
     InitializeStaticEntities();     
 }
 
