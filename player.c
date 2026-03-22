@@ -13,7 +13,7 @@ uint8_t TEMP_player_anticIndex;
 
 //initializer list to allow compile time assign/construct
 PlayerEntity playerEnt = {
-  {player_FrameTask, playerRenderer, player_OnCollide, (void *)&playerEnt, &nullItem, //entity
+  {player_FrameTask, playerRenderer, player_OnCollide, (void *)&playerEnt, &dumbItem, //entity
     
     {{0,0}, {0,0}, {0,0},{4,4}}}, //entity.transform
 

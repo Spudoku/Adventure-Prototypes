@@ -2,6 +2,7 @@
 #define ITEMS_H_
 
 #include "entity.h"
+#include "sound.h"
 #include <stddef.h>
 
 //item repo
@@ -12,7 +13,9 @@
 
 
 
-//null item funcs
+/*
+  Begin nullItem declarations
+*/
 extern Entity nullItem;
 
 STATUS nullItem_Task(Entity* thisEntity);
@@ -23,5 +26,23 @@ STATUS nullItem_renderer(Entity* thisEntity);
 //being comprised of allocation and initing, rather than just initing
 STATUS nullItem_constructor(Entity* thisEntity);
 
+/*
+  End nullItem declarations
+*/
+
+/*
+  Begin dumbItem declarations
+  dumbItem will play a sound when it touches things (I think?)
+*/
+extern Entity dumbItem;
+
+STATUS dumbItem_Task(Entity* thisEntity);
+
+STATUS dumbItem_renderer(Entity* thisEntity);
+
+STATUS dumbItem_constructor(Entity* thisEntity);
+/*
+  End dumbItem declarations
+*/
 
 #endif 

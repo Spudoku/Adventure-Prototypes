@@ -22,6 +22,11 @@
 #include "camera.h"
 #include "pmg.h"
 #include "dragon.h"
+#include "items.h"
+
+#include "sound.h"
+
+
 
 
 //legacy functions
@@ -30,6 +35,9 @@ void test_player1();
 bool check_if_any_collision(unsigned char playerID);
 //legacy vars
 unsigned int cur_player = 0; 
+
+// testing reverse_byte function
+// unsigned char testByte = 0b00110010;
 
 
 //engine routines
@@ -49,13 +57,8 @@ Vector2 zeroVec = {0, 0};
 //char theFiller[17000];    //test for worst case map fit
 
 int main() {
-    int i = 0;
+    
 
-    // bool yesno = 1;
-    // for(i = 0; i < sizeof(theFiller); i++){
-    //     theFiller[i] = yesno;
-    //     yesno = -yesno;
-    // }
 
     //redirect stdout to altirra printer
     //for some reason this makes the top line bug out when x is negative
@@ -67,22 +70,9 @@ int main() {
     InitializeEngine();
 
 
-    //debugging
-    // pmgMainInstance.playerGFX[1].visibleBytes[95] = 0b10101010;
-    // GTIA_WRITE.hposp1 = 128;
-    //OS.pcolr1 = GTIA_COLOR_BLUE;
-    // pmgMainInstance.playerGFX[2].visibleBytes[95] = 0b10101010;
-    // GTIA_WRITE.hposp2 = 128+8;
-    //OS.pcolr2 = GTIA_COLOR_BLUE;
-    // pmgMainInstance.playerGFX[3].visibleBytes[95] = 0b10101010;
-    // GTIA_WRITE.hposp3 = 128+16;
-    //OS.pcolr3 = GTIA_COLOR_BLUE;
-
-    printf("sizeof test: %d\n", sizeof(pmgMainInstance.playerGFX->header));
 
     while (true) {
-
-        
+        update_voice_frames();
         //process gamestate
         ProcessFrameTasks();
         GTIA_WRITE.hitclr = 1;
@@ -138,6 +128,8 @@ void InitializeStaticEntities(){
     playerEnt.playerEntity._worldCoords.y = SCR_RES_Y/2;
     
     cameraConstructor(&playerEnt.playerEntity);
+
+    dumbItem_constructor(&dumbItem);
 }
 
 //stub for now, this will be designed later
@@ -150,6 +142,8 @@ void ProcessFrameTasks(){
     //debug_autoMove(&(playerEnt.playerEntity.transform));
     
     camera.cameraEntity.frameTask(&(camera.cameraEntity));
+
+    //dumbItem.frameTask(&dumbItem);
 }
 
 void ProcessRendering(){
