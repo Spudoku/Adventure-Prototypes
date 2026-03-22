@@ -6,15 +6,20 @@
 #include <joystick.h>
 #include "items.h"
 
+#include <stdio.h>
+
 Vector2 worldCoordPlayerView;
+uint8_t TEMP_player_anticIndex;
 
 //initializer list to allow compile time assign/construct
 PlayerEntity playerEnt = {
-  {0,0}, 1, // player specific vars
+  {player_FrameTask, playerRenderer, player_OnCollide, (void *)&playerEnt, &dumbItem, //entity
     
-    {player_FrameTask, playerRenderer, (void *)&playerEnt, &nullItem, //entity
-      
-      {{0,0}, {0,0}, {1,6},{6,6}}} //entity.transform
+    {{0,0}, {0,0}, {0,0},{4,4}}}, //entity.transform
+
+
+  {0,0}, 1, {NULL} // player specific vars
+    
 
   
   };
@@ -39,51 +44,53 @@ STATUS playerRenderer(Entity* thisEntity) {
   thisEntity->_eyeCoords = convertToEyeCoords(thisEntity->_worldCoords);
   //incomplete
 
+  //generally dont need a bounds check, player is always in frame
+
+  (&(GTIA_WRITE.hposp0))[TEMP_player_anticIndex] = playerEnt.playerEntity._eyeCoords.x 
+            + HPOSP_MIN + playerEnt.playerEntity._objectAnchorPoint.x;
+  
+  //printf("%d\n",(&(GTIA_WRITE.hposp0))[TEMP_player_anticIndex] );
+  pmgSilo_setY(playerEnt.playerSilo, thisEntity->_eyeCoords.y);
+
+
   return UNDEFINED;
 }
+//made global/static due to frequency of use
+unsigned char joystickState = 0; 
+unsigned char lastFrameState;
 
 //Assumes the proper driver is loaded!!
 STATUS playerInputProcess(){
-  static unsigned char joystickState = 0; //useful for how often it will be
-  static unsigned char lastFrameState;
 
 
   lastFrameState = joystickState;
   //read the joystick data
   joystickState = joy_read(JOY_1);
 
-  // set the intended velocity
-  // switch(joystickState){
-  //   case (JOY_UP(joystickState))
 
-
-
-  //   default:
-  //     playerVelocity.x = 0;
-  //     playerVelocity.y = 0;
-  //     break;
-  // }
-  
-  //todo: speed may need to be normalized for diagonal
-
-  //TODO: make a bitflag of the states and use a switch statement
-  //this is if statements to allow this fuckery (cant do it in a switch?)
-  if(JOY_RIGHT(joystickState)){
-    playerEnt.playerVelocity.x = playerEnt.playerSpeed;
-    playerEnt.playerEntity._worldCoords.x += playerEnt.playerVelocity.x;
-  } else if (JOY_LEFT(joystickState)){
-    playerEnt.playerVelocity.x = playerEnt.playerSpeed;
-    playerEnt.playerEntity._worldCoords.x -= playerEnt.playerVelocity.x;
-  } else {
-    playerEnt.playerVelocity.x = 0;
+  switch(JOY_LEFTRIGHT(joystickState)){
+    case JOY_LEFT_MASK:
+      playerEnt.playerVelocity.x = -playerEnt.playerSpeed;
+      break;
+    case JOY_RIGHT_MASK:
+      playerEnt.playerVelocity.x = playerEnt.playerSpeed;
+      break;
+    default:
+      playerEnt.playerVelocity.x = 0;
+      break;
   }
 
-  if(JOY_UP(joystickState)){
-    playerEnt.playerVelocity.y = playerEnt.playerSpeed;
-  } else {
-    playerEnt.playerVelocity.y = -playerEnt.playerSpeed * JOY_DOWN(joystickState);
+  switch(JOY_UPDOWN(joystickState)){
+    case JOY_UP_MASK: 
+      playerEnt.playerVelocity.y = -playerEnt.playerSpeed;
+      break;
+    case JOY_DOWN_MASK: //down
+      playerEnt.playerVelocity.y = playerEnt.playerSpeed;
+      break;
+    default:  //nothing or null cancelled
+      playerEnt.playerVelocity.y = 0;
+      break;
   }
-
 
   //makes this lock out when held
   if(JOY_FIRE(joystickState) && !JOY_FIRE(lastFrameState)){
@@ -91,20 +98,24 @@ STATUS playerInputProcess(){
     playerEnt.playerEntity.childEntity->frameTask(playerEnt.playerEntity.childEntity);
   }
 
-  //TODO: interrupt the task or make a "lateupdate" to wait for gamestate
-  // to process
-  //TODO: clamping
+
+  ADD_ASSIGN_VEC2(playerEnt.playerEntity._worldCoords, playerEnt.playerVelocity)
   
-  playerEnt.playerEntity._worldCoords.y += playerEnt.playerVelocity.y;
-  
-  //calc
+
 
   return PASS;
 }
 
+void player_OnCollide(Entity* thisEntity, Entity* otherEntity){
+  //currently, do nothing
+
+  return;
+}
+
 //init the player specific vars
 STATUS playerConstructor(){
-  playerEnt.playerSpeed = 1;
+  uint8_t pmg_index;
+  // playerEnt.playerSpeed = 1;
   // playerEnt.playerVelocity.x = 0;
   // playerEnt.playerVelocity.y = 0;
 
@@ -120,5 +131,29 @@ STATUS playerConstructor(){
   // //boot sequence
   // nullItem_constructor(&nullItem);  
 
+
+
+  pmg_index = pmg_addPlayerSprite(&playerSprite);
+
+  if(pmg_index < 4){
+    //schedulerData.antic_P2PCollisionLookupTable[pmg_index] = (Entity *)&playerEnt;
+    //schedulerData.antic_P2PCollisionLookupMask |= (1 << pmg_index);
+    playerEnt.playerSilo = activePMGInstance->playerGFX + pmg_index;
+    TEMP_player_anticIndex = pmg_index;
+  }
+  printf("Player antic index: %d\n", TEMP_player_anticIndex);
+
+  //printf("Address: %d\n", %d)
   return PASS;
 }
+uint8_t playerSpriteBitmap[] ={
+  0b11110000,
+  0b11110000,
+  0b11110000,
+  0b11110000,
+};
+
+Sprite playerSprite = {sizeof(playerSpriteBitmap),GTIA_COLOR_YELLOW,playerSpriteBitmap};
+
+
+

@@ -10,8 +10,8 @@
 #include "charmap.h"
 #include "color_pallete.h"
 #include "joystick_locations.h"
-#include "player_missile.h"
-#include "screen_memory.h"
+//#include "player_missile.h"
+//#include "screen_memory.h"
 #include "gamemap.h"
 #include "player.h"
 #include "util.h"
@@ -20,6 +20,11 @@
 #include "gfx.h"
 #include <time.h>
 #include "camera.h"
+#include "pmg.h"
+#include "dragon.h"
+#include "items.h"
+
+#include "sound.h"
 
 
 
@@ -31,11 +36,15 @@ bool check_if_any_collision(unsigned char playerID);
 //legacy vars
 unsigned int cur_player = 0; 
 
+// testing reverse_byte function
+// unsigned char testByte = 0b00110010;
+
 
 //engine routines
 void InitializeEngine();
 void InitializeStaticEntities();
 void ProcessFrameTasks();
+void ProcessRendering();
 
 
 //temp debug utils
@@ -45,47 +54,51 @@ void debug_autoMove(Transform *toMove);  //force an oscillating move
 //diagnostic vars
 Vector2 dir = {1, 1};
 Vector2 zeroVec = {0, 0};
-char theFiller[17000];    //test for worst case map fit
+Vector2 TEMP_lastPos;
+//char theFiller[17000];    //test for worst case map fit
 
 int main() {
-
+    
 
 
     //redirect stdout to altirra printer
     //for some reason this makes the top line bug out when x is negative
     //A PRINT IS EXPENSIVE 
-    //freopen("P1:", "w", stdout);
+    freopen("P1:", "w", stdout);
     //printf("hi!\n");
 
     InitializeJoystick();
     InitializeEngine();
 
-
-    // set_player_horiz_position(0,SCREEN_HORIZ_CENTER,true);
-    // set_player_vert_position(0,SCREEN_VERT_CENTER,true);
-
+    TEMP_lastPos = playerEnt.playerEntity.transform.worldCoords;
 
     while (true) {
 
-        
+        update_voice_frames();
         //process gamestate
+        TEMP_lastPos = playerEnt.playerEntity.transform.worldCoords;
         ProcessFrameTasks();
-        //PRINT_VEC2(playerEnt.playerEntity._worldCoords)
-        //printf("aaa");
-        waitvsync();
 
-        //test render code assumes player never goes off screen
-        GTIA_WRITE.hposp0 = playerEnt.playerEntity._eyeCoords.x 
-            + HPOSP_MIN + playerEnt.playerEntity._objectAnchorPoint.x;
-        camera.cameraEntity.renderer(&camera.cameraEntity);
-        // map_relativeMove(dir);
-        // ADD_ASSIGN_VEC2(QuickAndDirtyCamera, dir)
-
-        set_player_vert_position(cur_player,
-                playerEnt.playerEntity._eyeCoords.y + V_MIN - 
-                    playerEnt.playerEntity._objectAnchorPoint.y ,true);
-    
+   
         
+        
+        waitvsync();
+        camera.cameraEntity.renderer(&camera.cameraEntity);
+
+        ProcessRendering();
+
+        //printf("Player cachedy: %d\n", playerEnt.playerSilo->header.cachedY);
+
+        if((&(GTIA_READ.p0pl))[TEMP_dragon_anticIndex]){
+            debug_dragonSingleton.moveDelayCounter += 100;
+        }
+
+        if((&(GTIA_READ.p0pf))[TEMP_player_anticIndex]){
+            playerEnt.playerEntity.transform.worldCoords = TEMP_lastPos;
+            
+        }
+        GTIA_WRITE.hitclr = 1; 
+    
         //process graphics
         // if (check_if_any_collision(cur_player)) {
         //     GTIA_WRITE.hitclr = 1;
@@ -96,11 +109,10 @@ int main() {
         //     set_player_vert_position(cur_player,playerEnt.playerEntity.eyeCoords.y,true);
         // }
         
+        
     }
 }
 
-
-//todo: return and process STATUS?
 
 void InitializeEngine(){
     
@@ -109,23 +121,34 @@ void InitializeEngine(){
     InitDisplayList();
     init_charset();
     edit_colors();
-    setup_pmg();
+
+    printf("Initalizing PMG...\n");
+    pmg_init(&pmgMainInstance);
+
+    OS.color4 = GTIA_COLOR_GRAY3;
+    OS.color0 = GTIA_COLOR_LIGHTGREEN;
 
     InitializeStaticEntities();     
 }
 
 
 void InitializeStaticEntities(){
-    test_player1();
+ 
+    playerConstructor();
+    dragonConstructor(&debug_dragonSingleton);
+    trackEntity(&debug_dragonSingleton, &playerEnt.playerEntity);
 
     
-    playerConstructor();
-    
+    //debug turn player into dragon
+    //playerEnt.playerSilo->header.refsprite = &dragon_idle;
+
     //debug manual assign for now
     playerEnt.playerEntity._worldCoords.x = SCR_RES_X/2;
     playerEnt.playerEntity._worldCoords.y = SCR_RES_Y/2;
     
     cameraConstructor(&playerEnt.playerEntity);
+
+    dumbItem_constructor(&dumbItem);
 }
 
 //stub for now, this will be designed later
@@ -134,12 +157,22 @@ void InitializeStaticEntities(){
 void ProcessFrameTasks(){
     playerEnt.playerEntity.frameTask(&(playerEnt.playerEntity));
 
-    
+    debug_dragonSingleton.myEntity.frameTask(&(debug_dragonSingleton.myEntity));
     //debug_autoMove(&(playerEnt.playerEntity.transform));
-
-
+    
     camera.cameraEntity.frameTask(&(camera.cameraEntity));
+
+    //dumbItem.frameTask(&dumbItem);
 }
+
+void ProcessRendering(){
+    
+    playerEnt.playerEntity.renderer(&(playerEnt.playerEntity));
+    debug_dragonSingleton.myEntity.renderer(&(debug_dragonSingleton.myEntity));
+
+
+    
+};
 
 
 //WARNING: Use only on one object at a time!
@@ -155,36 +188,36 @@ void edit_colors() {
 }
 
 
-void test_player1() {
-    // I will write a helper function in player_missile.h
-    player_sprites[0][0] =  0b00000000;
-    player_sprites[0][1] =  0b00000000;
-    player_sprites[0][2] =  0b00000000;
-    player_sprites[0][3] =  0b00000000;
-    player_sprites[0][4] =  0b00000000;
-    player_sprites[0][5] =  0b00111100;
-    player_sprites[0][6] =  0b01111110;
-    player_sprites[0][7] =  0b01111110;
-    player_sprites[0][8] =  0b01111110;
-    player_sprites[0][9] =  0b01111110;
-    player_sprites[0][10] = 0b00111100;
-    player_sprites[0][11] = 0b00000000;
-    player_sprites[0][12] = 0b00000000;
-    player_sprites[0][13] = 0b00000000;
-    player_sprites[0][14] = 0b00000000;
-    player_sprites[0][15] = 0b00000000;
+// void test_player1() {
+//     // I will write a helper function in player_missile.h
+//     player_sprites[0][0] =  0b00000000;
+//     player_sprites[0][1] =  0b00000000;
+//     player_sprites[0][2] =  0b00000000;
+//     player_sprites[0][3] =  0b00000000;
+//     player_sprites[0][4] =  0b00000000;
+//     player_sprites[0][5] =  0b00111100;
+//     player_sprites[0][6] =  0b01111110;
+//     player_sprites[0][7] =  0b01111110;
+//     player_sprites[0][8] =  0b01111110;
+//     player_sprites[0][9] =  0b01111110;
+//     player_sprites[0][10] = 0b00111100;
+//     player_sprites[0][11] = 0b00000000;
+//     player_sprites[0][12] = 0b00000000;
+//     player_sprites[0][13] = 0b00000000;
+//     player_sprites[0][14] = 0b00000000;
+//     player_sprites[0][15] = 0b00000000;
   
-    // set_player_vert_position(0,64,true);
+//     // set_player_vert_position(0,64,true);
 
-    player_sprites[1][0] = 0xFA;
-    player_sprites[1][1] = 0xF1;
-    player_sprites[1][2] = 0xF1;
-    player_sprites[1][3] = 0xFA;
-    player_sprites[1][4] = 0xFA;
-    player_sprites[1][5] = 0xFA;
-    player_sprites[1][6] = 0xFA;
-    player_sprites[1][7] = 0xFA;
-}
+//     player_sprites[1][0] = 0xFA;
+//     player_sprites[1][1] = 0xF1;
+//     player_sprites[1][2] = 0xF1;
+//     player_sprites[1][3] = 0xFA;
+//     player_sprites[1][4] = 0xFA;
+//     player_sprites[1][5] = 0xFA;
+//     player_sprites[1][6] = 0xFA;
+//     player_sprites[1][7] = 0xFA;
+// }
 
 // checks if a player collides with any bit other than 0 in playfield
 bool check_if_any_collision(unsigned char playerID) {

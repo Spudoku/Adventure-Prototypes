@@ -7,6 +7,8 @@
 #include "displaylist.h"
 #include "util_structs.h"
 #include "charmap.h"
+#include "sprite.h"
+#include "pmg.h"
 
 
 
@@ -42,5 +44,8 @@ typedef struct MapData{
   Vector2 coarseOffset;
 } MapData;
 
+extern PMGInstance pmgMainInstance; //in the future this will be a changable ptr
+
+//void gfx_WritePMSprite(Vector2 newLocation, Sprite* spriteData);
 
 #endif

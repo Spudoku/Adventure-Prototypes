@@ -13,8 +13,15 @@
   lhs.y += rhs.y;                   \
 
 
+#define SUB_ASSIGN_VEC2(lhs, rhs)   \
+  lhs.x -= rhs.x;                   \
+  lhs.y -= rhs.y;                   \
+
 #define PRINT_VEC2(vec)                           \
   printf("%s \t|\tx:%d\ty:%d\n", #vec, vec.x, vec.y);  \
+
+//inlined to save resources
+#define TAXI_DIST(vec1, vec2) abs(vec1.x - vec2.x) + abs(vec1.y - vec2.y)
 
 typedef struct s32Vector2 {
   int16_t x;

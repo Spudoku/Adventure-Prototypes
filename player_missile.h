@@ -60,29 +60,6 @@ void write_sprite(unsigned char playerID, unsigned char position);
 
 
 void setup_pmg() {
-    //unsigned int PMBASE = 0xD407;
-    // unsigned int SDMCTL = 0x22F;
-    // unsigned int PCOLR0 = 0x2C0;
-    // TODO: do any setup for player missile graphics here
-    // what Ed's code appears to do is:
-    // store pmg label into PMBASE ($D407)
-    // move 46 into SDMCTL ($22F), which sets to double-line resolution
-    // move 0x3 into GRACTL ( $D01D ), which enables PMG
-    // move 0x1 into GRPRIOR ($26F), which gives player priorty?
-    
-    //unsigned int playerDataPage = 0x38;
-    //unsigned int playerData = playerDataPage << 8;
-    // unsigned int missileLocation = (unsigned int)missiles_graphics[0];
-
-    // unsigned int zeroIndex;
-    // unsigned int playerIndex;
-    
-
-    // POKE(PCOLR0,0x1E);
-    //POKE(PMBASE,(unsigned char )*player_horiz_positions);
-    //ANTIC.pmbase = (unsigned int )player_horiz_positions;  //C arrays are syntatic sugar
-
-
     IntToTwoChar convert;
     convert.integer = (unsigned int)player_horiz_positions;
     ANTIC.pmbase = convert.bytes[1];

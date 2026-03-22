@@ -42,7 +42,7 @@ void setTrackedEntity(Entity *toTrack){
 //checks against eye coords, assumes its updated
 //to do, may need to have each entity update its eyecoords?
 //may also need to consider lazy checks for stuff super far away
-STATUS objectVisible(Transform *toCheck){
+bool objectVisible(Transform *toCheck){
   //bounding box checks
 
   //will consider the following later :
@@ -56,24 +56,24 @@ STATUS objectVisible(Transform *toCheck){
   //TODO: this is probably not efficient
   //check the left bound
   if(toCheck->eyeCoords.x > SCR_RES_X) {
-    return FAIL;
+    return false;
   }
 
   if(toCheck->eyeCoords.y > SCR_RES_Y) {
-    return FAIL;
+    return false;
   }
 
   //checking if the right side of it is visible
 
   if(toCheck->eyeCoords.x + toCheck->objectBounds.x < 0){
-    return FAIL;
+    return false;
   }
 
   if(toCheck->eyeCoords.y + toCheck->objectBounds.y < 0) {
-    return FAIL;
+    return false;
   }
 
-  return PASS;
+  return true;
 
 }
 

@@ -7,6 +7,10 @@ MapData mapData;
 Vector2 offsetHopper;
 
 
+#pragma bss-name (push, "PMGAREA")
+PMGInstance pmgMainInstance;
+#pragma bss-name (pop)
+
 
 
 //WARNING: any use of these move methods MUST be as close as possible to vblank.
@@ -154,3 +158,8 @@ void map_fastAbsoluteMove(Vector2 absolutePosition){
     mapData.offset = newOffset;
     return;
 }
+
+
+// void gfx_WritePMSprite(Vector2 newLocation, PMGSprite* spriteData){
+
+// }

@@ -1,5 +1,6 @@
 #include "displaylist.h"
 
+#pragma data-name (push, "DISPLAYLIST")
 char DisplayList[] = {
     // 24 blank lines
     DL_BLK8,
@@ -44,7 +45,8 @@ char DisplayList[] = {
     //loop the display list
     DL_JVB,
     0x00,0x00 //dl loc
-    };
+};
+#pragma data-name (pop)
 
 void InitDisplayList(){
     *(unsigned int *)&DisplayList[sizeof(DisplayList) - 2] 

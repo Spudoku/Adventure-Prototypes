@@ -11,8 +11,15 @@
 #define V_MIN 24
 
 /**
-    UTILITY FUNCTIONS 
+    UTILITY FUNCTIONS AND MACROS
 **/
+
+//basic cond setting, stolen from
+//https://graphics.stanford.edu/~seander/bithacks.html
+#define COND_SET_BIT(bool, mask, toModify) \
+    toModify ^= (-bool ^ toModify) & mask;  \
+
+#define CHECK_FLAG(flags, mask) ((flags & mask) > 0)
 
 unsigned int clamp_int(unsigned int value,unsigned int min,unsigned int max);
 void memZero(unsigned int start, unsigned int offset);
@@ -20,6 +27,8 @@ unsigned char clamp_char(unsigned char value,unsigned char min,unsigned char max
 
 unsigned int max(unsigned int a, unsigned int b);
 unsigned int min(unsigned int a, unsigned int b);
+
+unsigned char reverse_char(unsigned char c);
 
 
 #endif
