@@ -54,6 +54,7 @@ void debug_autoMove(Transform *toMove);  //force an oscillating move
 //diagnostic vars
 Vector2 dir = {1, 1};
 Vector2 zeroVec = {0, 0};
+Vector2 TEMP_lastPos;
 //char theFiller[17000];    //test for worst case map fit
 
 int main() {
@@ -69,13 +70,18 @@ int main() {
     InitializeJoystick();
     InitializeEngine();
 
-
+    TEMP_lastPos = playerEnt.playerEntity.transform.worldCoords;
 
     while (true) {
+
         update_voice_frames();
         //process gamestate
+        TEMP_lastPos = playerEnt.playerEntity.transform.worldCoords;
         ProcessFrameTasks();
-        GTIA_WRITE.hitclr = 1;
+
+   
+        
+        
         waitvsync();
         camera.cameraEntity.renderer(&camera.cameraEntity);
 
@@ -83,6 +89,16 @@ int main() {
 
         //printf("Player cachedy: %d\n", playerEnt.playerSilo->header.cachedY);
 
+        if((&(GTIA_READ.p0pl))[TEMP_dragon_anticIndex]){
+            debug_dragonSingleton.moveDelayCounter += 100;
+        }
+
+        if((&(GTIA_READ.p0pf))[TEMP_player_anticIndex]){
+            playerEnt.playerEntity.transform.worldCoords = TEMP_lastPos;
+            
+        }
+        GTIA_WRITE.hitclr = 1; 
+    
         //process graphics
         // if (check_if_any_collision(cur_player)) {
         //     GTIA_WRITE.hitclr = 1;

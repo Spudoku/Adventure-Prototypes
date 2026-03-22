@@ -100,7 +100,7 @@ void pmgSilo_writeRefSprite(PMGPlayerSpriteSilo* silo, int8_t newY){
 
 void pmgSilo_setY(PMGPlayerSpriteSilo* silo, int8_t newY){
   
-  if(silo->header.cachedY == newY) return;
+  //if(silo->header.cachedY == newY) return;
   memset(silo->visibleBytes, 0, sizeof(silo->visibleBytes));
 
   pmgSilo_writeRefSprite(silo, newY);
