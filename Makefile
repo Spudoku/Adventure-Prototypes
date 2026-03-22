@@ -37,8 +37,8 @@ target = test.xex
 viceLabel = game.lbl
 
 engine = test.o entity.o util_input.o util.o
-graphics = gamemap.o gfx.o charmap.o displaylist.o
-entities = camera.o items.o player.o pmg.o
+graphics = gamemap.o gfx.o charmap.o displaylist.o pmg.o 
+entities = camera.o items.o player.o dragon.o
 objects = $(engine) $(graphics) $(entities)
 		  
 $(target) : $(objects)

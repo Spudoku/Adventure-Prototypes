@@ -15,9 +15,9 @@ void pmg_init(PMGInstance* pmgInstance){
   ANTIC.dmactl = 46;
     OS.sdmctl = 46;
     GTIA_WRITE.gractl = 3; // enable PMG
-    GTIA_WRITE.prior = 1; // set player priorty
+    OS.gprior = 1; // set player priorty
 
-  OS.pcolr0 = COLOR_YELLOW; //hardcode this for now
+  //OS.pcolr0 = COLOR_YELLOW; //hardcode this for now
 }
 
 void pmg_clear(){
@@ -42,6 +42,7 @@ uint8_t pmg_addPlayerSprite(Sprite* toAdd){
   while(i < 4){
     if(activePMGInstance->playerGFX[i].header.refsprite == NULL){
       activePMGInstance->playerGFX[i].header.refsprite = toAdd;
+      (&(OS.pcolr0))[i] = toAdd->color;
       return i;
     }
     i++;
@@ -82,13 +83,16 @@ void pmgSilo_writeRefSprite(PMGPlayerSpriteSilo* silo, int8_t newY){
 
   if((newY < 0) && (height + newY > 0)) {
     //partial visibility on top
-    memcpy(silo->visibleBytes, retrievedSprite->bitmap + (height + newY), (height + newY));
+    //printf("ok");
+    memcpy(silo->visibleBytes, retrievedSprite->bitmap - newY, (height + newY));
   } else if ((newY < sizeof(silo->visibleBytes)) && (height + newY) < sizeof(silo->visibleBytes)) {
     //complely visible, 0 < y < 96, and the height is the same
+    //printf("lol");
     memcpy((silo->visibleBytes + newY), retrievedSprite->bitmap, height);
   } else {
     //partial bottom occlusion
-    memcpy((silo->visibleBytes + newY), retrievedSprite->bitmap, (height + newY) - sizeof(silo->visibleBytes));
+    //printf("%d\n", newY -newY - sizeof(silo->visibleBytes))
+    memcpy((silo->visibleBytes + newY), retrievedSprite->bitmap, sizeof(silo->visibleBytes) - newY);
   }
 
   silo->header.cachedY = newY;
@@ -96,12 +100,12 @@ void pmgSilo_writeRefSprite(PMGPlayerSpriteSilo* silo, int8_t newY){
 
 void pmgSilo_setY(PMGPlayerSpriteSilo* silo, int8_t newY){
   
-  
+  if(silo->header.cachedY == newY) return;
   memset(silo->visibleBytes, 0, sizeof(silo->visibleBytes));
 
   pmgSilo_writeRefSprite(silo, newY);
   //memcpy the new y with bounds checking
-
+  
 }
 
 

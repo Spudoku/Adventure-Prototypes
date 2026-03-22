@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <string.h>
+#include <stdio.h>
 #include "sprite.h"
 #include <stdbool.h>
 #include "util_structs.h"
@@ -17,13 +18,13 @@ typedef struct DoubleLine_PMGPlayerSpriteSilo{
     int8_t cachedY;  //offset from top of visibleBytes, notice this is SIGNED
     uint8_t cachedX;
     uint8_t cachedHeight;
-    uint8_t unused[7];
+    uint8_t unused[7+4];
   } header;
 
   uint8_t visibleBytes[96];
 
   struct{
-    uint8_t unused[8];
+    uint8_t unused[16];
   } trailer;
 
 } PMGPlayerSpriteSilo;
@@ -33,14 +34,17 @@ typedef struct DoubleLine_PMGPlayerSpriteSilo{
 typedef struct DoubleLine_PMGInstance{
 
   // assuming double-line resolution
-  uint8_t player_horiz_positions[4];
-  uint8_t player_vert_positions[4];
+  // uint8_t player_horiz_positions[4];
+  // uint8_t player_vert_positions[4];
 
-  // sprite arrays
-  uint8_t player_sprites[4][16];
-  uint8_t unused[312];          // it appears we can use this area safely
-  uint8_t missiles_graphics[4][32];
+  // // sprite arrays
+  // uint8_t player_sprites[4][16];
+  // uint8_t unused[312];          // it appears we can use this area safely
+  // uint8_t missiles_graphics[4][32];
   // uint8_t player_graphics[4][128];
+
+
+  uint8_t unused[512];
   PMGPlayerSpriteSilo playerGFX[4];
 } PMGInstance;
 

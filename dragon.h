@@ -3,6 +3,10 @@
 
 #include "entity.h"
 #include "util.h"
+#include "pmg.h"
+#include "sprite.h"
+#include "camera.h"
+#include <stdio.h>
 
 #define D_ENT  ((DragonEntity*)(thisEntity->entityData))
 #define D_CHOMP_DELAY 16
@@ -32,15 +36,22 @@ typedef struct DragonEntity {
   unsigned int dragonChompCounter;
   
   
- 
+    PMGPlayerSpriteSilo *dragonSilo;
 } DragonEntity;
 
 
 //entity base funcs
-STATUS dragonRoutine(Entity* thisEntity);
+STATUS dragon_frameTask(Entity* thisEntity);
 STATUS dragonRenderer(Entity* thisEntity);
+void dragon_OnCollision(Entity* thisEntity, Entity* otherEntity);
 
+STATUS dragonConstructor(DragonEntity* instance);
 
+void trackEntity(DragonEntity* instance, Entity *toTrack);
 
+extern uint8_t TEMP_dragon_anticIndex;  
+extern DragonEntity debug_dragonSingleton;
+
+extern Sprite dragon_idle;
 
 #endif 

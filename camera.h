@@ -3,6 +3,7 @@
 
 #define DEFAULT_MARGIN 8
 
+#include <stdbool.h>
 #include "entity.h"
 #include "transform.h"
 #include "gfx.h"
@@ -49,7 +50,7 @@ extern Camera camera;
 
 STATUS cameraConstructor(Entity *toTrack);  //pass NULL to not track, will default to 0,0
 void setTrackedEntity(Entity *toTrack); //pass NULL to stop tracking
-STATUS objectVisible(Transform *toCheck); //determines if the transform would be visible in eyeSpace
+bool objectVisible(Transform *toCheck); //determines if the transform would be visible in eyeSpace
 void marginalTrack();
 
 STATUS ObjectInsideMargin(Transform *toCheck);

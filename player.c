@@ -15,7 +15,7 @@ uint8_t TEMP_player_anticIndex;
 PlayerEntity playerEnt = {
   {player_FrameTask, playerRenderer, player_OnCollide, (void *)&playerEnt, &nullItem, //entity
     
-    {{0,0}, {0,0}, {1,6},{6,6}}}, //entity.transform
+    {{0,0}, {0,0}, {0,0},{4,4}}}, //entity.transform
 
 
   {0,0}, 1, {NULL} // player specific vars

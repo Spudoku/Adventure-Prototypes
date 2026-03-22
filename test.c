@@ -11,7 +11,7 @@
 #include "color_pallete.h"
 #include "joystick_locations.h"
 //#include "player_missile.h"
-#include "screen_memory.h"
+//#include "screen_memory.h"
 #include "gamemap.h"
 #include "player.h"
 #include "util.h"
@@ -21,7 +21,7 @@
 #include <time.h>
 #include "camera.h"
 #include "pmg.h"
-
+#include "dragon.h"
 
 
 //legacy functions
@@ -67,33 +67,32 @@ int main() {
     InitializeEngine();
 
 
-    // set_player_horiz_position(0,SCREEN_HORIZ_CENTER,true);
-    // set_player_vert_position(0,SCREEN_VERT_CENTER,true);
+    //debugging
+    // pmgMainInstance.playerGFX[1].visibleBytes[95] = 0b10101010;
+    // GTIA_WRITE.hposp1 = 128;
+    //OS.pcolr1 = GTIA_COLOR_BLUE;
+    // pmgMainInstance.playerGFX[2].visibleBytes[95] = 0b10101010;
+    // GTIA_WRITE.hposp2 = 128+8;
+    //OS.pcolr2 = GTIA_COLOR_BLUE;
+    // pmgMainInstance.playerGFX[3].visibleBytes[95] = 0b10101010;
+    // GTIA_WRITE.hposp3 = 128+16;
+    //OS.pcolr3 = GTIA_COLOR_BLUE;
 
+    printf("sizeof test: %d\n", sizeof(pmgMainInstance.playerGFX->header));
 
     while (true) {
 
         
         //process gamestate
         ProcessFrameTasks();
-        //PRINT_VEC2(playerEnt.playerEntity._worldCoords)
-        //printf("aaa");
+        GTIA_WRITE.hitclr = 1;
         waitvsync();
-
+        camera.cameraEntity.renderer(&camera.cameraEntity);
 
         ProcessRendering();
-        //test render code assumes player never goes off screen
-        // GTIA_WRITE.hposp0 = playerEnt.playerEntity._eyeCoords.x 
-        //     + HPOSP_MIN + playerEnt.playerEntity._objectAnchorPoint.x;
-        
-        // map_relativeMove(dir);
-        // ADD_ASSIGN_VEC2(QuickAndDirtyCamera, dir)
 
-        // set_player_vert_position(cur_player,
-        //         playerEnt.playerEntity._eyeCoords.y + V_MIN - 
-        //             playerEnt.playerEntity._objectAnchorPoint.y ,true);
-    
-        
+        //printf("Player cachedy: %d\n", playerEnt.playerSilo->header.cachedY);
+
         //process graphics
         // if (check_if_any_collision(cur_player)) {
         //     GTIA_WRITE.hitclr = 1;
@@ -104,11 +103,9 @@ int main() {
         //     set_player_vert_position(cur_player,playerEnt.playerEntity.eyeCoords.y,true);
         // }
         
+        
     }
 }
-
-
-//todo: return and process STATUS?
 
 
 void InitializeEngine(){
@@ -127,11 +124,15 @@ void InitializeEngine(){
 
 
 void InitializeStaticEntities(){
-    test_player1();
+ 
+    playerConstructor();
+    dragonConstructor(&debug_dragonSingleton);
+    trackEntity(&debug_dragonSingleton, &playerEnt.playerEntity);
 
     
-    playerConstructor();
-    
+    //debug turn player into dragon
+    //playerEnt.playerSilo->header.refsprite = &dragon_idle;
+
     //debug manual assign for now
     playerEnt.playerEntity._worldCoords.x = SCR_RES_X/2;
     playerEnt.playerEntity._worldCoords.y = SCR_RES_Y/2;
@@ -145,17 +146,16 @@ void InitializeStaticEntities(){
 void ProcessFrameTasks(){
     playerEnt.playerEntity.frameTask(&(playerEnt.playerEntity));
 
-    
+    debug_dragonSingleton.myEntity.frameTask(&(debug_dragonSingleton.myEntity));
     //debug_autoMove(&(playerEnt.playerEntity.transform));
-
-
+    
     camera.cameraEntity.frameTask(&(camera.cameraEntity));
 }
 
 void ProcessRendering(){
-    camera.cameraEntity.renderer(&camera.cameraEntity);
+    
     playerEnt.playerEntity.renderer(&(playerEnt.playerEntity));
-
+    debug_dragonSingleton.myEntity.renderer(&(debug_dragonSingleton.myEntity));
 
 
     
@@ -175,36 +175,36 @@ void edit_colors() {
 }
 
 
-void test_player1() {
-    // I will write a helper function in player_missile.h
-    player_sprites[0][0] =  0b00000000;
-    player_sprites[0][1] =  0b00000000;
-    player_sprites[0][2] =  0b00000000;
-    player_sprites[0][3] =  0b00000000;
-    player_sprites[0][4] =  0b00000000;
-    player_sprites[0][5] =  0b00111100;
-    player_sprites[0][6] =  0b01111110;
-    player_sprites[0][7] =  0b01111110;
-    player_sprites[0][8] =  0b01111110;
-    player_sprites[0][9] =  0b01111110;
-    player_sprites[0][10] = 0b00111100;
-    player_sprites[0][11] = 0b00000000;
-    player_sprites[0][12] = 0b00000000;
-    player_sprites[0][13] = 0b00000000;
-    player_sprites[0][14] = 0b00000000;
-    player_sprites[0][15] = 0b00000000;
+// void test_player1() {
+//     // I will write a helper function in player_missile.h
+//     player_sprites[0][0] =  0b00000000;
+//     player_sprites[0][1] =  0b00000000;
+//     player_sprites[0][2] =  0b00000000;
+//     player_sprites[0][3] =  0b00000000;
+//     player_sprites[0][4] =  0b00000000;
+//     player_sprites[0][5] =  0b00111100;
+//     player_sprites[0][6] =  0b01111110;
+//     player_sprites[0][7] =  0b01111110;
+//     player_sprites[0][8] =  0b01111110;
+//     player_sprites[0][9] =  0b01111110;
+//     player_sprites[0][10] = 0b00111100;
+//     player_sprites[0][11] = 0b00000000;
+//     player_sprites[0][12] = 0b00000000;
+//     player_sprites[0][13] = 0b00000000;
+//     player_sprites[0][14] = 0b00000000;
+//     player_sprites[0][15] = 0b00000000;
   
-    // set_player_vert_position(0,64,true);
+//     // set_player_vert_position(0,64,true);
 
-    player_sprites[1][0] = 0xFA;
-    player_sprites[1][1] = 0xF1;
-    player_sprites[1][2] = 0xF1;
-    player_sprites[1][3] = 0xFA;
-    player_sprites[1][4] = 0xFA;
-    player_sprites[1][5] = 0xFA;
-    player_sprites[1][6] = 0xFA;
-    player_sprites[1][7] = 0xFA;
-}
+//     player_sprites[1][0] = 0xFA;
+//     player_sprites[1][1] = 0xF1;
+//     player_sprites[1][2] = 0xF1;
+//     player_sprites[1][3] = 0xFA;
+//     player_sprites[1][4] = 0xFA;
+//     player_sprites[1][5] = 0xFA;
+//     player_sprites[1][6] = 0xFA;
+//     player_sprites[1][7] = 0xFA;
+// }
 
 // checks if a player collides with any bit other than 0 in playfield
 bool check_if_any_collision(unsigned char playerID) {
