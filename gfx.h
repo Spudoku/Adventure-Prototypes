@@ -44,8 +44,8 @@ typedef struct MapData{
   Vector2 coarseOffset;
 } MapData;
 
-extern PMGInstance pmgInstance; //in the future this will be a changable ptr
+extern PMGInstance pmgMainInstance; //in the future this will be a changable ptr
 
-void gfx_WritePMSprite(Vector2 newLocation, PMSprite* spriteData);
+//void gfx_WritePMSprite(Vector2 newLocation, Sprite* spriteData);
 
 #endif

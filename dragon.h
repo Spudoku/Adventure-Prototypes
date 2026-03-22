@@ -16,6 +16,9 @@
 #define D_STATE_CHOMP 2
 #define D_STATE_REST  0   //clr flag
 
+//symbolic link, alias
+#define _target childEntity
+
 typedef struct DragonEntity {
   Entity myEntity;  //dragon entity
 

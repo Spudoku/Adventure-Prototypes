@@ -3,15 +3,29 @@
 
 #include <atari.h>
 
+//using antic mode 2 here, 20x12 char map. double line mode
 
-//using antic mode 2 here, 20x12 char map.
+//if adjusting the blank line header, please adjust this define value
+//TODO: if it turns out cc65 doesn't precompute the result at compile time
+//then we will have to do it manually. check
+#define DOUBLE_LINE_C 2 
+#define SINGLE_LINE_C 1
+
+#define DL_INVIS_TOP_LINES 24
+#define DL_INVIS_TOP_BYTES DL_INVIS_TOP_LINES / DOUBLE_LINE_C
+
+#define DL_LASTVISIBLE_BYTE DL_INVIS_TOP_BYTES 
+
+
+
+
+
 //each char being 8x8 pixels, rendered as 8 color cycles by 16 lines
 //where a color cycle is ROUGHLY the same length as two lines
 
 
 //it helps to think of coarse scrolling as how many whole chars are needed to
 //move
-
 
 
 //1 HSCROL unit per pixel in this antic mode
@@ -46,6 +60,8 @@
 
 
 #define Y_PIXEL_TO_COARSE(y) (y >> COARSE_SCROLL_IGNORABLE_BITS)
+
+
 
 
 //for now lets hardcode the length

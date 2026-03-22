@@ -9,6 +9,7 @@
 #include <stdio.h>
 
 Vector2 worldCoordPlayerView;
+uint8_t TEMP_player_anticIndex;
 
 //initializer list to allow compile time assign/construct
 PlayerEntity playerEnt = {
@@ -17,7 +18,7 @@ PlayerEntity playerEnt = {
     {{0,0}, {0,0}, {1,6},{6,6}}}, //entity.transform
 
 
-  {0,0}, 1 // player specific vars
+  {0,0}, 1, {NULL} // player specific vars
     
 
   
@@ -42,6 +43,15 @@ STATUS playerRenderer(Entity* thisEntity) {
 
   thisEntity->_eyeCoords = convertToEyeCoords(thisEntity->_worldCoords);
   //incomplete
+
+  //generally dont need a bounds check, player is always in frame
+
+  (&(GTIA_WRITE.hposp0))[TEMP_player_anticIndex] = playerEnt.playerEntity._eyeCoords.x 
+            + HPOSP_MIN + playerEnt.playerEntity._objectAnchorPoint.x;
+  
+  //printf("%d\n",(&(GTIA_WRITE.hposp0))[TEMP_player_anticIndex] );
+  pmgSilo_setY(playerEnt.playerSilo, thisEntity->_eyeCoords.y);
+
 
   return UNDEFINED;
 }
@@ -104,6 +114,7 @@ void player_OnCollide(Entity* thisEntity, Entity* otherEntity){
 
 //init the player specific vars
 STATUS playerConstructor(){
+  uint8_t pmg_index;
   // playerEnt.playerSpeed = 1;
   // playerEnt.playerVelocity.x = 0;
   // playerEnt.playerVelocity.y = 0;
@@ -120,5 +131,29 @@ STATUS playerConstructor(){
   // //boot sequence
   // nullItem_constructor(&nullItem);  
 
+
+
+  pmg_index = pmg_addPlayerSprite(&playerSprite);
+
+  if(pmg_index < 4){
+    //schedulerData.antic_P2PCollisionLookupTable[pmg_index] = (Entity *)&playerEnt;
+    //schedulerData.antic_P2PCollisionLookupMask |= (1 << pmg_index);
+    playerEnt.playerSilo = activePMGInstance->playerGFX + pmg_index;
+    TEMP_player_anticIndex = pmg_index;
+  }
+  printf("Player antic index: %d\n", TEMP_player_anticIndex);
+
+  //printf("Address: %d\n", %d)
   return PASS;
 }
+uint8_t playerSpriteBitmap[] ={
+  0b11110000,
+  0b11110000,
+  0b11110000,
+  0b11110000,
+};
+
+Sprite playerSprite = {sizeof(playerSpriteBitmap),GTIA_COLOR_YELLOW,playerSpriteBitmap};
+
+
+

@@ -2,13 +2,24 @@
 #define SPRITE_H_
 
 #include <stdint.h>
+#include <atari.h>
 
-typedef struct PMGSprite{
-  uint8_t height;
-  uint8_t cachedY;
-  uint8_t color;
-  uint8_t* spriteSilo;  //the corresponding entry in a pmg instance
+typedef struct SingleColor_Sprite{
+  uint8_t height; //height in bytes
+  uint8_t color;  //base color of the sprite in GTIA color
   uint8_t* bitmap;
-} PMGSprite;
+} Sprite;
+
+
+//sprite instance example
+
+// Sprite foo = {sizeof(fooSpriteRawBytes), GTIA_COLOR_CYAN, fooSpriteRawBytes};
+// uint8_t fooSpriteRawBytes[] = {
+//   0b11111111,
+//   0b11111111,
+//   0b11111111,
+//   0b11111111
+// };
+
 
 #endif

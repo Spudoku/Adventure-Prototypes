@@ -32,6 +32,7 @@ void scheduler_DispatchPlayerCollisions(){
   
 
   //0 case specific bits
+  //NOTE: ASSUMES THERE IS A PLAYER
   switch(GTIA_READ.p0pf & schedulerData.antic_P2PCollisionLookupMask){ //assumes that bit 0 is always 0
 
       case 0b00000000:  //most likely bit to be triggered
@@ -113,7 +114,8 @@ void scheduler_DispatchPlayerCollisions(){
         break;  //weird match (>15)
     }
 
-      
+      //bitshift
+    dynMask <<= 1;
 
 
   }

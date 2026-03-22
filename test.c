@@ -10,7 +10,7 @@
 #include "charmap.h"
 #include "color_pallete.h"
 #include "joystick_locations.h"
-#include "player_missile.h"
+//#include "player_missile.h"
 #include "screen_memory.h"
 #include "gamemap.h"
 #include "player.h"
@@ -20,7 +20,7 @@
 #include "gfx.h"
 #include <time.h>
 #include "camera.h"
-
+#include "pmg.h"
 
 
 
@@ -36,6 +36,7 @@ unsigned int cur_player = 0;
 void InitializeEngine();
 void InitializeStaticEntities();
 void ProcessFrameTasks();
+void ProcessRendering();
 
 
 //temp debug utils
@@ -79,16 +80,18 @@ int main() {
         //printf("aaa");
         waitvsync();
 
+
+        ProcessRendering();
         //test render code assumes player never goes off screen
-        GTIA_WRITE.hposp0 = playerEnt.playerEntity._eyeCoords.x 
-            + HPOSP_MIN + playerEnt.playerEntity._objectAnchorPoint.x;
-        camera.cameraEntity.renderer(&camera.cameraEntity);
+        // GTIA_WRITE.hposp0 = playerEnt.playerEntity._eyeCoords.x 
+        //     + HPOSP_MIN + playerEnt.playerEntity._objectAnchorPoint.x;
+        
         // map_relativeMove(dir);
         // ADD_ASSIGN_VEC2(QuickAndDirtyCamera, dir)
 
-        set_player_vert_position(cur_player,
-                playerEnt.playerEntity._eyeCoords.y + V_MIN - 
-                    playerEnt.playerEntity._objectAnchorPoint.y ,true);
+        // set_player_vert_position(cur_player,
+        //         playerEnt.playerEntity._eyeCoords.y + V_MIN - 
+        //             playerEnt.playerEntity._objectAnchorPoint.y ,true);
     
         
         //process graphics
@@ -107,6 +110,7 @@ int main() {
 
 //todo: return and process STATUS?
 
+
 void InitializeEngine(){
     
 
@@ -114,7 +118,9 @@ void InitializeEngine(){
     InitDisplayList();
     init_charset();
     edit_colors();
-    setup_pmg();
+
+    printf("Initalizing PMG...\n");
+    pmg_init(&pmgMainInstance);
 
     InitializeStaticEntities();     
 }
@@ -145,6 +151,15 @@ void ProcessFrameTasks(){
 
     camera.cameraEntity.frameTask(&(camera.cameraEntity));
 }
+
+void ProcessRendering(){
+    camera.cameraEntity.renderer(&camera.cameraEntity);
+    playerEnt.playerEntity.renderer(&(playerEnt.playerEntity));
+
+
+
+    
+};
 
 
 //WARNING: Use only on one object at a time!
