@@ -6,7 +6,7 @@ MapData mapData;
 
 Vector2 offsetHopper;
 
-
+//align the main instance to the nearest 1kb
 #pragma bss-name (push, "PMGAREA")
 PMGInstance pmgMainInstance;
 #pragma bss-name (pop)
@@ -79,8 +79,6 @@ void map_relativeMove(Vector2 relativePosition){
     
 }
 
-//TODO: map_fastAbsoluteMove that is mostly just relative move but without the
-//delta
 
 void map_fastAbsoluteMove(Vector2 absolutePosition){
     char dirty = 0;
@@ -160,6 +158,14 @@ void map_fastAbsoluteMove(Vector2 absolutePosition){
 }
 
 
-// void gfx_WritePMSprite(Vector2 newLocation, PMGSprite* spriteData){
+void gfx_Init() {
+    dl_Init();
+    charset_Init();
+    pmg_Init(&pmgMainInstance);
 
-// }
+
+    //TEMP: force set playfield colors
+    OS.color4 = GTIA_COLOR_GRAY3;   //BG
+    OS.color0 = GTIA_COLOR_LIGHTGREEN;
+
+}

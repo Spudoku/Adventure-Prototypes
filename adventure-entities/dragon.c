@@ -10,9 +10,7 @@ DragonEntity  debug_dragonSingleton = {
 STATUS dragon_frameTask(Entity* thisEntity) {
   Vector2 distanceToDragon;
 
-  if((&(GTIA_READ.p0pl))[TEMP_dragon_anticIndex]){
-    D_ENT->moveDelayCounter += 100;
-  }
+
   //calculate state
  
   //XOR (my beloved) to flipflop toggle
@@ -147,7 +145,7 @@ Sprite dragon_idle = {
 };
 
 //some temp code here to bruteforce pmg
-STATUS dragonConstructor(DragonEntity* instance){
+STATUS dragon_Init(DragonEntity* instance){
   uint8_t pmg_index;
   pmg_index = pmg_addPlayerSprite(&dragon_idle);
 
@@ -164,7 +162,7 @@ STATUS dragonConstructor(DragonEntity* instance){
 }
 
 //quick and dirty track
-void trackEntity(DragonEntity* instance, Entity *toTrack){
+void dragon_TrackEntity(DragonEntity* instance, Entity *toTrack){
   instance->myEntity.childEntity = toTrack;
 }
 

@@ -3,16 +3,16 @@
 
 #include <atari.h>
 #include <stdlib.h>
+
+#include "antic-gtia/charmap.h"
+#include "antic-gtia/displaylist.h"
+#include "antic-gtia/pmg.h"
+
+#include "util/sprite.h"
+#include "util/util_structs.h"
+
 #include "gamemap.h"  //TODO: rename this to gamemap data (or similar?
-#include "displaylist.h"
-#include "util_structs.h"
-#include "charmap.h"
-#include "sprite.h"
-#include "pmg.h"
 
-
-
-//#define UPDATE_SCROL_REGS(pixel_x,pixel_y)      \
 
 
 #define SCR_RES_X 160
@@ -46,6 +46,6 @@ typedef struct MapData{
 
 extern PMGInstance pmgMainInstance; //in the future this will be a changable ptr
 
-//void gfx_WritePMSprite(Vector2 newLocation, Sprite* spriteData);
+void gfx_Init();
 
 #endif

@@ -8,8 +8,8 @@
 
 //keep in mind, these may require NULL checks
 
-#include "util_structs.h"
-#include "transform.h"
+#include "util/util_structs.h"
+#include "util/transform.h"
 #include <stddef.h>
 
 

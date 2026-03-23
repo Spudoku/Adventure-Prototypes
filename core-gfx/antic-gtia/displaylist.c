@@ -48,7 +48,7 @@ char DisplayList[] = {
 };
 #pragma data-name (pop)
 
-void InitDisplayList(){
+void dl_Init(){
     *(unsigned int *)&DisplayList[sizeof(DisplayList) - 2] 
           = (unsigned int)DisplayList;
 

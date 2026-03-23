@@ -1,6 +1,6 @@
 #include "charmap.h"
 
-void init_charset() {
+void charset_Init() {
     IntToTwoChar charsetAddress;
     charsetAddress.integer = (unsigned int)charset; //get highbyte from addr
     OS.chbas = charsetAddress.bytes[1]; //set high byte to CHBASE register

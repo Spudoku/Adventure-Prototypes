@@ -1,15 +1,20 @@
 #ifndef PLAYER_H_
 #define PLAYER_H_
 
-#include "util.h"
-#include "util_structs.h"
-#include "entity.h"
-#include "camera.h"
 #include <stdint.h>
-#include "sprite.h"
-#include "pmg.h"
-//#include "scheduler.h"
 #include <joystick.h>
+
+#include "util/util.h"
+#include "util/util_structs.h"
+#include "util/sprite.h"
+#include "util/util_input.h"
+
+#include "core-support/entity.h"
+#include "core-support/camera.h"
+#include "items/items.h"
+
+#include "../core-gfx/antic-gtia/pmg.h"
+
 
 //player will probably end up being effectively a singleton here
 
@@ -21,6 +26,7 @@ typedef struct PlayerEntity {
   Vector2 playerVelocity;
   int playerSpeed;  //may consider making this an unsigned char
   PMGPlayerSpriteSilo *playerSilo;
+  Vector2 player_LastPos;
 } PlayerEntity;
 
 

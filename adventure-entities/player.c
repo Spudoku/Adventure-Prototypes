@@ -1,12 +1,4 @@
-#include "util.h"
-#include "util_structs.h"
-// #include "entity.h"
 #include "player.h"
-#include "util_input.h"
-#include <joystick.h>
-#include "items.h"
-
-#include <stdio.h>
 
 Vector2 worldCoordPlayerView;
 uint8_t TEMP_player_anticIndex;
@@ -18,7 +10,7 @@ PlayerEntity playerEnt = {
     {{0,0}, {0,0}, {0,0},{4,4}}}, //entity.transform
 
 
-  {0,0}, 1, {NULL} // player specific vars
+  {0,0}, 1, {NULL}, {0,0} // player specific vars
     
 
   
@@ -62,7 +54,7 @@ unsigned char lastFrameState;
 //Assumes the proper driver is loaded!!
 STATUS playerInputProcess(){
 
-
+  playerEnt.player_LastPos = playerEnt.playerEntity._worldCoords;
   lastFrameState = joystickState;
   //read the joystick data
   joystickState = joy_read(JOY_1);
@@ -106,9 +98,10 @@ STATUS playerInputProcess(){
   return PASS;
 }
 
+//Presently only sets worldcoord back when called
+//May need more grandular checks later...
 void player_OnCollide(Entity* thisEntity, Entity* otherEntity){
-  //currently, do nothing
-
+  playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
   return;
 }
 
