@@ -1,8 +1,8 @@
 #ifndef ITEMS_H_
 #define ITEMS_H_
 
-#include "entity.h"
-#include "sound.h"
+#include "core-support/entity.h"
+#include "../../core/sound.h"
 #include <stddef.h>
 
 //item repo

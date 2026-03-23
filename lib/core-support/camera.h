@@ -5,8 +5,8 @@
 
 #include <stdbool.h>
 #include "entity.h"
-#include "transform.h"
-#include "gfx.h"
+#include "util/transform.h"
+#include "../../core-gfx/gfx.h"
 
 //macros to make life easier
 #define _TrackedObject cameraEntity.childEntity

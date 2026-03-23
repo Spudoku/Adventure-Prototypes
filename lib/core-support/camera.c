@@ -65,11 +65,11 @@ bool objectVisible(Transform *toCheck){
 
   //checking if the right side of it is visible
 
-  if(toCheck->eyeCoords.x + toCheck->objectBounds.x < 0){
+  if(toCheck->eyeCoords.x + toCheck->objectBounds.x < 1){
     return false;
   }
 
-  if(toCheck->eyeCoords.y + toCheck->objectBounds.y < 0) {
+  if(toCheck->eyeCoords.y + toCheck->objectBounds.y < 1) {
     return false;
   }
 

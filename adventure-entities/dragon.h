@@ -1,12 +1,14 @@
 #ifndef DRAGON_H_
 #define DRAGON_H_
 
-#include "entity.h"
-#include "util.h"
-#include "pmg.h"
-#include "sprite.h"
-#include "camera.h"
 #include <stdio.h>
+
+#include "core-support/entity.h"
+#include "core-support/camera.h"
+#include "../core-gfx/antic-gtia/pmg.h"
+
+#include "util/sprite.h"
+#include "util/util.h"
 
 #define D_ENT  ((DragonEntity*)(thisEntity->entityData))
 #define D_CHOMP_DELAY 16
@@ -45,9 +47,9 @@ STATUS dragon_frameTask(Entity* thisEntity);
 STATUS dragonRenderer(Entity* thisEntity);
 void dragon_OnCollision(Entity* thisEntity, Entity* otherEntity);
 
-STATUS dragonConstructor(DragonEntity* instance);
+STATUS dragon_Init(DragonEntity* instance);
 
-void trackEntity(DragonEntity* instance, Entity *toTrack);
+void dragon_TrackEntity(DragonEntity* instance, Entity *toTrack);
 
 extern uint8_t TEMP_dragon_anticIndex;  
 extern DragonEntity debug_dragonSingleton;

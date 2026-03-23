@@ -4,7 +4,7 @@
 
 #these may need to detect windows or linux and adjust accordingly
 ifeq ($(CC65_INC),)
-	CC65_INC=/usr/share/cc65/include
+	CC65_INC=/usr/share/cc65/include 
 endif
 ifeq ($(CA65_INC),)
 	CA65_INC=/usr/share/cc65/asminc
@@ -31,15 +31,16 @@ TOUCH=touch
 AFLAGS=-I $(CA65_INC) --debug-info -t $(SYS) -D $(BUILD)
 
 # Flags for C-code compiler
-CFLAGS=-I ./includes -t $(SYS) --add-source -g -D $(BUILD)
+CFLAGS=-I ./lib -t $(SYS) --add-source -g -D $(BUILD)
 
 target = test.xex
 viceLabel = game.lbl
 
-engine = main.o entity.o util_input.o util.o sound.o
-graphics = gamemap.o gfx.o charmap.o displaylist.o pmg.o 
-entities = camera.o items.o player.o dragon.o 
-objects = $(engine) $(graphics) $(entities)
+engine = main.o lib/core-support/entity.o lib/util/util.o core/engine.o lib/core-support/camera.o
+graphics = core-gfx/gamemap.o core-gfx/antic-gtia/charmap.o core-gfx/gfx.o
+atariapi	= core-gfx/antic-gtia/displaylist.o core-gfx/antic-gtia/pmg.o core/sound.o 
+entities = adventure-entities/items/items.o adventure-entities/player.o adventure-entities/dragon.o 
+objects = $(engine) $(graphics) $(entities) $(atariapi)
 		  
 $(target) : $(objects)
 	$(CL) -t $(SYS) -Ln test.lbl -Wl --dbgfile,test.dbg -C atari_modifed.cfg -o $@ $(objects) 

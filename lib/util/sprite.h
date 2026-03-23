@@ -13,13 +13,12 @@ typedef struct SingleColor_Sprite{
 
 //sprite instance example
 
-// Sprite foo = {sizeof(fooSpriteRawBytes), GTIA_COLOR_CYAN, fooSpriteRawBytes};
 // uint8_t fooSpriteRawBytes[] = {
-//   0b11111111,
-//   0b11111111,
-//   0b11111111,
-//   0b11111111
-// };
-
+  //   0b11111111,
+  //   0b11111111,
+  //   0b11111111,
+  //   0b11111111
+  // };  
+// Sprite foo = {sizeof(fooSpriteRawBytes), GTIA_COLOR_CYAN, fooSpriteRawBytes};
 
 #endif

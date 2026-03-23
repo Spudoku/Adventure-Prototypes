@@ -1,6 +1,4 @@
 #include "items.h"
-#include "player.h"
-#include "sound.h"
 
 unsigned int buzz_test_interval = 60;
 unsigned int buzz_test_counter = 0;

@@ -4,10 +4,10 @@
 #include <stdint.h>
 #include <string.h>
 #include <stdio.h>
-#include "sprite.h"
 #include <stdbool.h>
-#include "util_structs.h"
 
+#include "util/sprite.h"
+#include "util/util_structs.h"
 
 
 
@@ -16,9 +16,9 @@ typedef struct DoubleLine_PMGPlayerSpriteSilo{
   struct {
     Sprite* refsprite;
     int8_t cachedY;  //offset from top of visibleBytes, notice this is SIGNED
-    uint8_t cachedX;
-    uint8_t cachedHeight;
-    uint8_t unused[7+4];
+    uint8_t cachedX;  //future use: caches the value that would be in the hpos
+    uint8_t cachedHeight; //future use: save cycles by reducing indirection
+    uint8_t unused[11];
   } header;
 
   uint8_t visibleBytes[96];
@@ -55,7 +55,7 @@ typedef struct DoubleLine_PMGInstance{
 extern PMGInstance* activePMGInstance; 
 
 
-void pmg_init(PMGInstance* pmgInstance);
+void pmg_Init(PMGInstance* pmgInstance);
 // void pmg_updateActiveInstance();
 void pmg_clear();
 

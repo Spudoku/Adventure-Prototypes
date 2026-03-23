@@ -67,6 +67,6 @@
 //for now lets hardcode the length
 extern char DisplayList[42];
 
-void InitDisplayList();
+void dl_Init();
 
 #endif

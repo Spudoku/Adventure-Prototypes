@@ -2,13 +2,15 @@
 
 PMGInstance* activePMGInstance; 
 
-void pmg_init(PMGInstance* pmgInstance){
+void pmg_Init(PMGInstance* pmgInstance){
   IntToTwoChar convert;
   activePMGInstance = pmgInstance;
   pmg_clear();
 
     
   convert.integer = (unsigned int)activePMGInstance;
+
+  printf("PMbase highbyte: %d\n", convert.bytes[1]);
   ANTIC.pmbase = convert.bytes[1];
 
 
@@ -80,6 +82,7 @@ void pmgSilo_writeRefSprite(PMGPlayerSpriteSilo* silo, int8_t newY){
   retrievedSprite = silo->header.refsprite;
   if(retrievedSprite == NULL) return; //could be a clear flag
   height = retrievedSprite->height;
+
 
   if((newY < 0) && (height + newY > 0)) {
     //partial visibility on top
