@@ -111,7 +111,7 @@ uint8_t dragon_chompingBitmap[] = {
 };
 Sprite dragon_chomping = {
   sizeof(dragon_chompingBitmap), 
-  GTIA_COLOR_RED, 
+  GTIA_COLOR_LIGHTRED, 
   dragon_chompingBitmap
 };
 
@@ -140,7 +140,7 @@ uint8_t dragon_idleBitmap[] = {
 };
 Sprite dragon_idle = {
   sizeof(dragon_idleBitmap),
-  GTIA_COLOR_RED,
+  GTIA_COLOR_LIGHTRED,
   dragon_idleBitmap
 };
 

@@ -1,7 +1,7 @@
 #ifndef CAMERA_H_
 #define CAMERA_H_
 
-#define DEFAULT_MARGIN 8
+#define DEFAULT_MARGIN 32
 
 #include <stdbool.h>
 #include "entity.h"
