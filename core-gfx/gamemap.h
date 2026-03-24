@@ -1,8 +1,8 @@
 #ifndef GAME_MAP_H
 #define GAME_MAP_H
 
-#define MAP_LENGTH_BYTES 40
-#define MAP_HEIGHT_BYTES 24
+#define MAP_LENGTH_BYTES 120
+#define MAP_HEIGHT_BYTES 144
 
 
 extern unsigned char gameMap[MAP_HEIGHT_BYTES][MAP_LENGTH_BYTES];

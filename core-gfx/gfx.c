@@ -167,5 +167,8 @@ void gfx_Init() {
     //TEMP: force set playfield colors
     OS.color4 = GTIA_COLOR_GRAY3;   //BG
     OS.color0 = GTIA_COLOR_LIGHTGREEN;
+    OS.color1 = GTIA_COLOR_YELLOW;
+    OS.color2 = GTIA_COLOR_BLUE;
+    OS.color3 = GTIA_COLOR_BLACK;
 
 }

@@ -2,7 +2,7 @@
 
 DragonEntity  debug_dragonSingleton = {
   {dragon_frameTask, dragonRenderer, dragon_OnCollision, (void *)&debug_dragonSingleton, (Entity*)NULL,//entity
-    {{0,0}, {0,0}, {0,0},{8,20}}},//entity.transform
+    {{624, 560}, {0,0}, {0,0},{8,20}}},//entity.transform
     0,1,D_MOVE_DELAY,D_CHOMP_DELAY, NULL
 };
 
@@ -19,7 +19,7 @@ STATUS dragon_frameTask(Entity* thisEntity) {
 
   //sets to true when move delay is 0. NOT A TOGGLE
   COND_SET_BIT(((D_ENT->moveDelayCounter)-- < 1), D_STATE_MOVE, D_ENT->flags)
-      
+  
 
   if(D_ENT->dragonChompCounter-- < 1){  
     D_ENT->dragonChompCounter = D_CHOMP_DELAY;
@@ -47,6 +47,7 @@ STATUS dragon_frameTask(Entity* thisEntity) {
     return PASS;
   }
 
+  
   //now we're in range
 
   //calculate the new x
@@ -157,6 +158,8 @@ STATUS dragon_Init(DragonEntity* instance){
   }
   printf("Dragon debug antic index: %d\n", TEMP_dragon_anticIndex);
 
+  instance->myEntity._worldCoords.x = 400;
+  instance->myEntity._worldCoords.y = 560;
   //printf("Address: %d\n", %d)
   return PASS;
 }

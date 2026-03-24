@@ -17,8 +17,8 @@ void engine_InitSingletons(){
 
     
     //debug manual assign for now
-    playerEnt.playerEntity._worldCoords.x = SCR_RES_X/2;
-    playerEnt.playerEntity._worldCoords.y = SCR_RES_Y/2;
+    playerEnt.playerEntity._worldCoords.x = 624;
+    playerEnt.playerEntity._worldCoords.y = 560;
     
     cameraConstructor(&playerEnt.playerEntity);
 
@@ -54,9 +54,17 @@ void engine_EventDispatcher(){
       debug_dragonSingleton.moveDelayCounter += 100;
   }
 
-  if((&(GTIA_READ.p0pf))[TEMP_player_anticIndex]){
-      player_OnCollide(&playerEnt.playerEntity, NULL);
+  switch((&(GTIA_READ.p0pf))[TEMP_player_anticIndex]){
+    case 0:
+        break;
+    case 8: //only the trigger color is activated
+        orb_singleton.entity.OnCollision(NULL, NULL);
+        break;
+    default:
+        player_OnCollide(&playerEnt.playerEntity, NULL);
+        break;
   }
+
   GTIA_WRITE.hitclr = 1; 
         
 };

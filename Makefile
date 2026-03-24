@@ -40,7 +40,8 @@ engine = main.o lib/core-support/entity.o lib/util/util.o core/engine.o lib/core
 graphics = core-gfx/gamemap.o core-gfx/antic-gtia/charmap.o core-gfx/gfx.o
 atariapi	= core-gfx/antic-gtia/displaylist.o core-gfx/antic-gtia/pmg.o core/sound.o 
 entities = adventure-entities/items/items.o adventure-entities/player.o adventure-entities/dragon.o 
-objects = $(engine) $(graphics) $(entities) $(atariapi)
+mapEntities = adventure-entities/map-interactables/orb.o
+objects = $(engine) $(graphics) $(entities) $(atariapi) $(mapEntities)
 		  
 $(target) : $(objects)
 	$(CL) -t $(SYS) -Ln test.lbl -Wl --dbgfile,test.dbg -C atari_modifed.cfg -o $@ $(objects) 
