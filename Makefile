@@ -2,13 +2,26 @@
 #https://github.com/AtariLynx/programming-tutorial/blob/main/helloworld/Makefile
 
 
-#these may need to detect windows or linux and adjust accordingly
-ifeq ($(CC65_INC),)
-	CC65_INC=/usr/share/cc65/include 
+# Detect Operating System
+ifeq ($(OS),Windows_NT)
+    # Windows Settings
+    RM = del /Q /F
+    CP = copy /Y
+    # Fix paths to use backslashes if necessary, 
+    # though cc65 usually handles forward slashes fine.
+    CC65_INC ?= C:/cc65/include
+    CA65_INC ?= C:/cc65/asminc
+    # Use a dummy touch for Windows or skip it
+    TOUCH = type nul >
+else
+    # Linux/macOS Settings
+    RM = rm -f
+    CP = cp
+    CC65_INC ?= /usr/share/cc65/include
+    CA65_INC ?= /usr/share/cc65/asminc
+    TOUCH = touch
 endif
-ifeq ($(CA65_INC),)
-	CA65_INC=/usr/share/cc65/asminc
-endif
+
 ifeq ($(BUILD),)
 	BUILD=debug
 endif
@@ -21,7 +34,14 @@ AS=ca65
 AR=ar65
 CL=cl65
 CP=cp
-RM=rm -f
+
+ifeq ($(OS),Windows_NT)
+RM = del /Q /F
+else 
+# linux setting
+RM = rm -f
+endif
+
 ECHO=echo
 TOUCH=touch
 
@@ -50,7 +70,12 @@ $(target) : $(objects)
 %.o: %.c
 	$(CC) $(CFLAGS) -o $(*).s $<
 	$(AS) -o $@ $(AFLAGS) $(*).s
+ifeq ($(OS),Windows_NT)
+	-$(RM) $(subst /,\,$*.s)
+else
 	$(RM) $*.s
+endif
+
 
 # Rule for making a *.o file out of a *.s or *.asm file
 %.o: %.s
