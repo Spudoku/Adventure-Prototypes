@@ -14,3 +14,4 @@ map.txt
 .vscode/c_cpp_properties.json
 .vscode/
 *.lbl
+*.s

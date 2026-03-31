@@ -18,7 +18,7 @@ int main() {
     //for some reason this makes the top line bug out when x is negative
     //A PRINT IS EXPENSIVE 
     freopen("P1:", "w", stdout);
-    //printf("hi!\n");
+    printf("hi!\n");
 
     
     engine_Boot();

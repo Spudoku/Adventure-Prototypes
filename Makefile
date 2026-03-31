@@ -53,7 +53,7 @@ AFLAGS=-I $(CA65_INC) --debug-info -t $(SYS) -D $(BUILD)
 # Flags for C-code compiler
 CFLAGS=-I ./lib -t $(SYS) --add-source -g -D $(BUILD)
 
-target = test.xex
+target = dummy.xex
 viceLabel = game.lbl
 
 engine = main.o lib/core-support/entity.o lib/util/util.o core/engine.o lib/core-support/camera.o
@@ -71,7 +71,7 @@ $(target) : $(objects)
 	$(CC) $(CFLAGS) -o $(*).s $<
 	$(AS) -o $@ $(AFLAGS) $(*).s
 ifeq ($(OS),Windows_NT)
-	-$(RM) $(subst /,\,$*.s)
+	$(RM) $(subst /,\,$*.s)
 else
 	$(RM) $*.s
 endif
