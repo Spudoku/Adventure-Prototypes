@@ -2,6 +2,8 @@
 
 bool vertMovement = true;
 
+unsigned int DmoveDelayCounter;
+
 DragonEntity  debug_dragonSingleton = {
   {dragon_frameTask, dragonRenderer, dragon_OnCollision, (void *)&debug_dragonSingleton, (Entity*)NULL,//entity
     {{624, 560}, {0,0}, {0,0},{8,20}}},//entity.transform
@@ -10,6 +12,7 @@ DragonEntity  debug_dragonSingleton = {
 
 //per frame behavior
 STATUS dragon_frameTask(Entity* thisEntity) {
+  
   Vector2 distanceToDragon;
 
 

@@ -94,7 +94,7 @@ void pmgSilo_writeRefSprite(PMGPlayerSpriteSilo* silo, int8_t newY){
     memcpy((silo->visibleBytes + newY), retrievedSprite->bitmap, height);
   } else {
     //partial bottom occlusion
-    //printf("%d\n", newY -newY - sizeof(silo->visibleBytes))
+    //printf("%d\n", newY -neswY - sizeof(silo->visibleBytes))
     memcpy((silo->visibleBytes + newY), retrievedSprite->bitmap, sizeof(silo->visibleBytes) - newY);
   }
 
@@ -104,52 +104,11 @@ void pmgSilo_writeRefSprite(PMGPlayerSpriteSilo* silo, int8_t newY){
 void pmgSilo_setY(PMGPlayerSpriteSilo* silo, int8_t newY){
   
   //if(silo->header.cachedY == newY) return;
-  memset(silo->visibleBytes, 0, sizeof(silo->visibleBytes));
+  // why does this clear all 96 bytes
+  // memset(silo->visibleBytes, 0, sizeof(silo->visibleBytes));
+  pmgSilo_clear(silo);
 
   pmgSilo_writeRefSprite(silo, newY);
   //memcpy the new y with bounds checking
   
 }
-
-
-//TODO: optimize. i dont like it but it gets the job done for now
-//algorithm could be simplified
-
-// void pmgSilo_absoluteVerticalMove(PMGPlayerSpriteSilo* silo, int8_t newY){
-//   int8_t beginErasePos, oldY;
-//   int8_t delta;
-//   int8_t height;
-//   oldY = silo->header.cachedY;
-//   if(oldY == newY) return;
-
-//   height = silo->header.refsprite->height;
-//   delta = newY - oldY;
-
-//   beginErasePos = oldY;
-
-//   if(newY < oldY) {
-//     //make the vector from the new top to old top  into old top to new bottom
-//     beginErasePos += height - delta;
-//   }
-  
-//   //bounds processing
-//   if(beginErasePos < 0) {
-//     delta -= beginErasePos;
-//     beginErasePos = 0;
-//   }
-
-//   if(beginErasePos + height >= sizeof(silo->visibleBytes)){
-//     delta = beginErasePos - sizeof(silo->visibleBytes);
-//   }
-
-
-//   //erase bytes
-
-//   for(;delta >= 0; delta--){
-//     silo->visibleBytes[beginErasePos + delta] = 0;
-//   }
-
-
-//   //copy new bytes
-
-// }

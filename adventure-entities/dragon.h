@@ -14,7 +14,7 @@
 #define D_CHOMP_DELAY 16
 
 #define D_MOVE_DELAY 1
-#define D_SIGHT_RANGE 200 //in pixels
+#define D_SIGHT_RANGE 200 //in pixels / scan lines
 
 
 //states

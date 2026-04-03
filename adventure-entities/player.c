@@ -44,6 +44,8 @@ STATUS playerRenderer(Entity* thisEntity) {
             + HPOSP_MIN + playerEnt.playerEntity._objectAnchorPoint.x;
   
   //printf("%d\n",(&(GTIA_WRITE.hposp0))[TEMP_player_anticIndex] );
+
+  // only move the player if vertical input was received
   if (vertMovePlayer) {
     pmgSilo_setY(playerEnt.playerSilo, thisEntity->_eyeCoords.y);
   }
@@ -52,6 +54,8 @@ STATUS playerRenderer(Entity* thisEntity) {
 
   return UNDEFINED;
 }
+
+
 //made global/static due to frequency of use
 unsigned char joystickState = 0; 
 unsigned char lastFrameState;
@@ -94,14 +98,13 @@ STATUS playerInputProcess(){
   //makes this lock out when held
   if(JOY_FIRE(joystickState) && !JOY_FIRE(lastFrameState)){
     //will currently break if player has no child
+    // TODO: make this drop the childEntity!
     playerEnt.playerEntity.childEntity->frameTask(playerEnt.playerEntity.childEntity);
   }
 
 
   ADD_ASSIGN_VEC2(playerEnt.playerEntity._worldCoords, playerEnt.playerVelocity)
   
-
-
   return PASS;
 }
 
@@ -115,9 +118,6 @@ void player_OnCollide(Entity* thisEntity, Entity* otherEntity){
 //init the player specific vars
 STATUS playerConstructor(){
   uint8_t pmg_index;
-  // playerEnt.playerSpeed = 1;
-  // playerEnt.playerVelocity.x = 0;
-  // playerEnt.playerVelocity.y = 0;
 
   //call the "base" constructor
 
@@ -130,8 +130,6 @@ STATUS playerConstructor(){
   // //in the future, the constructor will be not ran right here, probably during
   // //boot sequence
   // nullItem_constructor(&nullItem);  
-
-
 
   pmg_index = pmg_addPlayerSprite(&playerSprite);
 
@@ -146,6 +144,8 @@ STATUS playerConstructor(){
   //printf("Address: %d\n", %d)
   return PASS;
 }
+
+
 uint8_t playerSpriteBitmap[] ={
   0b11110000,
   0b11110000,
