@@ -3,6 +3,8 @@
 Vector2 worldCoordPlayerView;
 uint8_t TEMP_player_anticIndex;
 
+bool vertMovePlayer = true;
+
 //initializer list to allow compile time assign/construct
 PlayerEntity playerEnt = {
   {player_FrameTask, playerRenderer, player_OnCollide, (void *)&playerEnt, &dumbItem, //entity
@@ -42,8 +44,11 @@ STATUS playerRenderer(Entity* thisEntity) {
             + HPOSP_MIN + playerEnt.playerEntity._objectAnchorPoint.x;
   
   //printf("%d\n",(&(GTIA_WRITE.hposp0))[TEMP_player_anticIndex] );
-  pmgSilo_setY(playerEnt.playerSilo, thisEntity->_eyeCoords.y);
-
+  if (vertMovePlayer) {
+    pmgSilo_setY(playerEnt.playerSilo, thisEntity->_eyeCoords.y);
+  }
+  // pmgSilo_setY(playerEnt.playerSilo, thisEntity->_eyeCoords.y);
+  vertMovePlayer = false;
 
   return UNDEFINED;
 }
@@ -75,9 +80,11 @@ STATUS playerInputProcess(){
   switch(JOY_UPDOWN(joystickState)){
     case JOY_UP_MASK: 
       playerEnt.playerVelocity.y = -playerEnt.playerSpeed;
+      vertMovePlayer = true;
       break;
     case JOY_DOWN_MASK: //down
       playerEnt.playerVelocity.y = playerEnt.playerSpeed;
+      vertMovePlayer = true;
       break;
     default:  //nothing or null cancelled
       playerEnt.playerVelocity.y = 0;

@@ -53,7 +53,7 @@ AFLAGS=-I $(CA65_INC) --debug-info -t $(SYS) -D $(BUILD)
 # Flags for C-code compiler
 CFLAGS=-I ./lib -t $(SYS) --add-source -g -D $(BUILD)
 
-target = dummy.xex
+target = adventure.xex
 viceLabel = game.lbl
 
 engine = main.o lib/core-support/entity.o lib/util/util.o core/engine.o lib/core-support/camera.o

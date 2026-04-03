@@ -1,5 +1,7 @@
 #include "dragon.h"
 
+bool vertMovement = true;
+
 DragonEntity  debug_dragonSingleton = {
   {dragon_frameTask, dragonRenderer, dragon_OnCollision, (void *)&debug_dragonSingleton, (Entity*)NULL,//entity
     {{624, 560}, {0,0}, {0,0},{8,20}}},//entity.transform
@@ -66,9 +68,11 @@ STATUS dragon_frameTask(Entity* thisEntity) {
   switch((distanceToDragon.y > 0) - (distanceToDragon.y < 0)){
     case -1:
       thisEntity->_worldCoords.y -= D_ENT->dragonSpeed;
+      vertMovement = true;
       break;
     case 1:
       thisEntity->_worldCoords.y += D_ENT->dragonSpeed;
+      vertMovement = true;
       break;
     default:
       break;
@@ -190,7 +194,14 @@ STATUS dragonRenderer(Entity* thisEntity) {
     D_ENT->dragonSilo->header.refsprite = &dragon_idle;
   }
   //printf("%d\n",(&(GTIA_WRITE.hposp0))[TEMP_player_anticIndex] );
-  pmgSilo_setY(D_ENT->dragonSilo, thisEntity->_eyeCoords.y);
+
+  // only update vertical position if vertical movement occurred
+  if (vertMovement) {
+    pmgSilo_setY(D_ENT->dragonSilo, thisEntity->_eyeCoords.y);
+    
+  }
+  vertMovement = false;
+  
 
 
   return PASS;
