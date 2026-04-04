@@ -45,12 +45,7 @@ STATUS playerRenderer(Entity* thisEntity) {
   
   //printf("%d\n",(&(GTIA_WRITE.hposp0))[TEMP_player_anticIndex] );
 
-  // only move the player if vertical input was received
-  if (vertMovePlayer) {
-    pmgSilo_setY(playerEnt.playerSilo, thisEntity->_eyeCoords.y);
-  }
-  // pmgSilo_setY(playerEnt.playerSilo, thisEntity->_eyeCoords.y);
-  vertMovePlayer = false;
+  pmgSilo_setY(playerEnt.playerSilo, thisEntity->_eyeCoords.y);
 
   return UNDEFINED;
 }

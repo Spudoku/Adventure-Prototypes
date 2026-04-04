@@ -4,6 +4,9 @@
 #include "core/engine.h"
 
 
+
+void game_loop();
+void trigger_warm_reset(void);
 //temp debug utils
 void debug_autoMove(Transform *toMove);  //force an oscillating move
 
@@ -17,13 +20,19 @@ int main() {
     //redirect stdout to altirra printer
     //for some reason this makes the top line bug out when x is negative
     //A PRINT IS EXPENSIVE 
-    freopen("P1:", "w", stdout);
-    printf("hi!\n");
+    // freopen("P1:", "w", stdout);
+    // printf("hi!\n");
+
+    *(unsigned int*)0x000A = (unsigned int)game_loop;
 
     
+    
+    game_loop();
+}
+
+// need to point to this for RESET
+void game_loop() {
     engine_Boot();
-
-
     while (true) {
 
         
@@ -31,21 +40,14 @@ int main() {
     
         engine_StateUpdate();
 
-   
-        
-        
         waitvsync();
+
         engine_Render();
 
-
         engine_EventDispatcher();
-
         
     }
 }
-
-
-
 
 
 //WARNING: Use only on one object at a time!
@@ -55,3 +57,12 @@ void debug_autoMove(Transform *toMove){
     toMove->worldCoords.x += dir.x;
 }
 
+void trigger_warm_reset(void) {
+    // 1. Set the Warmstart flag (WARMST) at 0x0008 to non-zero
+    *(unsigned char*)0x0008 = 0x01;
+
+    // 2. Jump to the OS reset vector. 
+    // On the Atari, the reset vector is at 0xE474.
+    // In cc65, we can use an assembly wrapper or a function pointer.
+    ((void (*)(void))0xE474)();
+}
