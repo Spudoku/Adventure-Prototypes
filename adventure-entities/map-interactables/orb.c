@@ -30,4 +30,5 @@ void orb_OnCollision(Entity* thisEntity, Entity* otherEntity){
     orb_singleton.counter = ORB_DELAY;
     printf(intrusiveThoughts[POKEY_READ.random & 15]);
   }
+  
 }

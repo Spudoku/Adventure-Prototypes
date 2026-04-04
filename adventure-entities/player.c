@@ -23,7 +23,7 @@ STATUS player_FrameTask(Entity* thisEntity) {
   //pseudo
 
   // read input and set velocity
-  
+  // TODO: check for collisions
 
   
 
@@ -107,6 +107,11 @@ STATUS playerInputProcess(){
 //May need more grandular checks later...
 void player_OnCollide(Entity* thisEntity, Entity* otherEntity){
   playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
+
+
+  // playerEnt.playerVelocity.x = playerEnt.playerSpeed;
+  playerEnt.playerEntity._worldCoords.x -= playerEnt.playerVelocity.x;
+  playerEnt.playerEntity._worldCoords.y -= playerEnt.playerVelocity.y;
   return;
 }
 

@@ -15,7 +15,7 @@ STATUS dragon_frameTask(Entity* thisEntity) {
   
   Vector2 distanceToDragon;
 
-
+  DmoveDelayCounter = D_ENT->moveDelayCounter;
   //calculate state
  
   //XOR (my beloved) to flipflop toggle
@@ -23,10 +23,11 @@ STATUS dragon_frameTask(Entity* thisEntity) {
   //     ((D_ENT->dragonChompCounter) < 1) && D_STATE_CHOMP; 
 
   //sets to true when move delay is 0. NOT A TOGGLE
-  COND_SET_BIT(((D_ENT->moveDelayCounter)-- < 1), D_STATE_MOVE, D_ENT->flags)
+  D_ENT->moveDelayCounter -= 1;
+  COND_SET_BIT(((D_ENT->moveDelayCounter) < 1), D_STATE_MOVE, D_ENT->flags)
   
 
-  if(D_ENT->dragonChompCounter-- < 1){  
+  if(D_ENT->dragonChompCounter < 1){  
     D_ENT->dragonChompCounter = D_CHOMP_DELAY;
     D_ENT->flags ^= D_STATE_CHOMP;
   }
@@ -88,7 +89,7 @@ uint8_t TEMP_dragon_anticIndex;
 
 
 void dragon_OnCollision(Entity* thisEntity, Entity* otherEntity){
-  D_ENT->moveDelayCounter += 100;
+  D_ENT->moveDelayCounter = 1;
   return;
 }
 
@@ -199,11 +200,7 @@ STATUS dragonRenderer(Entity* thisEntity) {
   //printf("%d\n",(&(GTIA_WRITE.hposp0))[TEMP_player_anticIndex] );
 
   // only update vertical position if vertical movement occurred
-  if (vertMovement) {
-    pmgSilo_setY(D_ENT->dragonSilo, thisEntity->_eyeCoords.y);
-    
-  }
-  vertMovement = false;
+  pmgSilo_setY(D_ENT->dragonSilo, thisEntity->_eyeCoords.y);
   
 
 
