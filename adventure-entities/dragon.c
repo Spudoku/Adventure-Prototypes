@@ -4,8 +4,11 @@ bool vertMovement = true;
 
 unsigned int DmoveDelayCounter;
 
-DragonEntity  debug_dragonSingleton = {
-  {dragon_frameTask, dragonRenderer, dragon_OnCollision, (void *)&debug_dragonSingleton, (Entity*)NULL,//entity
+unsigned char dragonState;
+unsigned int Dchompdelaycounter;
+
+DragonEntity  dragonSingleton = {
+  {dragon_frameTask, dragonRenderer, dragon_OnCollision, (void *)&dragonSingleton, (Entity*)NULL,//entity
     {{624, 560}, {0,0}, {0,0},{8,20}}},//entity.transform
     0,1,D_MOVE_DELAY,D_CHOMP_DELAY, NULL
 };
@@ -16,29 +19,59 @@ STATUS dragon_frameTask(Entity* thisEntity) {
   Vector2 distanceToDragon;
 
   DmoveDelayCounter = D_ENT->moveDelayCounter;
+dragonState = D_ENT->state;
+Dchompdelaycounter = D_ENT->dragonChompCounter;
   //calculate state
  
   //XOR (my beloved) to flipflop toggle
   // D_ENT->flags ^= 
   //     ((D_ENT->dragonChompCounter) < 1) && D_STATE_CHOMP; 
 
+  // D_ENT->dragonChompCounter = 100;
+
   //sets to true when move delay is 0. NOT A TOGGLE
-  D_ENT->moveDelayCounter -= 1;
-  COND_SET_BIT(((D_ENT->moveDelayCounter) < 1), D_STATE_MOVE, D_ENT->flags)
+  if (D_ENT->moveDelayCounter > 0) {
+    D_ENT->moveDelayCounter -= 1;
+  }
   
 
-  if(D_ENT->dragonChompCounter < 1){  
-    D_ENT->dragonChompCounter = D_CHOMP_DELAY;
-    D_ENT->flags ^= D_STATE_CHOMP;
+  if (D_ENT->dragonChompCounter > 0) {
+    D_ENT->dragonChompCounter -= 1;
   }
+  
 
-  //read move state, if we're not moving... do nothing
-  if(!CHECK_FLAG(D_ENT->flags, D_STATE_MOVE)){
+  // if (D_ENT->dragonChompCounter < 1) {
+  //   D_ENT->state = D_STATE_MOVE;
+  //   D_ENT->dragonChompCounter = 0;
+  // } else {
+  //   D_ENT->state = D_STATE_CHOMP;
+  // }
+  // // new state plan:
+  // // 1. decrement moveDelayCounter
+  // // 2. if D_STATE == CHOMP, return PASS
+  // // 3. else if moveDelayCounter > 1, set state to REST, return PASS
+  // // 4. else, set state to MOVE, do movement
+
+
+  // if (D_ENT->state == D_STATE_CHOMP) {
+  //   return PASS;
+  // } else if (D_ENT->moveDelayCounter > 0) {
+  //   D_ENT->state = D_STATE_REST;
+  //   return PASS;
+  // }
+
+  if (D_ENT->dragonChompCounter > 0) {
+    D_ENT->state = D_STATE_CHOMP;
+    return PASS;
+  } else if (D_ENT->moveDelayCounter > 0) {
+    D_ENT->state = D_STATE_REST;
     return PASS;
   }
 
-  //if here, should bee moving, now time to do math
 
+  //if here, should bee moving, now time to do math
+  D_ENT->state = D_STATE_MOVE;
+  
   //reset delay
   D_ENT->moveDelayCounter = D_MOVE_DELAY;
 
@@ -46,8 +79,7 @@ STATUS dragon_frameTask(Entity* thisEntity) {
   distanceToDragon = thisEntity->_target->_worldCoords;
   SUB_ASSIGN_VEC2(distanceToDragon, thisEntity->_worldCoords)
 
-
-
+  // yasas
   //bounce out taxicab distance
   if((abs(distanceToDragon.x) + abs(distanceToDragon.y)) > D_SIGHT_RANGE) {
     return PASS;
@@ -89,7 +121,9 @@ uint8_t TEMP_dragon_anticIndex;
 
 
 void dragon_OnCollision(Entity* thisEntity, Entity* otherEntity){
-  D_ENT->moveDelayCounter = 1;
+  dragon_chomp_sound();
+  D_ENT->dragonChompCounter = 60;
+  D_ENT->state = D_STATE_CHOMP;
   return;
 }
 
@@ -168,6 +202,11 @@ STATUS dragon_Init(DragonEntity* instance){
 
   instance->myEntity._worldCoords.x = 400;
   instance->myEntity._worldCoords.y = 560;
+
+  instance->moveDelayCounter = 0;
+  instance->dragonChompCounter = 0;
+  instance->state = D_STATE_MOVE;
+
   //printf("Address: %d\n", %d)
   return PASS;
 }
@@ -192,7 +231,7 @@ STATUS dragonRenderer(Entity* thisEntity) {
             + HPOSP_MIN + thisEntity->_objectAnchorPoint.x;
   
   
-  if(CHECK_FLAG(D_ENT->flags, D_STATE_CHOMP)){
+  if(D_ENT->state == D_STATE_CHOMP){
     D_ENT->dragonSilo->header.refsprite = &dragon_chomping;
   } else{
     D_ENT->dragonSilo->header.refsprite = &dragon_idle;

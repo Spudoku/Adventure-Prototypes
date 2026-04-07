@@ -26,6 +26,8 @@ void sound_StateUpdate();
 */
 void sound_generic_buzz();
 
+void dragon_chomp_sound();
+
 // void sound_item_pickup();
 
 // extern void sound_item_drop();

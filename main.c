@@ -38,6 +38,7 @@ void game_loop() {
 
         
         //process gamestate
+        engine_EventDispatcher();
     
         engine_StateUpdate();
 
@@ -45,7 +46,7 @@ void game_loop() {
 
         engine_Render();
 
-        engine_EventDispatcher();
+        
         
     }
 }

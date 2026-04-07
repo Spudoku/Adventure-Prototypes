@@ -12,8 +12,10 @@ void engine_Boot(){
 void engine_InitSingletons(){
  
     playerConstructor();
-    dragon_Init(&debug_dragonSingleton);  //TEMP
-    dragon_TrackEntity(&debug_dragonSingleton, &playerEnt.playerEntity);
+    dragon_Init(&dragonSingleton);  //TEMP
+    dragon_TrackEntity(&dragonSingleton, &playerEnt.playerEntity);
+
+    
 
     
     //debug manual assign for now
@@ -34,7 +36,7 @@ void engine_StateUpdate(){
 
     playerEnt.playerEntity.frameTask(&(playerEnt.playerEntity));
 
-    debug_dragonSingleton.myEntity.frameTask(&(debug_dragonSingleton.myEntity));
+    dragonSingleton.myEntity.frameTask(&(dragonSingleton.myEntity));
     
     camera.cameraEntity.frameTask(&(camera.cameraEntity));
 }
@@ -43,7 +45,7 @@ void engine_Render(){
     camera.cameraEntity.renderer(&camera.cameraEntity); //camera goes first
 
     playerEnt.playerEntity.renderer(&(playerEnt.playerEntity));
-    debug_dragonSingleton.myEntity.renderer(&(debug_dragonSingleton.myEntity));
+    dragonSingleton.myEntity.renderer(&(dragonSingleton.myEntity));
 };
 
 //stub to demonstrate where events would be dispatched during each tick
@@ -51,9 +53,11 @@ void engine_EventDispatcher(){
 
   //Temporary bruteforce collision behavior pending true dispatching
   if((&(GTIA_READ.p0pl))[TEMP_dragon_anticIndex]){
-      debug_dragonSingleton.moveDelayCounter += 100;
+      
+      dragon_OnCollision(NULL, NULL);
   }
 
+  // player collisions
   switch((&(GTIA_READ.p0pf))[TEMP_player_anticIndex]){
     case 0:
         break;
