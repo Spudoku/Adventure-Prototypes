@@ -28,6 +28,8 @@ void sound_generic_buzz();
 
 void dragon_chomp_sound();
 
+void dragon_eat_sound();
+
 // void sound_item_pickup();
 
 // extern void sound_item_drop();

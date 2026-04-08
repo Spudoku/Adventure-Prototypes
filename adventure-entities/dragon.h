@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 
+#include "../core/engine.h"
 #include "core-support/entity.h"
 #include "core-support/camera.h"
 #include "../core-gfx/antic-gtia/pmg.h"
@@ -10,6 +11,8 @@
 #include "util/sprite.h"
 #include "util/util.h"
 #include "../core/sound.h"
+
+#include "player.h"     // for accessing TEMP_player_anticIndex
 
 #define D_ENT  ((DragonEntity*)(thisEntity->entityData))
 #define D_CHOMP_DELAY 16
@@ -56,5 +59,7 @@ extern uint8_t TEMP_dragon_anticIndex;
 extern DragonEntity dragonSingleton;
 
 extern Sprite dragon_idle;
+
+void check_if_eating();
 
 #endif 

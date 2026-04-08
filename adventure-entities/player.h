@@ -16,6 +16,7 @@
 #include "../core-gfx/antic-gtia/pmg.h"
 
 #include "../core/sound.h"
+#include "dragon.h"
 
 
 //player will probably end up being effectively a singleton here

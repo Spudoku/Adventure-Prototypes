@@ -40,28 +40,14 @@ Dchompdelaycounter = D_ENT->dragonChompCounter;
   }
   
 
-  // if (D_ENT->dragonChompCounter < 1) {
-  //   D_ENT->state = D_STATE_MOVE;
-  //   D_ENT->dragonChompCounter = 0;
-  // } else {
-  //   D_ENT->state = D_STATE_CHOMP;
-  // }
-  // // new state plan:
-  // // 1. decrement moveDelayCounter
-  // // 2. if D_STATE == CHOMP, return PASS
-  // // 3. else if moveDelayCounter > 1, set state to REST, return PASS
-  // // 4. else, set state to MOVE, do movement
-
-
-  // if (D_ENT->state == D_STATE_CHOMP) {
-  //   return PASS;
-  // } else if (D_ENT->moveDelayCounter > 0) {
-  //   D_ENT->state = D_STATE_REST;
-  //   return PASS;
-  // }
 
   if (D_ENT->dragonChompCounter > 0) {
     D_ENT->state = D_STATE_CHOMP;
+
+    // if on last frame of chomp, try to eat player
+    if (D_ENT->dragonChompCounter == 1) {
+      check_if_eating();
+    }
     return PASS;
   } else if (D_ENT->moveDelayCounter > 0) {
     D_ENT->state = D_STATE_REST;
@@ -120,10 +106,24 @@ Dchompdelaycounter = D_ENT->dragonChompCounter;
 uint8_t TEMP_dragon_anticIndex;
 
 
+// collision handler for dragon
+// otherEntity is implied to be the player
 void dragon_OnCollision(Entity* thisEntity, Entity* otherEntity){
-  dragon_chomp_sound();
-  D_ENT->dragonChompCounter = 60;
+
+
+  if (D_ENT->state != D_STATE_CHOMP) {
+    dragon_chomp_sound();
+    D_ENT->dragonChompCounter = 120;
+
+  
+  thisEntity->_worldCoords.x = otherEntity->_worldCoords.x;
+  thisEntity->_worldCoords.y = otherEntity->_worldCoords.y;
+
   D_ENT->state = D_STATE_CHOMP;
+
+  }
+  
+
   return;
 }
 
@@ -216,6 +216,7 @@ void dragon_TrackEntity(DragonEntity* instance, Entity *toTrack){
   instance->myEntity.childEntity = toTrack;
 }
 
+// handles rendering of dragon
 STATUS dragonRenderer(Entity* thisEntity) {
   
   thisEntity->_eyeCoords = convertToEyeCoords(thisEntity->_worldCoords);
@@ -244,4 +245,14 @@ STATUS dragonRenderer(Entity* thisEntity) {
 
 
   return PASS;
+}
+
+// check collisions to see if still eating the player
+// if successful, player dies and game is reset
+void check_if_eating() {
+  if ((&(GTIA_READ.p0pl))[TEMP_dragon_anticIndex]) {
+    // end game
+    dragon_eat_sound();
+    end_game();
+  }
 }

@@ -54,7 +54,8 @@ void engine_EventDispatcher(){
   //Temporary bruteforce collision behavior pending true dispatching
   if((&(GTIA_READ.p0pl))[TEMP_dragon_anticIndex]){
       
-      dragon_OnCollision(NULL, NULL);
+      dragon_OnCollision(&(dragonSingleton.myEntity), &playerEnt.playerEntity);
+      player_OnCollide(&playerEnt.playerEntity, &(dragonSingleton.myEntity));
   }
 
   // player collisions
@@ -72,3 +73,22 @@ void engine_EventDispatcher(){
   GTIA_WRITE.hitclr = 1; 
         
 };
+
+
+// TODO: end_game;
+// play the sad sound when you get got
+// for now, just reset the game
+void end_game() {
+
+    trigger_warm_reset();
+}
+
+void trigger_warm_reset(void) {
+    // 1. Set the Warmstart flag (WARMST) at 0x0008 to non-zero
+    *(unsigned char*)0x0008 = 0x01;
+
+    // 2. Jump to the OS reset vector. 
+    // On the Atari, the reset vector is at 0xE474.
+    // In cc65, we can use an assembly wrapper or a function pointer.
+    ((void (*)(void))0xE474)();
+}

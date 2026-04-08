@@ -16,6 +16,10 @@ void engine_StateUpdate();
 void engine_Render();
 void engine_EventDispatcher();
 
+void trigger_warm_reset(void);
+
+void end_game();
+
 //Engine related state tracking globals as needed
 
 #endif

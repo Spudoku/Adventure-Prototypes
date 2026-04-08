@@ -50,3 +50,7 @@ void sound_generic_buzz() {
     // remember: voice, pitch, distortion, volume, frames
     sound_PlayNote(1,150,2,3,20);
 }
+
+void dragon_eat_sound() {
+    sound_PlayNote(1,20,10,3,90);
+}

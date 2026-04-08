@@ -6,7 +6,7 @@
 
 
 void game_loop();
-void trigger_warm_reset(void);
+
 //temp debug utils
 void debug_autoMove(Transform *toMove);  //force an oscillating move
 
@@ -59,12 +59,12 @@ void debug_autoMove(Transform *toMove){
     toMove->worldCoords.x += dir.x;
 }
 
-void trigger_warm_reset(void) {
-    // 1. Set the Warmstart flag (WARMST) at 0x0008 to non-zero
-    *(unsigned char*)0x0008 = 0x01;
+// void trigger_warm_reset(void) {
+//     // 1. Set the Warmstart flag (WARMST) at 0x0008 to non-zero
+//     *(unsigned char*)0x0008 = 0x01;
 
-    // 2. Jump to the OS reset vector. 
-    // On the Atari, the reset vector is at 0xE474.
-    // In cc65, we can use an assembly wrapper or a function pointer.
-    ((void (*)(void))0xE474)();
-}
+//     // 2. Jump to the OS reset vector. 
+//     // On the Atari, the reset vector is at 0xE474.
+//     // In cc65, we can use an assembly wrapper or a function pointer.
+//     ((void (*)(void))0xE474)();
+// }

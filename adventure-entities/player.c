@@ -105,13 +105,28 @@ STATUS playerInputProcess(){
 
 //Presently only sets worldcoord back when called
 //May need more grandular checks later...
+// TODO: check if otherEntity is dragon and if so, check its state
+// if its chomping, do 
 void player_OnCollide(Entity* thisEntity, Entity* otherEntity){
-  playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
 
-
-  // playerEnt.playerVelocity.x = playerEnt.playerSpeed;
-  playerEnt.playerEntity._worldCoords.x -= playerEnt.playerVelocity.x;
-  playerEnt.playerEntity._worldCoords.y -= playerEnt.playerVelocity.y;
+  if (otherEntity == NULL) {
+    // assume that playfield was hit
+    playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
+    // playerEnt.playerVelocity.x = playerEnt.playerSpeed;
+    playerEnt.playerEntity._worldCoords.x -= playerEnt.playerVelocity.x;
+    playerEnt.playerEntity._worldCoords.y -= playerEnt.playerVelocity.y;
+  } else if (otherEntity == &(dragonSingleton.myEntity)) {
+    
+    // prevent collisions through a chomping dragon
+    // TODO: simplify this if possible
+    if (dragonSingleton.state == D_STATE_CHOMP) {
+      playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
+      // playerEnt.playerVelocity.x = playerEnt.playerSpeed;
+      playerEnt.playerEntity._worldCoords.x -= playerEnt.playerVelocity.x;
+      playerEnt.playerEntity._worldCoords.y -= playerEnt.playerVelocity.y;
+    }
+  }
+ 
   return;
 }
 
@@ -147,10 +162,10 @@ STATUS playerConstructor(){
 
 
 uint8_t playerSpriteBitmap[] ={
-  0b11110000,
-  0b11110000,
-  0b11110000,
-  0b11110000,
+  0b00111100,
+  0b00111100,
+  0b00111100,
+  0b00111100,
 };
 
 Sprite playerSprite = {sizeof(playerSpriteBitmap),GTIA_COLOR_YELLOW,playerSpriteBitmap};
