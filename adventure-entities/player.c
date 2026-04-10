@@ -35,19 +35,18 @@ STATUS player_FrameTask(Entity* thisEntity) {
 //calced
 //prepare the graphics driver
 STATUS playerRenderer(Entity* thisEntity) {
- 
 
-  // thisEntity->_eyeCoords = convertToEyeCoords(thisEntity->_worldCoords);
-  // //incomplete
+  thisEntity->_eyeCoords = convertToEyeCoords(thisEntity->_worldCoords);
+  //incomplete
 
-  // //generally dont need a bounds check, player is always in frame
+  //generally dont need a bounds check, player is always in frame
 
-  // (&(GTIA_WRITE.hposp0))[TEMP_player_anticIndex] = playerEnt.playerEntity._eyeCoords.x 
-  //           + HPOSP_MIN + playerEnt.playerEntity._objectAnchorPoint.x;
+  (&(GTIA_WRITE.hposp0))[TEMP_player_anticIndex] = playerEnt.playerEntity._eyeCoords.x 
+            + HPOSP_MIN + playerEnt.playerEntity._objectAnchorPoint.x;
   
-  // //printf("%d\n",(&(GTIA_WRITE.hposp0))[TEMP_player_anticIndex] );
+  //printf("%d\n",(&(GTIA_WRITE.hposp0))[TEMP_player_anticIndex] );
 
-  // pmgSilo_setY(playerEnt.playerSilo, thisEntity->_eyeCoords.y);
+  pmgSilo_setY(playerEnt.playerSilo, thisEntity->_eyeCoords.y);
 
   return UNDEFINED;
 }
@@ -78,34 +77,6 @@ STATUS playerInputProcess(){
       break;
   }
 
-  // update rendering
-  playerEnt.playerEntity._worldCoords.x += playerEnt.playerVelocity.x;
-
-
-
-  // check collisions
-  switch((&(GTIA_READ.p0pf))[TEMP_player_anticIndex]){
-    case 0:
-        break;
-    case 8: //only the trigger color is activated
-        orb_singleton.entity.OnCollision(NULL, NULL);
-        break;
-    default:
-        // player_OnCollide(&playerEnt.playerEntity, NULL);
-        playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
-        break;
-  }
-
-  playerEnt.playerEntity._eyeCoords = convertToEyeCoords(playerEnt.playerEntity._worldCoords);
-  
-
-  //generally dont need a bounds check, player is always in frame
-
-  (&(GTIA_WRITE.hposp0))[TEMP_player_anticIndex] = playerEnt.playerEntity._eyeCoords.x 
-            + HPOSP_MIN + playerEnt.playerEntity._objectAnchorPoint.x;
-
-  // vertical movement
-
   switch(JOY_UPDOWN(joystickState)){
     case JOY_UP_MASK: 
       playerEnt.playerVelocity.y = -playerEnt.playerSpeed;
@@ -120,27 +91,6 @@ STATUS playerInputProcess(){
       break;
   }
 
-   // update rendering
-  playerEnt.playerEntity._worldCoords.y += playerEnt.playerVelocity.y;
-
-
-
-  // check collisions
-  switch((&(GTIA_READ.p0pf))[TEMP_player_anticIndex]){
-    case 0:
-        break;
-    case 8: //only the trigger color is activated
-        orb_singleton.entity.OnCollision(NULL, NULL);
-        break;
-    default:
-        // player_OnCollide(&playerEnt.playerEntity, NULL);
-        playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
-        break;
-  }
-
-playerEnt.playerEntity._eyeCoords = convertToEyeCoords(playerEnt.playerEntity._worldCoords);
-pmgSilo_setY(playerEnt.playerSilo, playerEnt.playerEntity._eyeCoords.y);
-
   //makes this lock out when held
   if(JOY_FIRE(joystickState) && !JOY_FIRE(lastFrameState)){
     //will currently break if player has no child
@@ -149,7 +99,7 @@ pmgSilo_setY(playerEnt.playerSilo, playerEnt.playerEntity._eyeCoords.y);
   }
 
 
-  // ADD_ASSIGN_VEC2(playerEnt.playerEntity._worldCoords, playerEnt.playerVelocity)
+  ADD_ASSIGN_VEC2(playerEnt.playerEntity._worldCoords, playerEnt.playerVelocity)
   
   return PASS;
 }
@@ -183,7 +133,7 @@ void player_OnCollide(Entity* thisEntity, Entity* otherEntity){
 
 void player_horiz_collisions() {
   playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
-  playerEnt.playerVelocity.x = 0;
+  
 }
 
 //init the player specific vars

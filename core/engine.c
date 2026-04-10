@@ -55,7 +55,7 @@ void engine_EventDispatcher(){
   if((&(GTIA_READ.p0pl))[TEMP_dragon_anticIndex]){
       
       dragon_OnCollision(&(dragonSingleton.myEntity), &playerEnt.playerEntity);
-    //   player_OnCollide(&playerEnt.playerEntity, &(dragonSingleton.myEntity));
+        player_OnCollide(&playerEnt.playerEntity, &(dragonSingleton.myEntity));
   }
 
   // player collisions
