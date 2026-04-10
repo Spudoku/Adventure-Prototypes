@@ -4,7 +4,6 @@
 #include "core/engine.h"
 
 
-
 void game_loop();
 
 //temp debug utils
@@ -20,8 +19,8 @@ int main() {
     //redirect stdout to altirra printer
     //for some reason this makes the top line bug out when x is negative
     //A PRINT IS EXPENSIVE 
-    freopen("P1:", "w", stdout);
-    printf("hi!\n");
+    // freopen("P1:", "w", stdout);
+    // printf("hi!\n");
 
     // pass game_loop to RESET registers in case of warmstart
     // TODO: make it work for coldstart?
@@ -39,6 +38,8 @@ void game_loop() {
         
         //process gamestate
         engine_EventDispatcher();
+        
+        
     
         engine_StateUpdate();
 

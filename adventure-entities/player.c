@@ -5,6 +5,7 @@ uint8_t TEMP_player_anticIndex;
 
 bool vertMovePlayer = true;
 
+
 //initializer list to allow compile time assign/construct
 PlayerEntity playerEnt = {
   {player_FrameTask, playerRenderer, player_OnCollide, (void *)&playerEnt, &dumbItem, //entity
@@ -34,6 +35,7 @@ STATUS player_FrameTask(Entity* thisEntity) {
 //calced
 //prepare the graphics driver
 STATUS playerRenderer(Entity* thisEntity) {
+ 
 
   thisEntity->_eyeCoords = convertToEyeCoords(thisEntity->_worldCoords);
   //incomplete
@@ -128,6 +130,11 @@ void player_OnCollide(Entity* thisEntity, Entity* otherEntity){
   }
  
   return;
+}
+
+void player_horiz_collisions() {
+  playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
+  playerEnt.playerVelocity.x = 0;
 }
 
 //init the player specific vars

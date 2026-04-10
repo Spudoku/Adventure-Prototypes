@@ -51,5 +51,6 @@ extern Sprite playerSprite;
 //player will assign. i just want it working
 extern uint8_t TEMP_player_anticIndex;  
 
+void player_horiz_collisions();
 
 #endif 
