@@ -60,6 +60,7 @@ void pmgSilo_clear(PMGPlayerSpriteSilo* silo){
   oldY = silo->header.cachedY;
   height = silo->header.refsprite->height;
 
+  // height is height of the sprite
   //clamping oldy
   //assumes no overflow
   if((oldY < 0) && (height + oldY > 0)) {
