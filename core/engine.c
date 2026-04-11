@@ -64,6 +64,7 @@ void engine_EventDispatcher(){
         break;
     case 8: //only the trigger color is activated
         orb_singleton.entity.OnCollision(NULL, NULL);
+        orb_sound();
         break;
     default:
         player_OnCollide(&playerEnt.playerEntity, NULL);

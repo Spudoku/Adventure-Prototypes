@@ -60,7 +60,7 @@ void pmgSilo_clear(PMGPlayerSpriteSilo* silo){
   oldY = silo->header.cachedY;
   height = silo->header.refsprite->height;
 
-  // height is height of the sprite
+  // height is
   //clamping oldy
   //assumes no overflow
   if((oldY < 0) && (height + oldY > 0)) {
@@ -97,7 +97,6 @@ void pmgSilo_writeRefSprite(PMGPlayerSpriteSilo* silo, int8_t newY){
     //partial bottom occlusion
     //printf("%d\n", newY -neswY - sizeof(silo->visibleBytes))
     memcpy((silo->visibleBytes + newY), retrievedSprite->bitmap, sizeof(silo->visibleBytes) - newY);
-    
   }
 
   silo->header.cachedY = newY;

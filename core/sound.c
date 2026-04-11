@@ -54,3 +54,7 @@ void sound_generic_buzz() {
 void dragon_eat_sound() {
     sound_PlayNote(1,20,10,3,90);
 }
+
+void orb_sound() {
+    sound_PlayNote(2,10,30,3,20);
+}

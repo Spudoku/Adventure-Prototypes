@@ -10,6 +10,7 @@
 
 #include "core-support/entity.h"
 #include "core-support/camera.h"
+#include "../core/sound.h"
 
 #define ORB_DELAY 600
 
