@@ -26,7 +26,8 @@ char *intrusiveThoughts[] = {
 };
 
 void orb_OnCollision(Entity* thisEntity, Entity* otherEntity){
-  if(orb_singleton.counter-- < 0){
+  // print a message every 10 seconds or so
+  if(--orb_singleton.counter < 0){
     orb_singleton.counter = ORB_DELAY;
     printf(intrusiveThoughts[POKEY_READ.random & 15]);
     orb_sound();

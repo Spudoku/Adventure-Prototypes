@@ -24,28 +24,25 @@ STATUS player_FrameTask(Entity* thisEntity) {
   //pseudo
 
   // read input and set velocity
-  // TODO: check for collisions
-
-  
+  // TODO: check for collisions before input?
 
   return playerInputProcess();
 }
 
-//remember, the renderer happens as the second batch, after all game logic is
-//calced
-//prepare the graphics driver
+// remember, the renderer happens as the second batch, after all game logic is
+// calced
+// prepare the graphics driver
 STATUS playerRenderer(Entity* thisEntity) {
 
   thisEntity->_eyeCoords = convertToEyeCoords(thisEntity->_worldCoords);
   //incomplete
 
   //generally dont need a bounds check, player is always in frame
-
   (&(GTIA_WRITE.hposp0))[TEMP_player_anticIndex] = playerEnt.playerEntity._eyeCoords.x 
             + HPOSP_MIN + playerEnt.playerEntity._objectAnchorPoint.x;
   
-  //printf("%d\n",(&(GTIA_WRITE.hposp0))[TEMP_player_anticIndex] );
-
+  // sadly, this is a necessary evil
+  // (it takes up ~20-40% of frame cycles)
   pmgSilo_setY(playerEnt.playerSilo, thisEntity->_eyeCoords.y);
 
   return UNDEFINED;
@@ -64,7 +61,7 @@ STATUS playerInputProcess(){
   //read the joystick data
   joystickState = joy_read(JOY_1);
 
-
+  // left/right movement
   switch(JOY_LEFTRIGHT(joystickState)){
     case JOY_LEFT_MASK:
       playerEnt.playerVelocity.x = -playerEnt.playerSpeed;
@@ -77,6 +74,7 @@ STATUS playerInputProcess(){
       break;
   }
 
+  // up/down movement
   switch(JOY_UPDOWN(joystickState)){
     case JOY_UP_MASK: 
       playerEnt.playerVelocity.y = -playerEnt.playerSpeed;
@@ -94,7 +92,7 @@ STATUS playerInputProcess(){
   //makes this lock out when held
   if(JOY_FIRE(joystickState) && !JOY_FIRE(lastFrameState)){
     //will currently break if player has no child
-    // TODO: make this drop the childEntity!
+    // TODO: make this drop the childEntity! (which should be an item)
     playerEnt.playerEntity.childEntity->frameTask(playerEnt.playerEntity.childEntity);
   }
 
@@ -104,10 +102,9 @@ STATUS playerInputProcess(){
   return PASS;
 }
 
-//Presently only sets worldcoord back when called
-//May need more grandular checks later...
-// TODO: check if otherEntity is dragon and if so, check its state
-// if its chomping, do 
+// Presently only sets worldcoord back when called
+// May need more grandular checks later...
+// TODO: FIX THESE STUPID COLLISIONS!!!!!
 void player_OnCollide(Entity* thisEntity, Entity* otherEntity){
 
   if (otherEntity == NULL) {
@@ -127,10 +124,12 @@ void player_OnCollide(Entity* thisEntity, Entity* otherEntity){
       playerEnt.playerEntity._worldCoords.y -= playerEnt.playerVelocity.y;
     }
   }
+  // TODO: check if its an item
  
   return;
 }
 
+// bad :D
 void player_horiz_collisions() {
   playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
   
@@ -142,31 +141,20 @@ STATUS playerConstructor(){
 
   //call the "base" constructor
 
-  
-
-  //entityConstructor((Entity*)&playerEnt.playerEntity, player_FrameTask, playerRenderer);
-  //assign to the player entity it's dummy obj item
-
-  // playerEnt.playerEntity.childEntity = &nullItem;
-  // //in the future, the constructor will be not ran right here, probably during
-  // //boot sequence
-  // nullItem_constructor(&nullItem);  
-
+  // set PMG index and validate it
   pmg_index = pmg_addPlayerSprite(&playerSprite);
 
+
   if(pmg_index < 4){
-    //schedulerData.antic_P2PCollisionLookupTable[pmg_index] = (Entity *)&playerEnt;
-    //schedulerData.antic_P2PCollisionLookupMask |= (1 << pmg_index);
     playerEnt.playerSilo = activePMGInstance->playerGFX + pmg_index;
     TEMP_player_anticIndex = pmg_index;
   }
-  printf("Player antic index: %d\n", TEMP_player_anticIndex);
 
   //printf("Address: %d\n", %d)
   return PASS;
 }
 
-
+// sprite :D
 uint8_t playerSpriteBitmap[] ={
   0b00111100,
   0b00111100,

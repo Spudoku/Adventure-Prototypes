@@ -26,22 +26,14 @@ void pmg_clear(){
   memset(activePMGInstance, 0, sizeof(PMGInstance));
 }
 
-// void pmg_updateActiveInstance(){
-//   int i = 0;
-//   if(activePMGInstance == NULL) return;
 
-//   for(; i < 4; i++){
-//     if(activePMGInstance->playerGFX[i].header.refsprite == NULL) continue;
-
-
-//   }
-// }
 
 //assume clear
 uint8_t pmg_addPlayerSprite(Sprite* toAdd){
   int i = 0;
 
   while(i < 4){
+    // check if current sprite in the slot is NULL
     if(activePMGInstance->playerGFX[i].header.refsprite == NULL){
       activePMGInstance->playerGFX[i].header.refsprite = toAdd;
       (&(OS.pcolr0))[i] = toAdd->color;
@@ -61,8 +53,8 @@ void pmgSilo_clear(PMGPlayerSpriteSilo* silo){
   height = silo->header.refsprite->height;
 
   // height is
-  //clamping oldy
-  //assumes no overflow
+  // clamping oldy
+  // assumes no overflow
   if((oldY < 0) && (height + oldY > 0)) {
     //partial visibility on top
     memset(silo->visibleBytes, 0, (height + oldY));
@@ -77,6 +69,8 @@ void pmgSilo_clear(PMGPlayerSpriteSilo* silo){
 }
 
 //TODO: optimize
+// However, I've spent like 6 hours trying to do better than this with 
+// no success
 void pmgSilo_writeRefSprite(PMGPlayerSpriteSilo* silo, int8_t newY){
   int8_t height;
   Sprite* retrievedSprite;

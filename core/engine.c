@@ -1,6 +1,7 @@
 #include "engine.h"
 
 void engine_Boot(){
+    // install drivers
     joy_install(&atrstd_joy);  
 
     //init graphics
@@ -10,12 +11,10 @@ void engine_Boot(){
 
 
 void engine_InitSingletons(){
- 
+    
     playerConstructor();
     dragon_Init(&dragonSingleton);  //TEMP
     dragon_TrackEntity(&dragonSingleton, &playerEnt.playerEntity);
-
-    
 
     
     //debug manual assign for now
@@ -27,7 +26,6 @@ void engine_InitSingletons(){
 
 }
 
-//stub for now, this will be designed later
 //should produce a final gamestate...
 //the idea is to have an array of frametask ptrs to run in order
 void engine_StateUpdate(){
@@ -76,7 +74,6 @@ void engine_EventDispatcher(){
 };
 
 
-// TODO: end_game;
 // play the sad sound when you get got
 // for now, just reset the game
 void end_game() {

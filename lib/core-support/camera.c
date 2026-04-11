@@ -46,9 +46,7 @@ bool objectVisible(Transform *toCheck){
   //bounding box checks
 
   //will consider the following later :
-  //if(!toCheck.active if i dont just pass the entity and have that store that) 
-  // {return FAIL;}
-  
+ 
   //Note: i bet this may be screwy with negatives
 
 
@@ -103,26 +101,10 @@ STATUS camera_FrameTask(Entity* thisEntity){
     convertToEyeCoords(camera._TrackedObject->_worldCoords);
 
 
-  //margin move,
-  // if(ObjectInsideMargin(&camera._TrackedObject->transform) == FAIL) 
-  // {
-    
-
-
-
-
-
     //hopefully it actually adds negatives correctly...
     offset = objectToMargin(&camera._TrackedObject->transform);
     camera.cameraEntity._worldCoords.x += offset.x;
     camera.cameraEntity._worldCoords.y += offset.y;
-  // }
-
-  //basic centering for debug
-  // if(camera._TrackedObject != NULL) {
-  //   camera.cameraEntity._worldCoords.x = camera._TrackedObject->_worldCoords.x - camera.centerPoint.x;
-  //   camera.cameraEntity._worldCoords.y = camera._TrackedObject->_worldCoords.y - camera.centerPoint.y;
-  //   worldCoordView = thisEntity->_worldCoords; 
   // }
 
   return PASS;

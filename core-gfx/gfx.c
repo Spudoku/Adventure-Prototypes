@@ -54,10 +54,6 @@ void map_absoluteMove(Vector2 absolutePosition){
     } 
 
     
-    
-
-    
-
     return;
 }
 
@@ -81,6 +77,7 @@ void map_relativeMove(Vector2 relativePosition){
 
 
 void map_fastAbsoluteMove(Vector2 absolutePosition){
+    
     char dirty = 0;
     char i = 0;
 
@@ -92,9 +89,6 @@ void map_fastAbsoluteMove(Vector2 absolutePosition){
 
 
     //TODO: mitigate the cost of a hit (a move covered by just moving h/vscrol)
-    //if(mapData.coarseOffset !=)   //idea that didnt work
-    // if((((newOffset.y & ~mapData.offset.y) //changes to coarse Y exist?
-    //         & IGNORE_VSCROL_PIXELS_BITMASK) != 0))  
     
     //calculate new coarse positions, determine if they are changed
     newCoarse.y = Y_PIXEL_TO_COARSE(newOffset.y);
