@@ -8,6 +8,7 @@
 
 #include "util/sprite.h"
 #include "util/util_structs.h"
+#include "util/util.h"
 
 
 

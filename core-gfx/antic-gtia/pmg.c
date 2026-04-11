@@ -97,6 +97,7 @@ void pmgSilo_writeRefSprite(PMGPlayerSpriteSilo* silo, int8_t newY){
     //partial bottom occlusion
     //printf("%d\n", newY -neswY - sizeof(silo->visibleBytes))
     memcpy((silo->visibleBytes + newY), retrievedSprite->bitmap, sizeof(silo->visibleBytes) - newY);
+    
   }
 
   silo->header.cachedY = newY;

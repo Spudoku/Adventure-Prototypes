@@ -4,6 +4,7 @@
 #include <stddef.h>
 #include <atari.h>
 #include <peekpoke.h>
+#include <stdint.h>
 
 
 //fixed screen offsets 
