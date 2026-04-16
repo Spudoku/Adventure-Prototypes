@@ -22,22 +22,29 @@ uint8_t TEMP_chalice_anticIndex;
   Start Chalice Definitions
 */
 
+ChaliceEntity chaliceEnt = {
+  {
+    chalice_Task, chalice_renderer, chalice_OnCollision (void*)&chaliceEnt, NULL,
+    {{0,0}, {0,0}, {0,0},{4,4}}
+  }
+};
+
 STATUS chalice_constructor(Entity* thisEntity) {
 
-  // uint8_t pmg_index;
+  uint8_t pmg_index;
 
-  // //call the "base" constructor
+  //call the "base" constructor
 
-  // // set PMG index and validate it
-  // pmg_index = pmg_addPlayerSprite(&chaliceSprite);
+  // set PMG index and validate it
+  pmg_index = pmg_addPlayerSprite(&chaliceSprite);
 
 
-  // if(pmg_index < 4){
-  //   chaliceSilo = activePMGInstance->playerGFX + pmg_index;
-  //   TEMP_chalice_anticIndex = pmg_index;
-  // }
+  if(pmg_index < 4){
+    chaliceSilo = activePMGInstance->playerGFX + pmg_index;
+    TEMP_chalice_anticIndex = pmg_index;
+  }
 
-  // //printf("Address: %d\n", %d)
+  //printf("Address: %d\n", %d)
   return PASS;
 };
 
@@ -48,33 +55,8 @@ STATUS chalice_Task(Entity* thisEntity) {
   
 }
 
-// STATUS chalice_renderer(Entity* thisEntity) {
-  
-//     thisEntity->_eyeCoords = convertToEyeCoords(thisEntity->_worldCoords);
-  
-
-//   //quick and dirty hide
-//   if(!objectVisible(&(thisEntity->transform))){
-//     (&(GTIA_WRITE.hposp0))[TEMP_chalice_anticIndex] = 0;
-//     return PASS;
-//   }
-
-//   // set horizontal position
-//   (&(GTIA_WRITE.hposp0))[TEMP_chalice_anticIndex] = thisEntity->_eyeCoords.x 
-//             + HPOSP_MIN + thisEntity->_objectAnchorPoint.x;
-  
-  
-
-
-//   //printf("%d\n",(&(GTIA_WRITE.hposp0))[TEMP_player_anticIndex] );
-
-//   // only update vertical position if vertical movement occurred
-//   // pmgSilo_setY(&chaliceSilo, thisEntity->_eyeCoords.y);
-  
-//   return UNDEFINED;
-// }
-
 STATUS chalice_renderer(Entity* thisEntity) {
+  
   return UNDEFINED;
 }
 
@@ -82,7 +64,7 @@ void chalice_OnCollision(struct Entity* thisEntity, struct Entity* otherEntity) 
 
 }
 
-Entity chaliceItem = {chalice_Task, chalice_renderer, chalice_OnCollision, (void *)NULL, &chaliceItem, {{0,0}, {0,0}, {0,0},{0,0}}};
+
 
 
 // sprite :D

@@ -1,16 +1,21 @@
 #ifndef ITEMS_H_
 #define ITEMS_H_
 
-#include "core-support/entity.h"
-#include "core-support/camera.h"
-#include "../../core/sound.h"
-#include <stddef.h>
+#include <stdint.h>
+#include <joystick.h>
 
-#include "../core-gfx/antic-gtia/pmg.h"
 #include "util/util.h"
 #include "util/util_structs.h"
 #include "util/sprite.h"
 #include "util/util_input.h"
+
+#include "core-support/entity.h"
+#include "core-support/camera.h"
+
+#include "../core-gfx/antic-gtia/pmg.h"
+
+#include "../core/sound.h"
+#include "../dragon.h"
 
 //item repo
 //items are entities designed to be held by another entity to do some action
@@ -43,10 +48,13 @@ STATUS nullItem_constructor(Entity* thisEntity);
   Start Chalice Declarations
 */
 
-extern Entity chaliceItem;
-extern Sprite chaliceSprite;
+typedef struct ChaliceEntity {
+  Entity chaliceEntity;
+  PMGPlayerSpriteSilo *chaliceSilo;
+} ChaliceEntity;
 
-// PMGPlayerSpriteSilo *chaliceSilo;
+// extern CaliceEntity chaliceEnt;
+extern Sprite chaliceSprite;
 
 STATUS chalice_Task(Entity* thisEntity);
 STATUS chalice_renderer(Entity* thisEntity);
