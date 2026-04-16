@@ -8,7 +8,7 @@ bool vertMovePlayer = true;
 
 //initializer list to allow compile time assign/construct
 PlayerEntity playerEnt = {
-  {player_FrameTask, playerRenderer, player_OnCollide, (void *)&playerEnt, &dumbItem, //entity
+  {player_FrameTask, playerRenderer, player_OnCollide, (void *)&playerEnt, NULL, //entity
     
     {{0,0}, {0,0}, {0,0},{4,4}}}, //entity.transform
 

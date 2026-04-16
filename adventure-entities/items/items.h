@@ -2,8 +2,15 @@
 #define ITEMS_H_
 
 #include "core-support/entity.h"
+#include "core-support/camera.h"
 #include "../../core/sound.h"
 #include <stddef.h>
+
+#include "../core-gfx/antic-gtia/pmg.h"
+#include "util/util.h"
+#include "util/util_structs.h"
+#include "util/sprite.h"
+#include "util/util_input.h"
 
 //item repo
 //items are entities designed to be held by another entity to do some action
@@ -18,6 +25,7 @@
 */
 extern Entity nullItem;
 
+
 STATUS nullItem_Task(Entity* thisEntity);
 STATUS nullItem_renderer(Entity* thisEntity);
 
@@ -30,19 +38,25 @@ STATUS nullItem_constructor(Entity* thisEntity);
   End nullItem declarations
 */
 
+
 /*
-  Begin dumbItem declarations
-  dumbItem will play a sound when it touches things (I think?)
+  Start Chalice Declarations
 */
-extern Entity dumbItem;
 
-STATUS dumbItem_Task(Entity* thisEntity);
+extern Entity chaliceItem;
+extern Sprite chaliceSprite;
 
-STATUS dumbItem_renderer(Entity* thisEntity);
+// PMGPlayerSpriteSilo *chaliceSilo;
 
-STATUS dumbItem_constructor(Entity* thisEntity);
+STATUS chalice_Task(Entity* thisEntity);
+STATUS chalice_renderer(Entity* thisEntity);
+
+void chalice_OnCollision(struct Entity* thisEntity, struct Entity* otherEntity);
+
+STATUS chalice_constructor(Entity* thisEntity);
+
 /*
-  End dumbItem declarations
+  End Chalice Declarations
 */
 
 #endif 
