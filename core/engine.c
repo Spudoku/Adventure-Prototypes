@@ -16,17 +16,21 @@ void engine_InitSingletons(){
     dragon_Init(&dragonSingleton);  //TEMP
     dragon_TrackEntity(&dragonSingleton, &playerEnt.playerEntity);
 
-    chalice_constructor(&chaliceItem);
+
 
     
     //debug manual assign for now
     playerEnt.playerEntity._worldCoords.x = 624;
     playerEnt.playerEntity._worldCoords.y = 560;
 
-    chaliceItem._worldCoords.x = 600;
-    chaliceItem._worldCoords.y = 560;
+    chaliceEnt.chaliceEntity._worldCoords.x = 600;
+    chaliceEnt.chaliceEntity._worldCoords.y = 560;
+
+
     
     cameraConstructor(&playerEnt.playerEntity);
+
+    chalice_constructor();
 
 
 }
@@ -53,6 +57,7 @@ void engine_Render(){
     dragonSingleton.myEntity.renderer(&(dragonSingleton.myEntity));
 
     // chaliceItem.renderer(&chaliceItem);
+    chaliceEnt.chaliceEntity.renderer(&(chaliceEnt.chaliceEntity));
 };
 
 //stub to demonstrate where events would be dispatched during each tick

@@ -24,13 +24,14 @@ uint8_t TEMP_chalice_anticIndex;
 
 ChaliceEntity chaliceEnt = {
   {
-    chalice_Task, chalice_renderer, chalice_OnCollision (void*)&chaliceEnt, NULL,
-    {{0,0}, {0,0}, {0,0},{4,4}}
-  }
+    chalice_Task,chalice_renderer,chalice_OnCollision,(void*)&chaliceEnt,NULL, // functions, reference, child
+    {{0,0},{0,0},{0,0},{4,4}}                     // transform
+  },
+
+  0   // chalice silo
 };
 
-STATUS chalice_constructor(Entity* thisEntity) {
-
+STATUS chalice_constructor() {
   uint8_t pmg_index;
 
   //call the "base" constructor
@@ -40,30 +41,39 @@ STATUS chalice_constructor(Entity* thisEntity) {
 
 
   if(pmg_index < 4){
-    chaliceSilo = activePMGInstance->playerGFX + pmg_index;
+    chaliceEnt.chaliceSilo = activePMGInstance->playerGFX + pmg_index;
     TEMP_chalice_anticIndex = pmg_index;
   }
 
   //printf("Address: %d\n", %d)
   return PASS;
-};
+}
 
-// task that chalice does each frame
-STATUS chalice_Task(Entity* thisEntity) { 
-  
+STATUS chalice_Task(Entity* thisEntity) {
   return UNDEFINED;
-  
 }
 
 STATUS chalice_renderer(Entity* thisEntity) {
-  
+  // sound_generic_buzz();
+   thisEntity->_eyeCoords = convertToEyeCoords(thisEntity->_worldCoords);
+
+    if(!objectVisible(&(thisEntity->transform))){
+    (&(GTIA_WRITE.hposp0))[TEMP_chalice_anticIndex] = 0;
+    return PASS;
+  }
+
+
+    (&(GTIA_WRITE.hposp0))[TEMP_chalice_anticIndex] = chaliceEnt.chaliceEntity._eyeCoords.x 
+            + HPOSP_MIN + chaliceEnt.chaliceEntity._objectAnchorPoint.x;
+
+    pmgSilo_setY(chaliceEnt.chaliceSilo, thisEntity->_eyeCoords.y);
+
   return UNDEFINED;
 }
 
 void chalice_OnCollision(struct Entity* thisEntity, struct Entity* otherEntity) {
-
+  
 }
-
 
 
 

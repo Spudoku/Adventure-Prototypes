@@ -53,7 +53,7 @@ typedef struct ChaliceEntity {
   PMGPlayerSpriteSilo *chaliceSilo;
 } ChaliceEntity;
 
-// extern CaliceEntity chaliceEnt;
+extern ChaliceEntity chaliceEnt;
 extern Sprite chaliceSprite;
 
 STATUS chalice_Task(Entity* thisEntity);
@@ -61,7 +61,7 @@ STATUS chalice_renderer(Entity* thisEntity);
 
 void chalice_OnCollision(struct Entity* thisEntity, struct Entity* otherEntity);
 
-STATUS chalice_constructor(Entity* thisEntity);
+STATUS chalice_constructor();
 
 /*
   End Chalice Declarations
