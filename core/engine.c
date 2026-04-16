@@ -43,9 +43,9 @@ void engine_StateUpdate(){
 
     playerEnt.playerEntity.frameTask(&(playerEnt.playerEntity));
 
-    dragonSingleton.myEntity.frameTask(&(dragonSingleton.myEntity));
+    // dragonSingleton.myEntity.frameTask(&(dragonSingleton.myEntity));
 
-    // chaliceItem.frameTask(&chaliceItem);
+    chaliceEnt.chaliceEntity.frameTask(&chaliceEnt.chaliceEntity);
     
     camera.cameraEntity.frameTask(&(camera.cameraEntity));
 }

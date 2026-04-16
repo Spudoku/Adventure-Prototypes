@@ -208,7 +208,7 @@ STATUS dragon_Init(DragonEntity* instance){
   printf("Dragon debug antic index: %d\n", TEMP_dragon_anticIndex);
 
   // TODO: semi random spawn locations?
-  instance->myEntity._worldCoords.x = 400;
+  instance->myEntity._worldCoords.x = 500;
   instance->myEntity._worldCoords.y = 560;
 
   // initializing miscellaneous variables

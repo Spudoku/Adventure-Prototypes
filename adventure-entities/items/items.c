@@ -22,6 +22,12 @@ uint8_t TEMP_chalice_anticIndex;
   Start Chalice Definitions
 */
 
+int16_t chalice_eyecoords_x;
+int16_t chalice_eyecoords_y;
+
+int16_t chalice_worldcoords_x;
+int16_t chalice_worldcoords_y;
+
 ChaliceEntity chaliceEnt = {
   {
     chalice_Task,chalice_renderer,chalice_OnCollision,(void*)&chaliceEnt,NULL, // functions, reference, child
@@ -44,18 +50,26 @@ STATUS chalice_constructor() {
     chaliceEnt.chaliceSilo = activePMGInstance->playerGFX + pmg_index;
     TEMP_chalice_anticIndex = pmg_index;
   }
-
+  chaliceEnt.chaliceSilo -> header.refsprite = &chaliceSprite;
   //printf("Address: %d\n", %d)
   return PASS;
 }
 
 STATUS chalice_Task(Entity* thisEntity) {
+
+  
   return UNDEFINED;
 }
 
 STATUS chalice_renderer(Entity* thisEntity) {
   // sound_generic_buzz();
    thisEntity->_eyeCoords = convertToEyeCoords(thisEntity->_worldCoords);
+
+  chalice_eyecoords_x = thisEntity->_eyeCoords.x;
+  chalice_eyecoords_y = thisEntity->_eyeCoords.y;
+
+  chalice_worldcoords_x = thisEntity->_worldCoords.x;
+  chalice_worldcoords_y = thisEntity->_worldCoords.y;
 
     if(!objectVisible(&(thisEntity->transform))){
     (&(GTIA_WRITE.hposp0))[TEMP_chalice_anticIndex] = 0;
