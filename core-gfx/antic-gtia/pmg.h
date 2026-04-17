@@ -74,4 +74,12 @@ void pmgSilo_writeRefSprite(PMGPlayerSpriteSilo* silo, int8_t newY);
 // //only works when sprite is completely visible
 // void pmgSilo_fastRelativeVerticalMove(PMGPlayerSpriteSilo* silo, int8_t newY);
 
+// collision helpers
+extern unsigned char player_to_player_collisions(unsigned char player);
+extern unsigned char player_to_playfield_collisions(unsigned char player);
+extern unsigned char missile_to_player_collisions(unsigned char player);
+extern unsigned char missile_to_playfield_collisions(unsigned char missile);
+
+extern bool collision_with_index(unsigned char data, unsigned char index);
+
 #endif

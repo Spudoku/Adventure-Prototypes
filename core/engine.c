@@ -1,5 +1,6 @@
 #include "engine.h"
 
+unsigned char p1_collisions;
 void engine_Boot(){
     // install drivers
     joy_install(&atrstd_joy);  
@@ -43,7 +44,7 @@ void engine_StateUpdate(){
 
     playerEnt.playerEntity.frameTask(&(playerEnt.playerEntity));
 
-    // dragonSingleton.myEntity.frameTask(&(dragonSingleton.myEntity));
+    dragonSingleton.myEntity.frameTask(&(dragonSingleton.myEntity));
 
     chaliceEnt.chaliceEntity.frameTask(&chaliceEnt.chaliceEntity);
     
@@ -56,7 +57,6 @@ void engine_Render(){
     playerEnt.playerEntity.renderer(&(playerEnt.playerEntity));
     dragonSingleton.myEntity.renderer(&(dragonSingleton.myEntity));
 
-    // chaliceItem.renderer(&chaliceItem);
     chaliceEnt.chaliceEntity.renderer(&(chaliceEnt.chaliceEntity));
 };
 
@@ -64,24 +64,41 @@ void engine_Render(){
 void engine_EventDispatcher(){
 
   //Temporary bruteforce collision behavior pending true dispatching
-  if((&(GTIA_READ.p0pl))[TEMP_dragon_anticIndex]){
+//   if((&(GTIA_READ.p0pl))[TEMP_dragon_anticIndex]){
       
-      dragon_OnCollision(&(dragonSingleton.myEntity), &playerEnt.playerEntity);
-        player_OnCollide(&playerEnt.playerEntity, &(dragonSingleton.myEntity));
-  }
+//       dragon_OnCollision(&(dragonSingleton.myEntity), &playerEnt.playerEntity);
+//         player_OnCollide(&playerEnt.playerEntity, &(dragonSingleton.myEntity));
+//   }
+
+    // if dragon collides with player...
+    p1_collisions = player_to_player_collisions(TEMP_dragon_anticIndex);
+    
+    // if dragon collides with player avatar...
+    if (collision_with_index(p1_collisions,TEMP_player_anticIndex)) {
+        // sound_generic_buzz();
+        dragon_OnCollision(&(dragonSingleton.myEntity), &playerEnt.playerEntity);
+         player_OnCollide(&playerEnt.playerEntity, &(dragonSingleton.myEntity));
+    }
+
+
 
   // player collisions
-  switch((&(GTIA_READ.p0pf))[TEMP_player_anticIndex]){
-    case 0:
-        break;
-    case 8: //only the trigger color is activated
-        orb_singleton.entity.OnCollision(NULL, NULL);
-        orb_sound();
-        break;
-    default:
+//   switch((&(GTIA_READ.p0pf))[TEMP_player_anticIndex]){
+//     case 0:
+//         break;
+//     case 8: //only the trigger color is activated
+//         orb_singleton.entity.OnCollision(NULL, NULL);
+//         orb_sound();
+//         break;
+//     default:
+//         player_OnCollide(&playerEnt.playerEntity, NULL);
+//         break;
+//   }
+
+    // player character collisions
+    if (player_to_playfield_collisions(TEMP_player_anticIndex)) {
         player_OnCollide(&playerEnt.playerEntity, NULL);
-        break;
-  }
+    }
 
   GTIA_WRITE.hitclr = 1; 
         

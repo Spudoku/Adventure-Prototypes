@@ -107,3 +107,98 @@ void pmgSilo_setY(PMGPlayerSpriteSilo* silo, int8_t newY){
   //memcpy the new y with bounds checking
   
 }
+
+
+// START COLLISION HELPERS
+unsigned char player_to_player_collisions(unsigned char player) {
+    switch (player) {
+        case 0:
+            return GTIA_READ.p0pl;
+            
+        case 1:
+            return GTIA_READ.p1pl;
+            
+        case 2:
+            return GTIA_READ.p2pl;
+            
+        case 3:
+            return GTIA_READ.p3pl;
+            
+        default:
+            return 0;
+            
+    }
+}
+
+unsigned char missile_to_player_collisions(unsigned char missile) {
+    switch (missile) {
+        case 0:
+            return GTIA_READ.m0pl;
+
+        case 1:
+            return GTIA_READ.m1pl;
+            
+        case 2:
+            return GTIA_READ.m2pl;
+            
+        case 3:
+            return GTIA_READ.m3pl;
+       default:
+            return 0;
+            
+    }
+
+}
+
+unsigned char player_to_playfield_collisions(unsigned char player) {
+    switch (player) {
+        case 0:
+            return GTIA_READ.p0pf;
+
+        case 1:
+            return GTIA_READ.p1pf;
+            
+        case 2:
+            return GTIA_READ.p2pf;
+            
+        case 3:
+            return GTIA_READ.p3pf;
+       default:
+            return 0;
+            
+    }
+}
+
+unsigned char missile_to_playfield_collisions(unsigned char missile) {
+    switch (missile) {
+        case 0:
+            return GTIA_READ.m0pf;
+
+        case 1:
+            return GTIA_READ.m1pf;
+            
+        case 2:
+            return GTIA_READ.m2pf;
+            
+        case 3:
+            return GTIA_READ.m3pf;
+       default:
+            return 0;
+            
+    }
+}
+
+// How this works is you pass 'data' from one of the helper methods (e.g,
+// player_to_playfield_collisions(0)), and an index from 0-3
+// to check which object is being collided with.
+// usage example:
+// unsigned char p0_pf_collisions = player_to_playfield_collisions(unsigned char player);
+// // say 0b00001000 is returned
+// bool collide_with_3 = collision_with_index(p0_pf_collisions, 3);
+// // result: collide_with_3 is true if player 0 is colliding with playfield 3
+bool collision_with_index(unsigned char data, unsigned char index){
+    if (index > 3) {
+        return false;
+    }
+    return (data >> index) & 1;
+}

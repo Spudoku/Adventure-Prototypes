@@ -40,10 +40,7 @@ STATUS dragon_frameTask(Entity* thisEntity) {
   if (D_ENT->dragonChompCounter > 0) {
     D_ENT->state = D_STATE_CHOMP;
 
-    // if on last frame of chomp, try to eat player
-    if (D_ENT->dragonChompCounter == 1) {
-      check_if_eating();
-    }
+    
     return PASS;
 
   }
@@ -122,6 +119,11 @@ void dragon_OnCollision(Entity* thisEntity, Entity* otherEntity){
     thisEntity->_worldCoords.y = otherEntity->_worldCoords.y;
 
     D_ENT->state = D_STATE_CHOMP;
+  } else {
+    // if on last frame of chomp, try to eat player
+    if (D_ENT->dragonChompCounter == 1) {
+      check_if_eating();
+    }
   }
   
 
@@ -208,7 +210,7 @@ STATUS dragon_Init(DragonEntity* instance){
   printf("Dragon debug antic index: %d\n", TEMP_dragon_anticIndex);
 
   // TODO: semi random spawn locations?
-  instance->myEntity._worldCoords.x = 500;
+  instance->myEntity._worldCoords.x = 600;
   instance->myEntity._worldCoords.y = 560;
 
   // initializing miscellaneous variables
@@ -264,9 +266,8 @@ STATUS dragonRenderer(Entity* thisEntity) {
 // check collisions to see if still eating the player
 // if successful, player dies and game is reset
 void check_if_eating() {
-  if ((&(GTIA_READ.p0pl))[TEMP_dragon_anticIndex]) {
-    // end game
+  dragon_eat_sound();
+  // end game
     dragon_eat_sound();
     end_game();
-  }
 }
