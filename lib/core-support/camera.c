@@ -67,13 +67,11 @@ bool objectVisible(Transform *toCheck){
     return false;
   }
 
-  //checking if the right side of it is visible
-
-  if(temp_x + toCheck->objectBounds.x < 1){
+  if(temp_x < 1){
     return false;
   }
 
-  if(temp_y + toCheck->objectBounds.y < 1) {
+  if(temp_y < 1) {
     return false;
   }
 
@@ -96,7 +94,7 @@ STATUS camera_FrameTask(Entity* thisEntity){
   Vector2 offset;
 
   if(camera._TrackedObject == NULL ){
-    return PASS;
+      return PASS;
   }
 
 
@@ -104,13 +102,13 @@ STATUS camera_FrameTask(Entity* thisEntity){
     //this does mean the entity may refresh it's eyecoord twice tho
 
   camera._TrackedObject->_eyeCoords = 
-    convertToEyeCoords(camera._TrackedObject->_worldCoords);
+  convertToEyeCoords(camera._TrackedObject->_worldCoords);
 
 
     //hopefully it actually adds negatives correctly...
-    offset = objectToMargin(&camera._TrackedObject->transform);
-    camera.cameraEntity._worldCoords.x += offset.x;
-    camera.cameraEntity._worldCoords.y += offset.y;
+  offset = objectToMargin(&camera._TrackedObject->transform);
+  camera.cameraEntity._worldCoords.x += offset.x;
+  camera.cameraEntity._worldCoords.y += offset.y;
   // }
 
   return PASS;

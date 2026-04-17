@@ -47,41 +47,28 @@ uint8_t pmg_addPlayerSprite(Sprite* toAdd){
 }
 
 void pmgSilo_clear(PMGPlayerSpriteSilo* silo){
-  int8_t oldY;
-  int8_t height;
-      temp_visible_bytes = silo->visibleBytes;  
+    int8_t oldY;
+    int8_t height;
+    temp_visible_bytes = silo->visibleBytes;  
 
-  oldY = silo->header.cachedY;
-  height = silo->header.refsprite->height;
+    oldY = silo->header.cachedY;
+    height = silo->header.refsprite->height;
 
-  // height is
-  // clamping oldy
-  // assumes no overflow
-//   if((oldY < 0) && (height + oldY > 0)) {
-//     //partial visibility on top
-//     memset(temp_visible_bytes, 0, (height + oldY));
-//   } else if ((oldY < sizeof(silo->visibleBytes)) && (height + oldY) < sizeof(silo->visibleBytes)) {
-//     //complely visible, 0 < y < 96, and the height is the same
-//     memset((temp_visible_bytes + oldY), 0, height);
-//   } else {
-//     //partial bottom occlusion
-//     memset((temp_visible_bytes + oldY), 0, sizeof(silo->visibleBytes));
-//   }
 
-  if (oldY < 0) {
-    height += oldY;
-  } else {
-    temp_visible_bytes += oldY;
-    if ((height + oldY) > sizeof(silo->visibleBytes)) {
-        height = sizeof(silo->visibleBytes);
+    if (oldY < 0) {
+        height += oldY;
+    } else {
+        temp_visible_bytes += oldY;
+        if ((height + oldY) > sizeof(silo->visibleBytes)) {
+            height = sizeof(silo->visibleBytes);
+        }
     }
-  }
+    //  clear relevant bytes
     memset(temp_visible_bytes,0,height);
 }
 
-//TODO: optimize
-// However, I've spent like 6 hours trying to do better than this with 
-// no success
+//  TODO: optimize further
+// copies the sprite from silo into PMG memory
 void pmgSilo_writeRefSprite(PMGPlayerSpriteSilo* silo, int8_t newY){
     int8_t height;
     Sprite* retrievedSprite;
@@ -97,10 +84,14 @@ void pmgSilo_writeRefSprite(PMGPlayerSpriteSilo* silo, int8_t newY){
     height = retrievedSprite->height;
 
     if (newY < 0) {
+        // occlusion at the top
         temp_bitmap_ptr -= newY;
         height += newY;
     } else {
+        // top is visible
         temp_visible_bytes += newY;
+
+        // clipping at bottom
         if ((height + newY) > 96) {
             height = 96 - newY;
         }
@@ -113,18 +104,21 @@ void pmgSilo_writeRefSprite(PMGPlayerSpriteSilo* silo, int8_t newY){
 
 void pmgSilo_setY(PMGPlayerSpriteSilo* silo, int8_t newY){
   
-  //if(silo->header.cachedY == newY) return;
   // why does this clear all 96 bytes
-  // memset(silo->visibleBytes, 0, sizeof(silo->visibleBytes));
-  pmgSilo_clear(silo);
+    pmgSilo_clear(silo);
 
-  pmgSilo_writeRefSprite(silo, newY);
-  //memcpy the new y with bounds checking
+    //memcpy the new y with bounds checking
+    pmgSilo_writeRefSprite(silo, newY);
+
   
 }
 
 
-// START COLLISION HELPERS
+/*
+    Start collision helpers
+*/
+
+// return all player-to-player collision data for player
 unsigned char player_to_player_collisions(unsigned char player) {
     switch (player) {
         case 0:
@@ -145,6 +139,7 @@ unsigned char player_to_player_collisions(unsigned char player) {
     }
 }
 
+// return all missile-to-player collision data for player
 unsigned char missile_to_player_collisions(unsigned char missile) {
     switch (missile) {
         case 0:
@@ -205,15 +200,18 @@ unsigned char missile_to_playfield_collisions(unsigned char missile) {
 
 // How this works is you pass 'data' from one of the helper methods (e.g,
 // player_to_playfield_collisions(0)), and an index from 0-3
-// to check which object is being collided with.
-// usage example:
-// unsigned char p0_pf_collisions = player_to_playfield_collisions(unsigned char player);
-// // say 0b00001000 is returned
-// bool collide_with_3 = collision_with_index(p0_pf_collisions, 3);
-// // result: collide_with_3 is true if player 0 is colliding with playfield 3
+// to check which object is being collided with. usage example:
+//      unsigned char p0_pf_collisions = player_to_playfield_collisions(unsigned char player);
+//      say 0b00001000 is returned
+//      bool collide_with_3 = collision_with_index(p0_pf_collisions, 3);
+//      result: collide_with_3 is true if player 0 is colliding with playfield 3
 bool collision_with_index(unsigned char data, unsigned char index){
     if (index > 3) {
         return false;
     }
     return (data >> index) & 1;
 }
+
+/*
+    end collision helpers
+*/
