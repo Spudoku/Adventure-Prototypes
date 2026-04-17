@@ -154,22 +154,22 @@ Vector2 objectToMargin(Transform *toCheck){
   // using static variables to reduce pointer lookups
   temp_x = toCheck->eyeCoords.x;
   temp_y = toCheck->eyeCoords.y;
-  temp_obj_bounds_x = toCheck->objectBounds.x;
-  temp_obj_bounds_y = toCheck->objectBounds.y;
+  // temp_obj_bounds_x = toCheck->objectBounds.x;
+  // temp_obj_bounds_y = toCheck->objectBounds.y;
   
   
-  if((temp_x + temp_obj_bounds_x)  > camera.innerMargin.x) {
+  if(temp_x  > camera.innerMargin.x) {
     //right side is closer, get x dist to that
-    result.x = (temp_x + temp_obj_bounds_x) - camera.innerMargin.x;
+    result.x = temp_x - camera.innerMargin.x;
   } else if (temp_x < camera.draggingMargin){
     //left side is closer, eyecoords will be negative
     result.x = temp_x - camera.draggingMargin;
   }
 
 
-  if((temp_y + temp_obj_bounds_y) > camera.innerMargin.y) {
+  if(temp_y > camera.innerMargin.y) {
     //bottom is closer, get x dist to that
-    result.y = (temp_y + temp_obj_bounds_y) - camera.innerMargin.y;
+    result.y = temp_y - camera.innerMargin.y;
   } else if (temp_y < camera.draggingMargin){
     //top side is closer, eyecoords will be negative
     result.y = temp_y - camera.draggingMargin;

@@ -49,6 +49,8 @@ uint8_t pmg_addPlayerSprite(Sprite* toAdd){
 void pmgSilo_clear(PMGPlayerSpriteSilo* silo){
     int8_t oldY;
     int8_t height;
+
+    int8_t temp_visibleBytesSize;
     temp_visible_bytes = silo->visibleBytes;  
 
     oldY = silo->header.cachedY;
@@ -59,6 +61,9 @@ void pmgSilo_clear(PMGPlayerSpriteSilo* silo){
         height += oldY;
     } else {
         temp_visible_bytes += oldY;
+        // in theory, storing sizeof(silo->visibleBytes) is redundant,
+        // because its constant (96 bytes); however changing this breaks things
+        // for some reason
         if ((height + oldY) > sizeof(silo->visibleBytes)) {
             height = sizeof(silo->visibleBytes);
         }

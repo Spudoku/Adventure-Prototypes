@@ -40,11 +40,11 @@ void engine_InitSingletons(){
 //the idea is to have an array of frametask ptrs to run in order
 void engine_StateUpdate(){
 
+    // this is generally just decrementing stuff
     sound_StateUpdate();
 
     playerEnt.playerEntity.frameTask(&(playerEnt.playerEntity));
 
-    // dragonSingleton.myEntity.frameTask(&(dragonSingleton.myEntity));
 
     chaliceEnt.chaliceEntity.frameTask(&chaliceEnt.chaliceEntity);
     
@@ -63,12 +63,7 @@ void engine_Render(){
 //stub to demonstrate where events would be dispatched during each tick
 void engine_EventDispatcher(){
 
-  //Temporary bruteforce collision behavior pending true dispatching
-//   if((&(GTIA_READ.p0pl))[TEMP_dragon_anticIndex]){
-      
-//       dragon_OnCollision(&(dragonSingleton.myEntity), &playerEnt.playerEntity);
-//         player_OnCollide(&playerEnt.playerEntity, &(dragonSingleton.myEntity));
-//   }
+
 
     // if dragon collides with player...
     p1_collisions = player_to_player_collisions(TEMP_dragon_anticIndex);
@@ -77,30 +72,18 @@ void engine_EventDispatcher(){
     if (collision_with_index(p1_collisions,TEMP_player_anticIndex)) {
         // sound_generic_buzz();
         dragon_OnCollision(&(dragonSingleton.myEntity), &playerEnt.playerEntity);
-         player_OnCollide(&playerEnt.playerEntity, &(dragonSingleton.myEntity));
+        player_OnCollide(&playerEnt.playerEntity, &(dragonSingleton.myEntity));
     }
 
 
 
-  // player collisions
-//   switch((&(GTIA_READ.p0pf))[TEMP_player_anticIndex]){
-//     case 0:
-//         break;
-//     case 8: //only the trigger color is activated
-//         orb_singleton.entity.OnCollision(NULL, NULL);
-//         orb_sound();
-//         break;
-//     default:
-//         player_OnCollide(&playerEnt.playerEntity, NULL);
-//         break;
-//   }
-
     // player character collisions
+    // currently this checks if any playfield is collided with
     if (player_to_playfield_collisions(TEMP_player_anticIndex)) {
         player_OnCollide(&playerEnt.playerEntity, NULL);
     }
 
-  GTIA_WRITE.hitclr = 1; 
+    GTIA_WRITE.hitclr = 1; 
         
 };
 
