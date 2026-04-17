@@ -1,6 +1,8 @@
 #include "pmg.h"
 
 PMGInstance* activePMGInstance; 
+static uint8_t* temp_visible_bytes;
+static uint8_t* temp_bitmap_ptr;
 
 void pmg_Init(PMGInstance* pmgInstance){
   IntToTwoChar convert;
@@ -47,7 +49,7 @@ uint8_t pmg_addPlayerSprite(Sprite* toAdd){
 void pmgSilo_clear(PMGPlayerSpriteSilo* silo){
   int8_t oldY;
   int8_t height;
-
+      temp_visible_bytes = silo->visibleBytes;  
 
   oldY = silo->header.cachedY;
   height = silo->header.refsprite->height;
@@ -55,45 +57,58 @@ void pmgSilo_clear(PMGPlayerSpriteSilo* silo){
   // height is
   // clamping oldy
   // assumes no overflow
-  if((oldY < 0) && (height + oldY > 0)) {
-    //partial visibility on top
-    memset(silo->visibleBytes, 0, (height + oldY));
-  } else if ((oldY < sizeof(silo->visibleBytes)) && (height + oldY) < sizeof(silo->visibleBytes)) {
-    //complely visible, 0 < y < 96, and the height is the same
-    memset((silo->visibleBytes + oldY), 0, height);
-  } else {
-    //partial bottom occlusion
-    memset((silo->visibleBytes + oldY), 0, sizeof(silo->visibleBytes));
-  }
+//   if((oldY < 0) && (height + oldY > 0)) {
+//     //partial visibility on top
+//     memset(temp_visible_bytes, 0, (height + oldY));
+//   } else if ((oldY < sizeof(silo->visibleBytes)) && (height + oldY) < sizeof(silo->visibleBytes)) {
+//     //complely visible, 0 < y < 96, and the height is the same
+//     memset((temp_visible_bytes + oldY), 0, height);
+//   } else {
+//     //partial bottom occlusion
+//     memset((temp_visible_bytes + oldY), 0, sizeof(silo->visibleBytes));
+//   }
 
+  if (oldY < 0) {
+    height += oldY;
+  } else {
+    temp_visible_bytes += oldY;
+    if ((height + oldY) > sizeof(silo->visibleBytes)) {
+        height = sizeof(silo->visibleBytes);
+    }
+  }
+    memset(temp_visible_bytes,0,height);
 }
 
 //TODO: optimize
 // However, I've spent like 6 hours trying to do better than this with 
 // no success
 void pmgSilo_writeRefSprite(PMGPlayerSpriteSilo* silo, int8_t newY){
-  int8_t height;
-  Sprite* retrievedSprite;
-  retrievedSprite = silo->header.refsprite;
-  if(retrievedSprite == NULL) return; //could be a clear flag
-  height = retrievedSprite->height;
+    int8_t height;
+    Sprite* retrievedSprite;
 
+    
+    retrievedSprite = silo->header.refsprite;
 
-  if((newY < 0) && (height + newY > 0)) {
-    //partial visibility on top
-    //printf("ok");
-    memcpy(silo->visibleBytes, retrievedSprite->bitmap - newY, (height + newY));
-  } else if ((newY < sizeof(silo->visibleBytes)) && (height + newY) < sizeof(silo->visibleBytes)) {
-    //complely visible, 0 < y < 96, and the height is the same
-    //printf("lol");
-    memcpy((silo->visibleBytes + newY), retrievedSprite->bitmap, height);
-  } else {
-    //partial bottom occlusion
-    //printf("%d\n", newY -neswY - sizeof(silo->visibleBytes))
-    memcpy((silo->visibleBytes + newY), retrievedSprite->bitmap, sizeof(silo->visibleBytes) - newY);
-  }
+    if(retrievedSprite == NULL) return; //could be a clear flag
+    // cached versions of the pointers
+    temp_visible_bytes = silo->visibleBytes;  
+    temp_bitmap_ptr = retrievedSprite->bitmap; 
 
-  silo->header.cachedY = newY;
+    height = retrievedSprite->height;
+
+    if (newY < 0) {
+        temp_bitmap_ptr -= newY;
+        height += newY;
+    } else {
+        temp_visible_bytes += newY;
+        if ((height + newY) > 96) {
+            height = 96 - newY;
+        }
+    }
+
+    memcpy(temp_visible_bytes,temp_bitmap_ptr,height);
+
+    silo->header.cachedY = newY;
 }
 
 void pmgSilo_setY(PMGPlayerSpriteSilo* silo, int8_t newY){

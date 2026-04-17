@@ -4,6 +4,9 @@
 
 Camera camera;
 
+// working variables; suggested by AI lmao
+static int16_t temp_x, temp_y, temp_obj_bounds_x, temp_obj_bounds_y;
+
 
 
 STATUS cameraConstructor(Entity *toTrack){
@@ -43,6 +46,9 @@ void setTrackedEntity(Entity *toTrack){
 //to do, may need to have each entity update its eyecoords?
 //may also need to consider lazy checks for stuff super far away
 bool objectVisible(Transform *toCheck){
+
+  temp_x = toCheck->eyeCoords.x;
+  temp_y = toCheck->eyeCoords.y;
   //bounding box checks
 
   //will consider the following later :
@@ -53,21 +59,21 @@ bool objectVisible(Transform *toCheck){
   //less to more computationally intensive
   //TODO: this is probably not efficient
   //check the left bound
-  if(toCheck->eyeCoords.x > SCR_RES_X) {
+  if(temp_x > SCR_RES_X) {
     return false;
   }
 
-  if(toCheck->eyeCoords.y > SCR_RES_Y) {
+  if(temp_y > SCR_RES_Y) {
     return false;
   }
 
   //checking if the right side of it is visible
 
-  if(toCheck->eyeCoords.x + toCheck->objectBounds.x < 1){
+  if(temp_x + toCheck->objectBounds.x < 1){
     return false;
   }
 
-  if(toCheck->eyeCoords.y + toCheck->objectBounds.y < 1) {
+  if(temp_y + toCheck->objectBounds.y < 1) {
     return false;
   }
 
@@ -114,6 +120,11 @@ STATUS camera_FrameTask(Entity* thisEntity){
 
 //bases on top left for now (calc center later?)
 STATUS ObjectInsideMargin(Transform *toCheck) {
+
+  temp_x = toCheck->eyeCoords.x;
+  temp_y = toCheck->eyeCoords.y;
+
+
   //simplify later, premature optimization bad
   //there has to be a more optimal trick...
   //TODO: if the memory is there, can the margin result be calced and stored?
@@ -123,14 +134,14 @@ STATUS ObjectInsideMargin(Transform *toCheck) {
 
   //check the likely option, its within
   //NOTE: i bet some weird casting issue will happen here between u16,s32
-  if(toCheck->eyeCoords.x < camera.draggingMargin) return FAIL;
+  if(temp_x < camera.draggingMargin) return FAIL;
 
-  if(toCheck->eyeCoords.y < camera.draggingMargin) return FAIL;
+  if(temp_y < camera.draggingMargin) return FAIL;
 
-  if(toCheck->eyeCoords.x > camera.innerMargin.x)
+  if(temp_x > camera.innerMargin.x)
     return FAIL;
 
-  if(toCheck->eyeCoords.y > camera.innerMargin.y)
+  if(temp_y > camera.innerMargin.y)
     return FAIL;
 
   return PASS;
@@ -142,23 +153,28 @@ STATUS ObjectInsideMargin(Transform *toCheck) {
 Vector2 objectToMargin(Transform *toCheck){
   Vector2 result = {0, 0};
 
+  // using static variables to reduce pointer lookups
+  temp_x = toCheck->eyeCoords.x;
+  temp_y = toCheck->eyeCoords.y;
+  temp_obj_bounds_x = toCheck->objectBounds.x;
+  temp_obj_bounds_y = toCheck->objectBounds.y;
   
   
-  if((toCheck->eyeCoords.x + toCheck->objectBounds.x)  > camera.innerMargin.x) {
+  if((temp_x + temp_obj_bounds_x)  > camera.innerMargin.x) {
     //right side is closer, get x dist to that
-    result.x = (toCheck->eyeCoords.x + toCheck->objectBounds.x) - camera.innerMargin.x;
-  } else if (toCheck->eyeCoords.x < camera.draggingMargin){
+    result.x = (temp_x + temp_obj_bounds_x) - camera.innerMargin.x;
+  } else if (temp_x < camera.draggingMargin){
     //left side is closer, eyecoords will be negative
-    result.x = toCheck->eyeCoords.x - camera.draggingMargin;
+    result.x = temp_x - camera.draggingMargin;
   }
 
 
-  if((toCheck->eyeCoords.y + toCheck->objectBounds.y) > camera.innerMargin.y) {
+  if((temp_y + temp_obj_bounds_y) > camera.innerMargin.y) {
     //bottom is closer, get x dist to that
-    result.y = (toCheck->eyeCoords.y + toCheck->objectBounds.y) - camera.innerMargin.y;
-  } else if (toCheck->eyeCoords.y < camera.draggingMargin){
+    result.y = (temp_y + temp_obj_bounds_y) - camera.innerMargin.y;
+  } else if (temp_y < camera.draggingMargin){
     //top side is closer, eyecoords will be negative
-    result.y = toCheck->eyeCoords.y - camera.draggingMargin;
+    result.y = temp_y - camera.draggingMargin;
   }
   
   //PRINT_VEC2(result)
