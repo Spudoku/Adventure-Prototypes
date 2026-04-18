@@ -35,15 +35,6 @@ typedef struct DoubleLine_PMGPlayerSpriteSilo{
 typedef struct DoubleLine_PMGInstance{
 
   // assuming double-line resolution
-  // uint8_t player_horiz_positions[4];
-  // uint8_t player_vert_positions[4];
-
-  // // sprite arrays
-  // uint8_t player_sprites[4][16];
-  // uint8_t unused[312];          // it appears we can use this area safely
-  // uint8_t missiles_graphics[4][32];
-  // uint8_t player_graphics[4][128];
-
 
   uint8_t unused[512];
   PMGPlayerSpriteSilo playerGFX[4];
@@ -67,12 +58,6 @@ uint8_t pmg_addPlayerSprite(Sprite* toAdd);
 void pmgSilo_setY(PMGPlayerSpriteSilo* silo, int8_t newY);
 void pmgSilo_clear(PMGPlayerSpriteSilo* silo);
 void pmgSilo_writeRefSprite(PMGPlayerSpriteSilo* silo, int8_t newY);
-
-//TODO: these things
-// void pmgSilo_absoluteVerticalMove(PMGPlayerSpriteSilo* silo, int8_t newY);
-
-// //only works when sprite is completely visible
-// void pmgSilo_fastRelativeVerticalMove(PMGPlayerSpriteSilo* silo, int8_t newY);
 
 // collision helpers
 extern unsigned char player_to_player_collisions(unsigned char player);

@@ -4,6 +4,7 @@ PMGInstance* activePMGInstance;
 static uint8_t* temp_visible_bytes;
 static uint8_t* temp_bitmap_ptr;
 
+
 void pmg_Init(PMGInstance* pmgInstance){
   IntToTwoChar convert;
   activePMGInstance = pmgInstance;
@@ -21,7 +22,7 @@ void pmg_Init(PMGInstance* pmgInstance){
     GTIA_WRITE.gractl = 3; // enable PMG
     OS.gprior = 1; // set player priorty
 
-  //OS.pcolr0 = COLOR_YELLOW; //hardcode this for now
+
 }
 
 void pmg_clear(){
@@ -50,12 +51,10 @@ void pmgSilo_clear(PMGPlayerSpriteSilo* silo){
     int8_t oldY;
     int8_t height;
 
-    int8_t temp_visibleBytesSize;
     temp_visible_bytes = silo->visibleBytes;  
 
     oldY = silo->header.cachedY;
     height = silo->header.refsprite->height;
-
 
     if (oldY < 0) {
         height += oldY;
@@ -64,12 +63,14 @@ void pmgSilo_clear(PMGPlayerSpriteSilo* silo){
         // in theory, storing sizeof(silo->visibleBytes) is redundant,
         // because its constant (96 bytes); however changing this breaks things
         // for some reason
+
         if ((height + oldY) > sizeof(silo->visibleBytes)) {
-            height = sizeof(silo->visibleBytes);
+            height = 96;
         }
     }
     //  clear relevant bytes
     memset(temp_visible_bytes,0,height);
+    
 }
 
 //  TODO: optimize further
@@ -77,11 +78,8 @@ void pmgSilo_clear(PMGPlayerSpriteSilo* silo){
 void pmgSilo_writeRefSprite(PMGPlayerSpriteSilo* silo, int8_t newY){
     int8_t height;
     Sprite* retrievedSprite;
-
-    
     retrievedSprite = silo->header.refsprite;
-
-    if(retrievedSprite == NULL) return; //could be a clear flag
+    if(!retrievedSprite) return; //could be a clear flag
     // cached versions of the pointers
     temp_visible_bytes = silo->visibleBytes;  
     temp_bitmap_ptr = retrievedSprite->bitmap; 
