@@ -66,6 +66,7 @@ unsigned char charset[1024] = {
 0b00000011,
 
 // character 7
+// orb of insight
 0b00000000,
 0b00111100,
 0b01000010,
@@ -76,6 +77,7 @@ unsigned char charset[1024] = {
 0b11111111,
 
 // character 8
+// "pressure plate"
 0b00000000,
 0b00000000,
 0b00000000,

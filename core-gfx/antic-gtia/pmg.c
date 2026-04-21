@@ -13,7 +13,7 @@ void pmg_Init(PMGInstance* pmgInstance){
     
   convert.integer = (unsigned int)activePMGInstance;
 
-  printf("PMbase highbyte: %d\n", convert.bytes[1]);
+//   printf("PMbase highbyte: %d\n", convert.bytes[1]);
   ANTIC.pmbase = convert.bytes[1];
 
 

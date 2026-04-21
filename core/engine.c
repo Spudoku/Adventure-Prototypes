@@ -47,7 +47,7 @@ void engine_StateUpdate(){
 
     playerEnt.playerEntity.frameTask(&(playerEnt.playerEntity));
 
-    dragonSingleton.myEntity.frameTask(&(dragonSingleton.myEntity));
+    // dragonSingleton.myEntity.frameTask(&(dragonSingleton.myEntity));
     chaliceEnt.chaliceEntity.frameTask(&chaliceEnt.chaliceEntity);
     
     camera.cameraEntity.frameTask(&(camera.cameraEntity));
@@ -67,14 +67,14 @@ void engine_Render(){
 
 //stub to demonstrate where events would be dispatched during each tick
 void engine_EventDispatcher(){
-
+    unsigned char temp_collisions;
 
 
     // if dragon collides with player...
-    p1_collisions = player_to_player_collisions(TEMP_dragon_anticIndex);
+    temp_collisions = player_to_player_collisions(TEMP_dragon_anticIndex);
     
     // if dragon collides with player avatar...
-    if (collision_with_index(p1_collisions,TEMP_player_anticIndex)) {
+    if (collision_with_index(temp_collisions,TEMP_player_anticIndex)) {
         // sound_generic_buzz();
         dragon_OnCollision(&(dragonSingleton.myEntity), &playerEnt.playerEntity);
         player_OnCollide(&playerEnt.playerEntity, &(dragonSingleton.myEntity));
@@ -84,9 +84,15 @@ void engine_EventDispatcher(){
 
     // player character collisions
     // currently this checks if any playfield is collided with
-    if (player_to_playfield_collisions(TEMP_player_anticIndex)) {
-        player_OnCollide(&playerEnt.playerEntity, NULL);
-    }
+    temp_collisions = player_to_playfield_collisions(TEMP_player_anticIndex);
+    if (temp_collisions) {
+        if (!(collision_with_index(temp_collisions,3))) {
+            player_OnCollide(&playerEnt.playerEntity, NULL);
+        } else {
+             orb_singleton.entity.OnCollision(NULL, NULL);
+        }
+        
+    } 
 
     GTIA_WRITE.hitclr = 1; 
         

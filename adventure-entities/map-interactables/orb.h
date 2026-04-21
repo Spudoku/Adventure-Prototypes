@@ -12,7 +12,7 @@
 #include "core-support/camera.h"
 #include "../core/sound.h"
 
-#define ORB_DELAY 600
+#define ORB_DELAY 300
 
 typedef struct InsightOrb{
   Entity entity;

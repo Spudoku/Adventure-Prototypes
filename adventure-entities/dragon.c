@@ -206,7 +206,7 @@ STATUS dragon_Init(DragonEntity* instance){
     instance->dragonSilo = activePMGInstance->playerGFX + pmg_index;
     TEMP_dragon_anticIndex = pmg_index;
   }
-  printf("Dragon debug antic index: %d\n", TEMP_dragon_anticIndex);
+  // printf("Dragon debug antic index: %d\n", TEMP_dragon_anticIndex);
 
   // TODO: semi random spawn locations?
   instance->myEntity._worldCoords.x = 600;
