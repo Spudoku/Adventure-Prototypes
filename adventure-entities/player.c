@@ -93,12 +93,18 @@ STATUS playerInputProcess(){
   if(JOY_FIRE(joystickState) && !JOY_FIRE(lastFrameState)){
     //will currently break if player has no child
     // TODO: make this drop the childEntity! (which should be an item)
-    playerEnt.playerEntity.childEntity->frameTask(playerEnt.playerEntity.childEntity);
+    // playerEnt.playerEntity.childEntity->frameTask(playerEnt.playerEntity.childEntity);
+    player_drop_item(playerEnt.playerEntity.childEntity);
   }
 
 
   ADD_ASSIGN_VEC2(playerEnt.playerEntity._worldCoords, playerEnt.playerVelocity)
   
+  if (playerEnt.playerEntity.childEntity != NULL) {
+    // TODO: move item
+    playerEnt.playerEntity.childEntity->_worldCoords.x = playerEnt.playerEntity._worldCoords.x + playerEnt.item_offset.x;
+    playerEnt.playerEntity.childEntity->_worldCoords.y = playerEnt.playerEntity._worldCoords.y + playerEnt.item_offset.y;
+  }
   return PASS;
 }
 
@@ -150,6 +156,8 @@ STATUS playerConstructor(){
     TEMP_player_anticIndex = pmg_index;
   }
 
+  playerEnt.playerEntity.childEntity = NULL;
+
   //printf("Address: %d\n", %d)
   return PASS;
 }
@@ -163,6 +171,32 @@ uint8_t playerSpriteBitmap[] ={
 };
 
 Sprite playerSprite = {sizeof(playerSpriteBitmap),GTIA_COLOR_YELLOW,playerSpriteBitmap};
+
+
+// attempts to pickup item
+void player_pickup_item(Entity* item) {
+  if (playerEnt.playerEntity.childEntity) {
+    return;
+  }
+  // set item as child
+  playerEnt.playerEntity.childEntity = item;
+  sound_generic_buzz();
+  sound_item_drop();
+  // compute offset
+
+  
+  playerEnt.item_offset.x = playerEnt.playerVelocity.x * 12;
+  playerEnt.item_offset.y = playerEnt.playerVelocity.y * 12;
+
+}
+
+void player_drop_item(Entity* item) {
+  item->_worldCoords.x = playerEnt.playerEntity._worldCoords.x + playerEnt.item_offset.x;
+  item->_worldCoords.y = playerEnt.playerEntity._worldCoords.y + playerEnt.item_offset.y;
+  playerEnt.playerEntity.childEntity = NULL;
+  sound_item_drop();
+}
+
 
 
 

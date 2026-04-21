@@ -27,7 +27,9 @@ void engine_InitSingletons(){
     chaliceEnt.chaliceEntity._worldCoords.x = 600;
     chaliceEnt.chaliceEntity._worldCoords.y = 560;
 
-
+  // TODO: semi random spawn locations?
+  dragonSingleton.myEntity._worldCoords.x = 500;
+  dragonSingleton.myEntity._worldCoords.y = 560;
     
     cameraConstructor(&playerEnt.playerEntity);
 
@@ -80,7 +82,10 @@ void engine_EventDispatcher(){
         player_OnCollide(&playerEnt.playerEntity, &(dragonSingleton.myEntity));
     }
 
-
+    temp_collisions = player_to_player_collisions(TEMP_player_anticIndex);
+    if (collision_with_index(temp_collisions,TEMP_item_anticIndex)) {
+        player_pickup_item(&(chaliceEnt.chaliceEntity));
+    }
 
     // player character collisions
     // currently this checks if any playfield is collided with

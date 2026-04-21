@@ -30,6 +30,7 @@ typedef struct PlayerEntity {
   int playerSpeed;  //may consider making this an unsigned char
   PMGPlayerSpriteSilo *playerSilo;
   Vector2 player_LastPos;
+  Vector2 item_offset;
 } PlayerEntity;
 
 
@@ -52,6 +53,11 @@ extern Sprite playerSprite;
 extern uint8_t TEMP_player_anticIndex;  
 
 void player_horiz_collisions();
+
+// item functions
+void player_pickup_item(Entity* item);
+
+void player_drop_item(Entity* item);
 
 
 

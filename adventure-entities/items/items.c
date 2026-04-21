@@ -12,7 +12,7 @@ STATUS nullItem_constructor(Entity* thisEntity) {
   return entityConstructor(&nullItem, nullItem_Task, nullItem_renderer);
 };
 
-uint8_t TEMP_chalice_anticIndex;
+uint8_t TEMP_item_anticIndex;
 
 /*
   End nullItem definitions
@@ -48,7 +48,7 @@ STATUS chalice_constructor() {
 
   if(pmg_index < 4){
     chaliceEnt.chaliceSilo = activePMGInstance->playerGFX + pmg_index;
-    TEMP_chalice_anticIndex = pmg_index;
+    TEMP_item_anticIndex = pmg_index;
   }
   chaliceEnt.chaliceSilo -> header.refsprite = &chaliceSprite;
 
@@ -72,13 +72,13 @@ STATUS chalice_renderer(Entity* thisEntity) {
   chalice_worldcoords_y = thisEntity->_worldCoords.y;
 
     if(!objectVisible(&(thisEntity->transform))){
-    (&(GTIA_WRITE.hposp0))[TEMP_chalice_anticIndex] = 0;
+    (&(GTIA_WRITE.hposp0))[TEMP_item_anticIndex] = 0;
 
     return PASS;
   }
 
 
-    (&(GTIA_WRITE.hposp0))[TEMP_chalice_anticIndex] = chaliceEnt.chaliceEntity._eyeCoords.x 
+    (&(GTIA_WRITE.hposp0))[TEMP_item_anticIndex] = chaliceEnt.chaliceEntity._eyeCoords.x 
             + HPOSP_MIN + chaliceEnt.chaliceEntity._objectAnchorPoint.x;
 
     pmgSilo_setY(chaliceEnt.chaliceSilo, thisEntity->_eyeCoords.y);

@@ -58,3 +58,11 @@ void dragon_eat_sound() {
 void orb_sound() {
     sound_PlayNote(2,10,30,3,20);
 }
+
+void sound_item_drop() {
+
+}
+
+void sound_item_pickup() {
+    
+}

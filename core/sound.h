@@ -32,6 +32,10 @@ void dragon_eat_sound();
 
 void orb_sound();
 
+void sound_item_drop();
+
+void sound_item_pickup();
+
 // void sound_item_pickup();
 
 // extern void sound_item_drop();

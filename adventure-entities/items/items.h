@@ -52,7 +52,7 @@ typedef struct ChaliceEntity {
   Entity chaliceEntity;
   PMGPlayerSpriteSilo *chaliceSilo;
 } ChaliceEntity;
-extern uint8_t TEMP_chalice_anticIndex;
+extern uint8_t TEMP_item_anticIndex;
 extern ChaliceEntity chaliceEnt;
 extern Sprite chaliceSprite;
 
