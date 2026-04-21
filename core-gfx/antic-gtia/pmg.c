@@ -3,7 +3,8 @@
 PMGInstance* activePMGInstance; 
 static uint8_t* temp_visible_bytes;
 static uint8_t* temp_bitmap_ptr;
-
+static uint8_t temp_sum;
+Sprite* temp_sprite;
 
 void pmg_Init(PMGInstance* pmgInstance){
   IntToTwoChar convert;
@@ -65,7 +66,8 @@ void pmgSilo_clear(PMGPlayerSpriteSilo* silo){
         // for some reason
 
         if ((height + oldY) > sizeof(silo->visibleBytes)) {
-            height = 96;
+            // height = 9, oldY = 90, size = 96
+            height = (height + oldY) - 96 ;
         }
     }
     //  clear relevant bytes
@@ -77,14 +79,14 @@ void pmgSilo_clear(PMGPlayerSpriteSilo* silo){
 // copies the sprite from silo into PMG memory
 void pmgSilo_writeRefSprite(PMGPlayerSpriteSilo* silo, int8_t newY){
     int8_t height;
-    Sprite* retrievedSprite;
-    retrievedSprite = silo->header.refsprite;
-    if(!retrievedSprite) return; //could be a clear flag
+    temp_sprite = silo->header.refsprite;
+    // retrievedSprite = 
+    if(!temp_sprite) return; //could be a clear flag
     // cached versions of the pointers
     temp_visible_bytes = silo->visibleBytes;  
-    temp_bitmap_ptr = retrievedSprite->bitmap; 
+    temp_bitmap_ptr = temp_sprite->bitmap; 
 
-    height = retrievedSprite->height;
+    height = temp_sprite->height;
 
     if (newY < 0) {
         // occlusion at the top
@@ -96,11 +98,12 @@ void pmgSilo_writeRefSprite(PMGPlayerSpriteSilo* silo, int8_t newY){
 
         // clipping at bottom
         if ((height + newY) > 96) {
-            height = 96 - newY;
+            height = 96 - (height + newY) - 96;
         }
     }
 
     memcpy(temp_visible_bytes,temp_bitmap_ptr,height);
+    // printf("memcpy to %p, from %p, height = %d\n",temp_visible_bytes,temp_bitmap_ptr,height);
 
     silo->header.cachedY = newY;
 }
