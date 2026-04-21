@@ -1,0 +1,5 @@
+
+Dragon debug antic index: 1
+player index: 0
+dragon index: 1
+Chalice index: 2

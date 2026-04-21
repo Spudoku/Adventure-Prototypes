@@ -32,7 +32,9 @@ void engine_InitSingletons(){
     cameraConstructor(&playerEnt.playerEntity);
 
     chalice_constructor();
-
+    // printf("player index: %d\n",TEMP_player_anticIndex);
+    // printf("dragon index: %d\n",TEMP_dragon_anticIndex);
+    // printf("Chalice index: %d\n",TEMP_chalice_anticIndex);
 
 }
 
@@ -45,7 +47,7 @@ void engine_StateUpdate(){
 
     playerEnt.playerEntity.frameTask(&(playerEnt.playerEntity));
 
-
+    dragonSingleton.myEntity.frameTask(&(dragonSingleton.myEntity));
     chaliceEnt.chaliceEntity.frameTask(&chaliceEnt.chaliceEntity);
     
     camera.cameraEntity.frameTask(&(camera.cameraEntity));
@@ -55,9 +57,12 @@ void engine_Render(){
     camera.cameraEntity.renderer(&camera.cameraEntity); //camera goes first
 
     playerEnt.playerEntity.renderer(&(playerEnt.playerEntity));
-    dragonSingleton.myEntity.renderer(&(dragonSingleton.myEntity));
 
     chaliceEnt.chaliceEntity.renderer(&(chaliceEnt.chaliceEntity));
+
+    dragonSingleton.myEntity.renderer(&(dragonSingleton.myEntity));
+
+    
 };
 
 //stub to demonstrate where events would be dispatched during each tick

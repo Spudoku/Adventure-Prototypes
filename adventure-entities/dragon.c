@@ -202,8 +202,7 @@ STATUS dragon_Init(DragonEntity* instance){
   pmg_index = pmg_addPlayerSprite(&dragon_idle);
 
   if(pmg_index < 4){
-    //schedulerData.antic_P2PCollisionLookupTable[pmg_index] = (Entity *)&playerEnt;
-    //schedulerData.antic_P2PCollisionLookupMask |= (1 << pmg_index);
+
     instance->dragonSilo = activePMGInstance->playerGFX + pmg_index;
     TEMP_dragon_anticIndex = pmg_index;
   }

@@ -51,7 +51,7 @@ STATUS chalice_constructor() {
     TEMP_chalice_anticIndex = pmg_index;
   }
   chaliceEnt.chaliceSilo -> header.refsprite = &chaliceSprite;
-  //printf("Address: %d\n", %d)
+
   return PASS;
 }
 
@@ -73,6 +73,7 @@ STATUS chalice_renderer(Entity* thisEntity) {
 
     if(!objectVisible(&(thisEntity->transform))){
     (&(GTIA_WRITE.hposp0))[TEMP_chalice_anticIndex] = 0;
+
     return PASS;
   }
 

@@ -9,6 +9,7 @@
 #include "../adventure-entities/player.h"
 #include "../adventure-entities/dragon.h"  //TEMP
 #include "../adventure-entities/map-interactables/orb.h"
+#include "../adventure-entities/items/items.h"
 
 void engine_Boot();
 void engine_InitSingletons();
