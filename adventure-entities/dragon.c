@@ -250,8 +250,7 @@ STATUS dragonRenderer(Entity* thisEntity) {
   } else{
     D_ENT->dragonSilo->header.refsprite = &dragon_idle;
   }
-  //printf("%d\n",(&(GTIA_WRITE.hposp0))[TEMP_player_anticIndex] );
-
+  
   // only update vertical position if vertical movement occurred
   pmgSilo_setY(D_ENT->dragonSilo, thisEntity->_eyeCoords.y);
   

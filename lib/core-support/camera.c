@@ -16,7 +16,7 @@ STATUS cameraConstructor(Entity *toTrack){
     camera.innerMargin.y = SCR_RES_Y - _cameraMargin;
 
 
-
+    // call constructor
     entityConstructor(&camera.cameraEntity, camera_FrameTask, camera_renderer);
 
     //put back-ref into entity
@@ -25,6 +25,7 @@ STATUS cameraConstructor(Entity *toTrack){
 
     if(toTrack != NULL){
       //WARNING WILL ASSIGN BLINDLY, you better make it null!
+      //
       camera._TrackedObject = toTrack;
       camera_FrameTask(&camera.cameraEntity);
     }

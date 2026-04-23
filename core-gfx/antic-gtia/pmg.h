@@ -55,9 +55,15 @@ void pmg_clear();
 //failure flag: 255
 uint8_t pmg_addPlayerSprite(Sprite* toAdd); 
 
+// generic sprite rendering (can be on or offscreen)
 void pmgSilo_setY(PMGPlayerSpriteSilo* silo, int8_t newY);
-void pmgSilo_clear(PMGPlayerSpriteSilo* silo);
+void pmgSilo_clear(PMGPlayerSpriteSilo* silo,int8_t newY);
 void pmgSilo_writeRefSprite(PMGPlayerSpriteSilo* silo, int8_t newY);
+
+// player rendering; player is ALWAYS onscreen
+void pmgSilo_setY_player(PMGPlayerSpriteSilo* silo, int8_t newY);
+void pmgSilo_clear_player(PMGPlayerSpriteSilo* silo,int8_t newY);
+void pmgSilo_writeRefSprite_player(PMGPlayerSpriteSilo* silo, int8_t newY);
 
 // collision helpers
 extern unsigned char player_to_player_collisions(unsigned char player);

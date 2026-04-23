@@ -48,42 +48,56 @@ uint8_t pmg_addPlayerSprite(Sprite* toAdd){
   return 255;
 }
 
-void pmgSilo_clear(PMGPlayerSpriteSilo* silo){
+void pmgSilo_clear(PMGPlayerSpriteSilo* silo, int8_t newY){
     int8_t oldY;
-    int8_t height;
+    // int8_t height;
+    oldY = silo->header.cachedY;
+    // object isnt moving, so return
+    if (newY == oldY) {
+        return;
+    }
     // access visible bytes array
     temp_visible_bytes = silo->visibleBytes;  
     // accessed cached y and height
-    oldY = silo->header.cachedY;
-    height = silo->header.refsprite->height;
+    
+
+    temp_height = silo->header.refsprite->height;
 
     if (oldY < 0) {
-        height += oldY;
+        temp_height += oldY;
     } else {
         temp_visible_bytes += oldY;
         // in theory, storing sizeof(silo->visibleBytes) is redundant,
         // because its constant (96 bytes); however changing this breaks things
         // for some reason
 
-        if ((height + oldY) > sizeof(silo->visibleBytes)) {
+        if ((temp_height + oldY) > sizeof(silo->visibleBytes)) {
             // height = 9, oldY = 90, size = 96
-            height = (height + oldY) - 96 ;
+            temp_height = (temp_height + oldY) - 96 ;
             // height = 96;
         }
     }
     //  clear relevant bytes
-    memset(temp_visible_bytes,0,height);
+    memset(temp_visible_bytes,0,temp_height);
     
 }
 
 //  TODO: optimize further
 // copies the sprite from silo into PMG memory
 void pmgSilo_writeRefSprite(PMGPlayerSpriteSilo* silo, int8_t newY){
-    temp_height;
+    int8_t oldY;
+    oldY = silo->header.cachedY;
+
+    // object isnt moving, so return
+    if (newY == oldY) {
+        return;
+    }
+
     temp_sprite = silo->header.refsprite;
-    // retrievedSprite = 
+    
     if(!temp_sprite) return; //could be a clear flag
-    // cached versions of the pointers
+
+    // global versions of the pointers
     temp_visible_bytes = silo->visibleBytes;  
     temp_bitmap_ptr = temp_sprite->bitmap; 
 
@@ -93,7 +107,6 @@ void pmgSilo_writeRefSprite(PMGPlayerSpriteSilo* silo, int8_t newY){
         // occlusion at the top
         temp_bitmap_ptr -= newY; // this is addition
         temp_height += newY;
-        
         
     } else {
         // top is visible
@@ -110,20 +123,72 @@ void pmgSilo_writeRefSprite(PMGPlayerSpriteSilo* silo, int8_t newY){
         return;
     }
     memcpy(temp_visible_bytes,temp_bitmap_ptr,temp_height);
-    // printf("memcpy to %p, from %p, height = %d\n",temp_visible_bytes,temp_bitmap_ptr,height);
-
+    
     silo->header.cachedY = newY;
 }
 
 void pmgSilo_setY(PMGPlayerSpriteSilo* silo, int8_t newY){
   
   // why does this clear all 96 bytes
-    pmgSilo_clear(silo);
+    pmgSilo_clear(silo, newY);
 
     //memcpy the new y with bounds checking
     pmgSilo_writeRefSprite(silo, newY);
 
   
+}
+
+// player rendering; player is ALWAYS onscreen, so no need for
+// height checking
+void pmgSilo_setY_player(PMGPlayerSpriteSilo* silo, int8_t newY) {
+    pmgSilo_clear_player(silo, newY);
+
+    pmgSilo_writeRefSprite_player(silo, newY);
+}
+
+// a more efficient version of pmgSilo_clear, which takes advantage of the fact
+// that the player will always be onscreen (no occlusion is possible)
+void pmgSilo_clear_player(PMGPlayerSpriteSilo* silo,int8_t newY) {
+    int8_t oldY;
+    // int8_t height;
+    oldY = silo->header.cachedY;
+    // object isnt moving, so return
+    if (newY == oldY) {
+        return;
+    }
+    // access visible bytes array
+    temp_visible_bytes = silo->visibleBytes + oldY;  
+    temp_height = silo->header.refsprite->height;
+
+    //  clear relevant bytes
+    memset(temp_visible_bytes,0,temp_height);
+}
+
+// a more efficient version of pmgSilo_writeRefSprite, which takes advantage of
+// the fact that the player will always be onscreen (no occlusion is possible)
+void pmgSilo_writeRefSprite_player(PMGPlayerSpriteSilo* silo, int8_t newY) {
+    int8_t oldY;
+    oldY = silo->header.cachedY;
+
+    // object isnt moving, so return
+    if (newY == oldY) {
+        return;
+    }
+
+    temp_sprite = silo->header.refsprite;
+    
+    if(!temp_sprite) return; //could be a clear flag
+
+    // global versions of the pointers
+    temp_visible_bytes = silo->visibleBytes + newY;  
+    temp_bitmap_ptr = temp_sprite->bitmap; 
+
+    temp_height = temp_sprite->height;
+
+
+    memcpy(temp_visible_bytes,temp_bitmap_ptr,temp_height);
+
+    silo->header.cachedY = newY;
 }
 
 
@@ -133,6 +198,7 @@ void pmgSilo_setY(PMGPlayerSpriteSilo* silo, int8_t newY){
 
 // return all player-to-player collision data for player
 unsigned char player_to_player_collisions(unsigned char player) {
+
     switch (player) {
         case 0:
             return GTIA_READ.p0pl;
@@ -219,6 +285,7 @@ unsigned char missile_to_playfield_collisions(unsigned char missile) {
 //      bool collide_with_3 = collision_with_index(p0_pf_collisions, 3);
 //      result: collide_with_3 is true if player 0 is colliding with playfield 3
 bool collision_with_index(unsigned char data, unsigned char index){
+    
     if (index > 3) {
         return false;
     }

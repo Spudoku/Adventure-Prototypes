@@ -43,8 +43,8 @@ STATUS playerRenderer(Entity* thisEntity) {
   
   // sadly, this is a necessary evil
   // (it takes up ~20-40% of frame cycles)
-  pmgSilo_setY(playerEnt.playerSilo, thisEntity->_eyeCoords.y);
-
+  // pmgSilo_setY(playerEnt.playerSilo, thisEntity->_eyeCoords.y);
+  pmgSilo_setY_player(playerEnt.playerSilo, thisEntity->_eyeCoords.y);
   return UNDEFINED;
 }
 
