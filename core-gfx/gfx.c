@@ -50,7 +50,7 @@ void map_absoluteMove(Vector2 absolutePosition){
          (unsigned int)(gameMap[mapData.coarseOffset.y + j]) + mapData.coarseOffset.x;
 
 
-        j += 1;  //offset for next row
+        ++j;  //offset for next row
     } 
 
     

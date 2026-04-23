@@ -19,7 +19,7 @@ void engine_InitSingletons(){
 
 
 
-    
+    // test
     //debug manual assign for now
     playerEnt.playerEntity._worldCoords.x = 624;
     playerEnt.playerEntity._worldCoords.y = 560;
@@ -28,7 +28,7 @@ void engine_InitSingletons(){
     chaliceEnt.chaliceEntity._worldCoords.y = 560;
 
   // TODO: semi random spawn locations?
-  dragonSingleton.myEntity._worldCoords.x = 500;
+  dragonSingleton.myEntity._worldCoords.x = 600;
   dragonSingleton.myEntity._worldCoords.y = 560;
     
     cameraConstructor(&playerEnt.playerEntity);

@@ -3,7 +3,7 @@
 PMGInstance* activePMGInstance; 
 static uint8_t* temp_visible_bytes;
 static uint8_t* temp_bitmap_ptr;
-static uint8_t temp_sum;
+static int8_t temp_height;
 Sprite* temp_sprite;
 
 void pmg_Init(PMGInstance* pmgInstance){
@@ -51,9 +51,9 @@ uint8_t pmg_addPlayerSprite(Sprite* toAdd){
 void pmgSilo_clear(PMGPlayerSpriteSilo* silo){
     int8_t oldY;
     int8_t height;
-
+    // access visible bytes array
     temp_visible_bytes = silo->visibleBytes;  
-
+    // accessed cached y and height
     oldY = silo->header.cachedY;
     height = silo->header.refsprite->height;
 
@@ -68,6 +68,7 @@ void pmgSilo_clear(PMGPlayerSpriteSilo* silo){
         if ((height + oldY) > sizeof(silo->visibleBytes)) {
             // height = 9, oldY = 90, size = 96
             height = (height + oldY) - 96 ;
+            // height = 96;
         }
     }
     //  clear relevant bytes
@@ -78,7 +79,7 @@ void pmgSilo_clear(PMGPlayerSpriteSilo* silo){
 //  TODO: optimize further
 // copies the sprite from silo into PMG memory
 void pmgSilo_writeRefSprite(PMGPlayerSpriteSilo* silo, int8_t newY){
-    int8_t height;
+    temp_height;
     temp_sprite = silo->header.refsprite;
     // retrievedSprite = 
     if(!temp_sprite) return; //could be a clear flag
@@ -86,23 +87,29 @@ void pmgSilo_writeRefSprite(PMGPlayerSpriteSilo* silo, int8_t newY){
     temp_visible_bytes = silo->visibleBytes;  
     temp_bitmap_ptr = temp_sprite->bitmap; 
 
-    height = temp_sprite->height;
+    temp_height = temp_sprite->height;
 
     if (newY < 0) {
         // occlusion at the top
-        temp_bitmap_ptr -= newY;
-        height += newY;
+        temp_bitmap_ptr -= newY; // this is addition
+        temp_height += newY;
+        
+        
     } else {
         // top is visible
         temp_visible_bytes += newY;
 
         // clipping at bottom
-        if ((height + newY) > 96) {
-            height = 96 - (height + newY) - 96;
+        if ((temp_height + newY) > 96) {
+            temp_height = 96 - (temp_height + newY);
         }
     }
+    // printf("height: %d",height);
 
-    memcpy(temp_visible_bytes,temp_bitmap_ptr,height);
+    if (temp_height <= 0) {
+        return;
+    }
+    memcpy(temp_visible_bytes,temp_bitmap_ptr,temp_height);
     // printf("memcpy to %p, from %p, height = %d\n",temp_visible_bytes,temp_bitmap_ptr,height);
 
     silo->header.cachedY = newY;

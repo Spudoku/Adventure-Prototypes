@@ -11,7 +11,7 @@
 #include "util/util.h"
 
 
-
+// TODO: redo this structure?
 typedef struct DoubleLine_PMGPlayerSpriteSilo{
 
   struct {
