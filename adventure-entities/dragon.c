@@ -1,11 +1,15 @@
 #include "dragon.h"
-
+#pragma optimize(on)
+#pragma static-locals(on)
 bool vertMovement = true;
 
 unsigned int DmoveDelayCounter;
 
 unsigned char dragonState;
 unsigned int Dchompdelaycounter;
+
+  unsigned char dragonSpeed;
+  signed char temp_dir;
 
 // initialize THE dragon singleton
 // TODO: make more dragons?????????
@@ -17,7 +21,9 @@ DragonEntity  dragonSingleton = {
 
 // executes each frame
 STATUS dragon_frameTask(Entity* thisEntity) {
-  
+
+  // intermediate variables for computation
+
   Vector2 distanceToDragon;
 
   DmoveDelayCounter = D_ENT->moveDelayCounter;
@@ -25,8 +31,6 @@ STATUS dragon_frameTask(Entity* thisEntity) {
   Dchompdelaycounter = D_ENT->dragonChompCounter;
   //calculate state
 
-
-  
   if (D_ENT->moveDelayCounter > 0) {
     D_ENT->moveDelayCounter -= 1;
   }
@@ -71,27 +75,29 @@ STATUS dragon_frameTask(Entity* thisEntity) {
 
   
   // now we can see the player, so move towards them
-
+  dragonSpeed = D_ENT->dragonSpeed;
+  temp_dir = (distanceToDragon.x > 0) - (distanceToDragon.x < 0);
   //calculate the new x
-  switch((distanceToDragon.x > 0) - (distanceToDragon.x < 0)){
+  switch(temp_dir){
     case -1:
-      thisEntity->_worldCoords.x -= D_ENT->dragonSpeed;
+      thisEntity->_worldCoords.x -= dragonSpeed;
       break;
     case 1:
-      thisEntity->_worldCoords.x += D_ENT->dragonSpeed;
+      thisEntity->_worldCoords.x += dragonSpeed;
       break;
     default:
       break;
   }
 
   //and the new y
-  switch((distanceToDragon.y > 0) - (distanceToDragon.y < 0)){
+  temp_dir = (distanceToDragon.y > 0) - (distanceToDragon.y < 0);
+  switch(temp_dir){
     case -1:
-      thisEntity->_worldCoords.y -= D_ENT->dragonSpeed;
+      thisEntity->_worldCoords.y -= dragonSpeed;
       vertMovement = true;
       break;
     case 1:
-      thisEntity->_worldCoords.y += D_ENT->dragonSpeed;
+      thisEntity->_worldCoords.y += dragonSpeed;
       vertMovement = true;
       break;
     default:

@@ -1,5 +1,6 @@
 #include "orb.h"
-
+#pragma optimize(on)
+#pragma static-locals(on)
 Orb orb_singleton = {
   {NULL, NULL, orb_OnCollision, (void *)&orb_singleton, NULL, //entity
     {{0,0}, {0,0}, {0,0},{0,0}}}, //entity.transform

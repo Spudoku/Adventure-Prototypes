@@ -2,7 +2,8 @@
 #include <unistd.h>
 
 #include "core/engine.h"
-
+#pragma optimize(on)
+#pragma static-locals(on)
 
 void game_loop();
 

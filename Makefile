@@ -64,7 +64,8 @@ mapEntities = adventure-entities/map-interactables/orb.o
 objects = $(engine) $(graphics) $(entities) $(atariapi) $(mapEntities)
 		  
 $(target) : $(objects)
-	$(CL) -t $(SYS) -Ln test.lbl -Wl --dbgfile,test.dbg -C atari_modifed.cfg -o $@ $(objects) 
+
+	$(CL)  -t $(SYS) -Ln test.lbl -Wl --dbgfile,test.dbg -C atari_modifed.cfg -Osir -Cl -o $@ $(objects) 
 
 # Rule for making a *.o file out of a *.c file
 %.o: %.c

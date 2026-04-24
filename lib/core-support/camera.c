@@ -1,5 +1,6 @@
 #include "camera.h"
-
+#pragma optimize(on)
+#pragma static-locals(on)
 //#include <stdio.h>
 
 Camera camera;
@@ -25,7 +26,6 @@ STATUS cameraConstructor(Entity *toTrack){
 
     if(toTrack != NULL){
       //WARNING WILL ASSIGN BLINDLY, you better make it null!
-      //
       camera._TrackedObject = toTrack;
       camera_FrameTask(&camera.cameraEntity);
     }
@@ -52,8 +52,6 @@ bool objectVisible(Transform *toCheck){
   temp_y = toCheck->eyeCoords.y;
   //bounding box checks
 
-  //will consider the following later :
- 
   //Note: i bet this may be screwy with negatives
 
 
@@ -110,7 +108,7 @@ STATUS camera_FrameTask(Entity* thisEntity){
   offset = objectToMargin(&camera._TrackedObject->transform);
   camera.cameraEntity._worldCoords.x += offset.x;
   camera.cameraEntity._worldCoords.y += offset.y;
-  // }
+  
 
   return PASS;
 }
@@ -137,11 +135,9 @@ STATUS ObjectInsideMargin(Transform *toCheck) {
 
   if(temp_y < camera.draggingMargin) return FAIL;
 
-  if(temp_x > camera.innerMargin.x)
-    return FAIL;
+  if(temp_x > camera.innerMargin.x) return FAIL;
 
-  if(temp_y > camera.innerMargin.y)
-    return FAIL;
+  if(temp_y > camera.innerMargin.y) return FAIL;
 
   return PASS;
 }
@@ -155,10 +151,9 @@ Vector2 objectToMargin(Transform *toCheck){
   // using static variables to reduce pointer lookups
   temp_x = toCheck->eyeCoords.x;
   temp_y = toCheck->eyeCoords.y;
-  // temp_obj_bounds_x = toCheck->objectBounds.x;
-  // temp_obj_bounds_y = toCheck->objectBounds.y;
+
   
-  
+  // if temp_x > SCR_RES_X - _cameraMargin
   if(temp_x  > camera.innerMargin.x) {
     //right side is closer, get x dist to that
     result.x = temp_x - camera.innerMargin.x;
@@ -176,7 +171,6 @@ Vector2 objectToMargin(Transform *toCheck){
     result.y = temp_y - camera.draggingMargin;
   }
   
-  //PRINT_VEC2(result)
 
   return result;
 }

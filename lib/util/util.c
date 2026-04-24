@@ -1,4 +1,5 @@
 #include "util.h"
+
 // clamps an int between min and max
 unsigned int clamp_int(unsigned int value,unsigned int min,unsigned int max) {
     if (value < min) {

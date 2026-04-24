@@ -1,5 +1,6 @@
 #include "sound.h"
-
+#pragma optimize(on)
+#pragma static-locals(on)
 uint8_t voice_frames[4] = {0,0,0,0};
 //unsigned char index
 

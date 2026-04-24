@@ -1,5 +1,6 @@
 #include "items.h"
-
+#pragma optimize(on)
+#pragma static-locals(on)
 
 Entity nullItem = {nullItem_Task, nullItem_renderer, default_OnCollision, (void *)NULL, &nullItem, {{0,0}, {0,0}, {0,0},{0,0}}};
 

@@ -1,5 +1,6 @@
 #include "engine.h"
-
+#pragma optimize(on)
+#pragma static-locals(on)
 unsigned char p1_collisions;
 void engine_Boot(){
     // install drivers
@@ -28,15 +29,13 @@ void engine_InitSingletons(){
     chaliceEnt.chaliceEntity._worldCoords.y = 560;
 
   // TODO: semi random spawn locations?
-  dragonSingleton.myEntity._worldCoords.x = 600;
-  dragonSingleton.myEntity._worldCoords.y = 560;
+  dragonSingleton.myEntity._worldCoords.x = 300;
+  dragonSingleton.myEntity._worldCoords.y = 860;
     
     cameraConstructor(&playerEnt.playerEntity);
 
     chalice_constructor();
-    // printf("player index: %d\n",TEMP_player_anticIndex);
-    // printf("dragon index: %d\n",TEMP_dragon_anticIndex);
-    // printf("Chalice index: %d\n",TEMP_chalice_anticIndex);
+
 
 }
 
@@ -49,7 +48,7 @@ void engine_StateUpdate(){
 
     playerEnt.playerEntity.frameTask(&(playerEnt.playerEntity));
 
-    // dragonSingleton.myEntity.frameTask(&(dragonSingleton.myEntity));
+    dragonSingleton.myEntity.frameTask(&(dragonSingleton.myEntity));
     chaliceEnt.chaliceEntity.frameTask(&chaliceEnt.chaliceEntity);
     
     camera.cameraEntity.frameTask(&(camera.cameraEntity));

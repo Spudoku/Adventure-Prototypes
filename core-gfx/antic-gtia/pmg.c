@@ -1,5 +1,6 @@
 #include "pmg.h"
-
+#pragma optimize(on)
+#pragma static-locals(on)
 PMGInstance* activePMGInstance; 
 static uint8_t* temp_visible_bytes;
 static uint8_t* temp_bitmap_ptr;
@@ -14,7 +15,6 @@ void pmg_Init(PMGInstance* pmgInstance){
     
   convert.integer = (unsigned int)activePMGInstance;
 
-//   printf("PMbase highbyte: %d\n", convert.bytes[1]);
   ANTIC.pmbase = convert.bytes[1];
 
 

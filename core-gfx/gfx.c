@@ -46,6 +46,7 @@ void map_absoluteMove(Vector2 absolutePosition){
 
 
         //treat the window like a single int
+        // this is expensive because of pointers (I think?)
         *(unsigned int *)(DisplayList + (i+1)) =
          (unsigned int)(gameMap[mapData.coarseOffset.y + j]) + mapData.coarseOffset.x;
 
@@ -77,8 +78,8 @@ void map_relativeMove(Vector2 relativePosition){
 
 
 void map_fastAbsoluteMove(Vector2 absolutePosition){
-    
-    char dirty = 0;
+    int16_t temp; // intermediate variable
+    unsigned char dirty = 0;
     char i = 0;
 
 
@@ -92,18 +93,19 @@ void map_fastAbsoluteMove(Vector2 absolutePosition){
     
     //calculate new coarse positions, determine if they are changed
     newCoarse.y = Y_PIXEL_TO_COARSE(newOffset.y);
+    
     if(newCoarse.y  != mapData.coarseOffset.y)
     {
+        temp = newCoarse.y - mapData.coarseOffset.y;
         //calc new memory start in o(1) if possible using mult table
-        if(abs(newCoarse.y - mapData.coarseOffset.y) > 6){
+        if(abs(temp) > 6){
             //they're moving more than half the screen, straight to jail
             map_absoluteMove(newOffset);
             return;
         }
 
     
-        firstLineOffset += 
-            mult_gameMapHeight[newCoarse.y - mapData.coarseOffset.y];
+        firstLineOffset += mult_gameMapHeight[temp];
 
         mapData.coarseOffset.y = newCoarse.y;
         dirty = 1;
