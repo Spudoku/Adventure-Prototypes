@@ -29,12 +29,16 @@ int16_t chalice_eyecoords_y;
 int16_t chalice_worldcoords_x;
 int16_t chalice_worldcoords_y;
 
+
 ChaliceEntity chaliceEnt = {
   {
     chalice_Task,chalice_renderer,chalice_OnCollision,(void*)&chaliceEnt,NULL, // functions, reference, child
     {{0,0},{0,0},{0,0},{4,4}}                     // transform
   },
 
+  {0,0}, // destination
+  0,  // distance to desintation
+  
   0   // chalice silo
 };
 
@@ -89,6 +93,21 @@ STATUS chalice_renderer(Entity* thisEntity) {
 
 void chalice_OnCollision(struct Entity* thisEntity, struct Entity* otherEntity) {
   
+}
+
+void chalice_check_desintation() {
+
+      Vector2 tempVector2;
+    unsigned int chalice_distance;
+   // checking if chalice touches altar asd
+    tempVector2 = chaliceEnt.chaliceEntity._worldCoords;
+    SUB_ASSIGN_VEC2(tempVector2,chaliceEnt.chalice_destination);
+    chalice_distance = abs(tempVector2.x) + abs(tempVector2.y);
+    if (chalice_distance < chaliceEnt.chalice_minDistToDest) {
+        end_game_good();
+        // printf("good ending!");
+    }
+    GTIA_WRITE.hitclr = 1; 
 }
 
 

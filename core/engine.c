@@ -36,7 +36,10 @@ void engine_InitSingletons(){
 
     chalice_constructor();
 
-
+    chaliceEnt.chalice_destination.y = 608;
+    chaliceEnt.chalice_destination.x = 568;
+    chaliceEnt.chalice_minDistToDest = 8;
+    // chalice_destination.x = 
 }
 
 //should produce a final gamestate...
@@ -68,6 +71,7 @@ void engine_Render(){
 
 //stub to demonstrate where events would be dispatched during each tick
 void engine_EventDispatcher(){
+
     unsigned char temp_collisions;
 
 
@@ -98,7 +102,8 @@ void engine_EventDispatcher(){
         
     } 
 
-    GTIA_WRITE.hitclr = 1; 
+    chalice_check_desintation();
+   
         
 };
 
@@ -107,6 +112,11 @@ void engine_EventDispatcher(){
 // for now, just reset the game
 void end_game() {
 
+    trigger_warm_reset();
+}
+
+// the 'good ending'
+void end_game_good() {
     trigger_warm_reset();
 }
 

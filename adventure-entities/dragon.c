@@ -21,7 +21,7 @@ DragonEntity  dragonSingleton = {
 
 // executes each frame
 STATUS dragon_frameTask(Entity* thisEntity) {
-
+  unsigned int distanceToDragonInt;
   // intermediate variables for computation
 
   Vector2 distanceToDragon;
@@ -66,9 +66,9 @@ STATUS dragon_frameTask(Entity* thisEntity) {
   //calculate taxicab but store intermediary delta vector
   distanceToDragon = thisEntity->_target->_worldCoords;
   SUB_ASSIGN_VEC2(distanceToDragon, thisEntity->_worldCoords)
-
+  distanceToDragonInt = (abs(distanceToDragon.x) + abs(distanceToDragon.y));
   // bounce out taxicab distance
-  if((abs(distanceToDragon.x) + abs(distanceToDragon.y)) > D_SIGHT_RANGE) {
+  if(distanceToDragonInt > D_SIGHT_RANGE) {
     // TODO: wander behavior
     return PASS;
   }

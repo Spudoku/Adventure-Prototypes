@@ -50,8 +50,19 @@ STATUS nullItem_constructor(Entity* thisEntity);
 
 typedef struct ChaliceEntity {
   Entity chaliceEntity;
+Vector2 chalice_destination;
+  // distance to destination to trigger good ending
+unsigned char chalice_minDistToDest;
   PMGPlayerSpriteSilo *chaliceSilo;
+  
 } ChaliceEntity;
+
+
+
+
+
+
+
 extern uint8_t TEMP_item_anticIndex;
 extern ChaliceEntity chaliceEnt;
 extern Sprite chaliceSprite;
@@ -62,6 +73,8 @@ STATUS chalice_renderer(Entity* thisEntity);
 void chalice_OnCollision(struct Entity* thisEntity, struct Entity* otherEntity);
 
 STATUS chalice_constructor();
+
+void chalice_check_desintation();
 
 /*
   End Chalice Declarations

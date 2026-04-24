@@ -21,6 +21,8 @@ void trigger_warm_reset(void);
 
 void end_game();
 
+void end_game_good();
+
 //Engine related state tracking globals as needed
 
 #endif
