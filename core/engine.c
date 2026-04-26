@@ -120,6 +120,7 @@ void end_game_good() {
     trigger_warm_reset();
 }
 
+// TODO: fix this!!!!!!!!!
 void trigger_warm_reset(void) {
     // 1. Set the Warmstart flag (WARMST) at 0x0008 to non-zero
     *(unsigned char*)0x0008 = 0x01;
