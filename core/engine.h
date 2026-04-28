@@ -3,7 +3,7 @@
 
 #include <atari.h>
 #include <joystick.h>
-
+#include <setjmp.h>
 #include "../core-gfx/gfx.h"
 #include "sound.h"
 #include "../adventure-entities/player.h"
@@ -22,6 +22,8 @@ void trigger_warm_reset(void);
 void end_game();
 
 void end_game_good();
+
+void game_loop();
 
 //Engine related state tracking globals as needed
 

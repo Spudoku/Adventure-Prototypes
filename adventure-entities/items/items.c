@@ -104,7 +104,8 @@ void chalice_check_desintation() {
     SUB_ASSIGN_VEC2(tempVector2,chaliceEnt.chalice_destination);
     chalice_distance = abs(tempVector2.x) + abs(tempVector2.y);
     if (chalice_distance < chaliceEnt.chalice_minDistToDest) {
-        end_game_good();
+        // end_game_good();
+        end_game();
         // printf("good ending!");
     }
     GTIA_WRITE.hitclr = 1; 

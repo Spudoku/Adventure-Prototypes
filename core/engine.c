@@ -2,6 +2,7 @@
 #pragma optimize(on)
 #pragma static-locals(on)
 unsigned char p1_collisions;
+jmp_buf start_location;
 void engine_Boot(){
     // install drivers
     joy_install(&atrstd_joy);  
@@ -28,9 +29,9 @@ void engine_InitSingletons(){
     chaliceEnt.chaliceEntity._worldCoords.x = 600;
     chaliceEnt.chaliceEntity._worldCoords.y = 560;
 
-  // TODO: semi random spawn locations?
-  dragonSingleton.myEntity._worldCoords.x = 300;
-  dragonSingleton.myEntity._worldCoords.y = 860;
+    // TODO: semi random spawn locations?
+    dragonSingleton.myEntity._worldCoords.x = 300;
+    dragonSingleton.myEntity._worldCoords.y = 860;
     
     cameraConstructor(&playerEnt.playerEntity);
 
@@ -122,11 +123,37 @@ void end_game_good() {
 
 // TODO: fix this!!!!!!!!!
 void trigger_warm_reset(void) {
-    // 1. Set the Warmstart flag (WARMST) at 0x0008 to non-zero
-    *(unsigned char*)0x0008 = 0x01;
+    // // 1. Set the Warmstart flag (WARMST) at 0x0008 to non-zero
+    // *(unsigned char*)0x0008 = 0x01;
 
-    // 2. Jump to the OS reset vector. 
-    // On the Atari, the reset vector is at 0xE474.
-    // In cc65, we can use an assembly wrapper or a function pointer.
-    ((void (*)(void))0xE474)();
+    // // 2. Jump to the OS reset vector. 
+    // // On the Atari, the reset vector is at 0xE474.
+    // // In cc65, we can use an assembly wrapper or a function pointer.
+    // ((void (*)(void))0xE474)();
+    // exit(0);
+    longjmp(start_location, 1); // Jumps back to setjmp()
+}
+
+// need to point to this for RESET
+void game_loop() {
+    setjmp(start_location);
+    engine_Boot();
+    while (1) {
+
+        
+        //process gamestate
+        engine_EventDispatcher();
+        
+        
+    
+        engine_StateUpdate();
+
+        waitvsync();
+
+        engine_Render();
+
+        
+        
+    }
+    
 }

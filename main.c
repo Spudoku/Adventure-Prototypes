@@ -5,7 +5,8 @@
 #pragma optimize(on)
 #pragma static-locals(on)
 
-void game_loop();
+
+
 
 //temp debug utils
 void debug_autoMove(Transform *toMove);  //force an oscillating move
@@ -15,41 +16,26 @@ void debug_autoMove(Transform *toMove);  //force an oscillating move
 Vector2 dir = {1, 1};
 Vector2 zeroVec = {0, 0};
 
+
 int main() {
+    
+    // 1. Set the Warmstart flag (WARMST) at 0x0008 to zero
+    // TODO: test this on native hardware!
+    // *(unsigned char*)0x0008 = 0x00;
+
     //redirect stdout to altirra printer
     //for some reason this makes the top line bug out when x is negative
     //A PRINT IS EXPENSIVE; only use for debugging
     freopen("P1:", "w", stdout);
 
+
     // pass game_loop to RESET registers in case of warmstart
-    // TODO: make it work for coldstart?
     *(unsigned int*)0x000A = (unsigned int)game_loop;
 
-    
     game_loop();
 }
 
-// need to point to this for RESET
-void game_loop() {
-    engine_Boot();
-    while (true) {
 
-        
-        //process gamestate
-        engine_EventDispatcher();
-        
-        
-    
-        engine_StateUpdate();
-
-        waitvsync();
-
-        engine_Render();
-
-        
-        
-    }
-}
 
 
 //WARNING: Use only on one object at a time!

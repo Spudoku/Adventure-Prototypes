@@ -43,7 +43,7 @@ STATUS playerRenderer(Entity* thisEntity) {
   (&(GTIA_WRITE.hposp0))[TEMP_player_anticIndex] = playerEnt.playerEntity._eyeCoords.x 
             + HPOSP_MIN + playerEnt.playerEntity._objectAnchorPoint.x;
   
-  // sadly, this is a necessary evil (it takes up ~20-40% of frame cycles)
+  
 
   pmgSilo_setY_player(playerEnt.playerSilo, thisEntity->_eyeCoords.y);
   return UNDEFINED;

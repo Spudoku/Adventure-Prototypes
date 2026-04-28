@@ -58,11 +58,6 @@ unsigned char chalice_minDistToDest;
 } ChaliceEntity;
 
 
-
-
-
-
-
 extern uint8_t TEMP_item_anticIndex;
 extern ChaliceEntity chaliceEnt;
 extern Sprite chaliceSprite;
@@ -78,6 +73,15 @@ void chalice_check_desintation();
 
 /*
   End Chalice Declarations
+*/
+
+
+/*
+  Start Sword Declarations
+*/
+
+/*
+  End Sword Declarations
 */
 
 #endif 
