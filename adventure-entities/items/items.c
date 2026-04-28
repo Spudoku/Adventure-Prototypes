@@ -43,6 +43,8 @@ ChaliceEntity chaliceEnt = {
 };
 
 STATUS chalice_constructor() {
+
+  
   uint8_t pmg_index;
 
   //call the "base" constructor
@@ -104,9 +106,10 @@ void chalice_check_desintation() {
     SUB_ASSIGN_VEC2(tempVector2,chaliceEnt.chalice_destination);
     chalice_distance = abs(tempVector2.x) + abs(tempVector2.y);
     if (chalice_distance < chaliceEnt.chalice_minDistToDest) {
-        // end_game_good();
-        end_game();
-        // printf("good ending!");
+        dragon_eat_sound();
+  // end game
+    // dragon_eat_sound();
+    end_game();
     }
     GTIA_WRITE.hitclr = 1; 
 }

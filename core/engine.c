@@ -137,6 +137,7 @@ void trigger_warm_reset(void) {
 // need to point to this for RESET
 void game_loop() {
     setjmp(start_location);
+   
     engine_Boot();
     while (1) {
 

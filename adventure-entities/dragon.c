@@ -270,6 +270,6 @@ STATUS dragonRenderer(Entity* thisEntity) {
 void check_if_eating() {
   dragon_eat_sound();
   // end game
-    dragon_eat_sound();
+    // dragon_eat_sound();
     end_game();
 }
