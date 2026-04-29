@@ -78,7 +78,7 @@ void pmgSilo_clear(PMGPlayerSpriteSilo* silo, int8_t newY){
         }
     }
     //  clear relevant bytes
-    memset(temp_visible_bytes,0,temp_height);
+    memset(temp_visible_bytes,0,temp_height + 1);
     
 }
 

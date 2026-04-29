@@ -50,6 +50,12 @@ void engine_InitSingletons(){
     chaliceEnt.chalice_destination.y = 608;
     chaliceEnt.chalice_destination.x = 568;
     chaliceEnt.chalice_minDistToDest = 8;
+
+
+    // sword init
+    sword_constructor();
+    swordEnt.swordEntity._worldCoords.x = 560;
+    swordEnt.swordEntity._worldCoords.y = 560;
     // chalice_destination.x = 
     GTIA_WRITE.hitclr = 1; 
 }
@@ -78,7 +84,7 @@ void engine_Render(){
 
     dragonSingleton.myEntity.renderer(&(dragonSingleton.myEntity));
 
-    
+    swordEnt.swordEntity.renderer(&(swordEnt.swordEntity));
 };
 
 //stub to demonstrate where events would be dispatched during each tick
@@ -95,11 +101,15 @@ void engine_EventDispatcher(){
         // sound_generic_buzz();
         dragon_OnCollision(&(dragonSingleton.myEntity), &playerEnt.playerEntity);
         player_OnCollide(&playerEnt.playerEntity, &(dragonSingleton.myEntity));
+    } else if (collision_with_index(temp_collisions,TEMP_sword_anticIndex)) {
+        sound_generic_buzz();
     }
 
     temp_collisions = player_to_player_collisions(TEMP_player_anticIndex);
     if (collision_with_index(temp_collisions,TEMP_item_anticIndex)) {
         player_pickup_item(&(chaliceEnt.chaliceEntity));
+    } else if (collision_with_index(temp_collisions,TEMP_sword_anticIndex)) {
+        player_pickup_item(&(swordEnt.swordEntity));
     }
 
     // player character collisions
@@ -113,6 +123,8 @@ void engine_EventDispatcher(){
         }
         
     } 
+
+    // TODO: check if player is carrying sword for dragon's sake
 
     chalice_check_desintation();
    
