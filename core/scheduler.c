@@ -28,9 +28,6 @@ void scheduler_DispatchPlayerCollisions(){
   uint8_t dynMask = 0b00001100;
 
 
-
-  
-
   //0 case specific bits
   //NOTE: ASSUMES THERE IS A PLAYER
   switch(GTIA_READ.p0pf & schedulerData.antic_P2PCollisionLookupMask){ //assumes that bit 0 is always 0

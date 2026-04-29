@@ -3,6 +3,7 @@
 
 #define DEFAULT_MARGIN 40
 
+
 #include <stdbool.h>
 #include "entity.h"
 #include "util/transform.h"
@@ -39,7 +40,7 @@ typedef struct Camera{
 
 extern Camera camera;
 
-//note that childEntity is being used as the Target entity to track
+// note that childEntity is being used as the Target entity to track
 //idealy id like to have a way to point to it (preprocessor stuff?) from this level instead of
 //camera.cameraEntity.childEntity 
 

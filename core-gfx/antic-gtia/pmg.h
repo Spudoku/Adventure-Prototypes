@@ -8,9 +8,10 @@
 
 #include "util/sprite.h"
 #include "util/util_structs.h"
+#include "util/util.h"
 
 
-
+// TODO: redo this structure?
 typedef struct DoubleLine_PMGPlayerSpriteSilo{
 
   struct {
@@ -34,15 +35,6 @@ typedef struct DoubleLine_PMGPlayerSpriteSilo{
 typedef struct DoubleLine_PMGInstance{
 
   // assuming double-line resolution
-  // uint8_t player_horiz_positions[4];
-  // uint8_t player_vert_positions[4];
-
-  // // sprite arrays
-  // uint8_t player_sprites[4][16];
-  // uint8_t unused[312];          // it appears we can use this area safely
-  // uint8_t missiles_graphics[4][32];
-  // uint8_t player_graphics[4][128];
-
 
   uint8_t unused[512];
   PMGPlayerSpriteSilo playerGFX[4];
@@ -63,14 +55,22 @@ void pmg_clear();
 //failure flag: 255
 uint8_t pmg_addPlayerSprite(Sprite* toAdd); 
 
+// generic sprite rendering (can be on or offscreen)
 void pmgSilo_setY(PMGPlayerSpriteSilo* silo, int8_t newY);
-void pmgSilo_clear(PMGPlayerSpriteSilo* silo);
+void pmgSilo_clear(PMGPlayerSpriteSilo* silo,int8_t newY);
 void pmgSilo_writeRefSprite(PMGPlayerSpriteSilo* silo, int8_t newY);
 
-//TODO: these things
-// void pmgSilo_absoluteVerticalMove(PMGPlayerSpriteSilo* silo, int8_t newY);
+// player rendering; player is ALWAYS onscreen
+void pmgSilo_setY_player(PMGPlayerSpriteSilo* silo, int8_t newY);
+void pmgSilo_clear_player(PMGPlayerSpriteSilo* silo,int8_t newY);
+void pmgSilo_writeRefSprite_player(PMGPlayerSpriteSilo* silo, int8_t newY);
 
-// //only works when sprite is completely visible
-// void pmgSilo_fastRelativeVerticalMove(PMGPlayerSpriteSilo* silo, int8_t newY);
+// collision helpers
+extern unsigned char player_to_player_collisions(unsigned char player);
+extern unsigned char player_to_playfield_collisions(unsigned char player);
+extern unsigned char missile_to_player_collisions(unsigned char player);
+extern unsigned char missile_to_playfield_collisions(unsigned char missile);
+
+extern bool collision_with_index(unsigned char data, unsigned char index);
 
 #endif
