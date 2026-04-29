@@ -2,11 +2,12 @@
 #define SOUND_H_
 #include <atari.h>
 #include <stdint.h>
+#include <string.h>
 
 #define STOP_SOUND(index) _sound(index,0,0,0)
 
 //extern unsigned int voice_frames[];
-
+void init_sound();
 // play a sound for n frames at a given voice
 // note: do not pass a value > 15 for volume
 // note: sum of all 4 channels' volumes should not exceed 32
@@ -25,6 +26,16 @@ void sound_StateUpdate();
     these are examples of what sound functions might look like
 */
 void sound_generic_buzz();
+
+void dragon_chomp_sound();
+
+void dragon_eat_sound();
+
+void orb_sound();
+
+void sound_item_drop();
+
+void sound_item_pickup();
 
 // void sound_item_pickup();
 

@@ -1,9 +1,21 @@
 #ifndef ITEMS_H_
 #define ITEMS_H_
 
+#include <stdint.h>
+#include <joystick.h>
+
+#include "util/util.h"
+#include "util/util_structs.h"
+#include "util/sprite.h"
+#include "util/util_input.h"
+
 #include "core-support/entity.h"
-#include "../../core/sound.h"
-#include <stddef.h>
+#include "core-support/camera.h"
+
+#include "../core-gfx/antic-gtia/pmg.h"
+
+#include "../core/sound.h"
+#include "../dragon.h"
 
 //item repo
 //items are entities designed to be held by another entity to do some action
@@ -18,6 +30,7 @@
 */
 extern Entity nullItem;
 
+
 STATUS nullItem_Task(Entity* thisEntity);
 STATUS nullItem_renderer(Entity* thisEntity);
 
@@ -30,19 +43,45 @@ STATUS nullItem_constructor(Entity* thisEntity);
   End nullItem declarations
 */
 
+
 /*
-  Begin dumbItem declarations
-  dumbItem will play a sound when it touches things (I think?)
+  Start Chalice Declarations
 */
-extern Entity dumbItem;
 
-STATUS dumbItem_Task(Entity* thisEntity);
+typedef struct ChaliceEntity {
+  Entity chaliceEntity;
+Vector2 chalice_destination;
+  // distance to destination to trigger good ending
+unsigned char chalice_minDistToDest;
+  PMGPlayerSpriteSilo *chaliceSilo;
+  
+} ChaliceEntity;
 
-STATUS dumbItem_renderer(Entity* thisEntity);
 
-STATUS dumbItem_constructor(Entity* thisEntity);
+extern uint8_t TEMP_item_anticIndex;
+extern ChaliceEntity chaliceEnt;
+extern Sprite chaliceSprite;
+
+STATUS chalice_Task(Entity* thisEntity);
+STATUS chalice_renderer(Entity* thisEntity);
+
+void chalice_OnCollision(struct Entity* thisEntity, struct Entity* otherEntity);
+
+STATUS chalice_constructor();
+
+void chalice_check_desintation();
+
 /*
-  End dumbItem declarations
+  End Chalice Declarations
+*/
+
+
+/*
+  Start Sword Declarations
+*/
+
+/*
+  End Sword Declarations
 */
 
 #endif 

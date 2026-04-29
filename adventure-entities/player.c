@@ -1,11 +1,16 @@
 #include "player.h"
+#pragma optimize(on)
+#pragma static-locals(on)
 
 Vector2 worldCoordPlayerView;
 uint8_t TEMP_player_anticIndex;
 
+bool vertMovePlayer = true;
+
+
 //initializer list to allow compile time assign/construct
 PlayerEntity playerEnt = {
-  {player_FrameTask, playerRenderer, player_OnCollide, (void *)&playerEnt, &dumbItem, //entity
+  {player_FrameTask, playerRenderer, player_OnCollide, (void *)&playerEnt, NULL, //entity
     
     {{0,0}, {0,0}, {0,0},{4,4}}}, //entity.transform
 
@@ -21,32 +26,30 @@ STATUS player_FrameTask(Entity* thisEntity) {
   //pseudo
 
   // read input and set velocity
-  
-
-  
+  // TODO: check for collisions before input?
 
   return playerInputProcess();
 }
 
-//remember, the renderer happens as the second batch, after all game logic is
-//calced
-//prepare the graphics driver
+// remember, the renderer happens as the second batch, after all game logic is
+// calced
+// prepare the graphics driver
 STATUS playerRenderer(Entity* thisEntity) {
 
   thisEntity->_eyeCoords = convertToEyeCoords(thisEntity->_worldCoords);
   //incomplete
 
   //generally dont need a bounds check, player is always in frame
-
   (&(GTIA_WRITE.hposp0))[TEMP_player_anticIndex] = playerEnt.playerEntity._eyeCoords.x 
             + HPOSP_MIN + playerEnt.playerEntity._objectAnchorPoint.x;
   
-  //printf("%d\n",(&(GTIA_WRITE.hposp0))[TEMP_player_anticIndex] );
-  pmgSilo_setY(playerEnt.playerSilo, thisEntity->_eyeCoords.y);
+  
 
-
+  pmgSilo_setY_player(playerEnt.playerSilo, thisEntity->_eyeCoords.y);
   return UNDEFINED;
 }
+
+
 //made global/static due to frequency of use
 unsigned char joystickState = 0; 
 unsigned char lastFrameState;
@@ -59,7 +62,7 @@ STATUS playerInputProcess(){
   //read the joystick data
   joystickState = joy_read(JOY_1);
 
-
+  // left/right movement
   switch(JOY_LEFTRIGHT(joystickState)){
     case JOY_LEFT_MASK:
       playerEnt.playerVelocity.x = -playerEnt.playerSpeed;
@@ -72,12 +75,15 @@ STATUS playerInputProcess(){
       break;
   }
 
+  // up/down movement
   switch(JOY_UPDOWN(joystickState)){
     case JOY_UP_MASK: 
       playerEnt.playerVelocity.y = -playerEnt.playerSpeed;
+      vertMovePlayer = true;
       break;
     case JOY_DOWN_MASK: //down
       playerEnt.playerVelocity.y = playerEnt.playerSpeed;
+      vertMovePlayer = true;
       break;
     default:  //nothing or null cancelled
       playerEnt.playerVelocity.y = 0;
@@ -87,66 +93,111 @@ STATUS playerInputProcess(){
   //makes this lock out when held
   if(JOY_FIRE(joystickState) && !JOY_FIRE(lastFrameState)){
     //will currently break if player has no child
-    playerEnt.playerEntity.childEntity->frameTask(playerEnt.playerEntity.childEntity);
+    // TODO: make this drop the childEntity! (which should be an item)
+    // playerEnt.playerEntity.childEntity->frameTask(playerEnt.playerEntity.childEntity);
+    player_drop_item(playerEnt.playerEntity.childEntity);
   }
 
 
   ADD_ASSIGN_VEC2(playerEnt.playerEntity._worldCoords, playerEnt.playerVelocity)
   
-
-
+  if (playerEnt.playerEntity.childEntity != NULL) {
+    // TODO: move item
+    playerEnt.playerEntity.childEntity->_worldCoords.x = playerEnt.playerEntity._worldCoords.x + playerEnt.item_offset.x;
+    playerEnt.playerEntity.childEntity->_worldCoords.y = playerEnt.playerEntity._worldCoords.y + playerEnt.item_offset.y;
+  }
   return PASS;
 }
 
-//Presently only sets worldcoord back when called
-//May need more grandular checks later...
+// Presently only sets worldcoord back when called
+// May need more grandular checks later...
+// TODO: FIX THESE STUPID COLLISIONS!!!!!
 void player_OnCollide(Entity* thisEntity, Entity* otherEntity){
-  playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
+
+  if (otherEntity == NULL) {
+    // assume that playfield was hit
+    playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
+    // playerEnt.playerVelocity.x = playerEnt.playerSpeed;
+    playerEnt.playerEntity._worldCoords.x -= playerEnt.playerVelocity.x;
+    playerEnt.playerEntity._worldCoords.y -= playerEnt.playerVelocity.y;
+  } else if (otherEntity == &(dragonSingleton.myEntity)) {
+    
+    // prevent collisions through a chomping dragon
+    // TODO: simplify this if possible
+    if (dragonSingleton.state == D_STATE_CHOMP) {
+      playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
+      // playerEnt.playerVelocity.x = playerEnt.playerSpeed;
+      playerEnt.playerEntity._worldCoords.x -= playerEnt.playerVelocity.x;
+      playerEnt.playerEntity._worldCoords.y -= playerEnt.playerVelocity.y;
+    }
+  }
+  // TODO: check if its an item
+ 
   return;
+}
+
+// bad :D
+void player_horiz_collisions() {
+  playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
+  
 }
 
 //init the player specific vars
 STATUS playerConstructor(){
   uint8_t pmg_index;
-  // playerEnt.playerSpeed = 1;
-  // playerEnt.playerVelocity.x = 0;
-  // playerEnt.playerVelocity.y = 0;
 
   //call the "base" constructor
 
-  
-
-  //entityConstructor((Entity*)&playerEnt.playerEntity, player_FrameTask, playerRenderer);
-  //assign to the player entity it's dummy obj item
-
-  // playerEnt.playerEntity.childEntity = &nullItem;
-  // //in the future, the constructor will be not ran right here, probably during
-  // //boot sequence
-  // nullItem_constructor(&nullItem);  
-
-
-
+  // set PMG index and validate it
   pmg_index = pmg_addPlayerSprite(&playerSprite);
 
+
   if(pmg_index < 4){
-    //schedulerData.antic_P2PCollisionLookupTable[pmg_index] = (Entity *)&playerEnt;
-    //schedulerData.antic_P2PCollisionLookupMask |= (1 << pmg_index);
     playerEnt.playerSilo = activePMGInstance->playerGFX + pmg_index;
     TEMP_player_anticIndex = pmg_index;
   }
-  printf("Player antic index: %d\n", TEMP_player_anticIndex);
+
+  playerEnt.playerEntity.childEntity = NULL;
 
   //printf("Address: %d\n", %d)
   return PASS;
 }
+
+// sprite :D
 uint8_t playerSpriteBitmap[] ={
-  0b11110000,
-  0b11110000,
-  0b11110000,
-  0b11110000,
+  0b00111100,
+  0b00111100,
+  0b00111100,
+  0b00111100,
 };
 
 Sprite playerSprite = {sizeof(playerSpriteBitmap),GTIA_COLOR_YELLOW,playerSpriteBitmap};
+
+
+// attempts to pickup item
+void player_pickup_item(Entity* item) {
+  if (playerEnt.playerEntity.childEntity) {
+    return;
+  }
+  // set item as child
+  playerEnt.playerEntity.childEntity = item;
+  sound_generic_buzz();
+  sound_item_drop();
+  // compute offset
+
+  // this is inefficient but thankfully it doesn't happen each frame
+  playerEnt.item_offset.x = playerEnt.playerVelocity.x * 12;
+  playerEnt.item_offset.y = playerEnt.playerVelocity.y * 12;
+
+}
+
+void player_drop_item(Entity* item) {
+  item->_worldCoords.x = playerEnt.playerEntity._worldCoords.x + playerEnt.item_offset.x;
+  item->_worldCoords.y = playerEnt.playerEntity._worldCoords.y + playerEnt.item_offset.y;
+  playerEnt.playerEntity.childEntity = NULL;
+  sound_item_drop();
+}
+
 
 
 

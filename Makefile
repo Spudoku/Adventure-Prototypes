@@ -53,7 +53,7 @@ AFLAGS=-I $(CA65_INC) --debug-info -t $(SYS) -D $(BUILD)
 # Flags for C-code compiler
 CFLAGS=-I ./lib -t $(SYS) --add-source -g -D $(BUILD)
 
-target = dummy.xex
+target = adventure.xex
 viceLabel = game.lbl
 
 engine = main.o lib/core-support/entity.o lib/util/util.o core/engine.o lib/core-support/camera.o
@@ -64,7 +64,8 @@ mapEntities = adventure-entities/map-interactables/orb.o
 objects = $(engine) $(graphics) $(entities) $(atariapi) $(mapEntities)
 		  
 $(target) : $(objects)
-	$(CL) -t $(SYS) -Ln test.lbl -Wl --dbgfile,test.dbg -C atari_modifed.cfg -o $@ $(objects) 
+
+	$(CL)  -t $(SYS) -Ln test.lbl -Wl --dbgfile,test.dbg -C atari_modifed.cfg -Osir -Cl -o $@ $(objects) 
 
 # Rule for making a *.o file out of a *.c file
 %.o: %.c

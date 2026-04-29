@@ -1,74 +1,104 @@
 #include "dragon.h"
+#pragma optimize(on)
+#pragma static-locals(on)
+bool vertMovement = true;
 
-DragonEntity  debug_dragonSingleton = {
-  {dragon_frameTask, dragonRenderer, dragon_OnCollision, (void *)&debug_dragonSingleton, (Entity*)NULL,//entity
+unsigned int DmoveDelayCounter;
+
+unsigned char dragonState;
+unsigned int Dchompdelaycounter;
+
+  unsigned char dragonSpeed;
+  signed char temp_dir;
+
+// initialize THE dragon singleton
+// TODO: make more dragons?????????
+DragonEntity  dragonSingleton = {
+  {dragon_frameTask, dragonRenderer, dragon_OnCollision, (void *)&dragonSingleton, (Entity*)NULL,//entity
     {{624, 560}, {0,0}, {0,0},{8,20}}},//entity.transform
     0,1,D_MOVE_DELAY,D_CHOMP_DELAY, NULL
 };
 
-//per frame behavior
+// executes each frame
 STATUS dragon_frameTask(Entity* thisEntity) {
+  unsigned int distanceToDragonInt;
+  // intermediate variables for computation
+
   Vector2 distanceToDragon;
 
-
+  DmoveDelayCounter = D_ENT->moveDelayCounter;
+  dragonState = D_ENT->state;
+  Dchompdelaycounter = D_ENT->dragonChompCounter;
   //calculate state
- 
-  //XOR (my beloved) to flipflop toggle
-  // D_ENT->flags ^= 
-  //     ((D_ENT->dragonChompCounter) < 1) && D_STATE_CHOMP; 
 
-  //sets to true when move delay is 0. NOT A TOGGLE
-  COND_SET_BIT(((D_ENT->moveDelayCounter)-- < 1), D_STATE_MOVE, D_ENT->flags)
+  if (D_ENT->moveDelayCounter > 0) {
+    D_ENT->moveDelayCounter -= 1;
+  }
+  
+  if (D_ENT->dragonChompCounter > 0) {
+    D_ENT->dragonChompCounter -= 1;
+  }
   
 
-  if(D_ENT->dragonChompCounter-- < 1){  
-    D_ENT->dragonChompCounter = D_CHOMP_DELAY;
-    D_ENT->flags ^= D_STATE_CHOMP;
-  }
+  // if dragon is chomping, set its state to chomp (so it can't move)
+  if (D_ENT->dragonChompCounter > 0) {
+    D_ENT->state = D_STATE_CHOMP;
 
-  //read move state, if we're not moving... do nothing
-  if(!CHECK_FLAG(D_ENT->flags, D_STATE_MOVE)){
+    
+    return PASS;
+
+  }
+  // set rest state 
+  else if (D_ENT->moveDelayCounter > 0) {
+    
+    D_ENT->state = D_STATE_REST;
     return PASS;
   }
 
-  //if here, should bee moving, now time to do math
 
+  //if here, should bee moving, now time to do math
+  
+  D_ENT->state = D_STATE_MOVE;
+  
   //reset delay
   D_ENT->moveDelayCounter = D_MOVE_DELAY;
 
   //calculate taxicab but store intermediary delta vector
   distanceToDragon = thisEntity->_target->_worldCoords;
   SUB_ASSIGN_VEC2(distanceToDragon, thisEntity->_worldCoords)
-
-
-
-  //bounce out taxicab distance
-  if((abs(distanceToDragon.x) + abs(distanceToDragon.y)) > D_SIGHT_RANGE) {
+  distanceToDragonInt = (abs(distanceToDragon.x) + abs(distanceToDragon.y));
+  // bounce out taxicab distance
+  if(distanceToDragonInt > D_SIGHT_RANGE) {
+    // TODO: wander behavior
     return PASS;
   }
 
   
-  //now we're in range
-
+  // now we can see the player, so move towards them
+  dragonSpeed = D_ENT->dragonSpeed;
+  temp_dir = (distanceToDragon.x > 0) - (distanceToDragon.x < 0);
   //calculate the new x
-  switch((distanceToDragon.x > 0) - (distanceToDragon.x < 0)){
+  switch(temp_dir){
     case -1:
-      thisEntity->_worldCoords.x -= D_ENT->dragonSpeed;
+      thisEntity->_worldCoords.x -= dragonSpeed;
       break;
     case 1:
-      thisEntity->_worldCoords.x += D_ENT->dragonSpeed;
+      thisEntity->_worldCoords.x += dragonSpeed;
       break;
     default:
       break;
   }
 
   //and the new y
-  switch((distanceToDragon.y > 0) - (distanceToDragon.y < 0)){
+  temp_dir = (distanceToDragon.y > 0) - (distanceToDragon.y < 0);
+  switch(temp_dir){
     case -1:
-      thisEntity->_worldCoords.y -= D_ENT->dragonSpeed;
+      thisEntity->_worldCoords.y -= dragonSpeed;
+      vertMovement = true;
       break;
     case 1:
-      thisEntity->_worldCoords.y += D_ENT->dragonSpeed;
+      thisEntity->_worldCoords.y += dragonSpeed;
+      vertMovement = true;
       break;
     default:
       break;
@@ -80,13 +110,36 @@ STATUS dragon_frameTask(Entity* thisEntity) {
 uint8_t TEMP_dragon_anticIndex;
 
 
+// collision handler for dragon
+// otherEntity is implied to be the player
 void dragon_OnCollision(Entity* thisEntity, Entity* otherEntity){
-  D_ENT->moveDelayCounter += 100;
+
+  // start the chomp sequence
+  if (D_ENT->state != D_STATE_CHOMP) {
+    dragon_chomp_sound();
+    D_ENT->dragonChompCounter = 120;
+
+    // this behavior mimics the original game; roughly places
+    // the dragons mouth on the player
+    thisEntity->_worldCoords.x = otherEntity->_worldCoords.x;
+    thisEntity->_worldCoords.y = otherEntity->_worldCoords.y;
+
+    D_ENT->state = D_STATE_CHOMP;
+  } else {
+    // if on last frame of chomp, try to eat player
+    if (D_ENT->dragonChompCounter == 1) {
+      check_if_eating();
+    }
+  }
+  
+
   return;
 }
 
 
-
+/* 
+  Start dragon sprites
+*/
 uint8_t dragon_chompingBitmap[] = {
   0b10000000,
   0b01000110,
@@ -145,34 +198,46 @@ Sprite dragon_idle = {
   dragon_idleBitmap
 };
 
+/* 
+  End dragon sprites
+*/
+
 //some temp code here to bruteforce pmg
 STATUS dragon_Init(DragonEntity* instance){
   uint8_t pmg_index;
   pmg_index = pmg_addPlayerSprite(&dragon_idle);
 
   if(pmg_index < 4){
-    //schedulerData.antic_P2PCollisionLookupTable[pmg_index] = (Entity *)&playerEnt;
-    //schedulerData.antic_P2PCollisionLookupMask |= (1 << pmg_index);
+
     instance->dragonSilo = activePMGInstance->playerGFX + pmg_index;
     TEMP_dragon_anticIndex = pmg_index;
   }
-  printf("Dragon debug antic index: %d\n", TEMP_dragon_anticIndex);
+  // printf("Dragon debug antic index: %d\n", TEMP_dragon_anticIndex);
 
-  instance->myEntity._worldCoords.x = 400;
-  instance->myEntity._worldCoords.y = 560;
+
+
+  // initializing miscellaneous variables
+  instance->moveDelayCounter = 0;
+  instance->dragonChompCounter = 0;
+  instance->state = D_STATE_MOVE;
+
   //printf("Address: %d\n", %d)
   return PASS;
 }
 
 //quick and dirty track
+// TODO: set child entity to whatever the dragon is EATING, not the tracked 
+// entity
 void dragon_TrackEntity(DragonEntity* instance, Entity *toTrack){
   instance->myEntity.childEntity = toTrack;
 }
 
+// handles rendering of dragon
+// Probably won't need to duplicate this code if/when I add more dragons
 STATUS dragonRenderer(Entity* thisEntity) {
   
   thisEntity->_eyeCoords = convertToEyeCoords(thisEntity->_worldCoords);
-  //incomplete
+  
 
   //quick and dirty hide
   if(!objectVisible(&(thisEntity->transform))){
@@ -180,18 +245,31 @@ STATUS dragonRenderer(Entity* thisEntity) {
     return PASS;
   }
 
+  // set horizontal position
   (&(GTIA_WRITE.hposp0))[TEMP_dragon_anticIndex] = thisEntity->_eyeCoords.x 
             + HPOSP_MIN + thisEntity->_objectAnchorPoint.x;
   
   
-  if(CHECK_FLAG(D_ENT->flags, D_STATE_CHOMP)){
+
+  if(D_ENT->state == D_STATE_CHOMP){
     D_ENT->dragonSilo->header.refsprite = &dragon_chomping;
   } else{
     D_ENT->dragonSilo->header.refsprite = &dragon_idle;
   }
-  //printf("%d\n",(&(GTIA_WRITE.hposp0))[TEMP_player_anticIndex] );
+  
+  // only update vertical position if vertical movement occurred
   pmgSilo_setY(D_ENT->dragonSilo, thisEntity->_eyeCoords.y);
+  
 
 
   return PASS;
+}
+
+// check collisions to see if still eating the player
+// if successful, player dies and game is reset
+void check_if_eating() {
+  dragon_eat_sound();
+  // end game
+    // dragon_eat_sound();
+    end_game();
 }
