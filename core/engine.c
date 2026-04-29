@@ -1,14 +1,22 @@
 #include "engine.h"
+
 #pragma optimize(on)
 #pragma static-locals(on)
+
+
+
+
 unsigned char p1_collisions;
 jmp_buf start_location;
 void engine_Boot(){
     // install drivers
     joy_install(&atrstd_joy);  
 
-    //init graphics
+    //init graphics and sounds
     gfx_Init();
+    init_sound();
+
+    // initialize the entities
     engine_InitSingletons();     
 }
 
@@ -16,8 +24,7 @@ void engine_Boot(){
 void engine_InitSingletons(){
     
     playerConstructor();
-    dragon_Init(&dragonSingleton);  //TEMP
-    dragon_TrackEntity(&dragonSingleton, &playerEnt.playerEntity);
+    
 
 
 
@@ -25,10 +32,13 @@ void engine_InitSingletons(){
     //debug manual assign for now
     playerEnt.playerEntity._worldCoords.x = 624;
     playerEnt.playerEntity._worldCoords.y = 560;
+    playerEnt.player_LastPos.x = 624;
+    playerEnt.player_LastPos.y = 560;
 
     chaliceEnt.chaliceEntity._worldCoords.x = 600;
     chaliceEnt.chaliceEntity._worldCoords.y = 560;
-
+    dragon_Init(&dragonSingleton);  //TEMP
+    dragon_TrackEntity(&dragonSingleton, &playerEnt.playerEntity);
     // TODO: semi random spawn locations?
     dragonSingleton.myEntity._worldCoords.x = 300;
     dragonSingleton.myEntity._worldCoords.y = 860;
@@ -41,6 +51,7 @@ void engine_InitSingletons(){
     chaliceEnt.chalice_destination.x = 568;
     chaliceEnt.chalice_minDistToDest = 8;
     // chalice_destination.x = 
+    GTIA_WRITE.hitclr = 1; 
 }
 
 //should produce a final gamestate...
@@ -105,7 +116,7 @@ void engine_EventDispatcher(){
 
     chalice_check_desintation();
    
-        
+    GTIA_WRITE.hitclr = 1; 
 };
 
 
@@ -157,4 +168,18 @@ void game_loop() {
         
     }
     
+}
+
+// following from Google Gemini
+// TODO: test this to make sure it works!
+void setup_reset_handler() {
+// Disable interrupts while we mess with vectors
+    __asm__("sei");
+
+    // Set the low and high bytes of the reset vector ($0302)
+    // to point to the cc65 startup code
+    POKEW(0x0302, (unsigned int)game_loop);
+
+    // Re-enable interrupts
+    __asm__("cli");
 }

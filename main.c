@@ -31,7 +31,7 @@ int main() {
 
     // pass game_loop to RESET registers in case of warmstart
     *(unsigned int*)0x000A = (unsigned int)game_loop;
-
+    setup_reset_handler();
     game_loop();
 }
 

@@ -5,7 +5,7 @@ uint8_t voice_frames[4] = {0,0,0,0};
 //unsigned char index
 
 
-// from cc65 docs:
+// from cc65 docs (referring to _sound):
 // The function is available only as a fastcall function; so, it may be used only in the presence of a prototype.
 // The function is specific to the Atari 8 bit.
 // Voice can be any of 0-3 different sound channels.
@@ -14,6 +14,14 @@ uint8_t voice_frames[4] = {0,0,0,0};
 // Volume (0-15) is the intensity for the wave.
 // Extra bits in those parameters will be ignored.
 // Parameters are the same as for the AtariBASIC SOUND statement.
+
+
+void init_sound() {
+    
+    memset(voice_frames,0,sizeof(voice_frames));
+    
+
+}
 
 void sound_PlayNote(unsigned char voice, unsigned char pitch, unsigned char distortion, 
 unsigned char volume, unsigned int frames) {
@@ -31,6 +39,7 @@ void sound_StateUpdate() {
     for (; index < 4; index++) {
         switch(voice_frames[index]){
             case 0:
+                STOP_SOUND(index);  //fallthrough
                 break;
             case 1:
                 STOP_SOUND(index);  //fallthrough

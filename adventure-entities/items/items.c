@@ -47,6 +47,8 @@ STATUS chalice_constructor() {
   
   uint8_t pmg_index;
 
+  
+
   //call the "base" constructor
 
   // set PMG index and validate it
@@ -111,7 +113,7 @@ void chalice_check_desintation() {
     // dragon_eat_sound();
     end_game();
     }
-    GTIA_WRITE.hitclr = 1; 
+    
 }
 
 

@@ -10,6 +10,9 @@
 #include "../adventure-entities/dragon.h"  //TEMP
 #include "../adventure-entities/map-interactables/orb.h"
 #include "../adventure-entities/items/items.h"
+#include <peekpoke.h>
+
+
 
 void engine_Boot();
 void engine_InitSingletons();
@@ -24,6 +27,8 @@ void end_game();
 void end_game_good();
 
 void game_loop();
+
+void setup_reset_handler();
 
 //Engine related state tracking globals as needed
 
