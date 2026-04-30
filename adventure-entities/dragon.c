@@ -111,8 +111,8 @@ STATUS dragon_frameTask(Entity* thisEntity) {
 
   if (willFlee) {
     // flip sign bit
-    temp_dir = (distanceToAvoid.x > 0) - (distanceToAvoid.x < 0);
-    temp_dir ^= 0x80;
+    temp_dir =  (distanceToAvoid.x < 0) - (distanceToAvoid.x > 0);
+    
   }
   // temp_dir = (distanceToDragon.x > 0) - (distanceToDragon.x < 0);
   //calculate the new x
@@ -131,8 +131,8 @@ STATUS dragon_frameTask(Entity* thisEntity) {
   temp_dir = (distanceToDragon.y > 0) - (distanceToDragon.y < 0);
   if (willFlee) {
     // flip sign bit
-    temp_dir = (distanceToAvoid.y > 0) - (distanceToAvoid.y < 0);
-    temp_dir ^= 0x80;
+    temp_dir = (distanceToAvoid.y < 0) - (distanceToAvoid.y > 0);
+    
   }
   switch(temp_dir){
     case -1:
