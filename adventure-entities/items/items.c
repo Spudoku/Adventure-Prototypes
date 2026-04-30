@@ -97,7 +97,7 @@ STATUS chalice_renderer(Entity* thisEntity) {
     (&(GTIA_WRITE.hposp0))[TEMP_item_anticIndex] = chaliceEnt.chaliceEntity._eyeCoords.x 
             + HPOSP_MIN + chaliceEnt.chaliceEntity._objectAnchorPoint.x;
 
-    pmgSilo_setY(chaliceEnt.chaliceSilo, thisEntity->_eyeCoords.y);
+    pmgSilo_setY(chaliceEnt.chaliceSilo, thisEntity->_eyeCoords.y, false);
 
   return UNDEFINED;
 }
@@ -185,7 +185,7 @@ STATUS sword_renderer(Entity* thisEntity) {
     (&(GTIA_WRITE.hposp0))[TEMP_sword_anticIndex] = swordEnt.swordEntity._eyeCoords.x 
             + HPOSP_MIN + swordEnt.swordEntity._objectAnchorPoint.x;
 
-    pmgSilo_setY(swordEnt.swordSilo, thisEntity->_eyeCoords.y);
+    pmgSilo_setY(swordEnt.swordSilo, thisEntity->_eyeCoords.y, false);
 
   return PASS;
 }

@@ -45,7 +45,7 @@ STATUS playerRenderer(Entity* thisEntity) {
   
   
 
-  pmgSilo_setY_player(playerEnt.playerSilo, thisEntity->_eyeCoords.y);
+  pmgSilo_setY_player(playerEnt.playerSilo, thisEntity->_eyeCoords.y, false);
   return UNDEFINED;
 }
 

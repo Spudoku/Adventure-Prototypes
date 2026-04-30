@@ -38,10 +38,10 @@ void engine_InitSingletons(){
     chaliceEnt.chaliceEntity._worldCoords.x = 600;
     chaliceEnt.chaliceEntity._worldCoords.y = 560;
     dragon_Init(&dragonSingleton);  //TEMP
-    dragon_TrackEntity(&dragonSingleton, &playerEnt.playerEntity);
+    dragon_TrackEntity(&dragonSingleton, &playerEnt.playerEntity, &swordEnt.swordEntity);
     // TODO: semi random spawn locations?
-    dragonSingleton.myEntity._worldCoords.x = 300;
-    dragonSingleton.myEntity._worldCoords.y = 860;
+    dragonSingleton.myEntity._worldCoords.x = 624;
+    dragonSingleton.myEntity._worldCoords.y = 560;
     
     cameraConstructor(&playerEnt.playerEntity);
 
@@ -54,7 +54,7 @@ void engine_InitSingletons(){
 
     // sword init
     sword_constructor();
-    swordEnt.swordEntity._worldCoords.x = 560;
+    swordEnt.swordEntity._worldCoords.x = 600;
     swordEnt.swordEntity._worldCoords.y = 560;
     // chalice_destination.x = 
     GTIA_WRITE.hitclr = 1; 
@@ -102,7 +102,7 @@ void engine_EventDispatcher(){
         dragon_OnCollision(&(dragonSingleton.myEntity), &playerEnt.playerEntity);
         player_OnCollide(&playerEnt.playerEntity, &(dragonSingleton.myEntity));
     } else if (collision_with_index(temp_collisions,TEMP_sword_anticIndex)) {
-        sound_generic_buzz();
+        kill_dragon(&(dragonSingleton.myEntity));
     }
 
     temp_collisions = player_to_player_collisions(TEMP_player_anticIndex);
