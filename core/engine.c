@@ -3,7 +3,21 @@
 #pragma optimize(on)
 #pragma static-locals(on)
 
-
+// declaring locations for chalice and/or dragon
+Vector2 startingLocations[RANDOM_LOCATIONS_COUNT] = {
+    {192,328},
+    {224,624},
+    {264,24},
+    {888,1112},
+    // {224,624},
+    // {0,0},
+};
+Vector2 swordLocations[RANDOM_LOCATIONS_COUNT] = {
+    {600,560},
+    {600,560},
+    {600,560},
+    {600,560},
+};
 
 
 unsigned char p1_collisions;
@@ -22,41 +36,54 @@ void engine_Boot(){
 
 
 void engine_InitSingletons(){
-    
+    unsigned char index;
+
+    // player init
     playerConstructor();
+
     
-
-
-
-    // test
-    //debug manual assign for now
     playerEnt.playerEntity._worldCoords.x = 624;
     playerEnt.playerEntity._worldCoords.y = 560;
     playerEnt.player_LastPos.x = 624;
     playerEnt.player_LastPos.y = 560;
 
-    chaliceEnt.chaliceEntity._worldCoords.x = 600;
-    chaliceEnt.chaliceEntity._worldCoords.y = 560;
-    dragon_Init(&dragonSingleton);  //TEMP
-    dragon_TrackEntity(&dragonSingleton, &playerEnt.playerEntity, &swordEnt.swordEntity);
-    // TODO: semi random spawn locations?
-    dragonSingleton.myEntity._worldCoords.x = 624;
-    dragonSingleton.myEntity._worldCoords.y = 560;
-    
-    cameraConstructor(&playerEnt.playerEntity);
+    // Chalice initialization
+    index = get_random_value(RANDOM_LOCATIONS_COUNT);
 
-    chalice_constructor();
-
+    chaliceEnt.chaliceEntity._worldCoords.x = startingLocations[index].x;
+    chaliceEnt.chaliceEntity._worldCoords.y = startingLocations[index].y;
     chaliceEnt.chalice_destination.y = 608;
     chaliceEnt.chalice_destination.x = 568;
     chaliceEnt.chalice_minDistToDest = 8;
+    chalice_constructor();
+    
+    // dragon initializiation
+    dragon_Init(&dragonSingleton);  
+    dragon_TrackEntity(&dragonSingleton, &playerEnt.playerEntity, &swordEnt.swordEntity);
+    
+
+    index = get_random_value(RANDOM_LOCATIONS_COUNT);
+    // dragonSingleton.myEntity._worldCoords.x = startingLocations[index].x;
+    // dragonSingleton.myEntity._worldCoords.y = startingLocations[index].y;
+
+    dragonSingleton.myEntity._worldCoords.x = 500;
+    dragonSingleton.myEntity._worldCoords.y = 560;
+    
+
+    // camera init
+    cameraConstructor(&playerEnt.playerEntity);
+
+    
+
+   
 
 
     // sword init
     sword_constructor();
-    swordEnt.swordEntity._worldCoords.x = 600;
-    swordEnt.swordEntity._worldCoords.y = 560;
-    // chalice_destination.x = 
+    index = get_random_value(RANDOM_LOCATIONS_COUNT);
+    swordEnt.swordEntity._worldCoords.x = swordLocations[index].x;
+    swordEnt.swordEntity._worldCoords.y = swordLocations[index].y;
+    
     GTIA_WRITE.hitclr = 1; 
 }
 

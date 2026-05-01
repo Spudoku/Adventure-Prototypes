@@ -5,6 +5,7 @@
 #include <atari.h>
 #include <peekpoke.h>
 #include <stdint.h>
+#include <stdio.h>
 
 
 //fixed screen offsets 
@@ -31,5 +32,5 @@ unsigned int min(unsigned int a, unsigned int b);
 
 unsigned char reverse_char(unsigned char c);
 
-
+unsigned char get_random_value(unsigned char max);
 #endif

@@ -27,11 +27,11 @@ DragonEntity  dragonSingleton = {
 // executes each frame
 STATUS dragon_frameTask(Entity* thisEntity) {
   unsigned int distanceToDragonInt;
-  unsigned int distanceToAvoidInt;
+  // unsigned int distanceToAvoidInt;
 
   Vector2 distanceToDragon;
 
-  Vector2 distanceToAvoid;
+  // Vector2 distanceToAvoid;
   bool willFlee = false;
   // intermediate variables for computation
 
@@ -88,14 +88,10 @@ STATUS dragon_frameTask(Entity* thisEntity) {
   SUB_ASSIGN_VEC2(distanceToDragon, thisEntity->_worldCoords)
   distanceToDragonInt = (abs(distanceToDragon.x) + abs(distanceToDragon.y));
   
-  // compute distance to sword
-  distanceToAvoid = D_ENT->_avoid_target->_worldCoords;
-  SUB_ASSIGN_VEC2(distanceToAvoid, thisEntity->_worldCoords)
-  distanceToAvoidInt = (abs(distanceToAvoid.x) + abs(distanceToAvoid.y));
+  // // compute distance to sword
 
-
-  if (distanceToDragonInt > distanceToAvoidInt) {
-    willFlee  = true;
+  if (D_ENT->_target->childEntity == &(swordEnt.swordEntity)) {
+    willFlee = true;
   }
 
   // bounce out taxicab distance
@@ -111,7 +107,7 @@ STATUS dragon_frameTask(Entity* thisEntity) {
 
   if (willFlee) {
     // flip sign bit
-    temp_dir =  (distanceToAvoid.x < 0) - (distanceToAvoid.x > 0);
+    temp_dir =  (distanceToDragon.x < 0) - (distanceToDragon.x > 0);
     
   }
   // temp_dir = (distanceToDragon.x > 0) - (distanceToDragon.x < 0);
@@ -131,7 +127,7 @@ STATUS dragon_frameTask(Entity* thisEntity) {
   temp_dir = (distanceToDragon.y > 0) - (distanceToDragon.y < 0);
   if (willFlee) {
     // flip sign bit
-    temp_dir = (distanceToAvoid.y < 0) - (distanceToAvoid.y > 0);
+    temp_dir =  (distanceToDragon.y < 0) - (distanceToDragon.y > 0);
     
   }
   switch(temp_dir){
