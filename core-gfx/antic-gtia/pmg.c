@@ -48,12 +48,12 @@ uint8_t pmg_addPlayerSprite(Sprite* toAdd){
   return 255;
 }
 
-void pmgSilo_clear(PMGPlayerSpriteSilo* silo, int8_t newY){
+void pmgSilo_clear(PMGPlayerSpriteSilo* silo, int8_t newY, bool forceUpdate){
     int8_t oldY;
     // int8_t height;
     oldY = silo->header.cachedY;
     // object isnt moving, so return
-    if (newY == oldY) {
+    if (newY == oldY && !forceUpdate) {
         return;
     }
     // access visible bytes array
@@ -78,18 +78,18 @@ void pmgSilo_clear(PMGPlayerSpriteSilo* silo, int8_t newY){
         }
     }
     //  clear relevant bytes
-    memset(temp_visible_bytes,0,temp_height);
+    memset(temp_visible_bytes,0,temp_height + 1);
     
 }
 
 //  TODO: optimize further
 // copies the sprite from silo into PMG memory
-void pmgSilo_writeRefSprite(PMGPlayerSpriteSilo* silo, int8_t newY){
+void pmgSilo_writeRefSprite(PMGPlayerSpriteSilo* silo, int8_t newY, bool forceUpdate){
     int8_t oldY;
     oldY = silo->header.cachedY;
 
     // object isnt moving, so return
-    if (newY == oldY) {
+    if (newY == oldY && !forceUpdate) {
         return;
     }
 
@@ -127,33 +127,33 @@ void pmgSilo_writeRefSprite(PMGPlayerSpriteSilo* silo, int8_t newY){
     silo->header.cachedY = newY;
 }
 
-void pmgSilo_setY(PMGPlayerSpriteSilo* silo, int8_t newY){
+void pmgSilo_setY(PMGPlayerSpriteSilo* silo, int8_t newY, bool forceUpdate){
   
   // why does this clear all 96 bytes
-    pmgSilo_clear(silo, newY);
+    pmgSilo_clear(silo, newY, forceUpdate);
 
     //memcpy the new y with bounds checking
-    pmgSilo_writeRefSprite(silo, newY);
+    pmgSilo_writeRefSprite(silo, newY, forceUpdate);
 
   
 }
 
 // player rendering; player is ALWAYS onscreen, so no need for
 // height checking
-void pmgSilo_setY_player(PMGPlayerSpriteSilo* silo, int8_t newY) {
-    pmgSilo_clear_player(silo, newY);
+void pmgSilo_setY_player(PMGPlayerSpriteSilo* silo, int8_t newY, bool forceUpdate) {
+    pmgSilo_clear_player(silo, newY, forceUpdate);
 
-    pmgSilo_writeRefSprite_player(silo, newY);
+    pmgSilo_writeRefSprite_player(silo, newY, forceUpdate);
 }
 
 // a more efficient version of pmgSilo_clear, which takes advantage of the fact
 // that the player will always be onscreen (no occlusion is possible)
-void pmgSilo_clear_player(PMGPlayerSpriteSilo* silo,int8_t newY) {
+void pmgSilo_clear_player(PMGPlayerSpriteSilo* silo,int8_t newY, bool forceUpdate) {
     int8_t oldY;
     // int8_t height;
     oldY = silo->header.cachedY;
     // object isnt moving, so return
-    if (newY == oldY) {
+    if (newY == oldY && !forceUpdate) {
         return;
     }
     // access visible bytes array
@@ -166,12 +166,12 @@ void pmgSilo_clear_player(PMGPlayerSpriteSilo* silo,int8_t newY) {
 
 // a more efficient version of pmgSilo_writeRefSprite, which takes advantage of
 // the fact that the player will always be onscreen (no occlusion is possible)
-void pmgSilo_writeRefSprite_player(PMGPlayerSpriteSilo* silo, int8_t newY) {
+void pmgSilo_writeRefSprite_player(PMGPlayerSpriteSilo* silo, int8_t newY, bool forceUpdate) {
     int8_t oldY;
     oldY = silo->header.cachedY;
 
     // object isnt moving, so return
-    if (newY == oldY) {
+    if (newY == oldY && !forceUpdate) {
         return;
     }
 

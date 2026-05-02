@@ -1,12 +1,15 @@
 #include "dragon.h"
 #pragma optimize(on)
 #pragma static-locals(on)
+
 bool vertMovement = true;
 
 unsigned int DmoveDelayCounter;
 
 unsigned char dragonState;
 unsigned int Dchompdelaycounter;
+
+unsigned char cached_State;
 
   unsigned char dragonSpeed;
   signed char temp_dir;
@@ -16,20 +19,34 @@ unsigned int Dchompdelaycounter;
 DragonEntity  dragonSingleton = {
   {dragon_frameTask, dragonRenderer, dragon_OnCollision, (void *)&dragonSingleton, (Entity*)NULL,//entity
     {{624, 560}, {0,0}, {0,0},{8,20}}},//entity.transform
-    0,1,D_MOVE_DELAY,D_CHOMP_DELAY, NULL
+    0,1,D_MOVE_DELAY,D_CHOMP_DELAY, NULL,
+    NULL,
+    NULL
 };
 
 // executes each frame
 STATUS dragon_frameTask(Entity* thisEntity) {
   unsigned int distanceToDragonInt;
-  // intermediate variables for computation
+  // unsigned int distanceToAvoidInt;
 
   Vector2 distanceToDragon;
+
+  // Vector2 distanceToAvoid;
+  bool willFlee = false;
+  // intermediate variables for computation
+
+  
+  
 
   DmoveDelayCounter = D_ENT->moveDelayCounter;
   dragonState = D_ENT->state;
   Dchompdelaycounter = D_ENT->dragonChompCounter;
   //calculate state
+
+  if (dragonState == D_STATE_DEAD) {
+    return PASS;
+  }
+
 
   if (D_ENT->moveDelayCounter > 0) {
     D_ENT->moveDelayCounter -= 1;
@@ -43,12 +60,11 @@ STATUS dragon_frameTask(Entity* thisEntity) {
   // if dragon is chomping, set its state to chomp (so it can't move)
   if (D_ENT->dragonChompCounter > 0) {
     D_ENT->state = D_STATE_CHOMP;
-
-    
     return PASS;
 
   }
   // set rest state 
+
   else if (D_ENT->moveDelayCounter > 0) {
     
     D_ENT->state = D_STATE_REST;
@@ -62,11 +78,22 @@ STATUS dragon_frameTask(Entity* thisEntity) {
   
   //reset delay
   D_ENT->moveDelayCounter = D_MOVE_DELAY;
+  
+  // first determine if dragon does after _target, or avoids _avoid_target
+  // if _avoid_target distance < _target distance, run in opposite direction
 
   //calculate taxicab but store intermediary delta vector
-  distanceToDragon = thisEntity->_target->_worldCoords;
+  // compute distance to player
+  distanceToDragon = D_ENT->_target->_worldCoords;
   SUB_ASSIGN_VEC2(distanceToDragon, thisEntity->_worldCoords)
   distanceToDragonInt = (abs(distanceToDragon.x) + abs(distanceToDragon.y));
+  
+  // // compute distance to sword
+
+  if (D_ENT->_target->childEntity == &(swordEnt.swordEntity)) {
+    willFlee = true;
+  }
+
   // bounce out taxicab distance
   if(distanceToDragonInt > D_SIGHT_RANGE) {
     // TODO: wander behavior
@@ -77,6 +104,13 @@ STATUS dragon_frameTask(Entity* thisEntity) {
   // now we can see the player, so move towards them
   dragonSpeed = D_ENT->dragonSpeed;
   temp_dir = (distanceToDragon.x > 0) - (distanceToDragon.x < 0);
+
+  if (willFlee) {
+    // flip sign bit
+    temp_dir =  (distanceToDragon.x < 0) - (distanceToDragon.x > 0);
+    
+  }
+  // temp_dir = (distanceToDragon.x > 0) - (distanceToDragon.x < 0);
   //calculate the new x
   switch(temp_dir){
     case -1:
@@ -91,6 +125,11 @@ STATUS dragon_frameTask(Entity* thisEntity) {
 
   //and the new y
   temp_dir = (distanceToDragon.y > 0) - (distanceToDragon.y < 0);
+  if (willFlee) {
+    // flip sign bit
+    temp_dir =  (distanceToDragon.y < 0) - (distanceToDragon.y > 0);
+    
+  }
   switch(temp_dir){
     case -1:
       thisEntity->_worldCoords.y -= dragonSpeed;
@@ -113,6 +152,9 @@ uint8_t TEMP_dragon_anticIndex;
 // collision handler for dragon
 // otherEntity is implied to be the player
 void dragon_OnCollision(Entity* thisEntity, Entity* otherEntity){
+  if (D_ENT->state == D_STATE_DEAD) {
+    return;
+  }
 
   // start the chomp sequence
   if (D_ENT->state != D_STATE_CHOMP) {
@@ -198,6 +240,31 @@ Sprite dragon_idle = {
   dragon_idleBitmap
 };
 
+uint8_t dragon_deadBitmap[] = {
+  0b00001100,
+  0b00001100,
+  0b00001100,
+  0b00001110,
+  0b00011011,
+  0b01111111,
+  0b11001110,
+  0b10000000,
+  0b11111100,
+  0b11111110,
+  0b11111110,
+  0b01111110,
+  0b01111000,
+  0b00100000,
+  0b01101110,
+  0b01000010,
+  0b01111110,
+};
+Sprite dragon_dead = {
+  sizeof(dragon_deadBitmap),
+  GTIA_COLOR_LIGHTRED,
+  dragon_deadBitmap
+};
+
 /* 
   End dragon sprites
 */
@@ -228,8 +295,9 @@ STATUS dragon_Init(DragonEntity* instance){
 //quick and dirty track
 // TODO: set child entity to whatever the dragon is EATING, not the tracked 
 // entity
-void dragon_TrackEntity(DragonEntity* instance, Entity *toTrack){
-  instance->myEntity.childEntity = toTrack;
+void dragon_TrackEntity(DragonEntity* instance, Entity *toTrack, Entity *toAvoid){
+  instance->loves = toTrack;
+  instance->hates = toAvoid;
 }
 
 // handles rendering of dragon
@@ -250,17 +318,33 @@ STATUS dragonRenderer(Entity* thisEntity) {
             + HPOSP_MIN + thisEntity->_objectAnchorPoint.x;
   
   
-
-  if(D_ENT->state == D_STATE_CHOMP){
-    D_ENT->dragonSilo->header.refsprite = &dragon_chomping;
-  } else{
-    D_ENT->dragonSilo->header.refsprite = &dragon_idle;
+  // not an optimal way to organize this, but it shouldn't affect performance
+  // much
+  switch (D_ENT->state) {
+    case D_STATE_CHOMP:
+      D_ENT->dragonSilo->header.refsprite = &dragon_chomping;
+      break;
+    case D_STATE_DEAD:
+      D_ENT->dragonSilo->header.refsprite = &dragon_dead;
+      break;
+    default:
+      D_ENT->dragonSilo->header.refsprite = &dragon_idle;
+      break;
   }
+
+  // if(D_ENT->state == D_STATE_CHOMP){
+  //   D_ENT->dragonSilo->header.refsprite = &dragon_chomping;
+  // } else if (D_ENT->state == D_STATE_DEAD) {
+  //   D_ENT->dragonSilo->header.refsprite = dragon_dead;
+  // } else {
+  //   D_ENT->dragonSilo->header.refsprite = &dragon_idle;
+  // }
   
   // only update vertical position if vertical movement occurred
-  pmgSilo_setY(D_ENT->dragonSilo, thisEntity->_eyeCoords.y);
+  pmgSilo_setY(D_ENT->dragonSilo, thisEntity->_eyeCoords.y, D_ENT->state != cached_State);
   
-
+  
+  cached_State = D_ENT->state;
 
   return PASS;
 }
@@ -272,4 +356,13 @@ void check_if_eating() {
   // end game
     // dragon_eat_sound();
     end_game();
+}
+
+void kill_dragon(Entity* thisEntity) {
+  if (D_ENT->state == D_STATE_DEAD) {
+    return;
+  }
+  D_ENT->state = D_STATE_DEAD;
+  sound_generic_buzz();
+  // TODO: play relevant sound
 }

@@ -43,3 +43,14 @@ unsigned char reverse_char(unsigned char c) {
    c = (c & 0xAA) >> 1 | (c & 0x55) << 1;
    return c;
 }
+
+// return a random value between 0 (inclusive) and max (exclusive)
+// max MUST be a power of 2
+unsigned char get_random_value(unsigned char max) {
+    unsigned char newMax = max;
+    unsigned char value;
+    --newMax;
+    value = POKEY_READ.random & (newMax);
+    printf("returning value %d\n",value);
+    return value;
+}

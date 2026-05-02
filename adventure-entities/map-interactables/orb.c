@@ -30,7 +30,12 @@ void orb_OnCollision(Entity* thisEntity, Entity* otherEntity){
   // print a message every 10 seconds or so
   if(--orb_singleton.counter < 0){
     orb_singleton.counter = ORB_DELAY;
-    printf(intrusiveThoughts[POKEY_READ.random & 15]);
+    // TODO: print to screen memory
+    // POKEY_READ.random produces a random number between 0 and 255, so
+    // we need to mask out the high bits so we access numbers between 0 and 15
+    printf(intrusiveThoughts[get_random_value(16)]);
+    // printf(intrusiveThoughts[POKEY_READ.random & 15]);
+
     orb_sound();
   }
   

@@ -79,6 +79,26 @@ void chalice_check_desintation();
 /*
   Start Sword Declarations
 */
+typedef struct SwordEntity {
+  Entity swordEntity;
+  PMGPlayerSpriteSilo *swordSilo;
+  
+} SwordEntity;
+
+
+extern uint8_t TEMP_sword_anticIndex;
+extern SwordEntity swordEnt;
+extern Sprite swordSprite;
+
+STATUS sword_Task(Entity* thisEntity);
+STATUS sword_renderer(Entity* thisEntity);
+
+void sword_OnCollision(struct Entity* thisEntity, struct Entity* otherEntity);
+
+STATUS sword_constructor();
+
+
+
 
 /*
   End Sword Declarations
