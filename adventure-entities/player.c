@@ -6,7 +6,7 @@ Vector2 worldCoordPlayerView;
 uint8_t TEMP_player_anticIndex;
 
 bool vertMovePlayer = true;
-
+bool movePlayer = true;
 
 //initializer list to allow compile time assign/construct
 PlayerEntity playerEnt = {
@@ -57,6 +57,13 @@ unsigned char lastFrameState;
 //Assumes the proper driver is loaded!!
 STATUS playerInputProcess(){
 
+  // if (!movePlayer) {
+  //   movePlayer = true;
+  //   return PASS;
+  // }
+  movePlayer = true;
+
+  
   playerEnt.player_LastPos = playerEnt.playerEntity._worldCoords;
   lastFrameState = joystickState;
   //read the joystick data
@@ -98,8 +105,11 @@ STATUS playerInputProcess(){
     player_drop_item(playerEnt.playerEntity.childEntity);
   }
 
-
-  ADD_ASSIGN_VEC2(playerEnt.playerEntity._worldCoords, playerEnt.playerVelocity)
+  // TODO: check if movement is 'valid' (i.e., won't collide with playfield)
+  if (1) {
+    ADD_ASSIGN_VEC2(playerEnt.playerEntity._worldCoords, playerEnt.playerVelocity);
+  }
+  
   
   if (playerEnt.playerEntity.childEntity != NULL) {
     // TODO: move item
@@ -118,8 +128,9 @@ void player_OnCollide(Entity* thisEntity, Entity* otherEntity){
     // assume that playfield was hit
     playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
     // playerEnt.playerVelocity.x = playerEnt.playerSpeed;
-    playerEnt.playerEntity._worldCoords.x -= playerEnt.playerVelocity.x;
-    playerEnt.playerEntity._worldCoords.y -= playerEnt.playerVelocity.y;
+    // playerEnt.playerEntity._worldCoords.x -= playerEnt.playerVelocity.x;
+    // playerEnt.playerEntity._worldCoords.y -= playerEnt.playerVelocity.y;
+    movePlayer = false;
   } else if (otherEntity == &(dragonSingleton.myEntity)) {
     
     // prevent collisions through a chomping dragon
@@ -127,8 +138,9 @@ void player_OnCollide(Entity* thisEntity, Entity* otherEntity){
     if (dragonSingleton.state == D_STATE_CHOMP) {
       playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
       // playerEnt.playerVelocity.x = playerEnt.playerSpeed;
-      playerEnt.playerEntity._worldCoords.x -= playerEnt.playerVelocity.x;
-      playerEnt.playerEntity._worldCoords.y -= playerEnt.playerVelocity.y;
+      // playerEnt.playerEntity._worldCoords.x -= playerEnt.playerVelocity.x;
+      // playerEnt.playerEntity._worldCoords.y -= playerEnt.playerVelocity.y;
+      movePlayer = false;
     }
   }
   // TODO: check if its an item
