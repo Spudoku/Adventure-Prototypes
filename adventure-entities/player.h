@@ -33,6 +33,7 @@ typedef struct PlayerEntity {
   Vector2 item_offset;
 } PlayerEntity;
 
+extern bool updateSafePlace;
 
 
 

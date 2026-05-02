@@ -150,9 +150,11 @@ void engine_EventDispatcher(){
              orb_singleton.entity.OnCollision(NULL, NULL);
         }
         
-    } 
+    } else {
+        updateSafePlace = true;
+    }
 
-    // TODO: check if player is carrying sword for dragon's sake
+    
 
     chalice_check_desintation();
    

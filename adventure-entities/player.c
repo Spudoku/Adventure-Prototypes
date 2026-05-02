@@ -7,6 +7,7 @@ uint8_t TEMP_player_anticIndex;
 
 bool vertMovePlayer = true;
 bool movePlayer = true;
+bool updateSafePlace = true;
 
 //initializer list to allow compile time assign/construct
 PlayerEntity playerEnt = {
@@ -61,10 +62,16 @@ STATUS playerInputProcess(){
   //   movePlayer = true;
   //   return PASS;
   // }
-  movePlayer = true;
-
+  // movePlayer = true;
   
-  playerEnt.player_LastPos = playerEnt.playerEntity._worldCoords;
+  if (updateSafePlace) {
+    playerEnt.player_LastPos = playerEnt.playerEntity._worldCoords;
+  } else {
+    playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
+  }
+  updateSafePlace = true;
+  
+  
   lastFrameState = joystickState;
   //read the joystick data
   joystickState = joy_read(JOY_1);
@@ -130,7 +137,10 @@ void player_OnCollide(Entity* thisEntity, Entity* otherEntity){
     // playerEnt.playerVelocity.x = playerEnt.playerSpeed;
     // playerEnt.playerEntity._worldCoords.x -= playerEnt.playerVelocity.x;
     // playerEnt.playerEntity._worldCoords.y -= playerEnt.playerVelocity.y;
-    movePlayer = false;
+    // printf("players world coords and last safe place\n");
+    // PRINT_VEC2(playerEnt.playerEntity._worldCoords);
+    // PRINT_VEC2(playerEnt.player_LastPos);
+    updateSafePlace = false;
   } else if (otherEntity == &(dragonSingleton.myEntity)) {
     
     // prevent collisions through a chomping dragon
@@ -140,11 +150,11 @@ void player_OnCollide(Entity* thisEntity, Entity* otherEntity){
       // playerEnt.playerVelocity.x = playerEnt.playerSpeed;
       // playerEnt.playerEntity._worldCoords.x -= playerEnt.playerVelocity.x;
       // playerEnt.playerEntity._worldCoords.y -= playerEnt.playerVelocity.y;
-      movePlayer = false;
+      updateSafePlace = false;
     }
   }
   // TODO: check if its an item
- 
+  
   return;
 }
 
