@@ -14,6 +14,7 @@ STATUS nullItem_constructor(Entity* thisEntity) {
 };
 
 uint8_t TEMP_item_anticIndex;
+uint8_t TEMP_sword_anticIndex;
 
 /*
   End nullItem definitions
@@ -28,6 +29,12 @@ int16_t chalice_eyecoords_y;
 
 int16_t chalice_worldcoords_x;
 int16_t chalice_worldcoords_y;
+
+int16_t sword_worldcoords_x;
+int16_t sword_worldcoords_y;
+
+int16_t sword_eyecoords_x;
+int16_t sword_eyecoords_y;
 
 
 ChaliceEntity chaliceEnt = {
@@ -90,7 +97,7 @@ STATUS chalice_renderer(Entity* thisEntity) {
     (&(GTIA_WRITE.hposp0))[TEMP_item_anticIndex] = chaliceEnt.chaliceEntity._eyeCoords.x 
             + HPOSP_MIN + chaliceEnt.chaliceEntity._objectAnchorPoint.x;
 
-    pmgSilo_setY(chaliceEnt.chaliceSilo, thisEntity->_eyeCoords.y);
+    pmgSilo_setY(chaliceEnt.chaliceSilo, thisEntity->_eyeCoords.y, false);
 
   return UNDEFINED;
 }
@@ -135,4 +142,92 @@ Sprite chaliceSprite = {sizeof(chaliceSpriteBitmap),GTIA_COLOR_RED,chaliceSprite
 
 /*
   End Chalice Definitions
+*/
+
+
+/*
+  Start Sword Definitions
+*/
+SwordEntity swordEnt = {
+  {
+    sword_Task,sword_renderer,sword_OnCollision,(void*)&swordEnt,NULL, // functions, reference, child
+    {{0,0},{0,0},{0,0},{4,4}}                     // transform
+  },
+
+  0   // chalice silo
+};
+
+
+
+// This doesnt need to do anything, I think
+STATUS sword_Task(Entity* thisEntity) {
+  return PASS;
+}
+
+
+STATUS sword_renderer(Entity* thisEntity) {
+  // sound_generic_buzz();
+   thisEntity->_eyeCoords = convertToEyeCoords(thisEntity->_worldCoords);
+
+  sword_eyecoords_x = thisEntity->_eyeCoords.x;
+  sword_eyecoords_y = thisEntity->_eyeCoords.y;
+
+  sword_worldcoords_x = thisEntity->_worldCoords.x;
+  sword_worldcoords_y = thisEntity->_worldCoords.y;
+
+    if(!objectVisible(&(thisEntity->transform))){
+    (&(GTIA_WRITE.hposp0))[TEMP_sword_anticIndex] = 0;
+
+    return PASS;
+  }
+
+
+    (&(GTIA_WRITE.hposp0))[TEMP_sword_anticIndex] = swordEnt.swordEntity._eyeCoords.x 
+            + HPOSP_MIN + swordEnt.swordEntity._objectAnchorPoint.x;
+
+    pmgSilo_setY(swordEnt.swordSilo, thisEntity->_eyeCoords.y, false);
+
+  return PASS;
+}
+
+void sword_OnCollision(struct Entity* thisEntity, struct Entity* otherEntity) {
+
+}
+
+STATUS sword_constructor() {
+  uint8_t pmg_index;
+
+  
+
+  //call the "base" constructor
+
+  // set PMG index and validate it
+  pmg_index = pmg_addPlayerSprite(&swordSprite);
+
+
+  if(pmg_index < 4){
+    swordEnt.swordSilo = activePMGInstance->playerGFX + pmg_index;
+    TEMP_sword_anticIndex = pmg_index;
+  }
+  swordEnt.swordSilo -> header.refsprite = &swordSprite;
+
+  return PASS;
+}
+
+// sprite :D
+uint8_t swordSpriteBitmap[] ={
+  // 0b00000000,
+  // 0b00000000,
+  0b00100000,
+  0b01000000,
+  0b11111111,
+  0b01000000,
+  0b00100000,
+  // 0b00000000,
+  // 0b00000000,
+};
+
+Sprite swordSprite = {sizeof(swordSpriteBitmap),GTIA_COLOR_RED,swordSpriteBitmap};
+/*
+  End Sword Definitions
 */

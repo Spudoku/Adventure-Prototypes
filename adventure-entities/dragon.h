@@ -12,6 +12,8 @@
 #include "util/util.h"
 #include "../core/sound.h"
 
+#include "items/items.h" // for accessing item singletons
+
 #include "player.h"     // for accessing TEMP_player_anticIndex
 
 #define D_ENT  ((DragonEntity*)(thisEntity->entityData))
@@ -22,12 +24,14 @@
 
 
 //states
+#define D_STATE_REST  0   
 #define D_STATE_MOVE  1
 #define D_STATE_CHOMP 2
-#define D_STATE_REST  0   
+#define D_STATE_DEAD 3
 
 //symbolic link, alias
-#define _target childEntity
+#define _target loves
+#define _avoid_target hates
 
 typedef struct DragonEntity {
   Entity myEntity;  //dragon entity
@@ -42,7 +46,11 @@ typedef struct DragonEntity {
   unsigned int dragonChompCounter;
   
   
-    PMGPlayerSpriteSilo *dragonSilo;
+  PMGPlayerSpriteSilo *dragonSilo;
+  
+  struct Entity* loves;
+  struct Entity* hates;
+
 } DragonEntity;
 
 
@@ -53,13 +61,16 @@ void dragon_OnCollision(Entity* thisEntity, Entity* otherEntity);
 
 STATUS dragon_Init(DragonEntity* instance);
 
-void dragon_TrackEntity(DragonEntity* instance, Entity *toTrack);
+void dragon_TrackEntity(DragonEntity* instance, Entity *toTrack, Entity *toAvoid);
 
 extern uint8_t TEMP_dragon_anticIndex;  
 extern DragonEntity dragonSingleton;
 
 extern Sprite dragon_idle;
+extern Sprite dragon_dead;
 
 void check_if_eating();
+
+void kill_dragon(Entity* thisEntity);
 
 #endif 

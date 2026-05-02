@@ -45,7 +45,7 @@ STATUS playerRenderer(Entity* thisEntity) {
   
   
 
-  pmgSilo_setY_player(playerEnt.playerSilo, thisEntity->_eyeCoords.y);
+  pmgSilo_setY_player(playerEnt.playerSilo, thisEntity->_eyeCoords.y, false);
   return UNDEFINED;
 }
 
@@ -186,8 +186,10 @@ void player_pickup_item(Entity* item) {
   // compute offset
 
   // this is inefficient but thankfully it doesn't happen each frame
-  playerEnt.item_offset.x = playerEnt.playerVelocity.x * 12;
-  playerEnt.item_offset.y = playerEnt.playerVelocity.y * 12;
+  // (its not ideal because multiplication is bad)
+  // TODO: compute this better!
+  playerEnt.item_offset.x = playerEnt.playerVelocity.x * 10;
+  playerEnt.item_offset.y = playerEnt.playerVelocity.y * 10;
 
 }
 

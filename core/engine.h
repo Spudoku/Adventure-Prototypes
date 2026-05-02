@@ -12,7 +12,7 @@
 #include "../adventure-entities/items/items.h"
 #include <peekpoke.h>
 
-
+#define RANDOM_LOCATIONS_COUNT 4 // this should be a power of 2
 
 void engine_Boot();
 void engine_InitSingletons();
@@ -29,6 +29,9 @@ void end_game_good();
 void game_loop();
 
 void setup_reset_handler();
+
+extern Vector2 startingLocations[];
+extern Vector2 swordLocations[];
 
 //Engine related state tracking globals as needed
 
