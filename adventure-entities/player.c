@@ -57,7 +57,7 @@ unsigned char lastFrameState;
 
 //Assumes the proper driver is loaded!!
 STATUS playerInputProcess(){
-
+  unsigned char destination;
   // if (!movePlayer) {
   //   movePlayer = true;
   //   return PASS;
@@ -110,11 +110,16 @@ STATUS playerInputProcess(){
     // TODO: make this drop the childEntity! (which should be an item)
     // playerEnt.playerEntity.childEntity->frameTask(playerEnt.playerEntity.childEntity);
     player_drop_item(playerEnt.playerEntity.childEntity);
+    debug_action();
   }
 
   // TODO: check if movement is 'valid' (i.e., won't collide with playfield)
   if (1) {
     ADD_ASSIGN_VEC2(playerEnt.playerEntity._worldCoords, playerEnt.playerVelocity);
+  }
+  destination = getTileAt(playerEnt.playerEntity._worldCoords);
+  if (destination) {
+    playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
   }
   
   
@@ -222,6 +227,15 @@ void player_drop_item(Entity* item) {
   sound_item_drop();
 }
 
-
+// debug action for controller pressed
+void debug_action() { 
+  unsigned char test;
+  // printf("debug action: \n");
+  test = getTileAt(playerEnt.playerEntity._worldCoords);
+  // printf("\t");
+  // PRINT_VEC2(playerEnt.playerEntity._worldCoords);
+  // printf("\ttile at that location: %d\n",test);
+ 
+}
 
 

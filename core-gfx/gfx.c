@@ -168,3 +168,13 @@ void gfx_Init() {
     OS.color3 = GTIA_COLOR_BLACK;
 
 }
+
+
+unsigned char getTileAt(Vector2 worldcoords) {
+    unsigned char test;
+    // printf("[getTileAt]");
+    // PRINT_VEC2(worldcoords);
+    //   printf("\ttile at that location: %d\n",test);
+      test = gameMap[worldcoords.x >> 3][worldcoords.y >> 3];
+    return test;
+}

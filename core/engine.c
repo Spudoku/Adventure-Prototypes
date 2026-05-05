@@ -5,12 +5,18 @@
 
 // declaring locations for chalice and/or dragon
 Vector2 startingLocations[RANDOM_LOCATIONS_COUNT] = {
-    {192,328},
-    {224,624},
-    {264,24},
-    {888,1112},
+    // {192,328},
+    // {224,624},
+    // {264,24},
+    // {888,1112},
+
+
     // {224,624},
     // {0,0},
+    {560,560},
+    {560,560},
+    {560,560},
+    {560,560},
 };
 Vector2 swordLocations[RANDOM_LOCATIONS_COUNT] = {
     {600,560},
@@ -37,6 +43,7 @@ void engine_Boot(){
 
 void engine_InitSingletons(){
     unsigned char index;
+    
 
     // player init
     playerConstructor();
@@ -52,6 +59,9 @@ void engine_InitSingletons(){
 
     chaliceEnt.chaliceEntity._worldCoords.x = startingLocations[index].x;
     chaliceEnt.chaliceEntity._worldCoords.y = startingLocations[index].y;
+    // PRINT_VEC2(chaliceEnt.chaliceEntity._worldCoords);
+
+    // this is where the chalice 'wants' to go
     chaliceEnt.chalice_destination.y = 608;
     chaliceEnt.chalice_destination.x = 568;
     chaliceEnt.chalice_minDistToDest = 8;

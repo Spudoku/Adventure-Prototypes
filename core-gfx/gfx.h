@@ -48,4 +48,6 @@ extern PMGInstance pmgMainInstance; //in the future this will be a changable ptr
 
 void gfx_Init();
 
+unsigned char getTileAt(Vector2 worldcoords);
+
 #endif

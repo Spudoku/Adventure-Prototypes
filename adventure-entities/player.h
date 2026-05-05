@@ -14,7 +14,7 @@
 #include "items/items.h"
 
 #include "../core-gfx/antic-gtia/pmg.h"
-
+#include "../core-gfx/gfx.h"
 #include "../core/sound.h"
 #include "dragon.h"
 
@@ -61,5 +61,7 @@ void player_pickup_item(Entity* item);
 void player_drop_item(Entity* item);
 
 
+// prints debug output
+void debug_action();
 
 #endif 
