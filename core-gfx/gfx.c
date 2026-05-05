@@ -172,9 +172,18 @@ void gfx_Init() {
 
 unsigned char getTileAt(Vector2 worldcoords) {
     unsigned char test;
+    Vector2 eyecoords;
+
+    // eyecoords = convertToEyeCoords(worldcoords);
     // printf("[getTileAt]");
     // PRINT_VEC2(worldcoords);
     //   printf("\ttile at that location: %d\n",test);
-      test = gameMap[worldcoords.x >> 3][worldcoords.y >> 3];
+      test = gameMap[(worldcoords.x) >> 3][worldcoords.y >> 3];
+      if (test) {
+        printf("collision detected; offending world coordinate: ");
+        PRINT_VEC2(worldcoords);
+        printf("offending offset: %d",ANTIC.hscrol);
+        
+      }
     return test;
 }

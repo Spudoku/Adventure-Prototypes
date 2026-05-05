@@ -11,6 +11,8 @@
 #include "util/sprite.h"
 #include "util/util_structs.h"
 
+#include "core-support/camera.h"
+
 #include "gamemap.h"  //TODO: rename this to gamemap data (or similar?
 
 

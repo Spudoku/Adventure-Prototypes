@@ -58,11 +58,11 @@ unsigned char lastFrameState;
 //Assumes the proper driver is loaded!!
 STATUS playerInputProcess(){
   unsigned char destination;
-  // if (!movePlayer) {
-  //   movePlayer = true;
-  //   return PASS;
-  // }
-  // movePlayer = true;
+  if (!movePlayer) {
+    movePlayer = true;
+    return PASS;
+  }
+  movePlayer = true;
   
   if (updateSafePlace) {
     playerEnt.player_LastPos = playerEnt.playerEntity._worldCoords;
@@ -113,13 +113,25 @@ STATUS playerInputProcess(){
     debug_action();
   }
 
+  // printf("world coord before movement ");
+    // PRINT_VEC2(playerEnt.playerEntity._worldCoords);
   // TODO: check if movement is 'valid' (i.e., won't collide with playfield)
   if (1) {
+    
     ADD_ASSIGN_VEC2(playerEnt.playerEntity._worldCoords, playerEnt.playerVelocity);
+    // printf("world coord after movement ");
+    // PRINT_VEC2(playerEnt.playerEntity._worldCoords);
   }
+
+
   destination = getTileAt(playerEnt.playerEntity._worldCoords);
+
+  // if any non-blank tile is hit...
   if (destination) {
+    updateSafePlace = false;
     playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
+    // printf("possbile world coords (COLLISION WITH WALL) ");
+    // PRINT_VEC2(playerEnt.playerEntity._worldCoords);
   }
   
   
@@ -140,12 +152,13 @@ void player_OnCollide(Entity* thisEntity, Entity* otherEntity){
     // assume that playfield was hit
     playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
     // playerEnt.playerVelocity.x = playerEnt.playerSpeed;
-    // playerEnt.playerEntity._worldCoords.x -= playerEnt.playerVelocity.x;
-    // playerEnt.playerEntity._worldCoords.y -= playerEnt.playerVelocity.y;
+    playerEnt.playerEntity._worldCoords.x -= playerEnt.playerVelocity.x;
+    playerEnt.playerEntity._worldCoords.y -= playerEnt.playerVelocity.y;
     // printf("players world coords and last safe place\n");
     // PRINT_VEC2(playerEnt.playerEntity._worldCoords);
     // PRINT_VEC2(playerEnt.player_LastPos);
     updateSafePlace = false;
+    movePlayer = false;
   } else if (otherEntity == &(dragonSingleton.myEntity)) {
     
     // prevent collisions through a chomping dragon
@@ -155,7 +168,8 @@ void player_OnCollide(Entity* thisEntity, Entity* otherEntity){
       // playerEnt.playerVelocity.x = playerEnt.playerSpeed;
       // playerEnt.playerEntity._worldCoords.x -= playerEnt.playerVelocity.x;
       // playerEnt.playerEntity._worldCoords.y -= playerEnt.playerVelocity.y;
-      updateSafePlace = false;
+      // updateSafePlace = false;
+      // movePlayer = false;
     }
   }
   // TODO: check if its an item
