@@ -54,5 +54,4 @@ void gfx_Init();
 unsigned char getTileAt(Vector2 worldcoords,unsigned char boxSize);
 
 
-
 #endif

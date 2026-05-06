@@ -1,5 +1,8 @@
 #include "gfx.h"
 
+#pragma optimize(on)
+#pragma static-locals(on)
+
 
 MapData mapData;
 
@@ -170,6 +173,9 @@ void gfx_Init() {
 }
 
 
+// returns any tile in the bounding box defined by
+// worldCoords, worldCoords + boxSize (both axes)
+// TODO: optimize
 unsigned char getTileAt(Vector2 worldcoords, unsigned char boxSize) {
     unsigned char test;
     unsigned int debugX;
@@ -181,11 +187,46 @@ unsigned char getTileAt(Vector2 worldcoords, unsigned char boxSize) {
     // PRINT_VEC2(worldcoords);
     //   printf("\ttile at that location: %d\n",test);
 
+    // divide by tile size
     debugX = (worldcoords.x) >> 3;
     debugY = worldcoords.y >> 3;
     
-      test = gameMap[debugY][debugX];
+    test = gameMap[debugY][debugX];
     
+    if (test) {
+        return test;
+    } 
+
+
+
+    debugX = (worldcoords.x + boxSize) >> 3;
+    debugY = worldcoords.y >> 3;
+    
+    test = gameMap[debugY][debugX];
+
+    if (test) {
+        return test;
+    } 
+
+    debugX = (worldcoords.x + boxSize) >> 3;
+    debugY = (worldcoords.y + boxSize) >> 3;
+    
+    test = gameMap[debugY][debugX];
+
+    if (test) {
+        return test;
+    } 
+
+
+    debugX = (worldcoords.x) >> 3;
+    debugY = (worldcoords.y + boxSize) >> 3;
+    
+    test = gameMap[debugY][debugX];
+
+    if (test) {
+        return test;
+    } 
+
     //   if (test) {
     //     // printf("collision detected; offending world coordinate: ");
     //     // PRINT_VEC2(worldcoords);
@@ -196,5 +237,7 @@ unsigned char getTileAt(Vector2 worldcoords, unsigned char boxSize) {
     // check 
 
 
+
+    // no tiles intersected
     return test;
 }

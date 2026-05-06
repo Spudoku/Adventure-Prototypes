@@ -58,8 +58,9 @@ unsigned char lastFrameState;
 //Assumes the proper driver is loaded!!
 STATUS playerInputProcess(){
   unsigned char destination;
-  unsigned char destination2;
-  Vector2 maxCoords;
+  // unsigned char destination2;
+  // Vector2 maxCoords;
+  // Vector2 tempVec2;
 
   if (!movePlayer) {
     movePlayer = true;
@@ -116,27 +117,44 @@ STATUS playerInputProcess(){
     debug_action();
   }
 
-  // printf("world coord before movement ");
-    // PRINT_VEC2(playerEnt.playerEntity._worldCoords);
-  // TODO: check if movement is 'valid' (i.e., won't collide with playfield)
-  if (1) {
-    
-    ADD_ASSIGN_VEC2(playerEnt.playerEntity._worldCoords, playerEnt.playerVelocity);
-    // printf("world coord after movement ");
-    // PRINT_VEC2(playerEnt.playerEntity._worldCoords);
-  }
-  // maxCoords.x = playerEnt.playerEntity._worldCoords.x + playerEnt.size;
-  // maxCoords.y = playerEnt.playerEntity._worldCoords.y + playerEnt.size;
 
-  destination = getTileAt(playerEnt.playerEntity._worldCoords,playerEnt.size);
-  // destination2 = getTileAt(maxCoords);
-  // if any non-blank tile is hit...
-  if (destination || destination2) {
-    updateSafePlace = false;
-    playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
-    // printf("possbile world coords (COLLISION WITH WALL) ");
-    // PRINT_VEC2(playerEnt.playerEntity._worldCoords);
+
+  // TODO: optimize this!
+  // handling horizontal movement/collisions
+  // Vec2_add_x(&(playerEnt.playerEntity._worldCoords), playerEnt.playerVelocity.x);
+  if (playerEnt.playerVelocity.x > 0 || playerEnt.playerVelocity.x < 0) {
+    playerEnt.playerEntity._worldCoords.x +=  playerEnt.playerVelocity.x;
+
+  
+    destination = getTileAt(playerEnt.playerEntity._worldCoords,playerEnt.size);
+    if (destination) {
+
+      playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
+
+    } else {
+      playerEnt.player_LastPos.x = playerEnt.playerEntity._worldCoords.x;
+    }
   }
+  
+
+  if (playerEnt.playerVelocity.y > 0 || playerEnt.playerVelocity.y < 0) {
+  // handling vertical movement/collisions
+    Vec2_add_y(&(playerEnt.playerEntity._worldCoords), playerEnt.playerVelocity.y);
+
+    
+    destination = getTileAt(playerEnt.playerEntity._worldCoords,playerEnt.size);
+    // destination2 = getTileAt(maxCoords);
+    // if any non-blank tile is hit...
+    if (destination) {
+      // updateSafePlace = false;
+      playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
+
+    }
+  }
+
+  
+
+
   
   
   if (playerEnt.playerEntity.childEntity != NULL) {
@@ -153,16 +171,17 @@ STATUS playerInputProcess(){
 void player_OnCollide(Entity* thisEntity, Entity* otherEntity){
 
   if (otherEntity == NULL) {
-    // assume that playfield was hit
-    playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
-    // playerEnt.playerVelocity.x = playerEnt.playerSpeed;
-    playerEnt.playerEntity._worldCoords.x -= playerEnt.playerVelocity.x;
-    playerEnt.playerEntity._worldCoords.y -= playerEnt.playerVelocity.y;
-    // printf("players world coords and last safe place\n");
-    // PRINT_VEC2(playerEnt.playerEntity._worldCoords);
-    // PRINT_VEC2(playerEnt.player_LastPos);
-    updateSafePlace = false;
-    movePlayer = false;
+    // // assume that playfield was hit
+    // playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
+    // // playerEnt.playerVelocity.x = playerEnt.playerSpeed;
+    // playerEnt.playerEntity._worldCoords.x -= playerEnt.playerVelocity.x;
+    // playerEnt.playerEntity._worldCoords.y -= playerEnt.playerVelocity.y;
+    // // printf("players world coords and last safe place\n");
+    // // PRINT_VEC2(playerEnt.playerEntity._worldCoords);
+    // // PRINT_VEC2(playerEnt.player_LastPos);
+    // updateSafePlace = false;
+    // movePlayer = false;
+
   } else if (otherEntity == &(dragonSingleton.myEntity)) {
     
     // prevent collisions through a chomping dragon
