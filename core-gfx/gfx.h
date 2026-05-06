@@ -30,6 +30,7 @@
   ANTIC_SCROLL_VEC2.y = pixelY << 1;                       \
 
 
+
 #define SET_VEC2_ANTIC_SCROLL(input_u16vec)       \
 SET_ANTIC_SCROLL(input_u16vec.x, input_u16vec.y)  \
 
@@ -50,6 +51,8 @@ extern PMGInstance pmgMainInstance; //in the future this will be a changable ptr
 
 void gfx_Init();
 
-unsigned char getTileAt(Vector2 worldcoords);
+unsigned char getTileAt(Vector2 worldcoords,unsigned char boxSize);
+
+
 
 #endif

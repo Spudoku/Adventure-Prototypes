@@ -16,10 +16,10 @@ PlayerEntity playerEnt = {
     {{0,0}, {0,0}, {0,0},{4,4}}}, //entity.transform
 
 
-  {0,0}, 1, {NULL}, {0,0} // player specific vars
+  {0,0}, 1, {NULL}, {0,0},{0,0}, // player specific vars
     
 
-  
+  4,            // size variable
   };
 
 //per frame behavior
@@ -58,6 +58,9 @@ unsigned char lastFrameState;
 //Assumes the proper driver is loaded!!
 STATUS playerInputProcess(){
   unsigned char destination;
+  unsigned char destination2;
+  Vector2 maxCoords;
+
   if (!movePlayer) {
     movePlayer = true;
     return PASS;
@@ -122,12 +125,13 @@ STATUS playerInputProcess(){
     // printf("world coord after movement ");
     // PRINT_VEC2(playerEnt.playerEntity._worldCoords);
   }
+  // maxCoords.x = playerEnt.playerEntity._worldCoords.x + playerEnt.size;
+  // maxCoords.y = playerEnt.playerEntity._worldCoords.y + playerEnt.size;
 
-
-  destination = getTileAt(playerEnt.playerEntity._worldCoords);
-
+  destination = getTileAt(playerEnt.playerEntity._worldCoords,playerEnt.size);
+  // destination2 = getTileAt(maxCoords);
   // if any non-blank tile is hit...
-  if (destination) {
+  if (destination || destination2) {
     updateSafePlace = false;
     playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
     // printf("possbile world coords (COLLISION WITH WALL) ");
@@ -245,11 +249,16 @@ void player_drop_item(Entity* item) {
 void debug_action() { 
   unsigned char test;
   // printf("debug action: \n");
-  test = getTileAt(playerEnt.playerEntity._worldCoords);
+  // test = getTileAt(playerEnt.playerEntity._worldCoords);
   // printf("\t");
   // PRINT_VEC2(playerEnt.playerEntity._worldCoords);
   // printf("\ttile at that location: %d\n",test);
  
 }
+
+// from wikipedia; https://en.wikipedia.org/wiki/Bounding_volume#Basic_intersection_checks:
+// In the case of an AABB, this tests becomes a simple set of overlap tests in terms of the unit axes. 
+// For an AABB defined by M,N against one defined by O,P 
+// they do not intersect if (Mx > Px) or (Ox > Nx) or (My > Py) or (Oy > Ny) or (Mz > Pz) or (Oz > Nz).
 
 
