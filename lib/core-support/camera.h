@@ -74,5 +74,7 @@ STATUS camera_renderer(Entity* thisEntity);
 
 Vector2 convertToEyeCoords(Vector2 toConvert);
 
+void getEyeCoords(Vector2 *worldPos, unsigned char *resultX, unsigned char *resultY);
+
 
 #endif

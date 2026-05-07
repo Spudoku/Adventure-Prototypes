@@ -182,7 +182,7 @@ STATUS sword_renderer(Entity* thisEntity) {
   }
 
 
-    (&(GTIA_WRITE.hposp0))[TEMP_sword_anticIndex] = swordEnt.swordEntity._eyeCoords.x 
+    (&(GTIA_WRITE.hposp0))[TEMP_sword_anticIndex] = sword_eyecoords_x
             + HPOSP_MIN + swordEnt.swordEntity._objectAnchorPoint.x;
 
     pmgSilo_setY(swordEnt.swordSilo, thisEntity->_eyeCoords.y, false);

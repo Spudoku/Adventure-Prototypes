@@ -24,7 +24,7 @@ const unsigned int rowOffsetTable[] = {0, 120, 240, 360, 480, 600, 720, 840, 960
 
 //reset map gfx offset to position in whole pixels
 //NOTE: in antic mode 2, 1 pixel is 1 hscroll unit, and 2 vscroll units
-//WARNING: THIS FUNCTION TAKES UP 50% OF TOTAL FRAME TIME
+
 void map_absoluteMove(Vector2 absolutePosition){
     unsigned int i;
     unsigned int j = 0;
@@ -176,53 +176,67 @@ void gfx_Init() {
 
 // TODO: reduce array accesses??????
 unsigned char getTileAt(int16_t theX, int16_t theY,unsigned char boxSize) {
-    unsigned char test;
-    unsigned int debugX;
-    unsigned int debugY;
+    // unsigned char test;
+    // unsigned int debugX;
+    // unsigned int debugY;
     
 
-    debugX = theX >> 3;
-    debugY = theY >> 3;
+    // debugX = theX >> 3;
+    // debugY = theY >> 3;
 
-    test = gameMap[debugY][debugX];
-    if (test) {
-        return test;
+    // test = gameMap[debugY][debugX];
+    // if (test) {
+    //     return test;
+    // }
+
+    // debugX = (theX + boxSize) >> 3;
+    // test = gameMap[debugY][debugX];
+
+    // if (test) {
+    //     return test;
+    // }
+
+    // debugY = (theY + boxSize) >> 3;
+    // test = gameMap[debugY][debugX];
+
+    // if (test) {
+    //     return test;
+    // }
+
+    // debugX = theX >> 3;
+    // test = gameMap[debugY][debugX];
+
+    // return test;
+
+    unsigned int test;
+
+
+    unsigned char tile;
+    int16_t xL = theX >> 3;
+    int16_t xR = (theX + boxSize) >> 3;
+    int16_t yT = theY >> 3;
+    int16_t yB = (theY + boxSize) >> 3;
+    unsigned char* rowPtr = &gameMap[rowOffsetTable[yT]];
+
+    
+    
+    
+    
+
+    test = rowOffsetTable[yT]+ xL;
+    
+    tile = gameMap[test] ;
+
+    printf("test: %d, tile: %d\n",test,tile);
+    if (tile) {
+        return tile;
     }
-
-    debugX = (theX + boxSize) >> 3;
-    test = gameMap[debugY][debugX];
-
-    if (test) {
-        return test;
-    }
-
-    debugY = (theY + boxSize) >> 3;
-    test = gameMap[debugY][debugX];
-
-    if (test) {
-        return test;
-    }
-
-    debugX = theX >> 3;
-    test = gameMap[debugY][debugX];
-
-    return test;
-
-
-
-
-    // unsigned char tile;
-    // int16_t int xL = theX >> 3;
-    // int16_t int xR = (theX + boxSize) >> 3;
-    // int16_t int yT = theY >> 3;
-    // int16_t int yB = (theY + boxSize) >> 3;
-
     // if (xL != xR) {
 
     // }
 
 
 
-    // return tile;
+    return tile;
 
 }
