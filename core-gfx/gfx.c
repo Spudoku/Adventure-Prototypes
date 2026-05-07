@@ -14,7 +14,7 @@ Vector2 offsetHopper;
 PMGInstance pmgMainInstance;
 #pragma bss-name (pop)
 
-
+const unsigned int rowOffsetTable[] = {0, 120, 240, 360, 480, 600, 720, 840, 960, 1080, 1200, 1320, 1440, 1560, 1680, 1800, 1920, 2040, 2160, 2280, 2400, 2520, 2640, 2760, 2880, 3000, 3120, 3240, 3360, 3480, 3600, 3720, 3840, 3960, 4080, 4200, 4320, 4440, 4560, 4680, 4800, 4920, 5040, 5160, 5280, 5400, 5520, 5640, 5760, 5880, 6000, 6120, 6240, 6360, 6480, 6600, 6720, 6840, 6960, 7080, 7200, 7320, 7440, 7560, 7680, 7800, 7920, 8040, 8160, 8280, 8400, 8520, 8640, 8760, 8880, 9000, 9120, 9240, 9360, 9480, 9600, 9720, 9840, 9960, 10080, 10200, 10320, 10440, 10560, 10680, 10800, 10920, 11040, 11160, 11280, 11400, 11520, 11640, 11760, 11880, 12000, 12120, 12240, 12360, 12480, 12600, 12720, 12840, 12960, 13080, 13200, 13320, 13440, 13560, 13680, 13800, 13920, 14040, 14160, 14280, 14400, 14520, 14640, 14760, 14880, 15000, 15120, 15240, 15360, 15480, 15600, 15720, 15840, 15960, 16080, 16200, 16320, 16440, 16560, 16680, 16800, 16920, 17040, 17160, };
 
 
 
@@ -173,76 +173,6 @@ void gfx_Init() {
     OS.color3 = GTIA_COLOR_BLACK;
 
 }
-
-
-// returns any tile in the bounding box defined by
-// worldCoords, worldCoords + boxSize (both axes)
-// TODO: optimize
-// unsigned char getTileAt(Vector2 worldcoords, unsigned char boxSize) {
-//     unsigned char test;
-//     unsigned int debugX;
-//     unsigned int debugY;
-//     Vector2 eyecoords;
-
-//     // eyecoords = convertToEyeCoords(worldcoords);
-//     // printf("[getTileAt]");
-//     // PRINT_VEC2(worldcoords);
-//     //   printf("\ttile at that location: %d\n",test);
-
-//     // divide by tile size
-//     debugX = (worldcoords.x) >> 3;
-//     debugY = worldcoords.y >> 3;
-    
-//     test = gameMap[debugY][debugX];
-    
-//     if (test) {
-//         return test;
-//     } 
-
-
-
-//     debugX = (worldcoords.x + boxSize) >> 3;
-//     debugY = worldcoords.y >> 3;
-    
-//     test = gameMap[debugY][debugX];
-
-//     if (test) {
-//         return test;
-//     } 
-
-//     debugX = (worldcoords.x + boxSize) >> 3;
-//     debugY = (worldcoords.y + boxSize) >> 3;
-    
-//     test = gameMap[debugY][debugX];
-
-//     if (test) {
-//         return test;
-//     } 
-
-
-//     debugX = (worldcoords.x) >> 3;
-//     debugY = (worldcoords.y + boxSize) >> 3;
-    
-//     test = gameMap[debugY][debugX];
-
-//     if (test) {
-//         return test;
-//     } 
-
-//     //   if (test) {
-//     //     // printf("collision detected; offending world coordinate: ");
-//     //     // PRINT_VEC2(worldcoords);
-//     //     // printf("offending offset: ");
-//     //     // PRINT_VEC2(newOffset);
-        
-//     //   }
-//     // check 
-
-
-
-//     // no tiles intersected
-//     return test;
-// }
 
 // TODO: reduce array accesses??????
 unsigned char getTileAt(int16_t theX, int16_t theY,unsigned char boxSize) {
