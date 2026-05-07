@@ -16,6 +16,8 @@ PMGInstance pmgMainInstance;
 
 
 
+
+
 //WARNING: any use of these move methods MUST be as close as possible to vblank.
 //h/vscrol getting adjusted during the frame could cause graphical issues
 
@@ -242,6 +244,7 @@ void gfx_Init() {
 //     return test;
 // }
 
+// TODO: reduce array accesses??????
 unsigned char getTileAt(int16_t theX, int16_t theY,unsigned char boxSize) {
     unsigned char test;
     unsigned int debugX;
@@ -274,4 +277,22 @@ unsigned char getTileAt(int16_t theX, int16_t theY,unsigned char boxSize) {
     test = gameMap[debugY][debugX];
 
     return test;
+
+
+
+
+    // unsigned char tile;
+    // int16_t int xL = theX >> 3;
+    // int16_t int xR = (theX + boxSize) >> 3;
+    // int16_t int yT = theY >> 3;
+    // int16_t int yB = (theY + boxSize) >> 3;
+
+    // if (xL != xR) {
+
+    // }
+
+
+
+    // return tile;
+
 }
