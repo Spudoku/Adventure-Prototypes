@@ -9,6 +9,8 @@ bool vertMovePlayer = true;
 bool movePlayer = true;
 bool updateSafePlace = true;
 
+
+
 //initializer list to allow compile time assign/construct
 PlayerEntity playerEnt = {
   {player_FrameTask, playerRenderer, player_OnCollide, (void *)&playerEnt, NULL, //entity
@@ -58,23 +60,14 @@ unsigned char lastFrameState;
 //Assumes the proper driver is loaded!!
 STATUS playerInputProcess(){
   unsigned char destination;
-  // unsigned char destination2;
-  // Vector2 maxCoords;
-  // Vector2 tempVec2;
+  int16_t tempX;
+  int16_t tempY;
 
   if (!movePlayer) {
     movePlayer = true;
     return PASS;
   }
   movePlayer = true;
-  
-  if (updateSafePlace) {
-    playerEnt.player_LastPos = playerEnt.playerEntity._worldCoords;
-  } else {
-    playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
-  }
-  updateSafePlace = true;
-  
   
   lastFrameState = joystickState;
   //read the joystick data
@@ -117,84 +110,90 @@ STATUS playerInputProcess(){
     debug_action();
   }
 
-
+  tempX = playerEnt.playerEntity._worldCoords.x;
+  tempY = playerEnt.playerEntity._worldCoords.y;
 
   // TODO: optimize this!
   // handling horizontal movement/collisions
   // Vec2_add_x(&(playerEnt.playerEntity._worldCoords), playerEnt.playerVelocity.x);
   if (playerEnt.playerVelocity.x > 0 || playerEnt.playerVelocity.x < 0) {
-    playerEnt.playerEntity._worldCoords.x +=  playerEnt.playerVelocity.x;
+    tempX += playerEnt.playerVelocity.x;
 
   
-    destination = getTileAt(playerEnt.playerEntity._worldCoords,playerEnt.size);
+    destination = getTileAt(tempX,tempY,playerEnt.size);
     if (destination) {
 
-      playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
-
-    } else {
-      playerEnt.player_LastPos.x = playerEnt.playerEntity._worldCoords.x;
+      // playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
+      tempX = playerEnt.playerEntity._worldCoords.x;
+    } 
+    else {
+      
     }
   }
   
 
   if (playerEnt.playerVelocity.y > 0 || playerEnt.playerVelocity.y < 0) {
   // handling vertical movement/collisions
-    Vec2_add_y(&(playerEnt.playerEntity._worldCoords), playerEnt.playerVelocity.y);
+    tempY += playerEnt.playerVelocity.y;
 
     
-    destination = getTileAt(playerEnt.playerEntity._worldCoords,playerEnt.size);
+    destination = getTileAt(tempX, tempY ,playerEnt.size);
     // destination2 = getTileAt(maxCoords);
     // if any non-blank tile is hit...
     if (destination) {
       // updateSafePlace = false;
-      playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
-
+      // playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
+      tempY = playerEnt.playerEntity._worldCoords.y;
+    } 
+    else {
+      
     }
   }
 
   
-
-
-  
+  playerEnt.playerEntity._worldCoords.x = tempX;
+  playerEnt.playerEntity._worldCoords.y = tempY;
+  playerEnt.player_LastPos.y = tempY;
+  playerEnt.player_LastPos.x = tempX;
   
   if (playerEnt.playerEntity.childEntity != NULL) {
     // TODO: move item
-    playerEnt.playerEntity.childEntity->_worldCoords.x = playerEnt.playerEntity._worldCoords.x + playerEnt.item_offset.x;
-    playerEnt.playerEntity.childEntity->_worldCoords.y = playerEnt.playerEntity._worldCoords.y + playerEnt.item_offset.y;
+    playerEnt.playerEntity.childEntity->_worldCoords.x = tempX + playerEnt.item_offset.x;
+    playerEnt.playerEntity.childEntity->_worldCoords.y = tempY + playerEnt.item_offset.y;
   }
   return PASS;
 }
 
 // Presently only sets worldcoord back when called
 // May need more grandular checks later...
-// TODO: FIX THESE STUPID COLLISIONS!!!!!
+// currently, this is completely redundant
 void player_OnCollide(Entity* thisEntity, Entity* otherEntity){
 
-  if (otherEntity == NULL) {
-    // // assume that playfield was hit
-    // playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
-    // // playerEnt.playerVelocity.x = playerEnt.playerSpeed;
-    // playerEnt.playerEntity._worldCoords.x -= playerEnt.playerVelocity.x;
-    // playerEnt.playerEntity._worldCoords.y -= playerEnt.playerVelocity.y;
-    // // printf("players world coords and last safe place\n");
-    // // PRINT_VEC2(playerEnt.playerEntity._worldCoords);
-    // // PRINT_VEC2(playerEnt.player_LastPos);
-    // updateSafePlace = false;
-    // movePlayer = false;
+  // if (otherEntity == NULL) {
+  //   // // assume that playfield was hit
+  //   // playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
+  //   // // playerEnt.playerVelocity.x = playerEnt.playerSpeed;
+  //   // playerEnt.playerEntity._worldCoords.x -= playerEnt.playerVelocity.x;
+  //   // playerEnt.playerEntity._worldCoords.y -= playerEnt.playerVelocity.y;
+  //   // // printf("players world coords and last safe place\n");
+  //   // // PRINT_VEC2(playerEnt.playerEntity._worldCoords);
+  //   // // PRINT_VEC2(playerEnt.player_LastPos);
+  //   // updateSafePlace = false;
+  //   // movePlayer = false;
 
-  } else if (otherEntity == &(dragonSingleton.myEntity)) {
+  // } else if (otherEntity == &(dragonSingleton.myEntity)) {
     
-    // prevent collisions through a chomping dragon
-    // TODO: simplify this if possible
-    if (dragonSingleton.state == D_STATE_CHOMP) {
-      playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
-      // playerEnt.playerVelocity.x = playerEnt.playerSpeed;
-      // playerEnt.playerEntity._worldCoords.x -= playerEnt.playerVelocity.x;
-      // playerEnt.playerEntity._worldCoords.y -= playerEnt.playerVelocity.y;
-      // updateSafePlace = false;
-      // movePlayer = false;
-    }
-  }
+  //   // prevent collisions through a chomping dragon
+  //   // TODO: simplify this if possible
+  //   if (dragonSingleton.state == D_STATE_CHOMP) {
+  //     playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
+  //     // playerEnt.playerVelocity.x = playerEnt.playerSpeed;
+  //     // playerEnt.playerEntity._worldCoords.x -= playerEnt.playerVelocity.x;
+  //     // playerEnt.playerEntity._worldCoords.y -= playerEnt.playerVelocity.y;
+  //     // updateSafePlace = false;
+  //     // movePlayer = false;
+  //   }
+  // }
   // TODO: check if its an item
   
   return;

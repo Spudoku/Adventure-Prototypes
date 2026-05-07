@@ -51,7 +51,7 @@ extern PMGInstance pmgMainInstance; //in the future this will be a changable ptr
 
 void gfx_Init();
 
-unsigned char getTileAt(Vector2 worldcoords,unsigned char boxSize);
-
+// unsigned char getTileAt(Vector2 worldcoords,unsigned char boxSize);
+unsigned char getTileAt(int16_t theX, int16_t theY,unsigned char boxSize);
 
 #endif

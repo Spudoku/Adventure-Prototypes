@@ -176,68 +176,102 @@ void gfx_Init() {
 // returns any tile in the bounding box defined by
 // worldCoords, worldCoords + boxSize (both axes)
 // TODO: optimize
-unsigned char getTileAt(Vector2 worldcoords, unsigned char boxSize) {
+// unsigned char getTileAt(Vector2 worldcoords, unsigned char boxSize) {
+//     unsigned char test;
+//     unsigned int debugX;
+//     unsigned int debugY;
+//     Vector2 eyecoords;
+
+//     // eyecoords = convertToEyeCoords(worldcoords);
+//     // printf("[getTileAt]");
+//     // PRINT_VEC2(worldcoords);
+//     //   printf("\ttile at that location: %d\n",test);
+
+//     // divide by tile size
+//     debugX = (worldcoords.x) >> 3;
+//     debugY = worldcoords.y >> 3;
+    
+//     test = gameMap[debugY][debugX];
+    
+//     if (test) {
+//         return test;
+//     } 
+
+
+
+//     debugX = (worldcoords.x + boxSize) >> 3;
+//     debugY = worldcoords.y >> 3;
+    
+//     test = gameMap[debugY][debugX];
+
+//     if (test) {
+//         return test;
+//     } 
+
+//     debugX = (worldcoords.x + boxSize) >> 3;
+//     debugY = (worldcoords.y + boxSize) >> 3;
+    
+//     test = gameMap[debugY][debugX];
+
+//     if (test) {
+//         return test;
+//     } 
+
+
+//     debugX = (worldcoords.x) >> 3;
+//     debugY = (worldcoords.y + boxSize) >> 3;
+    
+//     test = gameMap[debugY][debugX];
+
+//     if (test) {
+//         return test;
+//     } 
+
+//     //   if (test) {
+//     //     // printf("collision detected; offending world coordinate: ");
+//     //     // PRINT_VEC2(worldcoords);
+//     //     // printf("offending offset: ");
+//     //     // PRINT_VEC2(newOffset);
+        
+//     //   }
+//     // check 
+
+
+
+//     // no tiles intersected
+//     return test;
+// }
+
+unsigned char getTileAt(int16_t theX, int16_t theY,unsigned char boxSize) {
     unsigned char test;
     unsigned int debugX;
     unsigned int debugY;
-    Vector2 eyecoords;
-
-    // eyecoords = convertToEyeCoords(worldcoords);
-    // printf("[getTileAt]");
-    // PRINT_VEC2(worldcoords);
-    //   printf("\ttile at that location: %d\n",test);
-
-    // divide by tile size
-    debugX = (worldcoords.x) >> 3;
-    debugY = worldcoords.y >> 3;
     
+
+    debugX = theX >> 3;
+    debugY = theY >> 3;
+
     test = gameMap[debugY][debugX];
-    
     if (test) {
         return test;
-    } 
+    }
 
-
-
-    debugX = (worldcoords.x + boxSize) >> 3;
-    debugY = worldcoords.y >> 3;
-    
+    debugX = (theX + boxSize) >> 3;
     test = gameMap[debugY][debugX];
 
     if (test) {
         return test;
-    } 
+    }
 
-    debugX = (worldcoords.x + boxSize) >> 3;
-    debugY = (worldcoords.y + boxSize) >> 3;
-    
+    debugY = (theY + boxSize) >> 3;
     test = gameMap[debugY][debugX];
 
     if (test) {
         return test;
-    } 
+    }
 
-
-    debugX = (worldcoords.x) >> 3;
-    debugY = (worldcoords.y + boxSize) >> 3;
-    
+    debugX = theX >> 3;
     test = gameMap[debugY][debugX];
 
-    if (test) {
-        return test;
-    } 
-
-    //   if (test) {
-    //     // printf("collision detected; offending world coordinate: ");
-    //     // PRINT_VEC2(worldcoords);
-    //     // printf("offending offset: ");
-    //     // PRINT_VEC2(newOffset);
-        
-    //   }
-    // check 
-
-
-
-    // no tiles intersected
     return test;
 }

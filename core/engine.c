@@ -138,7 +138,7 @@ void engine_EventDispatcher(){
     if (collision_with_index(temp_collisions,TEMP_player_anticIndex)) {
         // sound_generic_buzz();
         dragon_OnCollision(&(dragonSingleton.myEntity), &playerEnt.playerEntity);
-        player_OnCollide(&playerEnt.playerEntity, &(dragonSingleton.myEntity));
+        // player_OnCollide(&playerEnt.playerEntity, &(dragonSingleton.myEntity));
     } else if (collision_with_index(temp_collisions,TEMP_sword_anticIndex)) {
         kill_dragon(&(dragonSingleton.myEntity));
     }
@@ -151,18 +151,18 @@ void engine_EventDispatcher(){
     }
 
     // player character collisions
-    // currently this checks if any playfield is collided with
-    temp_collisions = player_to_playfield_collisions(TEMP_player_anticIndex);
-    if (temp_collisions) {
-        if (!(collision_with_index(temp_collisions,3))) {
-            player_OnCollide(&playerEnt.playerEntity, NULL);
-        } else {
-             orb_singleton.entity.OnCollision(NULL, NULL);
-        }
+    // currently redundant
+    // temp_collisions = player_to_playfield_collisions(TEMP_player_anticIndex);
+    // if (temp_collisions) {
+    //     if (!(collision_with_index(temp_collisions,3))) {
+    //         player_OnCollide(&playerEnt.playerEntity, NULL);
+    //     } else {
+    //          orb_singleton.entity.OnCollision(NULL, NULL);
+    //     }
         
-    } else {
-        updateSafePlace = true;
-    }
+    // } else {
+    //     updateSafePlace = true;
+    // }
 
     
 
