@@ -89,6 +89,7 @@ void pmgSilo_clear(PMGPlayerSpriteSilo* silo, int8_t newY, bool forceUpdate){
 
 //  TODO: optimize further
 // copies the sprite from silo into PMG memory, which is inefficient as heck
+// this SLAUGHTERS performance if called multiple times per frame
 void pmgSilo_writeRefSprite(PMGPlayerSpriteSilo* silo, int8_t newY, bool forceUpdate){
     int8_t oldY;
     unsigned char temp;
@@ -124,7 +125,7 @@ void pmgSilo_writeRefSprite(PMGPlayerSpriteSilo* silo, int8_t newY, bool forceUp
         }
     }
     // printf("height: %d",height);
-
+    
     if (temp_height > 0) {
         memcpy(temp_visible_bytes,temp_bitmap_ptr,temp_height);
     }

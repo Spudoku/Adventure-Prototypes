@@ -208,35 +208,59 @@ unsigned char getTileAt(int16_t theX, int16_t theY,unsigned char boxSize) {
 
     // return test;
 
-    unsigned int test;
+    unsigned char* gameMapPtr;
 
+    int16_t test;
+    int16_t offset;
 
     unsigned char tile;
     int16_t xL = theX >> 3;
     int16_t xR = (theX + boxSize) >> 3;
     int16_t yT = theY >> 3;
     int16_t yB = (theY + boxSize) >> 3;
-    unsigned char* rowPtr = &gameMap[rowOffsetTable[yT]];
+    // unsigned char* rowPtr = &gameMap[rowOffsetTable[yT]];
 
     
+    gameMapPtr = (unsigned char*)gameMap;
     
-    
-    
+    offset = rowOffsetTable[yT];
 
-    test = rowOffsetTable[yT]+ xL;
-    
-    tile = gameMap[test] ;
+    // check xL
+    test = offset + xL;
+    tile = gameMapPtr[test];
+    if (tile) return tile;
 
-    printf("test: %d, tile: %d\n",test,tile);
-    if (tile) {
-        return tile;
+    // if sprite is in 2 different columns
+    if (xL != xR) {
+        // check xR
+
+        // increment by only 1 because xR can only be 1 larger 
+        // (unless boxSize >= 8)
+        ++test;
+        tile = gameMapPtr[test];
+
+        if (tile) return tile;
     }
-    // if (xL != xR) {
+    
+    // only bother continuing if the sprite spans two different rows
+    if (yT != yB) {
+        offset = rowOffsetTable[yB];
+        test = offset + xL;
+        tile = gameMapPtr[test];
 
-    // }
+        if (tile) return tile;
+        
+        if (xL != xR) {
+            // check xR
+            ++test;
+            tile = gameMapPtr[test];
+            // note: this is the absolute worst case
+            if (tile) return tile;
+        }
+    }
 
 
-
-    return tile;
+    // no tile found
+    return 0;
 
 }
