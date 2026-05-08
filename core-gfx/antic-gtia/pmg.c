@@ -92,7 +92,10 @@ void pmgSilo_clear(PMGPlayerSpriteSilo* silo, int8_t newY, bool forceUpdate){
 // this SLAUGHTERS performance if called multiple times per frame
 void pmgSilo_writeRefSprite(PMGPlayerSpriteSilo* silo, int8_t newY, bool forceUpdate){
     int8_t oldY;
-    unsigned char temp;
+    int8_t tempLocal;
+    unsigned char visibleIndex;
+    unsigned char spriteIndex = 0;
+    
     oldY = silo->header.cachedY;
 
     // object isnt moving, so return
@@ -103,41 +106,93 @@ void pmgSilo_writeRefSprite(PMGPlayerSpriteSilo* silo, int8_t newY, bool forceUp
     
     if(!temp_sprite) return; //could be a clear flag
 
-    // global versions of the pointers
-    temp_visible_bytes = silo->visibleBytes;  
     temp_bitmap_ptr = temp_sprite->bitmap; 
-
     temp_height = temp_sprite->height;
-
+    temp_visible_bytes = silo->visibleBytes; 
+    // visibleIndex = newY;
+    // compute how many bytes of the sprite are visible
     if (newY < 0) {
-        // occlusion at the top
-        temp_bitmap_ptr -= newY; // this is addition
-        temp_height += newY;
-        
-    } else {
-        // top is visible
-        temp_visible_bytes += newY;
-        temp = (temp_height + newY);
-        // clipping at bottom
-        if (temp > 96) {
+        tempLocal = newY + temp_height;
+        if (tempLocal <= 0) {
+            // this means that abs(newY) >= tempHeight
+            // effectively do nothing here; skip the upcoming for loop
+            spriteIndex = temp_height;
             
-            temp_height = temp - 96;
+        } else {
+            // example: newY = -3, tempHeight = 8
+            //  8 + (-3) = 5
+            spriteIndex = temp_height - tempLocal - 1;
         }
+    } else {
+        // temp_visible_bytes += newY;
+        
     }
-    // printf("height: %d",height);
-    
-    if (temp_height > 0) {
-        memcpy(temp_visible_bytes,temp_bitmap_ptr,temp_height);
+    visibleIndex = newY;
+    // printf("starting print! newy = %d, oldY: %d, visibleIndex: %d\n",newY, oldY, visibleIndex);
+    while (spriteIndex < temp_height && visibleIndex < 96) {
+        // TODO: better check which bytes are to be cleared
+        temp_visible_bytes[oldY + spriteIndex] = 0;
+        temp_visible_bytes[visibleIndex] = temp_bitmap_ptr[spriteIndex];
+        
+        ++spriteIndex;
+        ++visibleIndex;
+        // printf("\tsprite index: %d, visibleIndex: %d\n", spriteIndex,visibleIndex);
     }
+    // printf("done!\n");
+
     
     
     silo->header.cachedY = newY;
+    
+
+
+    // OLD VERSION
+    // int8_t oldY;
+    // unsigned char curIndex;
+    // unsigned char temp;
+    // oldY = silo->header.cachedY;
+
+    // // object isnt moving, so return
+    // if (newY == oldY && !forceUpdate) return;
+
+
+    // temp_sprite = silo->header.refsprite;
+    
+    // if(!temp_sprite) return; //could be a clear flag
+    //     // global versions of the pointers
+    // temp_visible_bytes = silo->visibleBytes;  
+    // temp_bitmap_ptr = temp_sprite->bitmap; 
+
+    // temp_height = temp_sprite->height;
+
+    // if (newY < 0) {
+    //     // occlusion at the top
+    //     temp_bitmap_ptr -= newY; // this is addition
+    //     temp_height += newY;
+        
+    // } else {
+    //     // top is visible
+    //     temp_visible_bytes += newY;
+    //     temp = (temp_height + newY);
+    //     // clipping at bottom
+    //     if (temp > 96) {
+            
+    //         temp_height = temp - 96;
+    //     }
+    // }
+    // // printf("height: %d",height);
+    
+    // if (temp_height > 0) {
+    //     memcpy(temp_visible_bytes,temp_bitmap_ptr,temp_height);
+    // }
+
+    // silo->header.cachedY = newY;
 }
 
 void pmgSilo_setY(PMGPlayerSpriteSilo* silo, int8_t newY, bool forceUpdate){
   
   // why does this clear all 96 bytes
-    pmgSilo_clear(silo, newY, forceUpdate);
+    // pmgSilo_clear(silo, newY, forceUpdate);
 
     //memcpy the new y with bounds checking
     pmgSilo_writeRefSprite(silo, newY, forceUpdate);
