@@ -35,20 +35,62 @@ void sound_ClearVoice(unsigned char voice) {
 
 // TODO: optimize this? (currently takes ~8.5% of a frame)
 void sound_StateUpdate() {
-    register uint8_t index = 0;
-    for (; index < 4; index++) {
-        switch(voice_frames[index]){
+    // register uint8_t index = 0;
+    // for (; index < 4; index++) {
+    //     switch(voice_frames[index]){
+    //         case 0:
+    //             // STOP_SOUND(0);  //fallthrough
+    //             break;
+    //         case 1:
+    //             STOP_SOUND(index);  //fallthrough
+    //         default:
+    //             voice_frames[index]--;
+    //             break;
+    //     }
+        
+    // }
+    // unpacked loop for efficency (for loops are slow in cc65)
+    switch(voice_frames[0]){
             case 0:
-                STOP_SOUND(index);  //fallthrough
+                // STOP_SOUND(0);  //fallthrough
                 break;
             case 1:
-                STOP_SOUND(index);  //fallthrough
+                STOP_SOUND(0);  //fallthrough
             default:
-                voice_frames[index]--;
+                voice_frames[0]--;
                 break;
         }
-        
-    }
+
+        switch(voice_frames[1]){
+            case 0:
+                // STOP_SOUND(1);  //fallthrough
+                break;
+            case 1:
+                STOP_SOUND(1);  //fallthrough
+            default:
+                voice_frames[1]--;
+                break;
+        }
+        switch(voice_frames[2]){
+            case 0:
+                // STOP_SOUND(2);  //fallthrough
+                break;
+            case 1:
+                STOP_SOUND(2);  //fallthrough
+            default:
+                voice_frames[2]--;
+                break;
+        }
+        switch(voice_frames[3]){
+            case 0:
+                // STOP_SOUND(3);  //fallthrough
+                break;
+            case 1:
+                STOP_SOUND(3);  //fallthrough
+            default:
+                voice_frames[3]--;
+                break;
+        }
 }
 
 void sound_generic_buzz() {

@@ -176,37 +176,7 @@ void gfx_Init() {
 
 // TODO: reduce array accesses??????
 unsigned char getTileAt(int16_t theX, int16_t theY,unsigned char boxSize) {
-    // unsigned char test;
-    // unsigned int debugX;
-    // unsigned int debugY;
-    
 
-    // debugX = theX >> 3;
-    // debugY = theY >> 3;
-
-    // test = gameMap[debugY][debugX];
-    // if (test) {
-    //     return test;
-    // }
-
-    // debugX = (theX + boxSize) >> 3;
-    // test = gameMap[debugY][debugX];
-
-    // if (test) {
-    //     return test;
-    // }
-
-    // debugY = (theY + boxSize) >> 3;
-    // test = gameMap[debugY][debugX];
-
-    // if (test) {
-    //     return test;
-    // }
-
-    // debugX = theX >> 3;
-    // test = gameMap[debugY][debugX];
-
-    // return test;
 
     unsigned char* gameMapPtr;
 

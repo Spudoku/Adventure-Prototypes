@@ -87,7 +87,7 @@ STATUS chalice_renderer(Entity* thisEntity) {
   chalice_worldcoords_x = thisEntity->_worldCoords.x;
   chalice_worldcoords_y = thisEntity->_worldCoords.y;
 
-    if(!objectVisible(&(thisEntity->transform))){
+    if(!objectVisible(&(thisEntity->_eyeCoords))){
     (&(GTIA_WRITE.hposp0))[TEMP_item_anticIndex] = 0;
 
     return PASS;
@@ -175,7 +175,7 @@ STATUS sword_renderer(Entity* thisEntity) {
   sword_worldcoords_x = thisEntity->_worldCoords.x;
   sword_worldcoords_y = thisEntity->_worldCoords.y;
 
-    if(!objectVisible(&(thisEntity->transform))){
+    if(!objectVisible(&(thisEntity->_eyeCoords))){
     (&(GTIA_WRITE.hposp0))[TEMP_sword_anticIndex] = 0;
 
     return PASS;

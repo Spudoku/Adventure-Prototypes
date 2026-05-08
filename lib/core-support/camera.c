@@ -9,7 +9,6 @@ Camera camera;
 static int16_t temp_x, temp_y, temp_obj_bounds_x, temp_obj_bounds_y;
 
 
-
 STATUS cameraConstructor(Entity *toTrack){
     camera.draggingMargin = DEFAULT_MARGIN; 
 
@@ -46,10 +45,12 @@ void setTrackedEntity(Entity *toTrack){
 //checks against eye coords, assumes its updated
 //to do, may need to have each entity update its eyecoords?
 //may also need to consider lazy checks for stuff super far away
-bool objectVisible(Transform *toCheck){
+bool objectVisible(Vector2 *eyecoords){
 
-  temp_x = toCheck->eyeCoords.x;
-  temp_y = toCheck->eyeCoords.y;
+  // temp_x = toCheck->eyeCoords.x;
+  // temp_y = toCheck->eyeCoords.y;
+  temp_x = eyecoords->x;
+  temp_y = eyecoords->y;
   //bounding box checks
 
   //Note: i bet this may be screwy with negatives
@@ -79,7 +80,7 @@ bool objectVisible(Transform *toCheck){
 }
 
 //passes by value to get a free return copy
-//TODO: fix lol
+//TODO: optimize?
 Vector2 convertToEyeCoords(Vector2 toConvert){
   toConvert.x -= camera.cameraEntity._worldCoords.x;
   toConvert.y -= camera.cameraEntity._worldCoords.y;
@@ -91,6 +92,8 @@ Vector2 convertToEyeCoords(Vector2 toConvert){
 
 STATUS camera_FrameTask(Entity* thisEntity){
   Vector2 offset;
+  // int16_t offsetX;
+  // int16_t offsetY;
 
   if(camera._TrackedObject == NULL ){
       return PASS;
@@ -146,34 +149,68 @@ STATUS ObjectInsideMargin(Transform *toCheck) {
 //the margin, used for moving the camera
 //TODO: please make faster, takes up 6-7% of frame time
 Vector2 objectToMargin(Transform *toCheck){
+  unsigned char tempLocal;
+  uint16_t innerMarginX; 
+  uint16_t innerMarginY;
+ uint16_t dragMarginTemp;
+
   Vector2 result = {0, 0};
 
   // using static variables to reduce pointer lookups
   temp_x = toCheck->eyeCoords.x;
   temp_y = toCheck->eyeCoords.y;
 
-  
+  innerMarginX = camera.innerMargin.x;
+  innerMarginY = camera.innerMargin.y;
+  dragMarginTemp = camera.draggingMargin;
+
+  // tempLocal = 
   // if temp_x > SCR_RES_X - _cameraMargin
-  if(temp_x  > camera.innerMargin.x) {
+  if(temp_x  > innerMarginX) {
     //right side is closer, get x dist to that
-    result.x = temp_x - camera.innerMargin.x;
-  } else if (temp_x < camera.draggingMargin){
+    result.x = temp_x - innerMarginX;
+  } else if (temp_x < dragMarginTemp){
     //left side is closer, eyecoords will be negative
-    result.x = temp_x - camera.draggingMargin;
+    result.x = temp_x - dragMarginTemp;
   }
 
 
-  if(temp_y > camera.innerMargin.y) {
-    //bottom is closer, get x dist to that
-    result.y = temp_y - camera.innerMargin.y;
-  } else if (temp_y < camera.draggingMargin){
+  if(temp_y > innerMarginY) {
+    //bottom is camera.innerMargin, get x dist to that
+    result.y = temp_y - innerMarginY;
+  } else if (temp_y < dragMarginTemp){
     //top side is closer, eyecoords will be negative
-    result.y = temp_y - camera.draggingMargin;
+    result.y = temp_y - dragMarginTemp;
   }
   
 
   return result;
 }
+
+// void objectToMargin(Transform *toCheck, int16_t* offsetX, int16_t* offsetY) {
+//   // using static variables to reduce pointer lookups
+//   temp_x = toCheck->eyeCoords.x;
+//   temp_y = toCheck->eyeCoords.y;
+
+  
+//   // if temp_x > SCR_RES_X - _cameraMargin
+//   if(temp_x  > camera.innerMargin.x) {
+//     //right side is closer, get x dist to that
+//     offsetX = temp_x - camera.innerMargin.x;
+//   } else if (temp_x < camera.draggingMargin){
+//     //left side is closer, eyecoords will be negative
+//     offsetX = temp_x - camera.draggingMargin;
+//   }
+
+
+//   if(temp_y > camera.innerMargin.y) {
+//     //bottom is closer, get x dist to that
+//     offsetY = temp_y - camera.innerMargin.y;
+//   } else if (temp_y < camera.draggingMargin){
+//     //top side is closer, eyecoords will be negative
+//     offsetY = temp_y - camera.draggingMargin;
+//   }
+// }
 
 
 

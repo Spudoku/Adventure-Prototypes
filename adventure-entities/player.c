@@ -126,9 +126,7 @@ STATUS playerInputProcess(){
       // playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
       tempX = playerEnt.playerEntity._worldCoords.x;
     } 
-    else {
-      
-    }
+
   }
   
 
@@ -145,9 +143,7 @@ STATUS playerInputProcess(){
       // playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
       tempY = playerEnt.playerEntity._worldCoords.y;
     } 
-    else {
-      
-    }
+
   }
 
   

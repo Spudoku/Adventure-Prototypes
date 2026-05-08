@@ -309,7 +309,7 @@ STATUS dragonRenderer(Entity* thisEntity) {
 
   //quick and dirty hide
   
-  if(!objectVisible(&(thisEntity->transform))){
+  if(!objectVisible(&(thisEntity->_eyeCoords))){
     (&(GTIA_WRITE.hposp0))[TEMP_dragon_anticIndex] = 0;
     return PASS;
   }

@@ -2,14 +2,15 @@ to investigate:
 
 objectToMargin (~4%)
 
-sound_StateUpdate (~5.6%)
 
-collision_with_index(~3%)
-
-playerInputProcess
+getTileAt
 
 convertToEyeCoords
 
+_objectVisible
+
+
+// I want to work on these but it seems futile
 pmgSilo_clear
 
 pmgSilo_writeRefSprite

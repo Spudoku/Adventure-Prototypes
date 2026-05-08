@@ -117,11 +117,11 @@ void engine_Render(){
 
     playerEnt.playerEntity.renderer(&(playerEnt.playerEntity));
 
-    // chaliceEnt.chaliceEntity.renderer(&(chaliceEnt.chaliceEntity));
+    chaliceEnt.chaliceEntity.renderer(&(chaliceEnt.chaliceEntity));
 
     dragonSingleton.myEntity.renderer(&(dragonSingleton.myEntity));
 
-    // swordEnt.swordEntity.renderer(&(swordEnt.swordEntity));
+    swordEnt.swordEntity.renderer(&(swordEnt.swordEntity));
 };
 
 //stub to demonstrate where events would be dispatched during each tick
