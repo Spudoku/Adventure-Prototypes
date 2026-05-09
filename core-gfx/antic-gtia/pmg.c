@@ -1,11 +1,18 @@
 #include "pmg.h"
 #pragma optimize(on)
 #pragma static-locals(on)
+
+
 PMGInstance* activePMGInstance; 
 static uint8_t* temp_visible_bytes;
 static uint8_t* temp_bitmap_ptr;
 static int8_t temp_height;
 Sprite* temp_sprite;
+
+
+// for collision_with_index
+unsigned char temp_index;
+unsigned char temp_collision_data;
 
 static const unsigned char bitmasks[] = {0x01,0x02,0x04,0x08};
 
@@ -358,8 +365,10 @@ unsigned char __fastcall__ collision_with_index(unsigned char data, unsigned cha
         return false;
     }
     // TODO: prevent type promotion?
-    return (data & bitmasks[index]);
+    return (data >> index) & 1;
 }
+
+
 
 /*
     end collision helpers
