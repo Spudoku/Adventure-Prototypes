@@ -140,7 +140,11 @@ void engine_EventDispatcher(){
         dragon_OnCollision(&(dragonSingleton.myEntity), &playerEnt.playerEntity);
         // player_OnCollide(&playerEnt.playerEntity, &(dragonSingleton.myEntity));
     } else if (collision_with_index(temp_collisions,TEMP_sword_anticIndex)) {
-        kill_dragon(&(dragonSingleton.myEntity));
+        // TODO: check if sword is being held
+        if (playerEnt.playerEntity.childEntity == &swordEnt.swordEntity) {
+            kill_dragon(&(dragonSingleton.myEntity));
+        }
+        
     }
 
     temp_collisions = player_to_player_collisions(TEMP_player_anticIndex);

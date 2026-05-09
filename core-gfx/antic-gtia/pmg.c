@@ -7,7 +7,7 @@ static uint8_t* temp_bitmap_ptr;
 static int8_t temp_height;
 Sprite* temp_sprite;
 
-// static const unsigned char bitmasks[] = {0x01,0x02,0x04,0x08};
+static const unsigned char bitmasks[] = {0x01,0x02,0x04,0x08};
 
 void pmg_Init(PMGInstance* pmgInstance){
   IntToTwoChar convert;
@@ -352,15 +352,13 @@ unsigned char missile_to_playfield_collisions(unsigned char missile) {
 //      say 0b00001000 is returned
 //      bool collide_with_3 = collision_with_index(p0_pf_collisions, 3);
 //      result: collide_with_3 is true if player 0 is colliding with playfield 3
-bool collision_with_index(unsigned char data, unsigned char index){
+unsigned char __fastcall__ collision_with_index(unsigned char data, unsigned char index){
     
     if (index > 3) {
         return false;
     }
     // TODO: prevent type promotion?
-    return (data >> index) & 0x1;
-    // print("[collision_with_index] data: %d, index: " );
-    // return data & bitmasks[index];
+    return (data & bitmasks[index]);
 }
 
 /*

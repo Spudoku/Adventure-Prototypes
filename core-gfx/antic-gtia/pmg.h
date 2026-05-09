@@ -71,6 +71,6 @@ extern unsigned char player_to_playfield_collisions(unsigned char player);
 extern unsigned char missile_to_player_collisions(unsigned char player);
 extern unsigned char missile_to_playfield_collisions(unsigned char missile);
 
-extern bool collision_with_index(unsigned char data, unsigned char index);
+extern unsigned char collision_with_index(unsigned char data, unsigned char index);
 
 #endif

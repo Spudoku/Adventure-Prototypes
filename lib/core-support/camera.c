@@ -37,6 +37,7 @@ STATUS cameraConstructor(Entity *toTrack){
 void setTrackedEntity(Entity *toTrack){
     if(camera._TrackedObject != NULL){
       camera._TrackedObject = toTrack;
+      // return;
     }
     
     camera._TrackedObject = NULL;
@@ -54,8 +55,6 @@ bool objectVisible(Vector2 *eyecoords){
   //bounding box checks
 
   //Note: i bet this may be screwy with negatives
-
-
   //less to more computationally intensive
   //TODO: this is probably not efficient
   //check the left bound
@@ -107,7 +106,7 @@ STATUS camera_FrameTask(Entity* thisEntity){
   convertToEyeCoords(camera._TrackedObject->_worldCoords);
 
 
-    //hopefully it actually adds negatives correctly...
+  //hopefully it actually adds negatives correctly...
   offset = objectToMargin(&camera._TrackedObject->transform);
   camera.cameraEntity._worldCoords.x += offset.x;
   camera.cameraEntity._worldCoords.y += offset.y;
@@ -152,7 +151,7 @@ Vector2 objectToMargin(Transform *toCheck){
   unsigned char tempLocal;
   uint16_t innerMarginX; 
   uint16_t innerMarginY;
- uint16_t dragMarginTemp;
+  uint16_t dragMarginTemp;
 
   Vector2 result = {0, 0};
 

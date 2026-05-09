@@ -18,7 +18,10 @@ uint8_t voice_frames[4] = {0,0,0,0};
 
 void init_sound() {
     
-    memset(voice_frames,0,sizeof(voice_frames));
+    STOP_SOUND(0);
+    STOP_SOUND(1);
+    STOP_SOUND(2);
+    STOP_SOUND(3);
     
 
 }
