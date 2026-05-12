@@ -156,13 +156,13 @@ void engine_EventDispatcher(){
 
     // player character collisions
     // currently redundant
-    // temp_collisions = player_to_playfield_collisions(TEMP_player_anticIndex);
-    // if (temp_collisions) {
-    //     if (!(collision_with_index(temp_collisions,3))) {
-    //         player_OnCollide(&playerEnt.playerEntity, NULL);
-    //     } else {
-    //          orb_singleton.entity.OnCollision(NULL, NULL);
-    //     }
+    temp_collisions = player_to_playfield_collisions(TEMP_player_anticIndex);
+    if (temp_collisions) {
+        if ((collision_with_index(temp_collisions,3))) {
+            orb_singleton.entity.OnCollision(NULL, NULL);
+        } 
+             
+    }
         
     // } else {
     //     updateSafePlace = true;

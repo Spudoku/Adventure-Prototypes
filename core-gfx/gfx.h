@@ -23,6 +23,8 @@
 #define ANTIC_SCROLL_VEC2 (*(u16Vector2 *)(&(ANTIC.hscrol)))
 
 
+
+
 //careful, macros have no type checking!
 //antic will auto truncate a value above 15.. but also go right to go left on x
 #define SET_ANTIC_SCROLL(pixelX, pixelY)              \
@@ -54,4 +56,12 @@ void gfx_Init();
 // unsigned char getTileAt(Vector2 worldcoords,unsigned char boxSize);
 unsigned char getTileAt(int16_t theX, int16_t theY,unsigned char boxSize);
 
+
+void easter_egg_init();
+
+
+// "public" methods
+void open_gate();
+
+void close_gate();
 #endif

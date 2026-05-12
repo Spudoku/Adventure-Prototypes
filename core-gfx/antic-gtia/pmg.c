@@ -14,7 +14,7 @@ Sprite* temp_sprite;
 unsigned char temp_index;
 unsigned char temp_collision_data;
 
-static const unsigned char bitmasks[] = {0x01,0x02,0x04,0x08};
+// static const unsigned char bitmasks[] = {0x01,0x02,0x04,0x08};
 
 void pmg_Init(PMGInstance* pmgInstance){
   IntToTwoChar convert;
@@ -60,7 +60,7 @@ uint8_t pmg_addPlayerSprite(Sprite* toAdd){
 void pmgSilo_clear(PMGPlayerSpriteSilo* silo, int8_t newY, bool forceUpdate){
     int8_t oldY;
     char temp;
-    unsigned char tempSize;
+    // unsigned char tempSize;
     // int8_t height;
     oldY = silo->header.cachedY;
     // object isnt moving, so return
@@ -100,68 +100,10 @@ void pmgSilo_clear(PMGPlayerSpriteSilo* silo, int8_t newY, bool forceUpdate){
 // copies the sprite from silo into PMG memory, which is inefficient as heck
 // this SLAUGHTERS performance if called multiple times per frame
 void pmgSilo_writeRefSprite(PMGPlayerSpriteSilo* silo, int8_t newY, bool forceUpdate){
-    // int8_t oldY;
-    // int8_t tempLocal;
-    // unsigned char visibleIndex;
-    // unsigned char spriteIndex = 0;
     
-    // oldY = silo->header.cachedY;
-
-    // // object isnt moving, so return
-    // if (newY == oldY && !forceUpdate) return;
-
-
-    // temp_sprite = silo->header.refsprite;
-    
-    // if(!temp_sprite) return; //could be a clear flag
-
-    // temp_bitmap_ptr = temp_sprite->bitmap; 
-    // temp_height = temp_sprite->height;
-    // temp_visible_bytes = silo->visibleBytes; 
-    // // visibleIndex = newY;
-    // // compute how many bytes of the sprite are visible
-    // if (newY < 0) {
-    //     tempLocal = newY + temp_height;
-    //     if (tempLocal <= 0) {
-    //         // this means that abs(newY) >= tempHeight
-    //         // effectively do nothing here; skip the upcoming for loop
-    //         spriteIndex = temp_height;
-            
-    //     } else {
-    //         // example: newY = -3, tempHeight = 8
-    //         //  8 + (-3) = 5
-    //         spriteIndex = temp_height - tempLocal - 1;
-    //     }
-    // } else {
-    //     // temp_visible_bytes += newY;
-        
-    // }
-    // visibleIndex = newY;
-
-    // temp_visible_bytes += visibleIndex;
-    // // printf("starting print! newy = %d, oldY: %d, visibleIndex: %d\n",newY, oldY, visibleIndex);
-    // while (spriteIndex < temp_height && visibleIndex < 96) {
-    //     // TODO: better check which bytes are to be cleared
-    //     //  - clear if nothing will replace it
-    //     // temp_visible_bytes[oldY + spriteIndex] = 0;
-    //     *temp_visible_bytes = temp_bitmap_ptr[spriteIndex];
-        
-    //     ++spriteIndex;
-    //     ++visibleIndex;
-    //     ++temp_visible_bytes;
-    //     // printf("\tsprite index: %d, visibleIndex: %d\n", spriteIndex,visibleIndex);
-    // }
-    // printf("done!\n");
-
-    
-    
-    // silo->header.cachedY = newY;
-    
-
-
     // OLD VERSION
     int8_t oldY;
-    unsigned char curIndex;
+    // unsigned char curIndex;
     unsigned char temp;
     oldY = silo->header.cachedY;
 
@@ -365,7 +307,7 @@ unsigned char __fastcall__ collision_with_index(unsigned char data, unsigned cha
         return false;
     }
     // TODO: prevent type promotion?
-    return (data >> index) & 1;
+    return (unsigned char)(((unsigned char)data >> (unsigned char)index) & 0x1);
 }
 
 

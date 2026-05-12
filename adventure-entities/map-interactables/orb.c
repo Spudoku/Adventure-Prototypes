@@ -35,7 +35,7 @@ void orb_OnCollision(Entity* thisEntity, Entity* otherEntity){
     // we need to mask out the high bits so we access numbers between 0 and 15
     printf(intrusiveThoughts[get_random_value(16)]);
     // printf(intrusiveThoughts[POKEY_READ.random & 15]);
-
+    
     orb_sound();
   }
   

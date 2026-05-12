@@ -44,7 +44,7 @@ STATUS playerRenderer(Entity* thisEntity) {
 
   //generally dont need a bounds check, player is always in frame
   (&(GTIA_WRITE.hposp0))[TEMP_player_anticIndex] = playerEnt.playerEntity._eyeCoords.x 
-            + HPOSP_MIN + playerEnt.playerEntity._objectAnchorPoint.x;
+            + (unsigned char)HPOSP_MIN + playerEnt.playerEntity._objectAnchorPoint.x;
   
   
 
@@ -122,9 +122,13 @@ STATUS playerInputProcess(){
   
     destination = getTileAt(tempX,tempY,playerEnt.size);
     if (destination) {
-
-      // playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
-      tempX = playerEnt.playerEntity._worldCoords.x;
+      // printf("destination: %d; masked: %d\n", destination, (destination & 0b11000000));
+      if (!(destination >= 192)) {
+        // playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
+        
+        tempX = playerEnt.playerEntity._worldCoords.x;
+      }
+      
     } 
 
   }
@@ -141,7 +145,11 @@ STATUS playerInputProcess(){
     if (destination) {
       // updateSafePlace = false;
       // playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
-      tempY = playerEnt.playerEntity._worldCoords.y;
+      // printf("destination: %d; masked: %d\n", destination, (destination & 0b11000000));
+      if (!(destination >= 192)) {
+        tempY = playerEnt.playerEntity._worldCoords.y;
+      }
+      
     } 
 
   }

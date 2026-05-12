@@ -3,6 +3,7 @@
 #pragma optimize(on)
 #pragma static-locals(on)
 
+bool gateOpen = false;
 
 MapData mapData;
 
@@ -20,6 +21,8 @@ const unsigned int rowOffsetTable[] = {0, 120, 240, 360, 480, 600, 720, 840, 960
 
 //WARNING: any use of these move methods MUST be as close as possible to vblank.
 //h/vscrol getting adjusted during the frame could cause graphical issues
+
+
 
 
 //reset map gfx offset to position in whole pixels
@@ -172,6 +175,8 @@ void gfx_Init() {
     OS.color2 = GTIA_COLOR_BLUE;
     OS.color3 = GTIA_COLOR_BLACK;
 
+    easter_egg_init();
+
 }
 
 // TODO: reduce array accesses??????
@@ -233,4 +238,19 @@ unsigned char getTileAt(int16_t theX, int16_t theY,unsigned char boxSize) {
     // no tile found
     return 0;
 
+}
+
+
+void easter_egg_init() {
+    gateOpen = false;
+
+}
+
+
+void open_gate() {
+    gateOpen = true;
+}
+
+void close_gate() {
+    gateOpen = false;
 }
