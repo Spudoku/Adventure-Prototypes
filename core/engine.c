@@ -38,6 +38,8 @@ void engine_Boot(){
 
     // initialize the entities
     engine_InitSingletons();     
+
+    // printf("gameMap offset: %p, base: %p",(void*)((unsigned char *)gameMap + TEXT_OFFSET_1), &gameMap);
 }
 
 

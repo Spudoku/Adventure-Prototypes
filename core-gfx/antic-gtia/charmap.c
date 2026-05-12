@@ -101,6 +101,7 @@ unsigned char charset[1024] = {
 
 // START ALPHANUMERICS
 // character 9
+// 'a'
 0b00000000,
 0b00000000,
 0b00000000,
@@ -111,6 +112,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 10
+// b
 0b00000000,
 0b00000000,
 0b00000000,
@@ -121,6 +123,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 11
+// c
 0b00000000,
 0b00000000,
 0b00000000,
@@ -131,6 +134,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 12
+// d
 0b00000000,
 0b00000000,
 0b00000000,
@@ -141,6 +145,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 13
+// e
 0b00000000,
 0b00000000,
 0b00000000,
@@ -151,6 +156,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 14
+// f
 0b00000000,
 0b00000000,
 0b00000000,
@@ -161,6 +167,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 15
+// g
 0b00000000,
 0b00000000,
 0b00000000,
@@ -171,6 +178,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 16
+// h
 0b00000000,
 0b00000000,
 0b00000000,
@@ -181,6 +189,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 17
+// i
 0b00000000,
 0b00000000,
 0b00000000,
@@ -191,6 +200,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 18
+// j
 0b00000000,
 0b00000000,
 0b00000000,
@@ -201,6 +211,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 19
+// k
 0b00000000,
 0b00000000,
 0b00000000,
@@ -211,6 +222,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 20
+// l
 0b00000000,
 0b00000000,
 0b00000000,
@@ -221,6 +233,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 21
+// m
 0b00000000,
 0b00000000,
 0b00000000,
@@ -231,6 +244,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 22
+// o
 0b00000000,
 0b00000000,
 0b00000000,
@@ -241,6 +255,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 23
+// p
 0b00000000,
 0b00000000,
 0b00000000,
@@ -251,6 +266,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 24
+// q
 0b00000000,
 0b00000000,
 0b00000000,
@@ -261,6 +277,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 25
+// r
 0b00000000,
 0b00000000,
 0b00000000,
@@ -271,6 +288,18 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 26
+// s
+0b00000000,
+0b00000000,
+0b00000000,
+0b00000000,
+0b00000000,
+0b00000000,
+0b00000000,
+0b00000000,
+
+// character 27
+// t
 0b00000000,
 0b00000000,
 0b00000000,
@@ -281,6 +310,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 28
+// u
 0b00000000,
 0b00000000,
 0b00000000,
@@ -291,6 +321,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 29
+// v
 0b00000000,
 0b00000000,
 0b00000000,
@@ -301,6 +332,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 30
+// w
 0b00000000,
 0b00000000,
 0b00000000,
@@ -311,6 +343,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 31
+// x
 0b00000000,
 0b00000000,
 0b00000000,
@@ -321,6 +354,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 32
+// y
 0b00000000,
 0b00000000,
 0b00000000,
@@ -331,6 +365,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 33
+// z
 0b00000000,
 0b00000000,
 0b00000000,
@@ -341,6 +376,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 34
+// 1
 0b00000000,
 0b00000000,
 0b00000000,
@@ -351,6 +387,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 35
+// 2
 0b00000000,
 0b00000000,
 0b00000000,
@@ -581,16 +618,6 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 58
-0b00000000,
-0b00000000,
-0b00000000,
-0b00000000,
-0b00000000,
-0b00000000,
-0b00000000,
-0b00000000,
-
-// character 59
 0b00000000,
 0b00000000,
 0b00000000,
