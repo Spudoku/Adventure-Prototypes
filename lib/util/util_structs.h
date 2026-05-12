@@ -7,10 +7,19 @@
 #include <stdint.h>
 
 
+
 //vecs need to be the same exact type in this macro
 #define ADD_ASSIGN_VEC2(lhs, rhs)   \
   lhs.x += rhs.x;                   \
   lhs.y += rhs.y;                   \
+
+// // add a value to the x of a a vector
+// #define ADD_VEC2_X(vec, x)   \
+//   vec.x += x;                 \
+
+//   // add a value to the y of a a vector
+// #define ADD_VEC2_Y(vec, y)   \
+//   vec.y += y;                 \
 
 
 #define SUB_ASSIGN_VEC2(lhs, rhs)   \
@@ -64,6 +73,10 @@ typedef struct uint16_2int8_u32Vector2{
   IntToTwoChar x;
   IntToTwoChar y;
 } u8int2x2_u32Vector2;
+
+void Vec2_add_x(Vector2 *vec, int16_t x ) ;
+void Vec2_add_y(Vector2 *vec, int16_t y ) ;
+
 
 
 #endif 

@@ -1,11 +1,20 @@
 #include "pmg.h"
 #pragma optimize(on)
 #pragma static-locals(on)
+
+
 PMGInstance* activePMGInstance; 
 static uint8_t* temp_visible_bytes;
 static uint8_t* temp_bitmap_ptr;
 static int8_t temp_height;
 Sprite* temp_sprite;
+
+
+// for collision_with_index
+unsigned char temp_index;
+unsigned char temp_collision_data;
+
+// static const unsigned char bitmasks[] = {0x01,0x02,0x04,0x08};
 
 void pmg_Init(PMGInstance* pmgInstance){
   IntToTwoChar convert;
@@ -50,6 +59,8 @@ uint8_t pmg_addPlayerSprite(Sprite* toAdd){
 
 void pmgSilo_clear(PMGPlayerSpriteSilo* silo, int8_t newY, bool forceUpdate){
     int8_t oldY;
+    char temp;
+    // unsigned char tempSize;
     // int8_t height;
     oldY = silo->header.cachedY;
     // object isnt moving, so return
@@ -70,34 +81,40 @@ void pmgSilo_clear(PMGPlayerSpriteSilo* silo, int8_t newY, bool forceUpdate){
         // in theory, storing sizeof(silo->visibleBytes) is redundant,
         // because its constant (96 bytes); however changing this breaks things
         // for some reason
-
-        if ((temp_height + oldY) > sizeof(silo->visibleBytes)) {
+        temp = (temp_height + oldY);
+        if (temp > 96) {
             // height = 9, oldY = 90, size = 96
-            temp_height = (temp_height + oldY) - 96 ;
+            temp_height = temp - 96 ;
             // height = 96;
         }
     }
     //  clear relevant bytes
-    memset(temp_visible_bytes,0,temp_height + 1);
+    if (temp_height > 0) {
+        memset(temp_visible_bytes,0,temp_height + 1);
+    }
+    
     
 }
 
 //  TODO: optimize further
-// copies the sprite from silo into PMG memory
+// copies the sprite from silo into PMG memory, which is inefficient as heck
+// this SLAUGHTERS performance if called multiple times per frame
 void pmgSilo_writeRefSprite(PMGPlayerSpriteSilo* silo, int8_t newY, bool forceUpdate){
+    
+    // OLD VERSION
     int8_t oldY;
+    // unsigned char curIndex;
+    unsigned char temp;
     oldY = silo->header.cachedY;
 
     // object isnt moving, so return
-    if (newY == oldY && !forceUpdate) {
-        return;
-    }
+    if (newY == oldY && !forceUpdate) return;
+
 
     temp_sprite = silo->header.refsprite;
     
     if(!temp_sprite) return; //could be a clear flag
-
-    // global versions of the pointers
+        // global versions of the pointers
     temp_visible_bytes = silo->visibleBytes;  
     temp_bitmap_ptr = temp_sprite->bitmap; 
 
@@ -111,25 +128,25 @@ void pmgSilo_writeRefSprite(PMGPlayerSpriteSilo* silo, int8_t newY, bool forceUp
     } else {
         // top is visible
         temp_visible_bytes += newY;
-
+        temp = (temp_height + newY);
         // clipping at bottom
-        if ((temp_height + newY) > 96) {
-            temp_height = 96 - (temp_height + newY);
+        if (temp > 96) {
+            
+            temp_height = temp - 96;
         }
     }
     // printf("height: %d",height);
-
-    if (temp_height <= 0) {
-        return;
-    }
-    memcpy(temp_visible_bytes,temp_bitmap_ptr,temp_height);
     
+    if (temp_height > 0) {
+        memcpy(temp_visible_bytes,temp_bitmap_ptr,temp_height);
+    }
+
     silo->header.cachedY = newY;
 }
 
 void pmgSilo_setY(PMGPlayerSpriteSilo* silo, int8_t newY, bool forceUpdate){
   
-  // why does this clear all 96 bytes
+  
     pmgSilo_clear(silo, newY, forceUpdate);
 
     //memcpy the new y with bounds checking
@@ -284,13 +301,16 @@ unsigned char missile_to_playfield_collisions(unsigned char missile) {
 //      say 0b00001000 is returned
 //      bool collide_with_3 = collision_with_index(p0_pf_collisions, 3);
 //      result: collide_with_3 is true if player 0 is colliding with playfield 3
-bool collision_with_index(unsigned char data, unsigned char index){
+unsigned char __fastcall__ collision_with_index(unsigned char data, unsigned char index){
     
     if (index > 3) {
         return false;
     }
-    return (data >> index) & 1;
+    // TODO: prevent type promotion?
+    return (unsigned char)(((unsigned char)data >> (unsigned char)index) & 0x1);
 }
+
+
 
 /*
     end collision helpers

@@ -308,7 +308,8 @@ STATUS dragonRenderer(Entity* thisEntity) {
   
 
   //quick and dirty hide
-  if(!objectVisible(&(thisEntity->transform))){
+  
+  if(!objectVisible(&(thisEntity->_eyeCoords))){
     (&(GTIA_WRITE.hposp0))[TEMP_dragon_anticIndex] = 0;
     return PASS;
   }
@@ -319,7 +320,7 @@ STATUS dragonRenderer(Entity* thisEntity) {
   
   
   // not an optimal way to organize this, but it shouldn't affect performance
-  // much
+  // too much
   switch (D_ENT->state) {
     case D_STATE_CHOMP:
       D_ENT->dragonSilo->header.refsprite = &dragon_chomping;
@@ -332,13 +333,6 @@ STATUS dragonRenderer(Entity* thisEntity) {
       break;
   }
 
-  // if(D_ENT->state == D_STATE_CHOMP){
-  //   D_ENT->dragonSilo->header.refsprite = &dragon_chomping;
-  // } else if (D_ENT->state == D_STATE_DEAD) {
-  //   D_ENT->dragonSilo->header.refsprite = dragon_dead;
-  // } else {
-  //   D_ENT->dragonSilo->header.refsprite = &dragon_idle;
-  // }
   
   // only update vertical position if vertical movement occurred
   pmgSilo_setY(D_ENT->dragonSilo, thisEntity->_eyeCoords.y, D_ENT->state != cached_State);

@@ -12,6 +12,8 @@
 #include "core-support/camera.h"
 #include "../core/sound.h"
 
+#include "../core-gfx/gamemap.h"
+
 #define ORB_DELAY 300
 
 typedef struct InsightOrb{

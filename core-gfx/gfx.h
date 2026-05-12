@@ -11,6 +11,8 @@
 #include "util/sprite.h"
 #include "util/util_structs.h"
 
+#include "core-support/camera.h"
+
 #include "gamemap.h"  //TODO: rename this to gamemap data (or similar?
 
 
@@ -21,11 +23,14 @@
 #define ANTIC_SCROLL_VEC2 (*(u16Vector2 *)(&(ANTIC.hscrol)))
 
 
+
+
 //careful, macros have no type checking!
 //antic will auto truncate a value above 15.. but also go right to go left on x
 #define SET_ANTIC_SCROLL(pixelX, pixelY)              \
   ANTIC_SCROLL_VEC2.x = -pixelX;                       \
   ANTIC_SCROLL_VEC2.y = pixelY << 1;                       \
+
 
 
 #define SET_VEC2_ANTIC_SCROLL(input_u16vec)       \
@@ -48,4 +53,15 @@ extern PMGInstance pmgMainInstance; //in the future this will be a changable ptr
 
 void gfx_Init();
 
+// unsigned char getTileAt(Vector2 worldcoords,unsigned char boxSize);
+unsigned char getTileAt(int16_t theX, int16_t theY,unsigned char boxSize);
+
+
+void easter_egg_init();
+
+
+// "public" methods
+void open_gate();
+
+void close_gate();
 #endif

@@ -5,12 +5,18 @@
 
 // declaring locations for chalice and/or dragon
 Vector2 startingLocations[RANDOM_LOCATIONS_COUNT] = {
-    {192,328},
-    {224,624},
-    {264,24},
-    {888,1112},
+    // {192,328},
+    // {224,624},
+    // {264,24},
+    // {888,1112},
+
+
     // {224,624},
     // {0,0},
+    {560,560},
+    {560,560},
+    {560,560},
+    {560,560},
 };
 Vector2 swordLocations[RANDOM_LOCATIONS_COUNT] = {
     {600,560},
@@ -32,11 +38,14 @@ void engine_Boot(){
 
     // initialize the entities
     engine_InitSingletons();     
+
+    // printf("gameMap offset: %p, base: %p",(void*)((unsigned char *)gameMap + TEXT_OFFSET_1), &gameMap);
 }
 
 
 void engine_InitSingletons(){
     unsigned char index;
+    
 
     // player init
     playerConstructor();
@@ -52,6 +61,9 @@ void engine_InitSingletons(){
 
     chaliceEnt.chaliceEntity._worldCoords.x = startingLocations[index].x;
     chaliceEnt.chaliceEntity._worldCoords.y = startingLocations[index].y;
+    // PRINT_VEC2(chaliceEnt.chaliceEntity._worldCoords);
+
+    // this is where the chalice 'wants' to go
     chaliceEnt.chalice_destination.y = 608;
     chaliceEnt.chalice_destination.x = 568;
     chaliceEnt.chalice_minDistToDest = 8;
@@ -121,15 +133,20 @@ void engine_EventDispatcher(){
 
 
     // if dragon collides with player...
+    
     temp_collisions = player_to_player_collisions(TEMP_dragon_anticIndex);
     
     // if dragon collides with player avatar...
     if (collision_with_index(temp_collisions,TEMP_player_anticIndex)) {
         // sound_generic_buzz();
         dragon_OnCollision(&(dragonSingleton.myEntity), &playerEnt.playerEntity);
-        player_OnCollide(&playerEnt.playerEntity, &(dragonSingleton.myEntity));
+        // player_OnCollide(&playerEnt.playerEntity, &(dragonSingleton.myEntity));
     } else if (collision_with_index(temp_collisions,TEMP_sword_anticIndex)) {
-        kill_dragon(&(dragonSingleton.myEntity));
+        // TODO: check if sword is being held
+        if (playerEnt.playerEntity.childEntity == &swordEnt.swordEntity) {
+            kill_dragon(&(dragonSingleton.myEntity));
+        }
+        
     }
 
     temp_collisions = player_to_player_collisions(TEMP_player_anticIndex);
@@ -140,18 +157,20 @@ void engine_EventDispatcher(){
     }
 
     // player character collisions
-    // currently this checks if any playfield is collided with
+    // currently redundant
     temp_collisions = player_to_playfield_collisions(TEMP_player_anticIndex);
     if (temp_collisions) {
-        if (!(collision_with_index(temp_collisions,3))) {
-            player_OnCollide(&playerEnt.playerEntity, NULL);
-        } else {
-             orb_singleton.entity.OnCollision(NULL, NULL);
-        }
+        if ((collision_with_index(temp_collisions,3))) {
+            orb_singleton.entity.OnCollision(NULL, NULL);
+        } 
+             
+    }
         
-    } 
+    // } else {
+    //     updateSafePlace = true;
+    // }
 
-    // TODO: check if player is carrying sword for dragon's sake
+    
 
     chalice_check_desintation();
    

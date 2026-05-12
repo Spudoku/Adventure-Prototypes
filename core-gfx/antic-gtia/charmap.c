@@ -8,15 +8,24 @@ void charset_Init() {
 
 #pragma data-name (push, "CHARSET")
 unsigned char charset[1024] = {
+// character 0
+0b00000000,
+0b00000000,
+0b00000000,
+0b00000000,
+0b00000000,
+0b00000000,
+0b00000000,
+0b00000000,
 // character 1
-0b00000000,
-0b00000000,
-0b00000000,
-0b00000000,
-0b00000000,
-0b00000000,
-0b00000000,
-0b00000000,
+0b11111111,
+0b11111111,
+0b11111111,
+0b11111111,
+0b11111111,
+0b11111111,
+0b11111111,
+0b11111111,
 // character 2
 0b11111111,
 0b11111111,
@@ -28,15 +37,6 @@ unsigned char charset[1024] = {
 0b11111111,
 // character 3
 0b11111111,
-0b11111111,
-0b11111111,
-0b11111111,
-0b11111111,
-0b11111111,
-0b11111111,
-0b11111111,
-// character 4
-0b11111111,
 0b11000011,
 0b11000011,
 0b11000011,
@@ -45,7 +45,7 @@ unsigned char charset[1024] = {
 0b11000011,
 0b11000011,
 
-// character 5 ('0')
+// character 4 ('0')
 0b00000000,
 0b11111111,
 0b11000011,
@@ -55,7 +55,7 @@ unsigned char charset[1024] = {
 0b11000011,
 0b11111111,
 
-// character 6 ('1')
+// character 5 ('1')
 0b00000000,
 0b00000011,
 0b00000011,
@@ -65,7 +65,7 @@ unsigned char charset[1024] = {
 0b00000011,
 0b00000011,
 
-// character 7
+// character 6
 // orb of insight
 0b00000000,
 0b00111100,
@@ -76,7 +76,7 @@ unsigned char charset[1024] = {
 0b01111110,
 0b11111111,
 
-// character 8
+// character 7
 // "pressure plate"
 0b00000000,
 0b00000000,
@@ -87,7 +87,7 @@ unsigned char charset[1024] = {
 0b11111111,
 0b11111111,
 
-// character 9
+// character 8
 // altar
 0b11100111,
 0b10100001,
@@ -98,27 +98,43 @@ unsigned char charset[1024] = {
 0b10000101,
 0b11100111,
 
+
+// START ALPHANUMERICS
+// character 9
+// 'a'
+0b00000000,
+0b00000000,
+0b00000000,
+0b00000000,
+0b00000000,
+0b00000000,
+0b00000000,
+0b00000000,
+
 // character 10
+// b
 0b00000000,
 0b00000000,
 0b00000000,
-0b00000000,
-0b00000000,
-0b00000000,
+0b00010000,
+0b00111000,
+0b00010000,
 0b00000000,
 0b00000000,
 
 // character 11
+// c
 0b00000000,
 0b00000000,
 0b00000000,
-0b00000000,
-0b00000000,
-0b00000000,
+0b00010000,
+0b00111000,
+0b00010000,
 0b00000000,
 0b00000000,
 
 // character 12
+// d
 0b00000000,
 0b00000000,
 0b00000000,
@@ -129,6 +145,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 13
+// e
 0b00000000,
 0b00000000,
 0b00000000,
@@ -139,6 +156,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 14
+// f
 0b00000000,
 0b00000000,
 0b00000000,
@@ -149,6 +167,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 15
+// g
 0b00000000,
 0b00000000,
 0b00000000,
@@ -159,6 +178,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 16
+// h
 0b00000000,
 0b00000000,
 0b00000000,
@@ -169,6 +189,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 17
+// i
 0b00000000,
 0b00000000,
 0b00000000,
@@ -179,6 +200,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 18
+// j
 0b00000000,
 0b00000000,
 0b00000000,
@@ -189,6 +211,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 19
+// k
 0b00000000,
 0b00000000,
 0b00000000,
@@ -199,6 +222,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 20
+// l
 0b00000000,
 0b00000000,
 0b00000000,
@@ -209,6 +233,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 21
+// m
 0b00000000,
 0b00000000,
 0b00000000,
@@ -219,6 +244,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 22
+// n
 0b00000000,
 0b00000000,
 0b00000000,
@@ -229,6 +255,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 23
+// o
 0b00000000,
 0b00000000,
 0b00000000,
@@ -239,6 +266,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 24
+// p
 0b00000000,
 0b00000000,
 0b00000000,
@@ -249,6 +277,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 25
+// q
 0b00000000,
 0b00000000,
 0b00000000,
@@ -259,6 +288,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 26
+// r
 0b00000000,
 0b00000000,
 0b00000000,
@@ -269,6 +299,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 27
+// s
 0b00000000,
 0b00000000,
 0b00000000,
@@ -279,6 +310,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 28
+// t
 0b00000000,
 0b00000000,
 0b00000000,
@@ -289,6 +321,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 29
+// u
 0b00000000,
 0b00000000,
 0b00000000,
@@ -299,6 +332,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 30
+// v
 0b00000000,
 0b00000000,
 0b00000000,
@@ -309,6 +343,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 31
+// w
 0b00000000,
 0b00000000,
 0b00000000,
@@ -319,6 +354,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 32
+// x
 0b00000000,
 0b00000000,
 0b00000000,
@@ -329,6 +365,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 33
+// y
 0b00000000,
 0b00000000,
 0b00000000,
@@ -339,6 +376,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 34
+// z
 0b00000000,
 0b00000000,
 0b00000000,
@@ -349,6 +387,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 35
+// 1
 0b00000000,
 0b00000000,
 0b00000000,
@@ -359,6 +398,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 36
+// 2
 0b00000000,
 0b00000000,
 0b00000000,
@@ -369,6 +409,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 37
+// 3
 0b00000000,
 0b00000000,
 0b00000000,
@@ -379,6 +420,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 38
+// 4
 0b00000000,
 0b00000000,
 0b00000000,
@@ -389,6 +431,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 39
+// 5
 0b00000000,
 0b00000000,
 0b00000000,
@@ -399,6 +442,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 40
+// 6
 0b00000000,
 0b00000000,
 0b00000000,
@@ -409,6 +453,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 41
+// 7
 0b00000000,
 0b00000000,
 0b00000000,
@@ -419,6 +464,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 42
+// 8
 0b00000000,
 0b00000000,
 0b00000000,
@@ -429,6 +475,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 43
+// 9
 0b00000000,
 0b00000000,
 0b00000000,
@@ -439,6 +486,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 44
+// 0
 0b00000000,
 0b00000000,
 0b00000000,
@@ -449,6 +497,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 45
+// .
 0b00000000,
 0b00000000,
 0b00000000,
@@ -459,6 +508,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 46
+// ,
 0b00000000,
 0b00000000,
 0b00000000,
@@ -469,6 +519,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 47
+// ?
 0b00000000,
 0b00000000,
 0b00000000,
@@ -479,6 +530,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 48
+// !
 0b00000000,
 0b00000000,
 0b00000000,
@@ -489,6 +541,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 49
+// (
 0b00000000,
 0b00000000,
 0b00000000,
@@ -499,6 +552,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 50
+// )
 0b00000000,
 0b00000000,
 0b00000000,
@@ -509,6 +563,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 51
+// -
 0b00000000,
 0b00000000,
 0b00000000,
@@ -519,6 +574,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 52
+// +
 0b00000000,
 0b00000000,
 0b00000000,
@@ -529,6 +585,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 53
+// =
 0b00000000,
 0b00000000,
 0b00000000,
@@ -539,6 +596,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 54
+// /
 0b00000000,
 0b00000000,
 0b00000000,
@@ -549,6 +607,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 55
+// \
 0b00000000,
 0b00000000,
 0b00000000,
@@ -559,6 +618,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 56
+// '
 0b00000000,
 0b00000000,
 0b00000000,
@@ -569,6 +629,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 57
+// "
 0b00000000,
 0b00000000,
 0b00000000,
@@ -579,16 +640,6 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 58
-0b00000000,
-0b00000000,
-0b00000000,
-0b00000000,
-0b00000000,
-0b00000000,
-0b00000000,
-0b00000000,
-
-// character 59
 0b00000000,
 0b00000000,
 0b00000000,

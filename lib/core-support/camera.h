@@ -51,11 +51,16 @@ extern Camera camera;
 
 STATUS cameraConstructor(Entity *toTrack);  //pass NULL to not track, will default to 0,0
 void setTrackedEntity(Entity *toTrack); //pass NULL to stop tracking
-bool objectVisible(Transform *toCheck); //determines if the transform would be visible in eyeSpace
+// bool objectVisible(Transform *toCheck); //determines if the transform would be visible in eyeSpace
+bool objectVisible(Vector2 *eyeCoords); //determines if the transform would be visible in eyeSpace
+
 void marginalTrack();
 
 STATUS ObjectInsideMargin(Transform *toCheck);
+
+
 Vector2 objectToMargin(Transform *toCheck);
+// void objectToMargin(Transform *toCheck, int16_t* offsetX, int16_t *offsetY);
 
 void MoveTo();
 
@@ -73,6 +78,8 @@ STATUS camera_FrameTask(Entity* thisEntity);
 STATUS camera_renderer(Entity* thisEntity); 
 
 Vector2 convertToEyeCoords(Vector2 toConvert);
+
+void getEyeCoords(Vector2 *worldPos, unsigned char *resultX, unsigned char *resultY);
 
 
 #endif
