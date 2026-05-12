@@ -1,5 +1,9 @@
 #include "gfx.h"
 
+#pragma optimize(on)
+#pragma static-locals(on)
+
+bool gateOpen = false;
 
 MapData mapData;
 
@@ -11,15 +15,19 @@ Vector2 offsetHopper;
 PMGInstance pmgMainInstance;
 #pragma bss-name (pop)
 
+const unsigned int rowOffsetTable[] = {0, 120, 240, 360, 480, 600, 720, 840, 960, 1080, 1200, 1320, 1440, 1560, 1680, 1800, 1920, 2040, 2160, 2280, 2400, 2520, 2640, 2760, 2880, 3000, 3120, 3240, 3360, 3480, 3600, 3720, 3840, 3960, 4080, 4200, 4320, 4440, 4560, 4680, 4800, 4920, 5040, 5160, 5280, 5400, 5520, 5640, 5760, 5880, 6000, 6120, 6240, 6360, 6480, 6600, 6720, 6840, 6960, 7080, 7200, 7320, 7440, 7560, 7680, 7800, 7920, 8040, 8160, 8280, 8400, 8520, 8640, 8760, 8880, 9000, 9120, 9240, 9360, 9480, 9600, 9720, 9840, 9960, 10080, 10200, 10320, 10440, 10560, 10680, 10800, 10920, 11040, 11160, 11280, 11400, 11520, 11640, 11760, 11880, 12000, 12120, 12240, 12360, 12480, 12600, 12720, 12840, 12960, 13080, 13200, 13320, 13440, 13560, 13680, 13800, 13920, 14040, 14160, 14280, 14400, 14520, 14640, 14760, 14880, 15000, 15120, 15240, 15360, 15480, 15600, 15720, 15840, 15960, 16080, 16200, 16320, 16440, 16560, 16680, 16800, 16920, 17040, 17160, };
+
 
 
 //WARNING: any use of these move methods MUST be as close as possible to vblank.
 //h/vscrol getting adjusted during the frame could cause graphical issues
 
 
+
+
 //reset map gfx offset to position in whole pixels
 //NOTE: in antic mode 2, 1 pixel is 1 hscroll unit, and 2 vscroll units
-//WARNING: THIS FUNCTION TAKES UP 50% OF TOTAL FRAME TIME
+
 void map_absoluteMove(Vector2 absolutePosition){
     unsigned int i;
     unsigned int j = 0;
@@ -167,4 +175,82 @@ void gfx_Init() {
     OS.color2 = GTIA_COLOR_BLUE;
     OS.color3 = GTIA_COLOR_BLACK;
 
+    easter_egg_init();
+
+}
+
+// TODO: reduce array accesses??????
+unsigned char getTileAt(int16_t theX, int16_t theY,unsigned char boxSize) {
+
+
+    unsigned char* gameMapPtr;
+
+    int16_t test;
+    int16_t offset;
+
+    unsigned char tile;
+    int16_t xL = theX >> 3;
+    int16_t xR = (theX + boxSize) >> 3;
+    int16_t yT = theY >> 3;
+    int16_t yB = (theY + boxSize) >> 3;
+    // unsigned char* rowPtr = &gameMap[rowOffsetTable[yT]];
+
+    
+    gameMapPtr = (unsigned char*)gameMap;
+    
+    offset = rowOffsetTable[yT];
+
+    // check xL
+    test = offset + xL;
+    tile = gameMapPtr[test];
+    if (tile) return tile;
+
+    // if sprite is in 2 different columns
+    if (xL != xR) {
+        // check xR
+
+        // increment by only 1 because xR can only be 1 larger 
+        // (unless boxSize >= 8)
+        ++test;
+        tile = gameMapPtr[test];
+
+        if (tile) return tile;
+    }
+    
+    // only bother continuing if the sprite spans two different rows
+    if (yT != yB) {
+        offset = rowOffsetTable[yB];
+        test = offset + xL;
+        tile = gameMapPtr[test];
+
+        if (tile) return tile;
+        
+        if (xL != xR) {
+            // check xR
+            ++test;
+            tile = gameMapPtr[test];
+            // note: this is the absolute worst case
+            if (tile) return tile;
+        }
+    }
+
+
+    // no tile found
+    return 0;
+
+}
+
+
+void easter_egg_init() {
+    gateOpen = false;
+
+}
+
+
+void open_gate() {
+    gateOpen = true;
+}
+
+void close_gate() {
+    gateOpen = false;
 }

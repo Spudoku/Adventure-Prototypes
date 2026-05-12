@@ -87,7 +87,7 @@ STATUS chalice_renderer(Entity* thisEntity) {
   chalice_worldcoords_x = thisEntity->_worldCoords.x;
   chalice_worldcoords_y = thisEntity->_worldCoords.y;
 
-    if(!objectVisible(&(thisEntity->transform))){
+    if(!objectVisible(&(thisEntity->_eyeCoords))){
     (&(GTIA_WRITE.hposp0))[TEMP_item_anticIndex] = 0;
 
     return PASS;
@@ -97,7 +97,7 @@ STATUS chalice_renderer(Entity* thisEntity) {
     (&(GTIA_WRITE.hposp0))[TEMP_item_anticIndex] = chaliceEnt.chaliceEntity._eyeCoords.x 
             + HPOSP_MIN + chaliceEnt.chaliceEntity._objectAnchorPoint.x;
 
-    pmgSilo_setY(chaliceEnt.chaliceSilo, thisEntity->_eyeCoords.y, false);
+    pmgSilo_setY(chaliceEnt.chaliceSilo, chalice_eyecoords_y, false);
 
   return UNDEFINED;
 }
@@ -108,7 +108,7 @@ void chalice_OnCollision(struct Entity* thisEntity, struct Entity* otherEntity) 
 
 void chalice_check_desintation() {
 
-      Vector2 tempVector2;
+    Vector2 tempVector2;
     unsigned int chalice_distance;
    // checking if chalice touches altar asd
     tempVector2 = chaliceEnt.chaliceEntity._worldCoords;
@@ -116,9 +116,9 @@ void chalice_check_desintation() {
     chalice_distance = abs(tempVector2.x) + abs(tempVector2.y);
     if (chalice_distance < chaliceEnt.chalice_minDistToDest) {
         dragon_eat_sound();
-  // end game
-    // dragon_eat_sound();
-    end_game();
+      // end game
+        // dragon_eat_sound();
+        end_game();
     }
     
 }
@@ -175,17 +175,17 @@ STATUS sword_renderer(Entity* thisEntity) {
   sword_worldcoords_x = thisEntity->_worldCoords.x;
   sword_worldcoords_y = thisEntity->_worldCoords.y;
 
-    if(!objectVisible(&(thisEntity->transform))){
+    if(!objectVisible(&(thisEntity->_eyeCoords))){
     (&(GTIA_WRITE.hposp0))[TEMP_sword_anticIndex] = 0;
 
     return PASS;
   }
 
 
-    (&(GTIA_WRITE.hposp0))[TEMP_sword_anticIndex] = swordEnt.swordEntity._eyeCoords.x 
+    (&(GTIA_WRITE.hposp0))[TEMP_sword_anticIndex] = sword_eyecoords_x
             + HPOSP_MIN + swordEnt.swordEntity._objectAnchorPoint.x;
 
-    pmgSilo_setY(swordEnt.swordSilo, thisEntity->_eyeCoords.y, false);
+    pmgSilo_setY(swordEnt.swordSilo, sword_eyecoords_y, false);
 
   return PASS;
 }

@@ -4,6 +4,8 @@
 #define MAP_LENGTH_BYTES 120
 #define MAP_HEIGHT_BYTES 144
 
+#define TEXT_OFFSET_1 12458
+#define TEXT_OFFSET_2 12578
 
 extern unsigned char gameMap[MAP_HEIGHT_BYTES][MAP_LENGTH_BYTES];
 

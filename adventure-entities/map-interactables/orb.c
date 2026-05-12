@@ -1,6 +1,9 @@
 #include "orb.h"
 #pragma optimize(on)
 #pragma static-locals(on)
+
+#define ROW_LENGTH 21
+
 Orb orb_singleton = {
   {NULL, NULL, orb_OnCollision, (void *)&orb_singleton, NULL, //entity
     {{0,0}, {0,0}, {0,0},{0,0}}}, //entity.transform
@@ -27,15 +30,19 @@ char *intrusiveThoughts[] = {
 };
 
 void orb_OnCollision(Entity* thisEntity, Entity* otherEntity){
+  unsigned char entry;
   // print a message every 10 seconds or so
   if(--orb_singleton.counter < 0){
     orb_singleton.counter = ORB_DELAY;
     // TODO: print to screen memory
     // POKEY_READ.random produces a random number between 0 and 255, so
     // we need to mask out the high bits so we access numbers between 0 and 15
-    printf(intrusiveThoughts[get_random_value(16)]);
+    // printf(intrusiveThoughts[]);
     // printf(intrusiveThoughts[POKEY_READ.random & 15]);
-
+    entry = get_random_value(16);
+    memcpy((void*)((unsigned char *)gameMap + TEXT_OFFSET_1),intrusiveThoughts[entry],ROW_LENGTH);
+    // printf("gameMap offset: %p, base: %p",gameMap + TEXT_OFFSET_1, &gameMap);
+    printf("first printed letter: %d\n",intrusiveThoughts[entry][0]);
     orb_sound();
   }
   

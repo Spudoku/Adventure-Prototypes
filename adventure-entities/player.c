@@ -6,6 +6,9 @@ Vector2 worldCoordPlayerView;
 uint8_t TEMP_player_anticIndex;
 
 bool vertMovePlayer = true;
+bool movePlayer = true;
+bool updateSafePlace = true;
+
 
 
 //initializer list to allow compile time assign/construct
@@ -15,10 +18,10 @@ PlayerEntity playerEnt = {
     {{0,0}, {0,0}, {0,0},{4,4}}}, //entity.transform
 
 
-  {0,0}, 1, {NULL}, {0,0} // player specific vars
+  {0,0}, 1, {NULL}, {0,0},{0,0}, // player specific vars
     
 
-  
+  4,            // size variable
   };
 
 //per frame behavior
@@ -41,7 +44,7 @@ STATUS playerRenderer(Entity* thisEntity) {
 
   //generally dont need a bounds check, player is always in frame
   (&(GTIA_WRITE.hposp0))[TEMP_player_anticIndex] = playerEnt.playerEntity._eyeCoords.x 
-            + HPOSP_MIN + playerEnt.playerEntity._objectAnchorPoint.x;
+            + (unsigned char)HPOSP_MIN + playerEnt.playerEntity._objectAnchorPoint.x;
   
   
 
@@ -56,8 +59,16 @@ unsigned char lastFrameState;
 
 //Assumes the proper driver is loaded!!
 STATUS playerInputProcess(){
+  unsigned char destination;
+  int16_t tempX;
+  int16_t tempY;
 
-  playerEnt.player_LastPos = playerEnt.playerEntity._worldCoords;
+  if (!movePlayer) {
+    movePlayer = true;
+    return PASS;
+  }
+  movePlayer = true;
+  
   lastFrameState = joystickState;
   //read the joystick data
   joystickState = joy_read(JOY_1);
@@ -96,43 +107,99 @@ STATUS playerInputProcess(){
     // TODO: make this drop the childEntity! (which should be an item)
     // playerEnt.playerEntity.childEntity->frameTask(playerEnt.playerEntity.childEntity);
     player_drop_item(playerEnt.playerEntity.childEntity);
+    debug_action();
   }
 
+  tempX = playerEnt.playerEntity._worldCoords.x;
+  tempY = playerEnt.playerEntity._worldCoords.y;
 
-  ADD_ASSIGN_VEC2(playerEnt.playerEntity._worldCoords, playerEnt.playerVelocity)
+  // TODO: optimize this!
+  // handling horizontal movement/collisions
+  // Vec2_add_x(&(playerEnt.playerEntity._worldCoords), playerEnt.playerVelocity.x);
+  if (playerEnt.playerVelocity.x > 0 || playerEnt.playerVelocity.x < 0) {
+    tempX += playerEnt.playerVelocity.x;
+
+  
+    destination = getTileAt(tempX,tempY,playerEnt.size);
+    if (destination) {
+      // printf("destination: %d; masked: %d\n", destination, (destination & 0b11000000));
+      if (!(destination >= 192)) {
+        // playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
+        
+        tempX = playerEnt.playerEntity._worldCoords.x;
+      }
+      
+    } 
+
+  }
+  
+
+  if (playerEnt.playerVelocity.y > 0 || playerEnt.playerVelocity.y < 0) {
+  // handling vertical movement/collisions
+    tempY += playerEnt.playerVelocity.y;
+
+    
+    destination = getTileAt(tempX, tempY ,playerEnt.size);
+    // destination2 = getTileAt(maxCoords);
+    // if any non-blank tile is hit...
+    if (destination) {
+      // updateSafePlace = false;
+      // playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
+      // printf("destination: %d; masked: %d\n", destination, (destination & 0b11000000));
+      if (!(destination >= 192)) {
+        tempY = playerEnt.playerEntity._worldCoords.y;
+      }
+      
+    } 
+
+  }
+
+  
+  playerEnt.playerEntity._worldCoords.x = tempX;
+  playerEnt.playerEntity._worldCoords.y = tempY;
+  playerEnt.player_LastPos.y = tempY;
+  playerEnt.player_LastPos.x = tempX;
   
   if (playerEnt.playerEntity.childEntity != NULL) {
     // TODO: move item
-    playerEnt.playerEntity.childEntity->_worldCoords.x = playerEnt.playerEntity._worldCoords.x + playerEnt.item_offset.x;
-    playerEnt.playerEntity.childEntity->_worldCoords.y = playerEnt.playerEntity._worldCoords.y + playerEnt.item_offset.y;
+    playerEnt.playerEntity.childEntity->_worldCoords.x = tempX + playerEnt.item_offset.x;
+    playerEnt.playerEntity.childEntity->_worldCoords.y = tempY + playerEnt.item_offset.y;
   }
   return PASS;
 }
 
 // Presently only sets worldcoord back when called
 // May need more grandular checks later...
-// TODO: FIX THESE STUPID COLLISIONS!!!!!
+// currently, this is completely redundant
 void player_OnCollide(Entity* thisEntity, Entity* otherEntity){
 
-  if (otherEntity == NULL) {
-    // assume that playfield was hit
-    playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
-    // playerEnt.playerVelocity.x = playerEnt.playerSpeed;
-    playerEnt.playerEntity._worldCoords.x -= playerEnt.playerVelocity.x;
-    playerEnt.playerEntity._worldCoords.y -= playerEnt.playerVelocity.y;
-  } else if (otherEntity == &(dragonSingleton.myEntity)) {
+  // if (otherEntity == NULL) {
+  //   // // assume that playfield was hit
+  //   // playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
+  //   // // playerEnt.playerVelocity.x = playerEnt.playerSpeed;
+  //   // playerEnt.playerEntity._worldCoords.x -= playerEnt.playerVelocity.x;
+  //   // playerEnt.playerEntity._worldCoords.y -= playerEnt.playerVelocity.y;
+  //   // // printf("players world coords and last safe place\n");
+  //   // // PRINT_VEC2(playerEnt.playerEntity._worldCoords);
+  //   // // PRINT_VEC2(playerEnt.player_LastPos);
+  //   // updateSafePlace = false;
+  //   // movePlayer = false;
+
+  // } else if (otherEntity == &(dragonSingleton.myEntity)) {
     
-    // prevent collisions through a chomping dragon
-    // TODO: simplify this if possible
-    if (dragonSingleton.state == D_STATE_CHOMP) {
-      playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
-      // playerEnt.playerVelocity.x = playerEnt.playerSpeed;
-      playerEnt.playerEntity._worldCoords.x -= playerEnt.playerVelocity.x;
-      playerEnt.playerEntity._worldCoords.y -= playerEnt.playerVelocity.y;
-    }
-  }
+  //   // prevent collisions through a chomping dragon
+  //   // TODO: simplify this if possible
+  //   if (dragonSingleton.state == D_STATE_CHOMP) {
+  //     playerEnt.playerEntity._worldCoords = playerEnt.player_LastPos;
+  //     // playerEnt.playerVelocity.x = playerEnt.playerSpeed;
+  //     // playerEnt.playerEntity._worldCoords.x -= playerEnt.playerVelocity.x;
+  //     // playerEnt.playerEntity._worldCoords.y -= playerEnt.playerVelocity.y;
+  //     // updateSafePlace = false;
+  //     // movePlayer = false;
+  //   }
+  // }
   // TODO: check if its an item
- 
+  
   return;
 }
 
@@ -200,6 +267,20 @@ void player_drop_item(Entity* item) {
   sound_item_drop();
 }
 
+// debug action for controller pressed
+void debug_action() { 
+  unsigned char test;
+  // printf("debug action: \n");
+  // test = getTileAt(playerEnt.playerEntity._worldCoords);
+  // printf("\t");
+  // PRINT_VEC2(playerEnt.playerEntity._worldCoords);
+  // printf("\ttile at that location: %d\n",test);
+ 
+}
 
+// from wikipedia; https://en.wikipedia.org/wiki/Bounding_volume#Basic_intersection_checks:
+// In the case of an AABB, this tests becomes a simple set of overlap tests in terms of the unit axes. 
+// For an AABB defined by M,N against one defined by O,P 
+// they do not intersect if (Mx > Px) or (Ox > Nx) or (My > Py) or (Oy > Ny) or (Mz > Pz) or (Oz > Nz).
 
 

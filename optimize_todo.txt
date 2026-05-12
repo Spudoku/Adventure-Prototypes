@@ -1,0 +1,16 @@
+to investigate:
+
+objectToMargin (~4%)
+
+
+getTileAt
+
+convertToEyeCoords
+
+_objectVisible
+
+
+// I want to work on these but it seems futile
+pmgSilo_clear
+
+pmgSilo_writeRefSprite

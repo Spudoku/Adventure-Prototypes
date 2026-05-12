@@ -14,7 +14,7 @@
 #include "items/items.h"
 
 #include "../core-gfx/antic-gtia/pmg.h"
-
+#include "../core-gfx/gfx.h"
 #include "../core/sound.h"
 #include "dragon.h"
 
@@ -26,13 +26,17 @@
 
 typedef struct PlayerEntity {
   Entity playerEntity;
+  
   Vector2 playerVelocity;
   int playerSpeed;  //may consider making this an unsigned char
   PMGPlayerSpriteSilo *playerSilo;
   Vector2 player_LastPos;
   Vector2 item_offset;
+
+  unsigned char size; // size on both axes; this works since its a square atm
 } PlayerEntity;
 
+extern bool updateSafePlace;
 
 
 
@@ -60,5 +64,7 @@ void player_pickup_item(Entity* item);
 void player_drop_item(Entity* item);
 
 
+// prints debug output
+void debug_action();
 
 #endif 
