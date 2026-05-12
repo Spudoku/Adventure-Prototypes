@@ -244,7 +244,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 22
-// o
+// n
 0b00000000,
 0b00000000,
 0b00000000,
@@ -255,7 +255,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 23
-// p
+// o
 0b00000000,
 0b00000000,
 0b00000000,
@@ -266,7 +266,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 24
-// q
+// p
 0b00000000,
 0b00000000,
 0b00000000,
@@ -277,7 +277,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 25
-// r
+// q
 0b00000000,
 0b00000000,
 0b00000000,
@@ -288,7 +288,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 26
-// s
+// r
 0b00000000,
 0b00000000,
 0b00000000,
@@ -299,7 +299,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 27
-// t
+// s
 0b00000000,
 0b00000000,
 0b00000000,
@@ -310,7 +310,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 28
-// u
+// t
 0b00000000,
 0b00000000,
 0b00000000,
@@ -321,7 +321,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 29
-// v
+// u
 0b00000000,
 0b00000000,
 0b00000000,
@@ -332,7 +332,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 30
-// w
+// v
 0b00000000,
 0b00000000,
 0b00000000,
@@ -343,7 +343,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 31
-// x
+// w
 0b00000000,
 0b00000000,
 0b00000000,
@@ -354,7 +354,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 32
-// y
+// x
 0b00000000,
 0b00000000,
 0b00000000,
@@ -365,7 +365,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 33
-// z
+// y
 0b00000000,
 0b00000000,
 0b00000000,
@@ -376,7 +376,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 34
-// 1
+// z
 0b00000000,
 0b00000000,
 0b00000000,
@@ -387,7 +387,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 35
-// 2
+// 1
 0b00000000,
 0b00000000,
 0b00000000,
@@ -398,6 +398,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 36
+// 2
 0b00000000,
 0b00000000,
 0b00000000,
@@ -408,6 +409,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 37
+// 3
 0b00000000,
 0b00000000,
 0b00000000,
@@ -418,6 +420,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 38
+// 4
 0b00000000,
 0b00000000,
 0b00000000,
@@ -428,6 +431,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 39
+// 5
 0b00000000,
 0b00000000,
 0b00000000,
@@ -438,6 +442,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 40
+// 6
 0b00000000,
 0b00000000,
 0b00000000,
@@ -448,6 +453,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 41
+// 7
 0b00000000,
 0b00000000,
 0b00000000,
@@ -458,6 +464,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 42
+// 8
 0b00000000,
 0b00000000,
 0b00000000,
@@ -468,6 +475,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 43
+// 9
 0b00000000,
 0b00000000,
 0b00000000,
@@ -478,6 +486,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 44
+// 0
 0b00000000,
 0b00000000,
 0b00000000,
@@ -488,6 +497,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 45
+// .
 0b00000000,
 0b00000000,
 0b00000000,
@@ -498,6 +508,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 46
+// ,
 0b00000000,
 0b00000000,
 0b00000000,
@@ -508,6 +519,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 47
+// ?
 0b00000000,
 0b00000000,
 0b00000000,
@@ -518,6 +530,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 48
+// !
 0b00000000,
 0b00000000,
 0b00000000,
@@ -528,6 +541,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 49
+// (
 0b00000000,
 0b00000000,
 0b00000000,
@@ -538,6 +552,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 50
+// )
 0b00000000,
 0b00000000,
 0b00000000,
@@ -548,6 +563,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 51
+// -
 0b00000000,
 0b00000000,
 0b00000000,
@@ -558,6 +574,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 52
+// +
 0b00000000,
 0b00000000,
 0b00000000,
@@ -568,6 +585,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 53
+// =
 0b00000000,
 0b00000000,
 0b00000000,
@@ -578,6 +596,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 54
+// /
 0b00000000,
 0b00000000,
 0b00000000,
@@ -588,6 +607,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 55
+// \
 0b00000000,
 0b00000000,
 0b00000000,
@@ -598,6 +618,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 56
+// '
 0b00000000,
 0b00000000,
 0b00000000,
@@ -608,6 +629,7 @@ unsigned char charset[1024] = {
 0b00000000,
 
 // character 57
+// "
 0b00000000,
 0b00000000,
 0b00000000,
