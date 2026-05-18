@@ -4,10 +4,14 @@
 #define MAP_LENGTH_BYTES 120
 #define MAP_HEIGHT_BYTES 144
 
-#define TEXT_OFFSET_1 12458
-#define TEXT_OFFSET_2 12578
+#define TEXT_OFFSET_1 7298
+#define TEXT_OFFSET_2 7418
 
-extern unsigned char gameMap[MAP_HEIGHT_BYTES][MAP_LENGTH_BYTES];
+#define GATE_OFFSET 14508
+#define GATE_SIZE 4
+
+// extern unsigned char gameMap[MAP_HEIGHT_BYTES][MAP_LENGTH_BYTES];
+extern unsigned char gameMap[MAP_HEIGHT_BYTES * MAP_LENGTH_BYTES];
 
 //precalced multiplication map for game map height interval vals
 extern int multmap_gameMapheight_raw[13];
