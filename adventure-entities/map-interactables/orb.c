@@ -56,7 +56,6 @@ unsigned char messageLine2[] = {
 
 void orb_OnCollision(Entity* thisEntity, Entity* otherEntity){
   unsigned char entry;
-  unsigned char* test;
   // print a message every 10 seconds or so
   if(--orb_singleton.counter < 0){
     orb_singleton.counter = ORB_DELAY;
@@ -66,12 +65,9 @@ void orb_OnCollision(Entity* thisEntity, Entity* otherEntity){
     // open a silly door for easter egg 2
     memset(&gameMap[TEXT_OFFSET_1] - 240,0,2);
 
-    // // copy text into correct place
-    // printf("gameMap[TEXT_OFFSET_1]: %p\n",&gameMap[TEXT_OFFSET_1]);
+
     memcpy(&gameMap[TEXT_OFFSET_1],messageLine1 + (entry * ROW_LENGTH), ROW_LENGTH);
     memcpy(&gameMap[TEXT_OFFSET_2],messageLine2 + (entry * ROW_LENGTH), ROW_LENGTH);
-
-    // printf("gameMap: %p; \n", gameMap);
     
     
   }

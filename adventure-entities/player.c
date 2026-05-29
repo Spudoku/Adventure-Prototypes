@@ -32,7 +32,7 @@ STATUS player_FrameTask(Entity* thisEntity) {
   // TODO: check for collisions before input?
 
   return playerInputProcess();
-}
+};
 
 // remember, the renderer happens as the second batch, after all game logic is
 // calced
@@ -270,7 +270,7 @@ void player_drop_item(Entity* item) {
 
 // debug action for controller pressed
 void debug_action() { 
-  unsigned char test;
+
   // printf("debug action: \n");
   // test = getTileAt(playerEnt.playerEntity._worldCoords);
   // printf("\t");
