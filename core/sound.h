@@ -31,11 +31,14 @@ void dragon_chomp_sound();
 
 void dragon_eat_sound();
 
+void dragon_die_sound();
+
 void orb_sound();
 
 void sound_item_drop();
 
 void sound_item_pickup();
+
 
 // void sound_item_pickup();
 
