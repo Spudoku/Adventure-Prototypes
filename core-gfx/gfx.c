@@ -105,7 +105,6 @@ void map_fastAbsoluteMove(Vector2 absolutePosition){
     if(newCoarse.y  != mapData.coarseOffset.y)
     {
         temp = newCoarse.y - mapData.coarseOffset.y;
-        // printf("newCoarse.y: %d; mapData.coarseOffset.y: %d; temp: %d\n",newCoarse.y, mapData.coarseOffset.y, temp);
         //calc new memory start in o(1) if possible using mult table
         if(abs(temp) > 6){
             //they're moving more than half the screen, straight to jail
@@ -113,10 +112,8 @@ void map_fastAbsoluteMove(Vector2 absolutePosition){
             return;
         }
 
-        // printf("mult_gameMapHeight[temp: %p]; temp: %d\n", mult_gameMapHeight[temp],temp);
-        // firstLineOffset += mult_gameMapHeight[6+temp];
-        firstLineOffset += multmap_gameMapheight_raw[6+temp];
-        // printf("mult_gameMapHeight[6 + temp]: %d; temp: %d\n", multmap_gameMapheight_raw[6+temp],6 + temp);
+    
+        firstLineOffset += mult_gameMapHeight[temp];
 
         mapData.coarseOffset.y = newCoarse.y;
         dirty = 1;
@@ -143,25 +140,23 @@ void map_fastAbsoluteMove(Vector2 absolutePosition){
 
     //more work required
     //the second element is conveniently the location of the first scrMem byte
-
-    // this reads the previous value, then offsets it by firstLineOffset...
     startAddress = ((unsigned int *)DisplayList)[2];
-    // printf("startAddress (displayList[2]): %p\n",startAddress);
+    //printf("startAddress (displayList[2]): %p\n",startAddress);
 
     startAddress += firstLineOffset;
-// printf("startAddress (displayList[2] + firstLineOffset): %p; firstLineOffset: %d\n",startAddress,firstLineOffset);
+//printf("startAddress (displayList[2] + firstLineOffset): %p; firstLineOffset: %d\n",startAddress,firstLineOffset);
 
     for(i = 3; i < (sizeof(DisplayList) - 3); i+= 3){
         //work with a window of 3 bytes, convert i +1 to an int ptr
         //foregoing the syntatic sugar here
 
-        // printf("startAddress: %p\n",startAddress);
+        //printf("startAddress: %p\n",startAddress);
         //treat the window like a single int
         *(unsigned int *)(DisplayList + (i+1)) = startAddress;
         startAddress += MAP_LENGTH_BYTES;
         
     } 
-// printf("\n\n\n",startAddress);
+//printf("\n\n\n",startAddress);
 
 
 
@@ -185,8 +180,6 @@ void gfx_Init() {
 
     easter_egg_init();
 
-    printf("game map location: %p\n", gameMap);
-    // printf("\n",);
 }
 
 // TODO: reduce array accesses??????

@@ -52,7 +52,7 @@ void dl_Init(){
     unsigned int i = 3;
     int* start = 0x6006;
 
-    printf("INITIALIZING DISPLAY LIST\n");
+    // printf("INITIALIZING DISPLAY LIST\n");
     *(unsigned int *)&DisplayList[sizeof(DisplayList) - 2] 
           = (unsigned int)DisplayList;
 
@@ -67,7 +67,7 @@ void dl_Init(){
 
         DisplayList[i] = (unsigned char)(start && 0x00FF);
         DisplayList[i + 1] = (unsigned char)(start && 0xFF00) >> 8;
-        printf("contents in displayList[%d]: %d and %d\n", i, DisplayList[i],DisplayList[i + 1]);
+        // printf("contents in displayList[%d]: %d and %d\n", i, DisplayList[i],DisplayList[i + 1]);
         start += 120;
         
     } 
