@@ -49,10 +49,28 @@ char DisplayList[] = {
 #pragma data-name (pop)
 
 void dl_Init(){
+    unsigned int i = 3;
+    int* start = 0x6006;
+
+    printf("INITIALIZING DISPLAY LIST\n");
     *(unsigned int *)&DisplayList[sizeof(DisplayList) - 2] 
           = (unsigned int)DisplayList;
 
+    for(i = 4; i < (sizeof(DisplayList) - 3); i+= 3){
+        //work with a window of 3 bytes, convert i +1 to an int ptr
+        //foregoing the syntatic sugar here
 
+        // printf("startAddress: %p\n",startAddress);
+        //treat the window like a single int
+        // printf("contents in displayList[%d]: %p\n", i, DisplayList[i]);
+
+
+        DisplayList[i] = (unsigned char)(start && 0x00FF);
+        DisplayList[i + 1] = (unsigned char)(start && 0xFF00) >> 8;
+        printf("contents in displayList[%d]: %d and %d\n", i, DisplayList[i],DisplayList[i + 1]);
+        start += 120;
+        
+    } 
     //hscroll does mean that we cant get to the furthest left part of the screen
     ANTIC.hscrol = 0; 
     ANTIC.vscrol = 0;
@@ -60,3 +78,4 @@ void dl_Init(){
 
     OS.sdlst = &DisplayList;
 }
+
