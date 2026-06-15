@@ -158,15 +158,15 @@ unsigned char gameMap[]  = {
 #pragma data-name (pop)
 
 
-int multmap_gameMapheight[] = {
+int multmap_gameMapheight_raw[] = {
     MAPBITMAP_TEST_WIDTH * -6, MAPBITMAP_TEST_WIDTH * -5, MAPBITMAP_TEST_WIDTH * -4, MAPBITMAP_TEST_WIDTH * -3, MAPBITMAP_TEST_WIDTH * -2,
     MAPBITMAP_TEST_WIDTH * -1, 0, MAPBITMAP_TEST_WIDTH, MAPBITMAP_TEST_WIDTH*2, MAPBITMAP_TEST_WIDTH * 3, MAPBITMAP_TEST_WIDTH * 4, MAPBITMAP_TEST_WIDTH * 5
     , MAPBITMAP_TEST_WIDTH * 6,
 };
 
-// what the hell does this do
-int* mult_gameMapHeight = 
-    multmap_gameMapheight + ((sizeof(multmap_gameMapheight)/sizeof(int))/2);
+
+// int* mult_gameMapHeight = 
+//     multmap_gameMapheight_raw + ((sizeof(multmap_gameMapheight)/sizeof(int))/2);
 
     
 
