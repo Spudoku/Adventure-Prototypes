@@ -1,7 +1,9 @@
 #ifndef DISPLAYLIST_H_
 #define DISPLAYLIST_H_
 
+#include <stdlib.h>
 #include <atari.h>
+#include <stdio.h>
 
 //using antic mode 2 here, 20x12 char map. double line mode
 
