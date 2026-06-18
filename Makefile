@@ -86,11 +86,14 @@ endif
 
 all: $(target)
 
+# clean :
+# 	$(RM) $(objects)
+# 	$(RM) *.spr
+# 	$(RM) *.s
+# 	$(RM) *.pal
+# 	$(RM) *.xex
+# 	$(RM) *.lbl
+# 	$(RM) *.dbg
+
 clean :
-	$(RM) $(objects)
-	$(RM) *.spr
-	$(RM) *.s
-	$(RM) *.pal
-	$(RM) *.xex
-	$(RM) *.lbl
-	$(RM) *.dbg
+	$(RM) $(subst /,$(strip \),$(objects)) *.spr *.s *.pal *.xex *.lbl *.dbg
