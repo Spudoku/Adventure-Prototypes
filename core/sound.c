@@ -22,6 +22,7 @@ void init_sound() {
     STOP_SOUND(1);
     STOP_SOUND(2);
     STOP_SOUND(3);
+    
 
 }
 
@@ -37,7 +38,20 @@ void sound_ClearVoice(unsigned char voice) {
 
 // TODO: optimize this? (currently takes ~8.5% of a frame)
 void sound_StateUpdate() {
-
+    // register uint8_t index = 0;
+    // for (; index < 4; index++) {
+    //     switch(voice_frames[index]){
+    //         case 0:
+    //             // STOP_SOUND(0);  //fallthrough
+    //             break;
+    //         case 1:
+    //             STOP_SOUND(index);  //fallthrough
+    //         default:
+    //             voice_frames[index]--;
+    //             break;
+    //     }
+        
+    // }
     // unpacked loop for efficency (for loops are slow in cc65)
     switch(voice_frames[0]){
             case 0:
@@ -92,23 +106,18 @@ void sound_generic_buzz() {
     sound_PlayNote(1,150,2,3,20);
 }
 
-void dragon_die_sound() {
-    sound_PlayNote(1,40,4,3,100);
-}
-
 void dragon_eat_sound() {
     sound_PlayNote(1,20,10,3,90);
 }
 
 void orb_sound() {
-    sound_PlayNote(2,10,22,3,20);
+    sound_PlayNote(2,10,30,3,20);
 }
 
 void sound_item_drop() {
-    // remember: voice, pitch, distortion, volume, frames
-    sound_PlayNote(0,100,10,3,10);
+
 }
 
 void sound_item_pickup() {
-    sound_PlayNote(0,60,10,3,10);
+    
 }

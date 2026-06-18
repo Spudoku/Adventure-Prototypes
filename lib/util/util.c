@@ -52,6 +52,6 @@ unsigned char get_random_value(unsigned char max) {
     --newMax;
     // printf("max: %d, newMax: %d",max,newMax);
     value = POKEY_READ.random & (newMax);
-    // printf("[get_random_value] returning value %d\n",value);
+    printf("[get_random_value] returning value %d\n",value);
     return value;
 }
