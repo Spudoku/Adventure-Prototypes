@@ -32,7 +32,7 @@ STATUS player_FrameTask(Entity* thisEntity) {
   // TODO: check for collisions before input?
 
   return playerInputProcess();
-};
+}
 
 // remember, the renderer happens as the second batch, after all game logic is
 // calced
@@ -248,9 +248,8 @@ void player_pickup_item(Entity* item) {
   }
   // set item as child
   playerEnt.playerEntity.childEntity = item;
-  // sound_generic_buzz();
-  // sound_item_drop();
-  sound_item_pickup();
+  sound_generic_buzz();
+  sound_item_drop();
   // compute offset
 
   // this is inefficient but thankfully it doesn't happen each frame
@@ -270,7 +269,7 @@ void player_drop_item(Entity* item) {
 
 // debug action for controller pressed
 void debug_action() { 
-
+  unsigned char test;
   // printf("debug action: \n");
   // test = getTileAt(playerEnt.playerEntity._worldCoords);
   // printf("\t");

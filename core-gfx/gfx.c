@@ -141,22 +141,19 @@ void map_fastAbsoluteMove(Vector2 absolutePosition){
     //more work required
     //the second element is conveniently the location of the first scrMem byte
     startAddress = ((unsigned int *)DisplayList)[2];
-    //printf("startAddress (displayList[2]): %p\n",startAddress);
-
     startAddress += firstLineOffset;
-//printf("startAddress (displayList[2] + firstLineOffset): %p; firstLineOffset: %d\n",startAddress,firstLineOffset);
+
 
     for(i = 3; i < (sizeof(DisplayList) - 3); i+= 3){
         //work with a window of 3 bytes, convert i +1 to an int ptr
         //foregoing the syntatic sugar here
 
-        //printf("startAddress: %p\n",startAddress);
+
         //treat the window like a single int
         *(unsigned int *)(DisplayList + (i+1)) = startAddress;
         startAddress += MAP_LENGTH_BYTES;
-        
     } 
-//printf("\n\n\n",startAddress);
+
 
 
 

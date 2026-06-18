@@ -357,6 +357,6 @@ void kill_dragon(Entity* thisEntity) {
     return;
   }
   D_ENT->state = D_STATE_DEAD;
-  dragon_die_sound();
+  sound_generic_buzz();
   // TODO: play relevant sound
 }
