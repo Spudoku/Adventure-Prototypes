@@ -248,9 +248,11 @@ void player_pickup_item(Entity* item) {
   }
   // set item as child
   playerEnt.playerEntity.childEntity = item;
-  sound_generic_buzz();
-  sound_item_drop();
+//   sound_generic_buzz();
+//   sound_item_drop();
   // compute offset
+
+  sound_item_pickup();
 
   // this is inefficient but thankfully it doesn't happen each frame
   // (its not ideal because multiplication is bad)
